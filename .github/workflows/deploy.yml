@@ -1,0 +1,110 @@
+name: Deploy to AWS S3 and CloudFront
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  AWS_REGION: ap-northeast-2
+  NODE_VERSION: 20
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run build test
+        run: npm run build
+
+      - name: Upload build artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-${{ github.sha }}
+          path: dist/
+          retention-days: 7
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && github.event_name == 'push'
+
+    environment:
+      name: ${{ github.ref_name == 'main' && 'production' || 'development' }}
+      url: ${{ steps.deploy-status.outputs.url }}
+
+    env:
+      S3_BUCKET: ${{ github.ref_name == 'main' && secrets.PROD_AWS_S3_BUCKET_NAME || secrets.DEV_AWS_S3_BUCKET_NAME }}
+      CLOUDFRONT_ID: ${{ github.ref_name == 'main' && secrets.PROD_AWS_CLOUDFRONT_DISTRIBUTION_ID || secrets.DEV_AWS_CLOUDFRONT_DISTRIBUTION_ID }}
+      CLOUDFRONT_DOMAIN: ${{ github.ref_name == 'main' && secrets.PROD_AWS_CLOUDFRONT_DOMAIN || secrets.DEV_AWS_CLOUDFRONT_DOMAIN }}
+      AWS_ROLE_ARN: ${{ github.ref_name == 'main' && secrets.PROD_AWS_ROLE_ARN || secrets.DEV_AWS_ROLE_ARN }}
+      ENVIRONMENT: ${{ github.ref_name == 'main' && 'production' || 'development' }}
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-${{ github.sha }}
+          path: dist/
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy to S3
+        run: |
+          echo "Deploying to ${{ env.ENVIRONMENT }} environment..."
+          echo "S3 Bucket: ${{ env.S3_BUCKET }}"
+
+          aws s3 sync dist/ s3://${{ env.S3_BUCKET }} \
+            --delete \
+            --cache-control "public, max-age=31536000" \
+            --exclude "*.html" \
+            --exclude "*.json" \
+            --exclude "*.txt"
+
+          aws s3 sync dist/ s3://${{ env.S3_BUCKET }} \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --include "*.html" \
+            --include "*.json" \
+            --include "*.txt"
+
+      - name: Create CloudFront invalidation
+        run: |
+          echo "Invalidating CloudFront cache..."
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ env.CLOUDFRONT_ID }} \
+            --paths "/*"
+
+      - name: Deploy status
+        id: deploy-status
+        run: |
+          WEBSITE_URL="https://${{ env.CLOUDFRONT_DOMAIN }}"
+          echo "Deployment to ${{ env.ENVIRONMENT }} completed successfully!"
+          echo "Website URL: $WEBSITE_URL"
+          echo "Environment: ${{ env.ENVIRONMENT }}"
+          echo "S3 Bucket: ${{ env.S3_BUCKET }}"
+          echo "CloudFront: ${{ env.CLOUDFRONT_ID }}"
+          echo "url=$WEBSITE_URL" >> $GITHUB_OUTPUT
