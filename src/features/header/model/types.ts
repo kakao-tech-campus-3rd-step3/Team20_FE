@@ -27,4 +27,9 @@ export type HeaderProps = {
     onSelect: (key: NavKey) => void;
 };
 
+export type NavMenuProps = {
+    active?: NavKey;
+    onSelect?: (key: NavKey) => void;
+};
+
 export const BRAND_NAME = 'K-SPOT';

@@ -1,11 +1,6 @@
 import { IconButton } from '@/features/header/ui/IconButton';
 import { MENU } from '@/features/header/model/utils';
-import type { NavKey } from '@/features/header/model/types';
-
-type NavMenuProps = {
-  active?: NavKey;
-  onSelect?: (key: NavKey) => void;
-};
+import type { NavMenuProps } from '@/features/header/model/types';
 
 export function NavMenu({ active, onSelect }: NavMenuProps) {
   return (
