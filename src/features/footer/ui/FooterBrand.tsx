@@ -1,6 +1,6 @@
 import React from 'react';
 import { BRAND_SLOGAN, BRAND_DESCRIPTION } from '@/features/footer/model/types';
-import { Brand } from '@/features/footer/ui/Brand';
+import { Brand } from '@/features/header/ui/Brand';
 
 export const FooterBrand: React.FC = () => {
   return (
