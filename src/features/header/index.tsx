@@ -1,4 +1,4 @@
-export { Header } from './ui/Header';
-export { Brand } from './ui/Brand';
-export { NavMenu } from './ui/NavMenu';
-export { ProfileButton } from './ui/ProfileButton';
+export { Header } from '@/features/header/ui/Header';
+export { Brand } from '@/features/header/ui/Brand';
+export { NavMenu } from '@/features/header/ui/NavMenu';
+export { ProfileButton } from '@/features/header/ui/ProfileButton';

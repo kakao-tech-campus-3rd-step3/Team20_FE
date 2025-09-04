@@ -1,6 +1,6 @@
-import { Brand } from './Brand';
-import { NavMenu, type NavKey } from './NavMenu';
-import { ProfileButton } from './ProfileButton';
+import { Brand } from '@/features/header/ui/Brand';
+import { NavMenu, type NavKey } from '@/features/header/ui/NavMenu';
+import { ProfileButton } from '@/features/header/ui/ProfileButton';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const pathToKey = (p: string): NavKey => {

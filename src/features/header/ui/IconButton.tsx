@@ -11,6 +11,8 @@ type IconButtonProps = Omit<React.ComponentPropsWithoutRef<'button'>, 'children'
   iconSize?: number;
 };
 
+type ViteImportMeta = ImportMeta & { env?: { DEV?: boolean } };
+
 function cn(...xs: Array<string | false | null | undefined>) {
   return xs.filter(Boolean).join(' ');
 }
@@ -35,13 +37,13 @@ const circleWH = {
 
 const variantClass = {
   soft:
-    'bg-white text-gray-600 border border-gray-200 shadow-sm hover:shadow-md hover:text-gray-900 hover:bg-white/50',
+    'bg-white text-gray-700 hover:shadow-md hover:text-purple-600 hover:bg-purple-50',
   gradient:
-    'text-white bg-gradient-to-br from-violet-600 via-fuchsia-600 to-rose-400 shadow-lg hover:shadow-xl border border-transparent',
+    'text-white bg-gradient-to-br from-purple-600 to-pink-600 shadow-lg hover:shadow-xl border border-transparent',
   outline:
-    'bg-transparent text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-gray-900',
+    'bg-transparent text-gray-700 border border-gray-300 hover:bg-gray-50 hover:text-gray-900',
   ghost:
-    'bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900',
+    'bg-transparent text-gray-700 hover:bg-gray-100 hover:text-gray-900',
 } as const;
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -60,8 +62,9 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     },
     ref
   ) => {
-    if (!children && !ariaLabel) {
-      console.warn('[IconButton] icon-only 버튼에는 aria-label을 지정하세요.');
+    const isDev = !!((import.meta as ViteImportMeta).env?.DEV);
+    if (!children && !ariaLabel && isDev) {
+      console.warn('IconButton: provide aria-label for icon-only button.');
     }
 
     const isCircle = shape === 'circle';
@@ -77,8 +80,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       : cn(sizeClass[size], pxClass[size], 'rounded-full');
 
     const iconOnly = !children;
-    const _iconSize =
-      iconSize ?? (size === 'sm' ? 16 : size === 'lg' ? 20 : 18);
+    const _iconSize = iconSize ?? (size === 'sm' ? 16 : size === 'lg' ? 20 : 18);
 
     return (
       <button
@@ -91,7 +93,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         {Icon ? (
           <Icon
             size={_iconSize}
-            className={cn(!iconOnly && 'mr-2', active ? 'text-white' : undefined)}
+            className={cn(!iconOnly && 'mr-2', active && 'text-white')}
           />
         ) : null}
         {children}
