@@ -1,8 +1,8 @@
-import { Hero } from '@/features/Hero/ui/Hero';
-import { CategorySection } from '@/features/CategorySection/ui/CategorySection';
-import { PopularCarousel } from '@/features/PopularCarousel/ui/PopularCarousel';
-import { SpotPreview } from '@/features/SpotPreview/ui/SpotPreview';
-import { PopularRoutes } from '@/features/PopularRoutes/ui/PopularRoutes';
+import { Hero } from '@/features/Hero';
+import { CategorySection } from '@/features/CategorySection';
+import { PopularCarousel } from '@/features/PopularCarousel';
+import { SpotPreview } from '@/features/SpotPreview';
+import { PopularRoutes } from '@/features/PopularRoutes';
 
 export const HomePage = () => {
   return (
