@@ -31,9 +31,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       'disabled:opacity-60 disabled:cursor-not-allowed';
 
     const visual = active ? variantClass.gradient : variantClass[variant];
-
     const sizeCls = shape === 'circle' ? circleWH[size] : cn(sizeClass[size], pxClass[size]);
-
     const resolvedIconSize = iconSize ?? iconSizeByControl[size];
 
     return (
@@ -44,12 +42,10 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         className={cn(base, sizeCls, visual, className)}
         {...rest}
       >
-        {Icon ? (
-          <Icon
-            size={resolvedIconSize}
-            className={cn(children ? 'mr-2' : undefined, active ? 'text-white' : undefined)}
-          />
-        ) : null}
+        <Icon
+          size={resolvedIconSize}
+          className={cn(children ? 'mr-2' : undefined, active ? 'text-white' : undefined)}
+        />
         {children}
       </button>
     );

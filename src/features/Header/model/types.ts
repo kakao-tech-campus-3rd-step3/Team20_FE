@@ -2,7 +2,7 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
 export type IconButtonProps = Omit<ComponentPropsWithoutRef<'button'>, 'children'> & {
-  Icon?: LucideIcon;
+  Icon: LucideIcon;
   children?: ReactNode;
   variant?: 'soft' | 'gradient' | 'outline' | 'ghost';
   shape?: 'pill' | 'circle';
