@@ -1,1 +1,1 @@
-export { Header } from '@/features/header/ui/Header';
+export { Header } from '@/features/Header/ui/Header';

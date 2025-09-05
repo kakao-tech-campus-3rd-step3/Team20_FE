@@ -1,5 +1,5 @@
 import React from 'react';
-import { FOOTER_CATEGORIES } from '@/features/footer/model/types';
+import { FOOTER_CATEGORIES } from '@/features/Footer/model/types';
 
 export const FooterCategories: React.FC = () => {
   return (

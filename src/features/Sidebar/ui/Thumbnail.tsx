@@ -1,6 +1,6 @@
 import React from 'react';
 import { Camera } from 'lucide-react';
-import type { PlaceCardProps } from '@/features/map/model/types';
+import type { PlaceCardProps } from '@/features/Sidebar/model/types';
 
 type Props = Pick<PlaceCardProps, 'thumbnailUrl' | 'name' | 'badgeNumber'>;
 

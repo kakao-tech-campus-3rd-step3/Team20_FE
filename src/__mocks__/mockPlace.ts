@@ -1,4 +1,4 @@
-import type { Place } from "@/features/map/model/types";
+import type { Place } from "@/features/Sidebar/model/types";
 
 export const MOCK_PLACES: Place[] = Array.from({ length: 8 }).map((_, idx) => ({
   id: String(idx + 1),

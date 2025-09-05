@@ -1,10 +1,10 @@
 import React from 'react';
 import { Camera } from 'lucide-react';
-import { PLACE_CARD_DEFAULT, type PlaceCardProps } from '@/features/map/model/types';
-import { Thumbnail } from '@/features/map/ui/Thumbnail';
-import { Address } from '@/features/map/ui/Address';
-import { MetaInfo } from '@/features/map/ui/MetaInfo';
-import { TagList } from '@/features/map/ui/TagList';
+import { PLACE_CARD_DEFAULT, type PlaceCardProps } from '@/features/Sidebar/model/types';
+import { Thumbnail } from '@/features/Sidebar/ui/Thumbnail';
+import { Address } from '@/features/Sidebar/ui/Address';
+import { MetaInfo } from '@/features/Sidebar/ui/MetaInfo';
+import { TagList } from '@/features/Sidebar/ui/TagList';
 
 export const PlaceCard: React.FC<PlaceCardProps> = ({
   thumbnailUrl,

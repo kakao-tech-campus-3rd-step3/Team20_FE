@@ -1,6 +1,6 @@
 import React from "react";
 import { Search } from "lucide-react";
-import type { SidebarSearchProps } from "@/features/map/model/types";
+import type { SidebarSearchProps } from "@/features/Sidebar/model/types";
 
 export const SidebarSearch: React.FC<SidebarSearchProps> = ({ className }) => {
   return (

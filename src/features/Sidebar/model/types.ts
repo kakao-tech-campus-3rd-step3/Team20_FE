@@ -1,7 +1,3 @@
-export type MapContainerProps = {
-    className?: string;
-};
-
 export type PlaceCardProps = {
     thumbnailUrl?: string;
     name?: string;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SOCIAL_LINKS } from '@/features/footer/model/types';
+import { SOCIAL_LINKS } from '@/features/Footer/model/types';
 
 export const FooterSocialLinks: React.FC = () => {
   return (

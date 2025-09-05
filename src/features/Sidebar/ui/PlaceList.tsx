@@ -1,6 +1,6 @@
 import React from "react";
-import { PlaceCard } from "@/features/map/ui/PlaceCard";
-import type { PlaceListProps } from "@/features/map/model/types";
+import { PlaceCard } from "@/features/Sidebar/ui/PlaceCard";
+import type { PlaceListProps } from "@/features/Sidebar/model/types";
 import { MOCK_PLACES } from "@/__mocks__/mockPlace";
 
 export const PlaceList: React.FC<PlaceListProps> = ({

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { MapContainerProps } from '@/features/map/model/types';
+import type { MapContainerProps } from '@/features/MapSection/model/types';
 
 export const MapContainer: React.FC<MapContainerProps> = ({ className }) => {
   return (

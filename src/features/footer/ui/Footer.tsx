@@ -1,9 +1,9 @@
 import React from 'react';
-import { FooterBrand } from '@/features/footer/ui/FooterBrand';
-import { FooterSocialLinks } from '@/features/footer/ui/FooterSocialLinks';
-import { FooterQuickLinks } from '@/features/footer/ui/FooterQuickLinks';
-import { FooterCategories } from '@/features/footer/ui/FooterCategories';
-import { FooterBottom } from '@/features/footer/ui/FooterBottom';
+import { FooterBrand } from '@/features/Footer/ui/FooterBrand';
+import { FooterSocialLinks } from '@/features/Footer/ui/FooterSocialLinks';
+import { FooterQuickLinks } from '@/features/Footer/ui/FooterQuickLinks';
+import { FooterCategories } from '@/features/Footer/ui/FooterCategories';
+import { FooterBottom } from '@/features/Footer/ui/FooterBottom';
 
 export const Footer: React.FC = () => {
   return (

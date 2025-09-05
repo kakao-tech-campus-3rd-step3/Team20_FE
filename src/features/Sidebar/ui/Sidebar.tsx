@@ -1,7 +1,7 @@
 import React from "react";
-import { PlaceList } from "@/features/map/ui/PlaceList";
-import { SidebarSearch } from "@/features/map/ui/SidebarSearch";
-import type { SidebarProps } from "@/features/map/model/types";
+import { PlaceList } from "@/features/Sidebar/ui/PlaceList";
+import { SidebarSearch } from "@/features/Sidebar/ui/SidebarSearch";
+import type { SidebarProps } from "@/features/Sidebar/model/types";
 
 export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   return (

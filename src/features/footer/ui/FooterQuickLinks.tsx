@@ -1,5 +1,5 @@
 import React from 'react';
-import { FOOTER_QUICK_LINKS } from '@/features/footer/model/types';
+import { FOOTER_QUICK_LINKS } from '@/features/Footer/model/types';
 import { Home, MapPin, Heart, User } from 'lucide-react';
 
 const ICONS: Record<string, React.ReactNode> = {
