@@ -1,7 +1,7 @@
-import { Brand } from '@/features/Header/ui/Brand';
-import { NavMenu } from '@/features/Header/ui/NavMenu';
-import { ProfileButton } from '@/features/Header/ui/ProfileButton';
-import type { HeaderProps } from '@/features/Header/model/types';
+import { Brand } from '@/features/hh/ui/Brand';
+import { NavMenu } from '@/features/hh/ui/NavMenu';
+import { ProfileButton } from '@/features/hh/ui/ProfileButton';
+import type { HeaderProps } from '@/features/hh/model/types';
 
 export function Header({ active, onSelect }: HeaderProps) {
   return (

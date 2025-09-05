@@ -1,5 +1,5 @@
 import { Sparkles, MapPin, Heart } from 'lucide-react';
-import type { MenuItem, NavKey } from '@/features/Header/model/types';
+import type { MenuItem, NavKey } from '@/features/hh/model/types';
 
 /* ----------------------------- 공용 유틸 ----------------------------- */
 export function cn(...xs: Array<string | false | null | undefined>) {
