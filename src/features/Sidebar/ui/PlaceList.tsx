@@ -1,12 +1,8 @@
-import React from "react";
 import { PlaceCard } from "@/features/Sidebar/ui/PlaceCard";
 import type { PlaceListProps } from "@/features/Sidebar/model/types";
 import { MOCK_PLACES } from "@/__mocks__/mockPlace";
 
-export const PlaceList: React.FC<PlaceListProps> = ({
-  places = MOCK_PLACES,
-  className,
-}) => {
+export function PlaceList({ places = MOCK_PLACES, className }: PlaceListProps) {
   return (
     <div className={"divide-y divide-gray-100 " + (className ?? "")}>
       {places.map((place, index) => (
@@ -22,4 +18,4 @@ export const PlaceList: React.FC<PlaceListProps> = ({
       ))}
     </div>
   );
-};
+}

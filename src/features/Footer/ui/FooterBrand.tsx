@@ -1,8 +1,7 @@
-import React from 'react';
 import { BRAND_SLOGAN, BRAND_DESCRIPTION } from '@/features/Footer/model/types';
 import { Brand } from '@/features/Header/ui/Brand';
 
-export const FooterBrand: React.FC = () => {
+export function FooterBrand() {
   return (
     <div className="space-y-4">
       <Brand />
@@ -12,4 +11,4 @@ export const FooterBrand: React.FC = () => {
       </div>
     </div>
   );
-};
+}

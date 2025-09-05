@@ -1,12 +1,14 @@
-import React from 'react';
 import { Camera } from 'lucide-react';
-import { PLACE_CARD_DEFAULT, type PlaceCardProps } from '@/features/Sidebar/model/types';
+import {
+  PLACE_CARD_DEFAULT,
+  type PlaceCardProps,
+} from '@/features/Sidebar/model/types';
 import { Thumbnail } from '@/features/Sidebar/ui/Thumbnail';
 import { Address } from '@/features/Sidebar/ui/Address';
 import { MetaInfo } from '@/features/Sidebar/ui/MetaInfo';
 import { TagList } from '@/features/Sidebar/ui/TagList';
 
-export const PlaceCard: React.FC<PlaceCardProps> = ({
+export function PlaceCard({
   thumbnailUrl,
   name = PLACE_CARD_DEFAULT.NAME,
   address = PLACE_CARD_DEFAULT.ADDRESS,
@@ -15,7 +17,7 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
   onClick,
   className,
   badgeNumber,
-}) => {
+}: PlaceCardProps) {
   return (
     <div
       role="button"
@@ -47,4 +49,4 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
       </div>
     </div>
   );
-};
+}

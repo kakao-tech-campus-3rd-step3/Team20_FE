@@ -1,33 +1,26 @@
-import React from 'react';
 import { FOOTER_QUICK_LINKS } from '@/features/Footer/model/types';
-import { Home, MapPin, Heart, User } from 'lucide-react';
 
-const ICONS: Record<string, React.ReactNode> = {
-  '홈': <Home className="h-4 w-4" aria-hidden />,
-  '촬영지 지도': <MapPin className="h-4 w-4" aria-hidden />,
-  '저장된 장소': <Heart className="h-4 w-4" aria-hidden />,
-  '프로필': <User className="h-4 w-4" aria-hidden />,
-};
-
-export const FooterQuickLinks: React.FC = () => {
+export function FooterQuickLinks() {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-white">빠른 링크</h3>
       <ul className="space-y-2">
-        {FOOTER_QUICK_LINKS.map((link) => (
-          <li key={link.label}>
+        {FOOTER_QUICK_LINKS.map(({ label, to, Icon }) => (
+          <li key={label}>
             <a
-              href="#"
+              href={to}
               className="group flex items-center space-x-2 text-gray-300 transition-colors duration-200 hover:text-white"
+              aria-label={label}
             >
-              <span className="transition-transform duration-200 group-hover:scale-110">
-                {ICONS[link.label]}
-              </span>
-              <span className="text-sm">{link.label}</span>
+              <Icon
+                className="h-4 w-4 transition-transform duration-200 group-hover:scale-110"
+                aria-hidden
+              />
+              <span className="text-sm">{label}</span>
             </a>
           </li>
         ))}
       </ul>
     </div>
   );
-};
+}

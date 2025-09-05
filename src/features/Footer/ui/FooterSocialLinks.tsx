@@ -1,7 +1,6 @@
-import React from 'react';
 import { SOCIAL_LINKS } from '@/features/Footer/model/types';
 
-export const FooterSocialLinks: React.FC = () => {
+export function FooterSocialLinks() {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-white">소셜 미디어</h3>
@@ -19,4 +18,4 @@ export const FooterSocialLinks: React.FC = () => {
       </div>
     </div>
   );
-};
+}

@@ -1,7 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
-/* IconButton 컴포넌트 Props */
 export type IconButtonProps = Omit<ComponentPropsWithoutRef<'button'>, 'children'> & {
     Icon?: LucideIcon;
     children?: ReactNode;
@@ -22,7 +21,6 @@ export type MenuItem = {
 };
 
 export type HeaderProps = {
-    /* 현재 활성 메뉴 */
     active: NavKey;
     onSelect: (key: NavKey) => void;
 };

@@ -1,7 +1,6 @@
-import React from 'react';
 import { FOOTER_CATEGORIES } from '@/features/Footer/model/types';
 
-export const FooterCategories: React.FC = () => {
+export function FooterCategories() {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-white">카테고리</h3>
@@ -20,4 +19,4 @@ export const FooterCategories: React.FC = () => {
       </ul>
     </div>
   );
-};
+}

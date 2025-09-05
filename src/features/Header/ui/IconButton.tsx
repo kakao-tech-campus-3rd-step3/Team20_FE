@@ -9,7 +9,7 @@ import {
   iconSizeByControl,
 } from '@/features/Header/model/utils';
 
-const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((
   {
     Icon,
     children,
@@ -58,5 +58,3 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((
 });
 
 IconButton.displayName = 'IconButton';
-
-export { IconButton };

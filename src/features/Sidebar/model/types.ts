@@ -37,3 +37,5 @@ export type SidebarProps = {
 export type SidebarSearchProps = {
     className?: string;
 };
+
+export type ThumbnailProps = Pick<PlaceCardProps, 'thumbnailUrl' | 'name' | 'badgeNumber'>;

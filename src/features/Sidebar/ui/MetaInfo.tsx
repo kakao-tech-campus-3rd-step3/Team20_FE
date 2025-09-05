@@ -1,7 +1,6 @@
-import React from 'react';
 import { Star, Clock } from 'lucide-react';
 
-export const MetaInfo: React.FC<{ rating: number }> = ({ rating }) => {
+export function MetaInfo({ rating }: { rating: number }) {
   return (
     <div className="flex items-center justify-between text-xs text-gray-500">
       <div className="flex items-center space-x-1">
@@ -14,4 +13,4 @@ export const MetaInfo: React.FC<{ rating: number }> = ({ rating }) => {
       </div>
     </div>
   );
-};
+}

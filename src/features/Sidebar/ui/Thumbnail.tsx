@@ -1,10 +1,7 @@
-import React from 'react';
 import { Camera } from 'lucide-react';
-import type { PlaceCardProps } from '@/features/Sidebar/model/types';
+import type { ThumbnailProps } from '@/features/Sidebar/model/types';
 
-type Props = Pick<PlaceCardProps, 'thumbnailUrl' | 'name' | 'badgeNumber'>;
-
-export const Thumbnail: React.FC<Props> = ({ thumbnailUrl, name, badgeNumber }) => {
+export function Thumbnail({ thumbnailUrl, name, badgeNumber }: ThumbnailProps) {
   return (
     <div className="relative flex-shrink-0">
       <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 border border-gray-200">
@@ -29,4 +26,4 @@ export const Thumbnail: React.FC<Props> = ({ thumbnailUrl, name, badgeNumber }) 
       )}
     </div>
   );
-};
+}

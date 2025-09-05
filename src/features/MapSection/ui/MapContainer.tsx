@@ -1,7 +1,6 @@
-import React from 'react';
 import type { MapContainerProps } from '@/features/MapSection/model/types';
 
-export const MapContainer: React.FC<MapContainerProps> = ({ className }) => {
+export function MapContainer({ className }: MapContainerProps) {
   return (
     <div
       className={`relative w-full h-full min-h-[600px] bg-gray-100 overflow-hidden ${
@@ -13,4 +12,4 @@ export const MapContainer: React.FC<MapContainerProps> = ({ className }) => {
       </div>
     </div>
   );
-};
+}

@@ -1,7 +1,6 @@
-import React from 'react';
 import { POLICY_LINKS, COPYRIGHT_TEXT } from '@/features/Footer/model/types';
 
-export const FooterBottom: React.FC = () => {
+export function FooterBottom() {
   return (
     <div className="border-t border-gray-800">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -9,7 +8,10 @@ export const FooterBottom: React.FC = () => {
           {COPYRIGHT_TEXT}
         </p>
 
-        <nav aria-label="정책 링크" className="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <nav
+          aria-label="정책 링크"
+          className="flex flex-wrap items-center gap-x-6 gap-y-2"
+        >
           {POLICY_LINKS.map(({ label, href }) => (
             <a
               key={label}
@@ -23,4 +25,4 @@ export const FooterBottom: React.FC = () => {
       </div>
     </div>
   );
-};
+}

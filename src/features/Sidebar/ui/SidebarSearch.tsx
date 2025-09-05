@@ -1,8 +1,7 @@
-import React from "react";
 import { Search } from "lucide-react";
 import type { SidebarSearchProps } from "@/features/Sidebar/model/types";
 
-export const SidebarSearch: React.FC<SidebarSearchProps> = ({ className }) => {
+export function SidebarSearch({ className }: SidebarSearchProps) {
   return (
     <div className={("p-4 border-b border-gray-200 " + (className ?? "")).trim()}>
       <div className="relative">
@@ -18,4 +17,4 @@ export const SidebarSearch: React.FC<SidebarSearchProps> = ({ className }) => {
       </p>
     </div>
   );
-};
+}
