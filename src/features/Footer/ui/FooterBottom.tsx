@@ -1,5 +1,5 @@
 import React from 'react';
-import { POLICY_LINKS, COPYRIGHT_TEXT } from '@/features/dd/model/types';
+import { POLICY_LINKS, COPYRIGHT_TEXT } from '@/features/Footer/model/types';
 
 export const FooterBottom: React.FC = () => {
   return (

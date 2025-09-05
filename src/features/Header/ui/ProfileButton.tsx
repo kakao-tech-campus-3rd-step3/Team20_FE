@@ -1,5 +1,5 @@
 import { User } from 'lucide-react';
-import { IconButton } from '@/features/hh/ui/IconButton';
+import { IconButton } from '@/features/Header/ui/IconButton';
 
 export function ProfileButton() {
   return (
