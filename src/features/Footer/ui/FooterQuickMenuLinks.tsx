@@ -1,9 +1,9 @@
-import { FOOTER_QUICK_LINKS } from '@/features/Footer/model/types';
+import { FOOTER_QUICK_LINKS, FOOTER_TITLES } from '@/features/Footer/model/constants';
 
 export function FooterQuickMenuLinks() {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-white">빠른 링크</h3>
+      <h3 className="text-lg font-semibold text-white">{FOOTER_TITLES.QUICK_LINKS}</h3>
       <ul className="space-y-2">
         {FOOTER_QUICK_LINKS.map(({ label, to, Icon }) => (
           <li key={label}>

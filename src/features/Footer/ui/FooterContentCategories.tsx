@@ -1,9 +1,9 @@
-import { FOOTER_CATEGORIES } from '@/features/Footer/model/types';
+import { FOOTER_CATEGORIES, FOOTER_TITLES } from '@/features/Footer/model/constants';
 
 export function FooterContentCategories() {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-white">카테고리</h3>
+      <h3 className="text-lg font-semibold text-white">{FOOTER_TITLES.CATEGORIES}</h3>
       <ul className="space-y-3">
         {FOOTER_CATEGORIES.map((cat) => (
           <li key={cat.label}>

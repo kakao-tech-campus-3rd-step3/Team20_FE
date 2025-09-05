@@ -1,8 +1,6 @@
 import { Camera } from 'lucide-react';
-import {
-  PLACE_CARD_DEFAULT,
-  type PlaceCardProps,
-} from '@/features/Sidebar/model/types';
+import type { PlaceCardProps } from '@/features/Sidebar/model/types';
+import { PLACE_CARD_DEFAULT } from '@/features/Sidebar/model/constants';
 import { PlaceThumbnail } from '@/features/Sidebar/ui/PlaceThumbnail';
 import { PlaceAddress } from '@/features/Sidebar/ui/PlaceAddress';
 import { PlaceSimpleInfo } from '@/features/Sidebar/ui/PlaceSimpleInfo';

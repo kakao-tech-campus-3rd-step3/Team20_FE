@@ -1,9 +1,9 @@
-import { SOCIAL_LINKS } from '@/features/Footer/model/types';
+import { SOCIAL_LINKS, FOOTER_TITLES } from '@/features/Footer/model/constants';
 
 export function FooterSocialLinks() {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-white">소셜 미디어</h3>
+      <h3 className="text-lg font-semibold text-white">{FOOTER_TITLES.SOCIAL}</h3>
       <div className="flex gap-4">
         {SOCIAL_LINKS.map(({ label, Icon }) => (
           <a

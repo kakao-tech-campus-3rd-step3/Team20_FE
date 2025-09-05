@@ -1,4 +1,4 @@
-import { POLICY_LINKS, COPYRIGHT_TEXT } from '@/features/Footer/model/types';
+import { POLICY_LINKS, COPYRIGHT_TEXT } from '@/features/Footer/model/constants';
 
 export function FooterBottom() {
   return (

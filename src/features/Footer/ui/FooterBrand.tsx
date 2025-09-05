@@ -1,4 +1,4 @@
-import { BRAND_SLOGAN, BRAND_DESCRIPTION } from '@/features/Footer/model/types';
+import { BRAND_SLOGAN, BRAND_DESCRIPTION } from '@/features/Footer/model/constants';
 import { Brand } from '@/features/Header/ui/Brand';
 
 export function FooterBrand() {
