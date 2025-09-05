@@ -37,9 +37,7 @@ export function PlaceCard({
               <Camera className="w-3 h-3 text-purple-600" />
               <span className="text-xs font-medium text-purple-700">촬영 장면</span>
             </div>
-            <p className="text-xs text-purple-600 line-clamp-2">
-              {tags.slice(0, 2).join(', ')}
-            </p>
+            <p className="text-xs text-purple-600 line-clamp-2">{tags.slice(0, 2).join(', ')}</p>
           </div>
           <PlaceSimpleInfo rating={rating} />
           <PlaceTagList tags={tags} />

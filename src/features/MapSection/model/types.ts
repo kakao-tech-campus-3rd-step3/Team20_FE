@@ -1,3 +1,3 @@
 export type MapContainerProps = {
-    className?: string;
+  className?: string;
 };

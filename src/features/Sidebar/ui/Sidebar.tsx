@@ -1,15 +1,12 @@
-import { PlaceList } from "@/features/Sidebar/ui/PlaceList";
-import { SidebarSearch } from "@/features/Sidebar/ui/SidebarSearch";
-import type { SidebarProps } from "@/features/Sidebar/model/types";
-import { SIDEBAR_TEXT } from "@/features/Sidebar/model/constants";
+import { PlaceList } from '@/features/Sidebar/ui/PlaceList';
+import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch';
+import type { SidebarProps } from '@/features/Sidebar/model/types';
+import { SIDEBAR_TEXT } from '@/features/Sidebar/model/constants';
 
 export function Sidebar({ className }: SidebarProps) {
   return (
     <aside
-      className={
-        "w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full " +
-        (className ?? "")
-      }
+      className={'w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full ' + (className ?? '')}
     >
       <div className="w-full lg:w-96 bg-white shadow-xl rounded-r-2xl overflow-hidden h-full flex flex-col border-r border-gray-200">
         <div className="p-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
