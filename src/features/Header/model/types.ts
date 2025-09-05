@@ -20,11 +20,6 @@ export type MenuItem = {
   Icon: LucideIcon;
 };
 
-export type HeaderProps = {
-  active: NavKey;
-  onSelect: (key: NavKey) => void;
-};
-
 export type NavMenuProps = {
   active?: NavKey;
   onSelect?: (key: NavKey) => void;
