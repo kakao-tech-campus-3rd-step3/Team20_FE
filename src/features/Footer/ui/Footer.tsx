@@ -1,7 +1,7 @@
 import { FooterBrand } from '@/features/Footer/ui/FooterBrand';
 import { FooterSocialLinks } from '@/features/Footer/ui/FooterSocialLinks';
-import { FooterQuickLinks } from '@/features/Footer/ui/FooterQuickLinks';
-import { FooterCategories } from '@/features/Footer/ui/FooterCategories';
+import { FooterQuickMenuLinks } from '@/features/Footer/ui/FooterQuickMenuLinks';
+import { FooterContentCategories } from '@/features/Footer/ui/FooterContentCategories';
 import { FooterBottom } from '@/features/Footer/ui/FooterBottom';
 
 export function Footer() {
@@ -11,8 +11,8 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <FooterBrand />
           <FooterSocialLinks />
-          <FooterQuickLinks />
-          <FooterCategories />
+          <FooterQuickMenuLinks />
+          <FooterContentCategories />
         </div>
       </div>
 

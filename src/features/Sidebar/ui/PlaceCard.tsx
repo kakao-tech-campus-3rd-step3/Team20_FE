@@ -3,10 +3,10 @@ import {
   PLACE_CARD_DEFAULT,
   type PlaceCardProps,
 } from '@/features/Sidebar/model/types';
-import { Thumbnail } from '@/features/Sidebar/ui/Thumbnail';
-import { Address } from '@/features/Sidebar/ui/Address';
-import { MetaInfo } from '@/features/Sidebar/ui/MetaInfo';
-import { TagList } from '@/features/Sidebar/ui/TagList';
+import { PlaceThumbnail } from '@/features/Sidebar/ui/PlaceThumbnail';
+import { PlaceAddress } from '@/features/Sidebar/ui/PlaceAddress';
+import { PlaceSimpleInfo } from '@/features/Sidebar/ui/PlaceSimpleInfo';
+import { PlaceTagList } from '@/features/Sidebar/ui/PlaceTagList';
 
 export function PlaceCard({
   thumbnailUrl,
@@ -30,10 +30,10 @@ export function PlaceCard({
         .join(' ')}
     >
       <div className="flex space-x-4">
-        <Thumbnail thumbnailUrl={thumbnailUrl} name={name} badgeNumber={badgeNumber} />
+        <PlaceThumbnail thumbnailUrl={thumbnailUrl} name={name} badgeNumber={badgeNumber} />
         <div className="flex-1 min-w-0">
           <h3 className="font-bold text-gray-900 mb-1 truncate">{name}</h3>
-          <Address address={address} />
+          <PlaceAddress address={address} />
           <div className="bg-purple-50 rounded-lg p-2 mb-2">
             <div className="flex items-center space-x-1 mb-1">
               <Camera className="w-3 h-3 text-purple-600" />
@@ -43,8 +43,8 @@ export function PlaceCard({
               {tags.slice(0, 2).join(', ')}
             </p>
           </div>
-          <MetaInfo rating={rating} />
-          <TagList tags={tags} />
+          <PlaceSimpleInfo rating={rating} />
+          <PlaceTagList tags={tags} />
         </div>
       </div>
     </div>

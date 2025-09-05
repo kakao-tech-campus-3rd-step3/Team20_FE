@@ -1,6 +1,6 @@
 import { FOOTER_QUICK_LINKS } from '@/features/Footer/model/types';
 
-export function FooterQuickLinks() {
+export function FooterQuickMenuLinks() {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-white">빠른 링크</h3>

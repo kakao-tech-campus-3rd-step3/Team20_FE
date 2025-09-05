@@ -1,6 +1,6 @@
 import { FOOTER_CATEGORIES } from '@/features/Footer/model/types';
 
-export function FooterCategories() {
+export function FooterContentCategories() {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-white">카테고리</h3>

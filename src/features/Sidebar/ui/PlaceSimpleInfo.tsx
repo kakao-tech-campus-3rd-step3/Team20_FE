@@ -1,6 +1,6 @@
 import { Star, Clock } from 'lucide-react';
 
-export function MetaInfo({ rating }: { rating: number }) {
+export function PlaceSimpleInfo({ rating }: { rating: number }) {
   return (
     <div className="flex items-center justify-between text-xs text-gray-500">
       <div className="flex items-center space-x-1">

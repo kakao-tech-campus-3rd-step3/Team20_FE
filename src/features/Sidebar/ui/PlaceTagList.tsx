@@ -1,4 +1,4 @@
-export function TagList({ tags }: { tags: string[] }) {
+export function PlaceTagList({ tags }: { tags: string[] }) {
   return (
     <div className="mt-2 flex flex-wrap gap-1">
       {tags.slice(0, 2).map((tag) => (
