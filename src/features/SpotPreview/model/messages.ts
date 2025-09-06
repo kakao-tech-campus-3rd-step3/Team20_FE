@@ -1,4 +1,4 @@
-export const text = {
+export const messages = {
   mapSectionTitle: '스팟 보기',
   mapPreviewTitle: '스팟 미리보기',
   sampleSpotName: 'Dalgona Game – Hongdae Shop',

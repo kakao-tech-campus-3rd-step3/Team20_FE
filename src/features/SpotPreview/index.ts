@@ -1,1 +1,1 @@
-export * from '@/features/SpotPreview/ui/SpotPreview';
+export * from './ui/SpotPreview';
