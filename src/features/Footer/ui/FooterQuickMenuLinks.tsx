@@ -1,4 +1,5 @@
-import { FOOTER_QUICK_LINKS, FOOTER_TITLES } from '../model/constants';
+import { FOOTER_QUICK_LINKS } from '../model/constants';
+import { FOOTER_TITLES } from '../model/messages';
 
 export function FooterQuickMenuLinks() {
   return (

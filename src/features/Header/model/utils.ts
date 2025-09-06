@@ -1,21 +1,18 @@
-import { Sparkles, MapPin, Heart } from 'lucide-react';
 import type { MenuItem, NavKey } from './types';
-
-/* ----------------------------- 네비 데이터/매핑 ----------------------------- */
-export const MENU: MenuItem[] = [
-  { key: 'home', label: '홈', to: '/', Icon: Sparkles },
-  { key: 'map', label: '지도', to: '/map', Icon: MapPin },
-  { key: 'saved', label: '저장됨', to: '/saved', Icon: Heart },
-];
-
-export const keyToPath: Record<NavKey, string> = {
-  home: '/',
-  map: '/map',
-  saved: '/saved',
-};
+import { MENU_BASE, keyToPath } from './constants';
+import { NAV_LABELS } from './messages';
 
 export function pathToKey(p: string): NavKey {
-  if (p.startsWith('/map')) return 'map';
-  if (p.startsWith('/saved')) return 'saved';
+  if (p.startsWith(keyToPath.map)) return 'map';
+  if (p.startsWith(keyToPath.saved)) return 'saved';
   return 'home';
 }
+
+export function buildMenu(labels = NAV_LABELS): ReadonlyArray<MenuItem> {
+  return MENU_BASE.map((item) => ({
+    ...item,
+    label: labels[item.key],
+  }));
+}
+
+export const MENU: ReadonlyArray<MenuItem> = buildMenu();

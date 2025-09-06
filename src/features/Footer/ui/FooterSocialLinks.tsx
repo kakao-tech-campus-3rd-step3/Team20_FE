@@ -1,4 +1,5 @@
-import { SOCIAL_LINKS, FOOTER_TITLES } from '../model/constants';
+import { SOCIAL_LINKS } from '../model/constants';
+import { FOOTER_TITLES } from '../model/messages';
 
 export function FooterSocialLinks() {
   return (

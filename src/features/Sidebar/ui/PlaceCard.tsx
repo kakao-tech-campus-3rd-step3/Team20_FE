@@ -1,6 +1,6 @@
 import { Camera } from 'lucide-react';
 import type { PlaceCardProps } from '../model/types';
-import { PLACE_CARD_DEFAULT } from '../model/constants';
+import { PLACE_CARD_DEFAULT, PLACE_LABELS } from '../model/messages';
 import { PlaceThumbnail } from './PlaceThumbnail';
 import { PlaceAddress } from './PlaceAddress';
 import { PlaceSimpleInfo } from './PlaceSimpleInfo';
@@ -35,7 +35,7 @@ export function PlaceCard({
           <div className="bg-purple-50 rounded-lg p-2 mb-2">
             <div className="flex items-center space-x-1 mb-1">
               <Camera className="w-3 h-3 text-purple-600" />
-              <span className="text-xs font-medium text-purple-700">촬영 장면</span>
+              <span className="text-xs font-medium text-purple-700">{PLACE_LABELS.SCENE}</span>
             </div>
             <p className="text-xs text-purple-600 line-clamp-2">{tags.slice(0, 2).join(', ')}</p>
           </div>

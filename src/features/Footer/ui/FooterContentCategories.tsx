@@ -1,4 +1,5 @@
-import { FOOTER_CATEGORIES, FOOTER_TITLES } from '../model/constants';
+import { FOOTER_CATEGORIES } from '../model/constants';
+import { FOOTER_TITLES } from '../model/messages';
 
 export function FooterContentCategories() {
   return (
