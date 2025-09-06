@@ -3,3 +3,5 @@ export type CitySelectorProps = {
   selected: string;
   onSelect: (city: string) => void;
 };
+
+export const cities = ['All', 'Seoul', 'Busan', 'Incheon'] as const;

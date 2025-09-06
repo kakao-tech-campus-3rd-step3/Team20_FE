@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { CitySelector } from './CitySelector';
 import { MapPreview } from './MapPreview';
 import { SpotCard } from './SpotCard';
+import { cities } from '../model/types';
 
 export function SpotPreview() {
-  const cities = ['All', 'Seoul', 'Busan', 'Incheon'] as const;
   const [selected, setSelected] = useState<(typeof cities)[number]>('All');
 
   return (
