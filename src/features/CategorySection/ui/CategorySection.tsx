@@ -1,4 +1,4 @@
-import { categories } from '@/features/CategorySection/model/Categories';
+import { categories } from '../model/constants';
 
 export function CategorySection() {
   return (
