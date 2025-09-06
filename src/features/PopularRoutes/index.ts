@@ -1,1 +1,1 @@
-export * from '@/features/PopularRoutes/ui/PopularRoutes';
+export * from './ui/PopularRoutes';

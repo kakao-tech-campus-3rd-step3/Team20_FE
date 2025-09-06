@@ -1,12 +1,12 @@
-import { sampleRoutes } from '@/features/PopularRoutes/model/data';
-import { text } from '@/features/PopularRoutes/model/text';
+import { sampleRoutes } from '../model/constants';
+import { messages } from '../model/messages';
 export function PopularRoutes() {
   return (
     <section className="py-8">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">{text.popularRoutesTitle}</h2>
+        <h2 className="text-lg font-semibold">{messages.popularRoutesTitle}</h2>
         <a href="/routes" className="text-sm text-gray-600 underline">
-          {text.seeAll}
+          {messages.seeAll}
         </a>
       </div>
       <div className="grid md:grid-cols-2 gap-4">
@@ -20,14 +20,14 @@ export function PopularRoutes() {
               <div>
                 <h3 className="font-medium">{route.title}</h3>
                 <p className="text-sm text-gray-600">
-                  {route.spots} {text.spots}
+                  {route.spots} {messages.spots}
                 </p>
               </div>
               <a
                 href={`/routes/${route.id}`}
                 className="px-3 py-1 rounded-lg border text-sm hover:bg-gray-50"
               >
-                {text.share}
+                {messages.share}
               </a>
             </div>
           </article>
