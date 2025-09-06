@@ -1,4 +1,4 @@
-import { IconButton } from '@/features/Header/ui/IconButton';
+import { IconButton } from '@/shared/ui/IconButton';
 import { MENU } from '@/features/Header/model/utils';
 import type { NavMenuProps } from '@/features/Header/model/types';
 

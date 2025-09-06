@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import type { IconButtonProps } from '@/features/Header/model/types';
+import type { IconButtonProps } from '@/shared/model/types';
 import {
   cn,
   sizeClass,
@@ -7,7 +7,7 @@ import {
   circleWH,
   variantClass,
   iconSizeByControl,
-} from '@/features/Header/model/utils';
+} from '@/shared/model/utils';
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
