@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react';
-import type { SidebarSearchProps } from '@/features/Sidebar/model/types';
-import { SIDEBAR_SEARCH_TEXT } from '@/features/Sidebar/model/constants';
+import type { SidebarSearchProps } from '../model/types';
+import { SIDEBAR_SEARCH_TEXT } from '../model/constants';
 
 export function SidebarSearch({ className }: SidebarSearchProps) {
   return (
