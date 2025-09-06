@@ -1,5 +1,5 @@
-import { PlaceCard } from '@/features/Sidebar/ui/PlaceCard';
-import type { PlaceListProps } from '@/features/Sidebar/model/types';
+import { PlaceCard } from './PlaceCard';
+import type { PlaceListProps } from '../model/types';
 import { MOCK_PLACES } from '@/__mocks__/mockPlace';
 
 export function PlaceList({ places = MOCK_PLACES, className }: PlaceListProps) {

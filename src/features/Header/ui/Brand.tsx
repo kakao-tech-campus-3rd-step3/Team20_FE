@@ -1,5 +1,5 @@
 import { Sparkles } from 'lucide-react';
-import { BRAND_NAME } from '@/features/Header/model/constants';
+import { BRAND_NAME } from '../model/constants';
 
 export function Brand() {
   return (

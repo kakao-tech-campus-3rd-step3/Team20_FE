@@ -1,4 +1,4 @@
-import { FOOTER_CATEGORIES, FOOTER_TITLES } from '@/features/Footer/model/constants';
+import { FOOTER_CATEGORIES, FOOTER_TITLES } from '../model/constants';
 
 export function FooterContentCategories() {
   return (

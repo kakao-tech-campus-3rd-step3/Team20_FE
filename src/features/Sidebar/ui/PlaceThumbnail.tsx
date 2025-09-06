@@ -1,5 +1,5 @@
 import { Camera } from 'lucide-react';
-import type { ThumbnailProps } from '@/features/Sidebar/model/types';
+import type { ThumbnailProps } from '../model/types';
 
 export function PlaceThumbnail({ thumbnailUrl, name, badgeNumber }: ThumbnailProps) {
   return (

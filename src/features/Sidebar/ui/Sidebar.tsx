@@ -1,7 +1,7 @@
-import { PlaceList } from '@/features/Sidebar/ui/PlaceList';
-import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch';
-import type { SidebarProps } from '@/features/Sidebar/model/types';
-import { SIDEBAR_TEXT } from '@/features/Sidebar/model/constants';
+import { PlaceList } from './PlaceList';
+import { SidebarSearch } from './SidebarSearch';
+import type { SidebarProps } from '../model/types';
+import { SIDEBAR_TEXT } from '../model/constants';
 
 export function Sidebar({ className }: SidebarProps) {
   return (

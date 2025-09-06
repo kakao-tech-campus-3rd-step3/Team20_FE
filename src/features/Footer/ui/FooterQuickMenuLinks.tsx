@@ -1,4 +1,4 @@
-import { FOOTER_QUICK_LINKS, FOOTER_TITLES } from '@/features/Footer/model/constants';
+import { FOOTER_QUICK_LINKS, FOOTER_TITLES } from '../model/constants';
 
 export function FooterQuickMenuLinks() {
   return (

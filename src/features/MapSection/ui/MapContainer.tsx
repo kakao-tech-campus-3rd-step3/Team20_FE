@@ -1,4 +1,4 @@
-import type { MapContainerProps } from '@/features/MapSection/model/types';
+import type { MapContainerProps } from '../model/types';
 
 export function MapContainer({ className }: MapContainerProps) {
   return (

@@ -1,8 +1,8 @@
-import { FooterBrand } from '@/features/Footer/ui/FooterBrand';
-import { FooterSocialLinks } from '@/features/Footer/ui/FooterSocialLinks';
-import { FooterQuickMenuLinks } from '@/features/Footer/ui/FooterQuickMenuLinks';
-import { FooterContentCategories } from '@/features/Footer/ui/FooterContentCategories';
-import { FooterBottom } from '@/features/Footer/ui/FooterBottom';
+import { FooterBrand } from './FooterBrand';
+import { FooterSocialLinks } from './FooterSocialLinks';
+import { FooterQuickMenuLinks } from './FooterQuickMenuLinks';
+import { FooterContentCategories } from './FooterContentCategories';
+import { FooterBottom } from './FooterBottom';
 
 export function Footer() {
   return (

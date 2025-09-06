@@ -1,6 +1,6 @@
 import { IconButton } from '@/shared/ui/IconButton';
-import { MENU } from '@/features/Header/model/utils';
-import type { NavMenuProps } from '@/features/Header/model/types';
+import { MENU } from '../model/utils';
+import type { NavMenuProps } from '../model/types';
 
 export function NavMenu({ active, onSelect }: NavMenuProps) {
   return (
