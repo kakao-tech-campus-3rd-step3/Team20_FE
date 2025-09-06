@@ -1,1 +1,1 @@
-export * from '@/features/CategorySection/ui/CategorySection';
+export * from './ui/CategorySection';
