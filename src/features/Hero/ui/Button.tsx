@@ -1,9 +1,4 @@
-import type { ReactNode } from 'react';
-interface ButtonProps {
-  href: string;
-  children: ReactNode;
-  variant: 'primary' | 'secondary';
-}
+import type { ButtonProps } from '../model/types';
 
 export function Button({ href, children, variant = 'primary' }: ButtonProps) {
   const baseStyles = 'px-5 py-3 rounded-xl transition-colors';

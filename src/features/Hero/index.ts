@@ -1,1 +1,1 @@
-export * from '@/features/Hero/ui/Hero';
+export * from './ui/Hero';
