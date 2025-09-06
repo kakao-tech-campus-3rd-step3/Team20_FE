@@ -1,1 +1,1 @@
-export * from '@/features/PopularCarousel/ui/PopularCarousel';
+export * from './ui/PopularCarousel';

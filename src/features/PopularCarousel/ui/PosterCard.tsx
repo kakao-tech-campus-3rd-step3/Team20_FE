@@ -1,11 +1,6 @@
-interface Props {
-  id: string;
-  title: string;
-  year: number;
-  spots: number;
-}
+import type { PosterCardProps } from '../model/type';
 
-export function PosterCard({ id, title, year, spots }: Props) {
+export function PosterCard({ id, title, year, spots }: PosterCardProps) {
   return (
     <article className="min-w-[220px] snap-start rounded-xl border p-3 hover:shadow-md transition">
       <a href={`/content/${id}`} className="block">
