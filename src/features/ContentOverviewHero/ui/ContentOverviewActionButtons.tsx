@@ -1,5 +1,6 @@
 import { MapPin, Map } from 'lucide-react';
 import type { ContentOverviewActionButtonsProps } from '../model/types';
+import { messages } from '../model/messages';
 
 export function ContentOverviewActionButtons({
   onLocationViewClick,
@@ -16,7 +17,7 @@ export function ContentOverviewActionButtons({
               bg-white font-semibold rounded-xl"
           >
             <MapPin className="w-5 h-5" />
-            촬영지 보기
+            {messages.locationView}
           </button>
 
           <button
@@ -27,7 +28,7 @@ export function ContentOverviewActionButtons({
               border border-white/30"
           >
             <Map className="w-5 h-5" />
-            지도 보기
+            {messages.mapView}
           </button>
         </div>
       </div>

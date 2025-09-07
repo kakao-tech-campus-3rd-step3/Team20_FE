@@ -1,4 +1,5 @@
 import type { ContentOverviewInfoProps } from '../model/types';
+import { messages } from '../model/messages';
 
 export function ContentOverviewInfo({
   title,
@@ -29,7 +30,7 @@ export function ContentOverviewInfo({
             >
               <div className="w-2 h-2 bg-white rounded-full"></div>
               <span className="text-white/90 text-sm font-medium">
-                {countOfLocations}개의 촬영지
+                {messages.locationCount.replace('{count}', countOfLocations.toString())}
               </span>
             </div>
           )}

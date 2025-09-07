@@ -1,4 +1,5 @@
 import type { LocationImageIndicatorsProps } from '../model/types';
+import { messages } from '../model/messages';
 
 export function LocationImageIndicators({
   total,
@@ -17,7 +18,7 @@ export function LocationImageIndicators({
             w-3 h-3 rounded-full transition-all duration-300 
             ${index === currentIndex ? 'bg-red-600 scale-125' : 'bg-gray-500 hover:bg-gray-400'}
           `}
-          aria-label={`슬라이드 ${index + 1}로 이동`}
+          aria-label={`${messages.slideTo} ${index + 1}`}
         />
       ))}
     </div>

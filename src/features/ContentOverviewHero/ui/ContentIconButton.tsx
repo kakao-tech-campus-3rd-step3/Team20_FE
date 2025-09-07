@@ -1,5 +1,6 @@
 import type { ContentIconButtonProps } from '../model/types';
 
+// 추후 팀이 정의한 shared IconButton사용예정
 export function ContentIconButton({
   icon: Icon,
   iconClassName = '',
@@ -18,6 +19,7 @@ export function ContentIconButton({
   );
 }
 
+// 추후 스타일 토큰 정의 예정
 const baseClasses = 'backdrop-blur-sm rounded-full transition-colors';
 
 const variantClasses = {
