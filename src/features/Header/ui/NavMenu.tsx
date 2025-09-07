@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@/shared/ui';
 import { MENU } from '../model/utils';
 import { keyToPath } from '../model/constants';
-import type { NavMenuProps } from '../model/types';
+import type { NavMenuProps, NavKey } from '../model/types';
 
 export function NavMenu({ active, onSelect }: NavMenuProps) {
   // 테스트용으로 간단하게 만든 로직. 추후에 은수님이 hooks폴더로 이동해서 자세히 만들어주세요!
@@ -10,7 +10,7 @@ export function NavMenu({ active, onSelect }: NavMenuProps) {
 
   const handleNavClick = (key: string) => {
     navigate(keyToPath[key as keyof typeof keyToPath]);
-    onSelect?.(key as any);
+    onSelect?.(key as NavKey);
   };
 
   return (
