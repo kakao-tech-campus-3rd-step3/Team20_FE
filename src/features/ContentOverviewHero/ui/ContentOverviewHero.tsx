@@ -1,4 +1,4 @@
-import { contentHero } from '../../../__mocks__/contentHero';
+import { contentHero } from '@/__mocks__/contentHero';
 import { ContentOverviewIconGroup } from './ContentOverviewIconGroup';
 import { ContentOverviewInfo } from './ContentOverviewInfo';
 import { ContentOverviewActionButtons } from './ContentOverviewActionButtons';

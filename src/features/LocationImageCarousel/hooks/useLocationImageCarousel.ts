@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { contentScenes } from '../../../__mocks__/contentScenes';
+import { contentScenes } from '@/__mocks__/contentScenes';
 
 export function useLocationImageCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);

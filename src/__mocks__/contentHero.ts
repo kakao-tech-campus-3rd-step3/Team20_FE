@@ -1,4 +1,4 @@
-import kDramaSquidGameHorizontal from './k-drama-squidgame-horizontal.jpg';
+import kDramaSquidGameHorizontal from './images/k-drama-squidgame-horizontal.jpg';
 
 export const contentHero = {
   title: '오징어 게임',

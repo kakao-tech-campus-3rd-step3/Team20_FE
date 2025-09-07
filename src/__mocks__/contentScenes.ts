@@ -1,7 +1,7 @@
-import squidgameSpotdetail from './squidgame-spotdetail.jpg';
-import squidgameSpotdetail2 from './squidgame-spotdetail2.jpg';
-import squidgameSpotdetail3 from './squidgame-spotdetail3.png';
-import squidgameSpotdetail4 from './squidgame-spotdetail4.png';
+import squidgameSpotdetail from './images/squidgame-spotdetail.jpg';
+import squidgameSpotdetail2 from './images/squidgame-spotdetail2.jpg';
+import squidgameSpotdetail3 from './images/squidgame-spotdetail3.png';
+import squidgameSpotdetail4 from './images/squidgame-spotdetail4.png';
 
 export const contentScenes = [
   {
