@@ -1,5 +1,3 @@
-import type { LucideIcon } from 'lucide-react';
-
 export interface ContentOverviewHeroProps {
   title?: string;
   category?: string;
@@ -14,15 +12,6 @@ export interface ContentOverviewIconGroupProps {
   onShareClick?: () => void;
   onLikeClick?: () => void;
   isLiked?: boolean;
-}
-
-export interface ContentIconButtonProps {
-  icon: LucideIcon;
-  iconClassName?: string;
-  variant?: 'default' | 'transparent';
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
-  onClick?: () => void;
 }
 
 export interface ContentOverviewInfoProps {

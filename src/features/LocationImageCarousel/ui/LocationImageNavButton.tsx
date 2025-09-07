@@ -1,3 +1,5 @@
+import { IconButton } from '@/shared/ui/IconButton';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { LocationImageNavButtonProps } from '../model/types';
 
 export function LocationImageNavButton({
@@ -8,15 +10,12 @@ export function LocationImageNavButton({
   const positionClass = position === 'left' ? 'left-4' : 'right-4';
 
   return (
-    <button
+    <IconButton
+      Icon={Icon === ChevronLeft ? ChevronLeft : ChevronRight}
+      shape="circle"
+      size="lg"
+      className={`absolute ${positionClass} top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30`}
       onClick={onClick}
-      className={`
-        absolute ${positionClass} top-1/2 -translate-y-1/2 
-        p-3 bg-white/20 backdrop-blur-sm rounded-full 
-        hover:bg-white/30 transition-colors duration-200
-      `}
-    >
-      <Icon className="w-6 h-6 text-white" />
-    </button>
+    />
   );
 }

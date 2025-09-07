@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { IconButton } from '@/shared/ui/IconButton';
+import { IconButton } from '@/shared/ui';
 import { MENU } from '../model/utils';
 import { keyToPath } from '../model/constants';
 import type { NavMenuProps } from '../model/types';
