@@ -1,7 +1,7 @@
-import { Button } from '../ui/Button';
+import { Button } from './Button';
 import { messages } from '../model/messages';
 import { PATHS } from '../model/path';
-export function Hero() {
+export function ServiceMainHero() {
   return (
     <section className="grid md:grid-cols-2 gap-8 py-12">
       <div className="flex flex-col justify-center gap-4">
