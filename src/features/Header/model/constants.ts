@@ -4,7 +4,7 @@ import type { MenuItem, NavKey } from './types';
 export const keyToPath: Record<NavKey, string> = {
   home: '/',
   map: '/map',
-  saved: '/saved',
+  saved: '/content',
 };
 
 export const MENU_BASE = [
