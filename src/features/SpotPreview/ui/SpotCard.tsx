@@ -1,4 +1,5 @@
 import { messages } from '../model/messages';
+import { Link } from 'react-router-dom';
 
 export function SpotCard() {
   return (
@@ -10,15 +11,15 @@ export function SpotCard() {
           <p className="text-sm font-medium">{messages.sampleSpotName}</p>
           <p className="text-xs text-gray-600">{messages.sampleSpotMeta}</p>
           <div className="mt-2 flex gap-2">
-            <a href="/save" className="px-3 py-1 rounded-lg border text-sm hover:bg-gray-50">
+            <Link to="/save" className="px-3 py-1 rounded-lg border text-sm hover:bg-gray-50">
               {messages.save}
-            </a>
-            <a
-              href="/map/directions"
+            </Link>
+            <Link
+              to="/map/directions"
               className="px-3 py-1 rounded-lg border text-sm hover:bg-gray-50"
             >
               {messages.directions}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

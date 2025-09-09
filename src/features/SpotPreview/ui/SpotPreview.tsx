@@ -4,6 +4,7 @@ import { CitySelector } from './CitySelector';
 import { MapPreview } from './MapPreview';
 import { SpotCard } from './SpotCard';
 import { cities } from '../model/types';
+import { Link } from 'react-router-dom';
 
 export function SpotPreview() {
   const [selected, setSelected] = useState<(typeof cities)[number]>('All');
@@ -27,9 +28,9 @@ export function SpotPreview() {
       </div>
 
       <div className="mt-4 text-right">
-        <a href="/map" className="text-sm underline text-gray-700 hover:text-gray-900">
+        <Link to="/map" className="text-sm underline text-gray-700 hover:text-gray-900">
           {messages.openFullMap}
-        </a>
+        </Link>
       </div>
     </section>
   );

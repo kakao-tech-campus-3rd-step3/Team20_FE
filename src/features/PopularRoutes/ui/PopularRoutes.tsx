@@ -1,13 +1,15 @@
 import { sampleRoutes } from '../model/constants';
 import { messages } from '../model/messages';
+import { Link } from 'react-router-dom';
+
 export function PopularRoutes() {
   return (
     <section className="py-8">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold">{messages.popularRoutesTitle}</h2>
-        <a href="/routes" className="text-sm text-gray-600 underline">
+        <Link to="/routes" className="text-sm text-gray-600 underline">
           {messages.seeAll}
-        </a>
+        </Link>
       </div>
       <div className="grid md:grid-cols-2 gap-4">
         {sampleRoutes.map((route) => (
@@ -23,12 +25,12 @@ export function PopularRoutes() {
                   {route.spots} {messages.spots}
                 </p>
               </div>
-              <a
-                href={`/routes/${route.id}`}
+              <Link
+                to={`/routes/${route.id}`}
                 className="px-3 py-1 rounded-lg border text-sm hover:bg-gray-50"
               >
                 {messages.share}
-              </a>
+              </Link>
             </div>
           </article>
         ))}
