@@ -1,5 +1,6 @@
 import { FOOTER_CATEGORIES } from '../model/constants';
 import { FOOTER_TITLES } from '../model/messages';
+import { Link } from 'react-router-dom';
 
 export function FooterContentCategories() {
   return (
@@ -8,13 +9,13 @@ export function FooterContentCategories() {
       <ul className="space-y-3">
         {FOOTER_CATEGORIES.map((cat) => (
           <li key={cat.label}>
-            <a href="#" className="group block">
+            <Link to={cat.to} className="group block">
               <div className="text-gray-300 transition-colors duration-200 hover:text-white">
                 <div className="text-sm font-medium transition-transform duration-200 group-hover:translate-x-1">
                   {cat.label}
                 </div>
               </div>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

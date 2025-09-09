@@ -1,4 +1,5 @@
 import type { ButtonProps } from '../model/types';
+import { Link } from 'react-router-dom';
 
 export function Button({ href, children, variant = 'primary' }: ButtonProps) {
   const baseStyles = 'px-5 py-3 rounded-xl transition-colors';
@@ -9,8 +10,8 @@ export function Button({ href, children, variant = 'primary' }: ButtonProps) {
   };
 
   return (
-    <a href={href} className={`${baseStyles} ${variants[variant]}`}>
+    <Link to={href} className={`${baseStyles} ${variants[variant]}`}>
       {children}
-    </a>
+    </Link>
   );
 }
