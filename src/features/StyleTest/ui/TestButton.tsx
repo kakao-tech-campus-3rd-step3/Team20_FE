@@ -29,8 +29,8 @@ export function TestButton({
 
   const sizeClasses = {
     small: 'px-3 py-1.5 text-button',
-    medium: 'px-5 py-3 text-button',
-    large: 'px-8 py-5 text-button-large',
+    medium: 'px-4 py-2 text-button',
+    large: 'px-6 py-3 text-button-large',
   };
 
   return (
