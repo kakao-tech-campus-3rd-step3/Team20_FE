@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
-import type { IconButtonProps } from '../model/types';
-import { cn } from '../model/utils';
-import { sizeClass, pxClass, circleWH, variantClass, iconSizeByControl } from '../model/styles';
+import type { IconButtonProps } from '../../model/types';
+import { cn } from '../../model/utils';
+import { sizeClass, pxClass, circleWH, variantClass, iconSizeByControl } from '../../model/styles';
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
@@ -20,9 +20,9 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     ref,
   ) => {
     const base =
-      'inline-flex items-center justify-center rounded-full transition select-none ' +
-      'focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60 ' +
-      'disabled:opacity-60 disabled:cursor-not-allowed';
+      'inline-flex items-center justify-center rounded-full transition-all duration-200 select-none ' +
+      'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 ' +
+      'disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95';
 
     const visual = active ? variantClass.gradient : variantClass[variant];
     const sizeCls = shape === 'circle' ? circleWH[size] : cn(sizeClass[size], pxClass[size]);
