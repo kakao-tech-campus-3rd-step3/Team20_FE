@@ -1,4 +1,4 @@
-import { IconButton } from '@/shared/ui/IconButton';
+import { IconButton } from '@/shared/ui';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { LocationImageNavButtonProps } from '../model/types';
 

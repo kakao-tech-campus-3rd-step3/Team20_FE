@@ -1,0 +1,24 @@
+/**
+ * TailwindCSS v4 Shadow 시스템
+ *
+ * 프로젝트의 일관된 그림자 체계를 정의합니다.
+ * 깊이감과 계층 구조를 표현합니다.
+ */
+
+@theme {
+  /* 컴포넌트별 그림자 */
+  --shadow-button: var(--shadow-sm);
+  --shadow-button-hover: var(--shadow-md);
+  --shadow-card: var(--shadow-md);
+  --shadow-modal: var(--shadow-2xl);
+  --shadow-dropdown: var(--shadow-lg);
+
+  /* 브랜드 색상 그림자 */
+  --shadow-brand-sm: 0 1px 3px 0 rgb(168 100 162 / 0.1), 0 1px 2px -1px rgb(168 100 162 / 0.1);
+  --shadow-brand-md: 0 4px 6px -1px rgb(168 100 162 / 0.1), 0 2px 4px -2px rgb(168 100 162 / 0.1);
+  --shadow-brand-lg: 0 10px 15px -3px rgb(168 100 162 / 0.1), 0 4px 6px -4px rgb(168 100 162 / 0.1);
+
+  /* 내부 그림자 */
+  --shadow-inset: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-inset-md: inset 0 2px 4px 0 rgb(0 0 0 / 0.1);
+}

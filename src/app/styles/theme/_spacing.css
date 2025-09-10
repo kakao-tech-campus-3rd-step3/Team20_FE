@@ -1,0 +1,20 @@
+/**
+ * TailwindCSS v4 Spacing 시스템
+ *
+ * 프로젝트의 일관된 간격 체계를 정의합니다.
+ * 8px 기반 그리드 시스템을 사용합니다.
+ */
+
+@theme {
+  /* 컴포넌트별 간격 */
+  --spacing-button-padding-x: var(--spacing-4);
+  --spacing-button-padding-y: var(--spacing-2);
+  --spacing-card-padding: var(--spacing-6);
+  --spacing-section-margin: var(--spacing-16);
+  --spacing-container-padding: var(--spacing-4);
+
+  /* 반응형 간격 */
+  --spacing-container-padding-mobile: var(--spacing-4);
+  --spacing-container-padding-tablet: var(--spacing-6);
+  --spacing-container-padding-desktop: var(--spacing-8);
+}
