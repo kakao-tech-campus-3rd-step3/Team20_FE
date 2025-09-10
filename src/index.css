@@ -1,1 +1,9 @@
 @import 'tailwindcss';
+
+/* 테마 파일들을 theme 레이어로 가져오기 */
+@import './app/styles/theme/_colors.css' layer(theme);
+@import './app/styles/theme/_zindex.css' layer(theme);
+
+/* 사용자 정의 유틸리티 가져오기 */
+@import './app/styles/utilities/_typography.css';
+@import './app/styles/utilities/_safearea.css';

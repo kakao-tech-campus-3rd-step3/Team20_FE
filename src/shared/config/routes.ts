@@ -2,6 +2,7 @@ export const ROUTES = {
   HOME: '/',
   CONTENT_DETAIL: '/content',
   MAP: '/map',
+  STYLE_TEST: '/style-test',
 } as const;
 
 //   TODO: 추후 사용 예정
