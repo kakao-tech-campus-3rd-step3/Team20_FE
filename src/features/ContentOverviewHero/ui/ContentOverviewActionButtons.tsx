@@ -1,5 +1,5 @@
 import { MapPin, Map } from 'lucide-react';
-import { IconButton } from '@/shared/ui/IconButton';
+import { IconButton } from '@/shared/ui';
 import type { ContentOverviewActionButtonsProps } from '../model/types';
 import { messages } from '../model/messages';
 
