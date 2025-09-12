@@ -4,7 +4,7 @@ import { circleWH } from '@/shared/model/styles';
 
 export function Brand() {
   return (
-    <div className="group flex items-center gap-container-padding">
+    <div className="group flex items-center gap-4">
       <div
         className={`flex ${circleWH.md} items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent shadow-brand-md transition-transform duration-300 group-hover:scale-110`}
       >
