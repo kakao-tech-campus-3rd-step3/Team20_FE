@@ -14,7 +14,7 @@ export function NavMenu({ active, onSelect }: NavMenuProps) {
   };
 
   return (
-    <nav aria-label="주요 메뉴" className="hidden md:flex items-center gap-[var(--spacing-3)]">
+    <nav aria-label="주요 메뉴" className="hidden md:flex items-center gap-card-padding">
       {MENU.map(({ key, label, Icon }) => (
         <IconButton
           key={key}
