@@ -1,5 +1,7 @@
 import type { Preview } from '@storybook/react';
+import React from 'react';
 import '../src/index.css';
+import { MemoryRouter } from 'react-router-dom';
 
 const preview: Preview = {
   parameters: {
@@ -17,6 +19,7 @@ const preview: Preview = {
       test: 'todo',
     },
   },
+  decorators: [(Story) => React.createElement(MemoryRouter, null, Story())],
 };
 
 export default preview;
