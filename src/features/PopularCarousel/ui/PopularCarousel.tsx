@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 
 export function PopularCarousel() {
   return (
-    <section className="py-10">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">{messages.popularNow}</h2>
-        <Link to="/trending" className="text-sm text-gray-600 underline">
+    <section className="py-[var(--spacing-8)]">
+      <div className="flex items-center justify-between mb-[var(--spacing-4)]">
+        <h2 className="text-heading-4 text-[var(--color-text-primary)]">{messages.popularNow}</h2>
+        <Link to="/trending" className="text-link text-[var(--color-text-secondary)]">
           {messages.seeAll}
         </Link>
       </div>
-      <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
+      <div className="flex gap-[var(--spacing-4)] overflow-x-auto pb-[var(--spacing-2)] snap-x snap-mandatory">
         {popularContents.map((content) => (
           <PosterCard key={content.id} {...content} />
         ))}
