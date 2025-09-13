@@ -10,9 +10,11 @@ export function SpotPreview() {
   const [selected, setSelected] = useState<(typeof cities)[number]>('All');
 
   return (
-    <section className="py-10">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold">{messages.mapSectionTitle}</h2>
+    <section className="py-[var(--spacing-8)]">
+      <div className="mb-[var(--spacing-4)] flex items-center justify-between">
+        <h2 className="text-heading-4 text-[var(--color-text-primary)]">
+          {messages.mapSectionTitle}
+        </h2>
         <CitySelector
           cities={cities}
           selected={selected}
@@ -20,15 +22,18 @@ export function SpotPreview() {
         />
       </div>
 
-      <div className="rounded-2xl border overflow-hidden">
+      <div className="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-background-primary)] overflow-hidden shadow-[var(--shadow-card)]">
         <div className="grid md:grid-cols-[1.2fr_1fr]">
           <MapPreview city={selected} />
           <SpotCard />
         </div>
       </div>
 
-      <div className="mt-4 text-right">
-        <Link to="/map" className="text-sm underline text-gray-700 hover:text-gray-900">
+      <div className="mt-[var(--spacing-4)] text-right">
+        <Link
+          to="/map"
+          className="text-link text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+        >
           {messages.openFullMap}
         </Link>
       </div>
