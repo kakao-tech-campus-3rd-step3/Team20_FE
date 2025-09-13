@@ -6,13 +6,7 @@
  */
 
 @theme {
-  /* 기본 spacing 값들 - v4에서는 직접 정의 필요 */
 
-  --spacing-2: 0.5rem; /* 8px */
-  --spacing-4: 1rem; /* 16px */
-  --spacing-6: 1.5rem; /* 24px */
-  --spacing-8: 2rem; /* 32px */
-  --spacing-16: 4rem; /* 64px */
   /* 컴포넌트별 간격 */
   --spacing-button-padding-x: var(--spacing-4);
   --spacing-button-padding-y: var(--spacing-2);
