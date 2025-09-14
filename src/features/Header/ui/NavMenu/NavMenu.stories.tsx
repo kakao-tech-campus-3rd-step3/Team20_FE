@@ -48,12 +48,6 @@ export const SavedActive: Story = {
   },
 };
 
-// 활성화된 메뉴가 없는 상태
-export const NoActive: Story = {
-  args: {
-    active: undefined,
-  },
-};
 
 // 모든 메뉴 상태 쇼케이스
 export const AllStates: Story = {
@@ -70,10 +64,6 @@ export const AllStates: Story = {
       <div>
         <h3 className="mb-4 text-lg font-semibold">저장됨 활성화</h3>
         <NavMenu active="saved" />
-      </div>
-      <div>
-        <h3 className="mb-4 text-lg font-semibold">현재 상태 (아무것도 활성화되지 않음)</h3>
-        <NavMenu />
       </div>
     </div>
   ),

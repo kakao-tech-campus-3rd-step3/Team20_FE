@@ -3,14 +3,20 @@ import { IconButton } from '@/shared/ui';
 import { MENU } from '../../model/utils';
 import { keyToPath } from '../../model/constants';
 import type { NavMenuProps, NavKey } from '../../model/types';
+import { useActiveNavKey } from '../../model/hooks';
 
-export function NavMenu({ active, onSelect }: NavMenuProps) {
-  // 테스트용으로 간단하게 만든 로직. 추후에 은수님이 hooks폴더로 이동해서 자세히 만들어주세요!
+export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
   const navigate = useNavigate();
 
-  const handleNavClick = (key: string) => {
-    navigate(keyToPath[key as keyof typeof keyToPath]);
-    onSelect?.(key as NavKey);
+  // location 기반 자동 활성 키
+  const autoActive = useActiveNavKey(keyToPath);
+
+  // 외부에서 active를 주면 우선(제어 모드), 아니면 자동(비제어 모드)
+  const activeKey = controlledActive ?? autoActive;
+
+  const handleNavClick = (key: NavKey) => {
+    navigate(keyToPath[key]);
+    onSelect?.(key);
   };
 
   return (
@@ -22,8 +28,8 @@ export function NavMenu({ active, onSelect }: NavMenuProps) {
           shape="pill"
           size="md"
           variant="soft"
-          active={key === active}
-          aria-current={key === active ? 'page' : undefined}
+          active={key === activeKey}
+          aria-current={key === activeKey ? 'page' : undefined}
           onClick={() => handleNavClick(key)}
         >
           {label}
