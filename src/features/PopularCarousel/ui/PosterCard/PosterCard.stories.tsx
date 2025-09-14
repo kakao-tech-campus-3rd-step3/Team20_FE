@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { PosterCard } from 'src/features/PopularCarousel/ui/PosterCard';
+import { PosterCard } from './PosterCard';
 
 const meta = {
   title: 'Features/PopularCarousel/PosterCard',

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { CategorySection } from 'src/features/CategorySection';
+import { CategorySection } from './CategorySection';
 
 const meta = {
   title: 'Features/CategorySection',

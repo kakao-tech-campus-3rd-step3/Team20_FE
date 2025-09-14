@@ -1,4 +1,4 @@
-import { messages } from '../model/messages';
+import { messages } from '../../model/messages';
 import { Link } from 'react-router-dom';
 
 export function SpotCard() {

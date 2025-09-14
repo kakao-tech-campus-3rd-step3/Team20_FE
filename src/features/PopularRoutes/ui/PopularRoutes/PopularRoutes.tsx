@@ -1,5 +1,5 @@
-import { sampleRoutes } from '../model/constants';
-import { messages } from '../model/messages';
+import { sampleRoutes } from '../../model/constants';
+import { messages } from '../../model/messages';
 import { Link } from 'react-router-dom';
 
 export function PopularRoutes() {

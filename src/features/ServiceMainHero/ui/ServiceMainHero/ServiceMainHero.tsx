@@ -1,6 +1,6 @@
-import { Button } from './Button';
-import { messages } from '../model/messages';
-import { PATHS } from '../model/path';
+import { Button } from '../Button/Button';
+import { messages } from '../../model/messages';
+import { PATHS } from '../../model/path';
 export function ServiceMainHero() {
   return (
     <section className="grid md:grid-cols-2 gap-[var(--spacing-8)] py-[var(--spacing-12)] px-[var(--spacing-container-padding)] md:px-[var(--spacing-container-padding-tablet)] lg:px-[var(--spacing-container-padding-desktop)]">

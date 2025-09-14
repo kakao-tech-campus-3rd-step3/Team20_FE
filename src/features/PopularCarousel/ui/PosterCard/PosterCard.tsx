@@ -1,4 +1,4 @@
-import type { PosterCardProps } from '../model/type';
+import type { PosterCardProps } from '../../model/type';
 import { Link } from 'react-router-dom';
 
 export function PosterCard({ id, title, year, spots }: PosterCardProps) {

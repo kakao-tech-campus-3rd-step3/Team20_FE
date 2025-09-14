@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { SpotPreview } from 'src/features/SpotPreview';
+import { SpotPreview } from './SpotPreview';
 
 const meta = {
   title: 'Features/SpotPreview',

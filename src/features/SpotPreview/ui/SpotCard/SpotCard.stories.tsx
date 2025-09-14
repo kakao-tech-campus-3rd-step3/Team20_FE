@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { SpotCard } from 'src/features/SpotPreview/ui/SpotCard';
+import { SpotCard } from './SpotCard';
 
 const meta = {
   title: 'Features/SpotPreview/SpotCard',

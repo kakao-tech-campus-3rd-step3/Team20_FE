@@ -1,6 +1,6 @@
-import { messages } from '../model/messages';
-import { popularContents } from '../model/constants';
-import { PosterCard } from '../ui/PosterCard';
+import { messages } from '../../model/messages';
+import { popularContents } from '../../model/constants';
+import { PosterCard } from '../PosterCard/PosterCard';
 import { Link } from 'react-router-dom';
 
 export function PopularCarousel() {

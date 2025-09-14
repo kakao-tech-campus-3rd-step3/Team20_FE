@@ -1,4 +1,4 @@
-import type { ButtonProps } from '../model/types';
+import type { ButtonProps } from '../../model/types';
 import { Link } from 'react-router-dom';
 
 export function Button({ href, children, variant = 'primary' }: ButtonProps) {

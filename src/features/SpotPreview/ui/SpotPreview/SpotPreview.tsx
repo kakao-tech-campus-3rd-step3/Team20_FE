@@ -1,9 +1,9 @@
-import { messages } from '../model/messages';
+import { messages } from '../../model/messages';
 import { useState } from 'react';
-import { CitySelector } from './CitySelector';
-import { MapPreview } from './MapPreview';
-import { SpotCard } from './SpotCard';
-import { cities } from '../model/types';
+import { CitySelector } from '../CitySelector/CitySelector';
+import { MapPreview } from '../MapPreview/MapPreview';
+import { SpotCard } from '../SpotCard/SpotCard';
+import { cities } from '../../model/types';
 import { Link } from 'react-router-dom';
 
 export function SpotPreview() {

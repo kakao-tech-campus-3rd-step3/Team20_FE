@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { MapPreview } from 'src/features/SpotPreview/ui/MapPreview';
+import { MapPreview } from './MapPreview';
 
 const meta = {
   title: 'Features/SpotPreview/MapPreview',

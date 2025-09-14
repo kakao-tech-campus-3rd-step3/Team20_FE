@@ -1,4 +1,4 @@
-import { messages } from '../model/messages';
+import { messages } from '../../model/messages';
 
 export function MapPreview({ city }: { city: string }) {
   return (

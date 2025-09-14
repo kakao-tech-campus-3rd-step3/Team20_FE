@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { CitySelector } from 'src/features/SpotPreview/ui/CitySelector.tsx';
-import { cities } from 'src/features/SpotPreview/model/types';
+import { CitySelector } from './CitySelector';
+import { cities } from '../../model/types';
 
 const meta = {
   title: 'Features/SpotPreview/CitySelector',
