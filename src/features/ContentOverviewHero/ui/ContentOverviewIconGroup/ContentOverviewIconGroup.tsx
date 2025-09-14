@@ -1,6 +1,6 @@
 import { ArrowLeft, Share2, Heart } from 'lucide-react';
 import { IconButton } from '@/shared/ui';
-import type { ContentOverviewIconGroupProps } from '../model/types';
+import type { ContentOverviewIconGroupProps } from '../../model/types';
 
 // 1주차엔 레이아웃만 잡기로 했으므로 구조만 잡기(핸들러 기능 동작 안함, hooks도 정의안함)
 export function ContentOverviewIconGroup({

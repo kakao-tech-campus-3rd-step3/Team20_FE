@@ -1,1 +1,1 @@
-export * from './ui/ContentOverviewHero';
+export * from './ui/ContentOverviewHero/ContentOverviewHero';

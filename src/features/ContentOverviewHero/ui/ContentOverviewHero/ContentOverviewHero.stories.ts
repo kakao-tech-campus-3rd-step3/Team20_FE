@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { ContentOverviewHero } from '@/features/ContentOverviewHero';
-import type { ContentOverviewHeroProps } from '@/features/ContentOverviewHero/model/types';
+import { ContentOverviewHero } from './ContentOverviewHero';
+import type { ContentOverviewHeroProps } from '../../model/types';
 
 // Mock 데이터
 const mockContentData: ContentOverviewHeroProps = {

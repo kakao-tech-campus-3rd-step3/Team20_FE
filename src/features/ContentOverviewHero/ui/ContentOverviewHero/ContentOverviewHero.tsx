@@ -1,8 +1,8 @@
 import { contentHero } from '@/__mocks__/contentHero';
-import { ContentOverviewIconGroup } from './ContentOverviewIconGroup';
-import { ContentOverviewInfo } from './ContentOverviewInfo';
-import { ContentOverviewActionButtons } from './ContentOverviewActionButtons';
-import type { ContentOverviewHeroProps } from '../model/types';
+import { ContentOverviewIconGroup } from '../ContentOverviewIconGroup/ContentOverviewIconGroup';
+import { ContentOverviewInfo } from '../ContentOverviewInfo/ContentOverviewInfo';
+import { ContentOverviewActionButtons } from '../ContentOverviewActionButton/ContentOverviewActionButtons';
+import type { ContentOverviewHeroProps } from '../../model/types';
 
 export function ContentOverviewHero({
   title = contentHero.title,

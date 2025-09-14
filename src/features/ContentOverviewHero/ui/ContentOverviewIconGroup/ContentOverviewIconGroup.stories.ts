@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 
-import { ContentOverviewIconGroup } from '@/features/ContentOverviewHero/ui/ContentOverviewIconGroup';
+import { ContentOverviewIconGroup } from './ContentOverviewIconGroup';
 
 const meta = {
   title: 'Features/ContentOverviewHero/ContentOverviewIconGroup',

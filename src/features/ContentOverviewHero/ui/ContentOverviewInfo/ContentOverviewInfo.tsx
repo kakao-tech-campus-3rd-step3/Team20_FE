@@ -1,5 +1,5 @@
-import type { ContentOverviewInfoProps } from '../model/types';
-import { messages } from '../model/messages';
+import type { ContentOverviewInfoProps } from '../../model/types';
+import { messages } from '../../model/messages';
 
 export function ContentOverviewInfo({
   title,
