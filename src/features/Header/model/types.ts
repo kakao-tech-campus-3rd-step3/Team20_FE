@@ -13,3 +13,14 @@ export type NavMenuProps = {
   active?: NavKey;
   onSelect?: (key: NavKey) => void;
 };
+
+export interface MobileNavMenuProps extends NavMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export interface HamburgerMenuProps {
+  isOpen: boolean;
+  onToggle: () => void;
+  'aria-label'?: string;
+}
