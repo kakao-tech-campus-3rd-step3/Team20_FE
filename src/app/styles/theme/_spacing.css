@@ -6,6 +6,17 @@
  */
 
 @theme {
+  /* 기본 spacing 스케일 (런타임 CSS 변수) */
+  --spacing-1: 0.25rem; /* 4px */
+  --spacing-2: 0.5rem; /* 8px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-4: 1rem; /* 16px */
+  --spacing-6: 1.5rem; /* 24px */
+  --spacing-8: 2rem; /* 32px */
+  --spacing-12: 3rem; /* 48px */
+  --spacing-16: 4rem; /* 64px */
+  --spacing-20: 5rem; /* 80px */
+  --spacing-24: 6rem; /* 96px */
 
   /* 컴포넌트별 간격 */
   --spacing-button-padding-x: var(--spacing-4);
