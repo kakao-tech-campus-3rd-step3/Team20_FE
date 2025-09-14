@@ -10,27 +10,29 @@ export function ContentOverviewIconGroup({
   isLiked = false,
 }: ContentOverviewIconGroupProps) {
   return (
-    <div className="absolute top-0 left-0 right-0 z-10 p-4 safe-area-top">
+    <div className="absolute top-0 left-0 right-0 z-[--z-elevated] p-[--spacing-4] pt-safe">
       <div className="flex justify-between items-center">
         <IconButton
           Icon={ArrowLeft}
           shape="circle"
-          className="bg-black/30 hover:bg-black/50 backdrop-blur-sm"
+          className="bg-[--color-gray-900]/30 hover:bg-[--color-gray-900]/50 backdrop-blur-sm shadow-[--shadow-button]"
           onClick={onBackClick}
         />
 
-        <div className="flex gap-2">
+        <div className="flex gap-[--spacing-2]">
           <IconButton
             Icon={Share2}
             shape="circle"
-            className="bg-black/30 hover:bg-black/50 backdrop-blur-sm"
+            className="bg-[--color-gray-900]/30 hover:bg-[--color-gray-900]/50 backdrop-blur-sm shadow-[--shadow-button]"
             onClick={onShareClick}
           />
           <IconButton
             Icon={Heart}
             shape="circle"
-            className={`bg-black/30 hover:bg-black/50 backdrop-blur-sm ${
-              isLiked ? '[&_svg]:text-red-500 [&_svg]:fill-red-500' : ''
+            className={`bg-[--color-gray-900]/30 hover:bg-[--color-gray-900]/50 backdrop-blur-sm shadow-[--shadow-button] ${
+              isLiked
+                ? '[&_svg]:text-[--color-semantic-error] [&_svg]:fill-[--color-semantic-error]'
+                : ''
             }`}
             onClick={onLikeClick}
           />
