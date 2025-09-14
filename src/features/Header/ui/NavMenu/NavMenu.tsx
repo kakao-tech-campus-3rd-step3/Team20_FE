@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@/shared/ui';
-import { MENU } from '../model/utils';
-import { keyToPath } from '../model/constants';
-import type { NavMenuProps, NavKey } from '../model/types';
+import { MENU } from '../../model/utils';
+import { keyToPath } from '../../model/constants';
+import type { NavMenuProps, NavKey } from '../../model/types';
 
 export function NavMenu({ active, onSelect }: NavMenuProps) {
   // 테스트용으로 간단하게 만든 로직. 추후에 은수님이 hooks폴더로 이동해서 자세히 만들어주세요!
@@ -14,7 +14,7 @@ export function NavMenu({ active, onSelect }: NavMenuProps) {
   };
 
   return (
-    <nav aria-label="주요 메뉴" className="hidden md:flex items-center gap-4">
+    <nav aria-label="주요 메뉴" className="hidden md:flex items-center gap-(--spacing-4)">
       {MENU.map(({ key, label, Icon }) => (
         <IconButton
           key={key}
