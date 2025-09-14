@@ -24,8 +24,8 @@ export function Header({ active, onSelect }: NavMenuProps) {
           <Brand />
           <NavMenu active={active} onSelect={onSelect} />
           <div className="flex items-center gap-(--spacing-2) md:hidden">
-            <HamburgerMenu 
-              isOpen={isMobileMenuOpen} 
+            <HamburgerMenu
+              isOpen={isMobileMenuOpen}
               onToggle={handleMobileMenuToggle}
               aria-label="메뉴"
             />
@@ -36,9 +36,9 @@ export function Header({ active, onSelect }: NavMenuProps) {
           </div>
         </div>
       </div>
-      
-      <MobileNavMenu 
-        active={active} 
+
+      <MobileNavMenu
+        active={active}
         onSelect={onSelect}
         isOpen={isMobileMenuOpen}
         onClose={handleMobileMenuClose}

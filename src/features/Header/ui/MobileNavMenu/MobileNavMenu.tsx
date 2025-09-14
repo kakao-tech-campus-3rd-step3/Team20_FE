@@ -15,7 +15,11 @@ export function MobileNavMenu({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 z-(--z-overlay) md:hidden" onClick={onClose} aria-hidden="true" />
+      <div
+        className="fixed inset-0 bg-black/50 z-(--z-overlay) md:hidden"
+        onClick={onClose}
+        aria-hidden="true"
+      />
       <div className="absolute top-full left-0 right-0 bg-(--color-background) border-t border-(--color-border) shadow-(--shadow-dropdown) z-(--z-dropdown) md:hidden">
         <nav aria-label="주요 메뉴" className="p-(--spacing-4)">
           <div className="space-y-(--spacing-2)">

@@ -14,9 +14,7 @@ export function FooterContentCategories() {
               className="block text-(--color-text-secondary) transition-colors duration-200 hover:text-(--color-text-inverse)
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/60 focus-visible:ring-offset-2"
             >
-              <span className="text-body-small font-medium">
-                {cat.label}
-              </span>
+              <span className="text-body-small font-medium">{cat.label}</span>
             </Link>
           </li>
         ))}

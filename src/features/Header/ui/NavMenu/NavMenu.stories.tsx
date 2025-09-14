@@ -48,7 +48,6 @@ export const SavedActive: Story = {
   },
 };
 
-
 // 모든 메뉴 상태 쇼케이스
 export const AllStates: Story = {
   render: () => (
