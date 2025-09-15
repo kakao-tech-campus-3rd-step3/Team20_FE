@@ -21,7 +21,7 @@ export function PlaceCard({
       role="button"
       onClick={onClick}
       className={[
-        'p-(--spacing-4) border-b border-(--color-border-primary) cursor-pointer transition-all hover:bg-(--color-background-tertiary)',
+        'p-(--spacing-4) cursor-pointer transition-all hover:bg-(--color-background-tertiary)',
         className,
       ]
         .filter(Boolean)
