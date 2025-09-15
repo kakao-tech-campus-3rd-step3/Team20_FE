@@ -1,83 +1,128 @@
-# AkSpot 프로젝트
+# 🎬 K-SPOT
 
-React + TypeScript + Vite 기반의 모던 웹 애플리케이션입니다.
-
-## 📁 프로젝트 구조 (FSD)
-
-```
-src/
-├── app/                 # 애플리케이션 계층
-├── pages/              # 페이지 계층
-├── features/           # 기능 계층
-├── entities/           # 엔티티 계층 (도메인 모델)
-└── shared/             # 공유 계층 (공통 코드)
-```
-
-## 🔄 Import 규칙
-
-```typescript
-// ✅ 올바른 방법 - alias 사용
-import { Grandparent } from '@/entities/content/ui';
-
-// ❌ 잘못된 방법 - 상대경로
-import { Grandparent } from '../../../entities/content/ui/Grandparent';
-```
-
-**캡슐화 원칙**: 각 계층의 `index.ts`에서만 export, `@/layer/slices/segment` 까지만 import
-
-## 🧹 코드 품질 관리
-
-### ESLint & Prettier 설정
-
-- **TypeScript ESLint**: 타입 안전성 검사
-- **React Hooks**: 의존성 배열 검사
-- **Prettier**: 일관된 코드 스타일
-
-### 명령어
-
-```bash
-npm run build         # 빌드
-npm run lint          # 린트 검사
-npm run lint:fix      # 자동 수정
-npm run format        # 포맷팅 적용
-npm run type-check    # 타입 체크
-npm run test          # 전체 검증
-```
-
-### Prettier 설정
-
-```json
-{
-  "semi": true,
-  "singleQuote": true,
-  "tabWidth": 2,
-  "trailingComma": "all",
-  "printWidth": 100
-}
-```
-
-## 📚 주요 기술 스택
-
-- **React 19** + **TypeScript** + **Vite**
-- **Tailwind CSS**: 스타일링
-- **React Query**: 서버 상태 관리
-- **React Hook Form**: 폼 관리
-- **React Router**: 라우팅
-- **Zod**: 스키마 검증
-
-## 📋 개발 워크플로
-
-1. 기능별 브랜치 생성
-2. FSD 구조에 맞게 개발
-3. `npm run test`로 검증
-4. PR 템플릿에 맞게 제출
-
-## 🤝 기여 가이드
-
-- alias import 필수 사용
-- ESLint/Prettier 규칙 준수
-- 커밋 전 전체 테스트 실행
+> **한국 콘텐츠 촬영지 탐방 서비스**  
+> 체계적인 아키텍처 설계와 현대적 개발 워크플로우를 통해 구축된 프로덕션 레디 웹 애플리케이션
 
 ---
 
-상세 정보: [GitHub 템플릿 가이드](.github/README.md)
+## 🏗️ 아키텍처 & 개발 철학
+
+### 1. 🚀 CI/CD 자동화 파이프라인
+
+![CI/CD Architecture](./public/1-CI-CD.png)
+
+- **GitHub Actions** 기반 완전 자동화된 배포 파이프라인
+- **Amazon CloudFront** 정적 사이트 배포로 글로벌 CDN 활용
+- **PR 단위 품질 관리**
+  - ESLint/Prettier 사전 검증
+  - **Gemini AI 자동 코드 리뷰** 시스템 도입
+  - 테스트 자동 실행으로 배포 전 품질 보장
+
+### 2. 📐 Feature-Sliced Design (FSD) 아키텍처
+
+![FSD Architecture](./public/2-FSD.png)
+
+**5-레이어 구조로 확장성과 유지보수성 극대화**
+
+```
+app/     → 애플리케이션 진입점 및 글로벌 설정
+pages/   → 페이지 컴포넌트 (조립만 담당)
+features/→ 비즈니스 로직 및 사용자 인터랙션
+entities/→ 도메인 엔티티
+shared/  → 공통 유틸리티 및 UI 컴포넌트
+```
+
+**핵심 설계 원칙**
+
+- ✅ **완벽한 캡슐화**: `features`에서 최상위 컴포넌트만 export
+- ✅ **관심사 분리**: UI/로직/상수/타입 완전 분리
+- ✅ **단방향 의존성**: 상위 → 하위 레이어만 참조 가능
+- ⚠️ `widgets` 레이어 의도적 제외 (의견 충돌 방지, 추후 마이그레이션 고려)
+
+### 3. 🎨 Tailwind CSS v4 - CSS-First 철학
+
+![Tailwind CSS](https://img.shields.io/badge/tailwind_css-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+- **CSS-First 접근법**으로 고성능 빌드 최적화
+- 런타임 성능을 고려한 **커스텀 테마 시스템** 구축
+- Design Token 기반 일관된 디자인 시스템
+
+**테마 토큰 구조**
+
+```
+src/
+├── index.css                    → 글로벌 스타일 진입점
+└── app/styles/
+    ├── theme/
+    │   ├── _colors.css         → 컬러 팔레트 토큰
+    │   ├── _spacing.css        → 간격 시스템 토큰
+    │   ├── _shadows.css        → 그림자 효과 토큰
+    │   ├── _zindex.css         → 레이어 순서 토큰
+    │   └── _animations.css     → 애니메이션 토큰
+    └── utilities/
+        ├── _typography.css     → 타이포그래피 유틸리티
+        └── _safearea.css       → 모바일 세이프 에어리어
+```
+
+### 4. 📖 Storybook 기반 컴포넌트 문서화
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/storybook/storybook-original.svg" width="24" height="24" alt="Storybook">
+
+- **Presentational 컴포넌트 100% 스토리 작성** 원칙
+- 격리된 환경에서의 UI 테스트 및 문서화
+- 디자이너-개발자 간 효율적인 협업 도구
+
+**공통 UI 컴포넌트 구조**
+
+```
+src/shared/ui/
+├── index.ts                     → Public API 정의
+├── Button/
+│   ├── Button.tsx              → 기본 버튼 컴포넌트
+│   └── Button.stories.tsx      → 버튼 스토리북
+└── IconButton/
+    ├── IconButton.tsx          → 아이콘 버튼 컴포넌트
+    └── IconButton.stories.tsx  → 아이콘 버튼 스토리북
+```
+
+---
+
+## 📋 개발 워크플로우
+
+### 코드 품질 관리
+
+- **ESLint + Prettier** 자동 포매팅
+- **Pre-commit Hooks** 품질 검증
+- **Issue/PR 템플릿** 표준화된 협업 프로세스
+
+### 브랜치 전략
+
+- `main`: 프로덕션 배포 브랜치
+- `develop`: 개발 통합 브랜치
+- `release` : 안정화 브랜치
+- `feature/*`: 기능 개발 브랜치
+
+---
+
+## 🚀 최근 구현 사항 (이번 주)
+
+### 🎨 서비스 테마 시스템 구축
+
+![Service Theme](./public/3-ServiceTheme.png)
+
+- **통합 테마 시스템** 정의 및 적용
+- 기존 컴포넌트들에 **일관된 디자인 토큰** 적용
+- 브랜드 아이덴티티를 반영한 **컬러 팔레트** 및 **타이포그래피** 체계화
+- **다크모드 대응** 준비 완료
+
+### 📚 Storybook UI 테스팅 환경 구축
+
+![Storybook Testing](./public/4-storybook.png)
+
+- **LocationImageCarousel** 등 주요 컴포넌트 스토리 작성 완료
+- **컴포넌트 문서화** 자동화로 개발팀 협업 효율성 향상
+- **반응형 디자인** 검증을 위한 뷰포트 테스트 추가
+
+---
+
+_"좋은 아키텍처는 결정을 늦출 수 있게 해준다" - Robert C. Martin_
