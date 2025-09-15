@@ -1,6 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 
-export type NavKey = 'home' | 'map' | 'saved';
+export type NavKey = 'home' | 'map' | 'content';
 
 export type MenuItem = {
   key: NavKey;
@@ -13,3 +13,14 @@ export type NavMenuProps = {
   active?: NavKey;
   onSelect?: (key: NavKey) => void;
 };
+
+export interface MobileNavMenuProps extends NavMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export interface HamburgerMenuProps {
+  isOpen: boolean;
+  onToggle: () => void;
+  'aria-label'?: string;
+}
