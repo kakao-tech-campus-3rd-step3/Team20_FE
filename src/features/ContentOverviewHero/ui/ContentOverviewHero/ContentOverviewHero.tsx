@@ -1,8 +1,8 @@
 import { contentHero } from '@/__mocks__/contentHero';
-import { ContentOverviewIconGroup } from './ContentOverviewIconGroup';
-import { ContentOverviewInfo } from './ContentOverviewInfo';
-import { ContentOverviewActionButtons } from './ContentOverviewActionButtons';
-import type { ContentOverviewHeroProps } from '../model/types';
+import { ContentOverviewIconGroup } from '../ContentOverviewIconGroup/ContentOverviewIconGroup';
+import { ContentOverviewInfo } from '../ContentOverviewInfo/ContentOverviewInfo';
+import { ContentOverviewActionButtons } from '../ContentOverviewActionButton/ContentOverviewActionButtons';
+import type { ContentOverviewHeroProps } from '../../model/types';
 
 export function ContentOverviewHero({
   title = contentHero.title,
@@ -13,14 +13,18 @@ export function ContentOverviewHero({
   isLiked = false,
 }: ContentOverviewHeroProps) {
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div className="relative h-screen-safe w-full overflow-hidden">
+      {/* 배경 이미지 */}
       <div className="absolute inset-0">
         <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80" />
+        {/* 그라데이션 오버레이 */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[--color-gray-900] via-[--color-gray-900]/80 to-transparent" />
       </div>
 
+      {/* 상단 아이콘 그룹 */}
       <ContentOverviewIconGroup isLiked={isLiked} />
 
+      {/* 콘텐츠 정보 */}
       <ContentOverviewInfo
         title={title}
         category={category}
@@ -28,6 +32,7 @@ export function ContentOverviewHero({
         countOfLocations={countOfLocations}
       />
 
+      {/* 하단 액션 버튼들 */}
       <ContentOverviewActionButtons />
     </div>
   );

@@ -1,5 +1,5 @@
-import type { ContentOverviewInfoProps } from '../model/types';
-import { messages } from '../model/messages';
+import type { ContentOverviewInfoProps } from '../../model/types';
+import { messages } from '../../model/messages';
 
 export function ContentOverviewInfo({
   title,
@@ -8,14 +8,15 @@ export function ContentOverviewInfo({
   countOfLocations,
 }: ContentOverviewInfoProps) {
   return (
-    <div className="absolute bottom-32 left-0 right-0 z-10 px-6">
+    <div className="absolute bottom-32 left-0 right-0 z-[--z-elevated] px-[--spacing-6]">
       <div className="max-w-4xl mx-auto text-center">
-        <div className="mb-6 flex items-center justify-center gap-4">
+        <div className="mb-[--spacing-6] flex items-center justify-center gap-[--spacing-4]">
           <span
             className="
-              px-6 py-3 
-              bg-gradient-to-r from-pink-600 to-red-600 
+              px-[--spacing-6] py-[--spacing-3] 
+              bg-gradient-to-r from-[--color-brand-secondary] to-[--color-brand-tertiary] 
               text-white text-sm font-semibold rounded-full
+              shadow-[--shadow-brand-sm]
           "
           >
             {category}
@@ -23,9 +24,10 @@ export function ContentOverviewInfo({
           {countOfLocations && (
             <div
               className="
-                flex items-center gap-2 px-4 py-3 
+                flex items-center gap-[--spacing-2] px-[--spacing-4] py-[--spacing-3] 
                 bg-white/10 rounded-full 
                 border border-white/20
+                shadow-[--shadow-brand-sm]
               "
             >
               <div className="w-2 h-2 bg-white rounded-full"></div>
@@ -36,7 +38,7 @@ export function ContentOverviewInfo({
           )}
         </div>
 
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-[--spacing-6] leading-tight">
           {title}
         </h1>
 
