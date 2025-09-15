@@ -51,9 +51,7 @@ export const InteractiveIndicators: Story = {
   },
   render: (args) => (
     <div className="bg-gray-900 p-8">
-      <p className="text-white text-center mb-4">
-        인디케이터를 클릭해보세요 (콘솔에서 로그 확인)
-      </p>
+      <p className="text-white text-center mb-4">인디케이터를 클릭해보세요 (콘솔에서 로그 확인)</p>
       <LocationImageIndicators {...args} />
     </div>
   ),

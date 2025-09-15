@@ -19,7 +19,8 @@ export const Default: Story = {
     scene: {
       id: 1,
       title: '오징어 게임 촬영지',
-      description: '이곳은 넷플릭스 드라마 오징어 게임의 주요 촬영지입니다. 드라마에서 중요한 장면들이 촬영된 곳으로, 많은 관광객들이 찾는 명소가 되었습니다.',
+      description:
+        '이곳은 넷플릭스 드라마 오징어 게임의 주요 촬영지입니다. 드라마에서 중요한 장면들이 촬영된 곳으로, 많은 관광객들이 찾는 명소가 되었습니다.',
       image: '/src/__mocks__/images/squidgame-spotdetail.jpg',
       episode: '1화',
       timestamp: '00:15:30',
@@ -27,11 +28,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <div className="relative h-96 bg-gray-900">
-      <img 
-        src={args.scene.image} 
-        alt={args.scene.title}
-        className="w-full h-full object-cover"
-      />
+      <img src={args.scene.image} alt={args.scene.title} className="w-full h-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
       <LocationImageContent {...args} />
     </div>
@@ -46,15 +43,13 @@ export const WithoutEpisode: Story = {
       title: '일반 촬영지',
       description: '에피소드 정보가 없는 일반적인 촬영지입니다.',
       image: '/src/__mocks__/images/squidgame-spotdetail2.jpg',
+      episode: '',
+      timestamp: '',
     },
   },
   render: (args) => (
     <div className="relative h-96 bg-gray-900">
-      <img 
-        src={args.scene.image} 
-        alt={args.scene.title}
-        className="w-full h-full object-cover"
-      />
+      <img src={args.scene.image} alt={args.scene.title} className="w-full h-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
       <LocationImageContent {...args} />
     </div>

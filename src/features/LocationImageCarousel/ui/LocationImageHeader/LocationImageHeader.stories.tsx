@@ -33,7 +33,7 @@ export const ResponsiveShowcase: Story = {
   render: () => (
     <div className="space-y-8 bg-gray-900 py-8">
       <h2 className="text-2xl font-bold text-white text-center">반응형 헤더</h2>
-      
+
       <div>
         <h3 className="text-lg font-semibold mb-3 text-center text-white">모바일</h3>
         <div className="max-w-sm mx-auto border-2 border-gray-600 rounded-lg overflow-hidden">

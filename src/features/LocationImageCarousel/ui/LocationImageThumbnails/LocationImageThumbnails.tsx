@@ -30,7 +30,9 @@ export function LocationImageThumbnails({
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 p-(--spacing-3) bg-gradient-to-t from-(--color-gray-900)/80 to-transparent">
-            <h4 className="text-(--color-text-inverse) text-body-small font-medium truncate">{scene.title}</h4>
+            <h4 className="text-(--color-text-inverse) text-body-small font-medium truncate">
+              {scene.title}
+            </h4>
           </div>
         </div>
       ))}

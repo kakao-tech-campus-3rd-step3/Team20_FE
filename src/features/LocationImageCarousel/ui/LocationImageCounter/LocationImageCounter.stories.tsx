@@ -21,8 +21,8 @@ export const Default: Story = {
   },
   render: (args) => (
     <div className="relative h-64 bg-gray-900">
-      <img 
-        src="/src/__mocks__/images/squidgame-spotdetail.jpg" 
+      <img
+        src="/src/__mocks__/images/squidgame-spotdetail.jpg"
         alt="Sample image"
         className="w-full h-full object-cover"
       />
