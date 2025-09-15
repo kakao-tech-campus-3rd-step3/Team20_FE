@@ -10,9 +10,7 @@ export function PlaceTagList({ tags }: { tags: string[] }) {
         </span>
       ))}
       {tags.length > 2 && (
-        <span className="text-caption text-(--color-text-tertiary)">
-          +{tags.length - 2}
-        </span>
+        <span className="text-caption text-(--color-text-tertiary)">+{tags.length - 2}</span>
       )}
     </div>
   );

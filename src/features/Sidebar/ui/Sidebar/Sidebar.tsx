@@ -16,11 +16,17 @@ import {
 
 export function Sidebar({ className }: SidebarProps) {
   return (
-    <aside className={['w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full', className ?? ''].join(' ')}>
+    <aside
+      className={['w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full', className ?? ''].join(
+        ' ',
+      )}
+    >
       <div className="w-full lg:w-96 bg-(--color-background-primary) shadow-(--shadow-card) rounded-r-2xl overflow-hidden h-full flex flex-col border-r border-(--color-border-primary)">
         <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
           <h2 className="text-heading-4 mb-(--spacing-2)">{SIDEBAR_TITLES.HEADER_TITLE}</h2>
-          <p className="text-body-small text-(--color-gray-100)">{formatFoundCount(DEFAULT_RESULT_COUNT)}</p>
+          <p className="text-body-small text-(--color-gray-100)">
+            {formatFoundCount(DEFAULT_RESULT_COUNT)}
+          </p>
         </div>
 
         <SidebarSearch />

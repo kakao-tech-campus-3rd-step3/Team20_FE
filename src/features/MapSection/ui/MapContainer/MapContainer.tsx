@@ -5,9 +5,9 @@ export function MapContainer({ className }: MapContainerProps) {
   return (
     <div
       className={[
-        "relative w-full h-full min-h-[600px] bg-(--color-background-tertiary) overflow-hidden",
-        className ?? "",
-      ].join(" ")}
+        'relative w-full h-full min-h-[600px] bg-(--color-background-tertiary) overflow-hidden',
+        className ?? '',
+      ].join(' ')}
     >
       <img
         src={mockMap}
