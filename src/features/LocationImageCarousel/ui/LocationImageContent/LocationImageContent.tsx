@@ -9,8 +9,8 @@ export function LocationImageContent({ scene }: LocationImageContentProps) {
             {scene.episode}
           </span>
         )}
-        <h3 className="text-heading-2 md:text-heading-1 font-bold text-(--color-text-inverse) mb-(--spacing-3)">{scene.title}</h3>
-        <p className="text-(--color-text-inverse)/90 leading-relaxed mb-(--spacing-2)">{scene.description}</p>
+        <h3 className="text-heading-3 md:text-heading-1 text-(--color-text-inverse) text-balance mb-(--spacing-3)">{scene.title}</h3>
+        <p className="text-(--color-text-inverse)/90 text-body-small sm:text-body md:text-body break-words mb-(--spacing-2)">{scene.description}</p>
         {scene.timestamp && <p className="text-(--color-text-inverse)/70 text-body-small">{scene.timestamp}</p>}
       </div>
     </div>
