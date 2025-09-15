@@ -1,28 +1,35 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import type { NavKey } from './types';
-import { useNavigate } from 'react-router-dom';
 import { keyToPath } from './constants';
 
-export function useActiveNavKey(keyToPath: Record<NavKey, string>): NavKey | undefined {
+function toBasePath(p: string) {
+  const cut = p.replace(/\/:.*$/, '');
+  const trimmed = cut !== '/' ? cut.replace(/\/+$/, '') : cut;
+  return trimmed;
+}
+
+const BASE_ENTRIES: ReadonlyArray<readonly [NavKey, string]> = (
+  Object.entries(keyToPath) as Array<[NavKey, string]>
+)
+  .map(([k, p]) => [k, toBasePath(p)] as const)
+  .sort((a, b) => b[1].length - a[1].length);
+
+export function resolveActiveKey(pathname: string): NavKey | undefined {
+  const match = BASE_ENTRIES.find(([, base]) => {
+    if (base === '/') return pathname === '/';
+    return pathname === base || pathname.startsWith(base + '/');
+  });
+  return match?.[0];
+}
+
+export function useActiveNavKey(): NavKey | undefined {
   const { pathname } = useLocation();
-
-  return useMemo(() => {
-    const entries = Object.entries(keyToPath).sort((a, b) => b[1].length - a[1].length) as Array<
-      [NavKey, string]
-    >;
-
-    const match = entries.find(([, path]) => {
-      if (path === '/') return pathname === '/';
-      return pathname.startsWith(path);
-    });
-
-    return match?.[0];
-  }, [keyToPath, pathname]);
+  return useMemo(() => resolveActiveKey(pathname), [pathname]);
 }
 
 export function useResolvedActiveKey(controlledActive?: NavKey) {
-  const autoActive = useActiveNavKey(keyToPath);
+  const autoActive = useActiveNavKey();
   return controlledActive ?? autoActive;
 }
 

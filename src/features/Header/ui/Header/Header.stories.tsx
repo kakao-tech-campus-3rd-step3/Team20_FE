@@ -48,4 +48,4 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = { args: { active: 'home' } };
 export const HomeActive: Story = { args: { active: 'home' } };
 export const MapActive: Story = { args: { active: 'map' } };
-export const SavedActive: Story = { args: { active: 'saved' } };
+export const ContentActive: Story = { args: { active: 'content' } };

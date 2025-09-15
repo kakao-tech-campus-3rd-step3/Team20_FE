@@ -12,7 +12,7 @@ const meta = {
   argTypes: {
     active: {
       control: 'select',
-      options: ['home', 'map', 'saved'],
+      options: ['home', 'map', 'content'],
     },
   },
   decorators: [
@@ -41,10 +41,10 @@ export const MapActive: Story = {
   },
 };
 
-// 저장됨 메뉴가 활성화된 상태
-export const SavedActive: Story = {
+// 컨텐츠가 활성화된 상태
+export const ContentActive: Story = {
   args: {
-    active: 'saved',
+    active: 'content',
   },
 };
 
@@ -61,8 +61,8 @@ export const AllStates: Story = {
         <NavMenu active="map" />
       </div>
       <div>
-        <h3 className="mb-4 text-lg font-semibold">저장됨 활성화</h3>
-        <NavMenu active="saved" />
+        <h3 className="mb-4 text-lg font-semibold">컨텐츠 활성화</h3>
+        <NavMenu active="content" />
       </div>
     </div>
   ),

@@ -8,10 +8,7 @@ import { useActiveNavKey } from '../../model/hooks';
 export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
   const navigate = useNavigate();
 
-  // location 기반 자동 활성 키
-  const autoActive = useActiveNavKey(keyToPath);
-
-  // 외부에서 active를 주면 우선(제어 모드), 아니면 자동(비제어 모드)
+  const autoActive = useActiveNavKey();
   const activeKey = controlledActive ?? autoActive;
 
   const handleNavClick = (key: NavKey) => {

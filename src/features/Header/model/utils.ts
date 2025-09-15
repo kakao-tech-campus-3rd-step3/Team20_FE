@@ -1,11 +1,10 @@
 import type { MenuItem, NavKey } from './types';
-import { MENU_BASE, keyToPath } from './constants';
+import { MENU_BASE } from './constants';
 import { NAV_LABELS } from './messages';
+import { resolveActiveKey } from './hooks';
 
 export function pathToKey(p: string): NavKey {
-  if (p.startsWith(keyToPath.map)) return 'map';
-  if (p.startsWith(keyToPath.saved)) return 'saved';
-  return 'home';
+  return resolveActiveKey(p) ?? 'home';
 }
 
 export function buildMenu(labels = NAV_LABELS): ReadonlyArray<MenuItem> {

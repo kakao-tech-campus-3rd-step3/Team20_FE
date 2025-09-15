@@ -1,6 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 
-export type NavKey = 'home' | 'map' | 'saved';
+export type NavKey = 'home' | 'map' | 'content';
 
 export type MenuItem = {
   key: NavKey;
