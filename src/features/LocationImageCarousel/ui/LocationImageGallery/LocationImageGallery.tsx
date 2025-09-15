@@ -20,7 +20,7 @@ export function LocationImageGallery({
 
   return (
     <div className="relative mb-(--spacing-12)">
-      <div className="relative h-(--spacing-96) md:h-(--spacing-128) rounded-(--radius-3xl) overflow-hidden shadow-(--shadow-2xl)">
+      <div className="relative h-96 md:h-128 rounded-(--radius-3xl) overflow-hidden shadow-(--shadow-2xl)">
         <img
           src={currentScene.image}
           alt={currentScene.title}
