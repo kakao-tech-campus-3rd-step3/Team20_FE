@@ -1,1 +1,1 @@
-export { LocationImageCarousel } from './ui/LocationImageCarousel';
+export { LocationImageCarousel } from './ui/LocationImageCarousel/LocationImageCarousel';
