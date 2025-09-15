@@ -1,9 +1,9 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import type { LocationImageGalleryProps } from '../model/types';
-import { LocationImageNavButton } from './LocationImageNavButton';
-import { LocationImageContent } from './LocationImageContent';
-import { LocationImageCounter } from './LocationImageCounter';
-import { LocationImageIndicators } from './LocationImageIndicators';
+import type { LocationImageGalleryProps } from '../../model/types';
+import { LocationImageNavButton } from '../LocationImageNavButton/LocationImageNavButton';
+import { LocationImageContent } from '../LocationImageContent/LocationImageContent';
+import { LocationImageCounter } from '../LocationImageCounter/LocationImageCounter';
+import { LocationImageIndicators } from '../LocationImageIndicators/LocationImageIndicators';
 
 export function LocationImageGallery({
   currentIndex,
@@ -19,15 +19,15 @@ export function LocationImageGallery({
   const hasMultipleScenes = scenes.length > 1;
 
   return (
-    <div className="relative mb-12">
-      <div className="relative h-96 md:h-[32rem] rounded-3xl overflow-hidden shadow-2xl">
+    <div className="relative mb-(--spacing-12)">
+      <div className="relative h-96 md:h-128 rounded-(--radius-3xl) overflow-hidden shadow-(--shadow-2xl)">
         <img
           src={currentScene.image}
           alt={currentScene.title}
           className="w-full h-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-(--color-gray-900)/80 via-transparent to-transparent" />
 
         <LocationImageContent scene={currentScene} />
 
