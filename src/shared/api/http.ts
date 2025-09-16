@@ -23,7 +23,15 @@ http.interceptors.response.use(
     return response.data.data;
   },
   (error) => {
-    // 에러는 그대로 전파 (나중에 확장 가능)
+    if (axios.isAxiosError(error)) {
+      console.error(
+        '[Axios Error]',
+        error.response?.status,
+        error.response?.data?.message || error.message,
+      );
+    } else {
+      console.error('[Unexpected Error]', error);
+    }
     return Promise.reject(error);
   },
 );
