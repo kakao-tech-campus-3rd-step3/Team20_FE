@@ -12,7 +12,7 @@ const meta = {
   argTypes: {
     active: {
       control: 'select',
-      options: ['home', 'map', 'saved'],
+      options: ['home', 'map', 'content'],
     },
   },
   decorators: [
