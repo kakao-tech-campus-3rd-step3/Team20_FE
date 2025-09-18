@@ -24,10 +24,7 @@ export type KakaoMap = {
 };
 
 export type KakaoMapsNS = {
-  Map: new (
-    container: HTMLElement,
-    options: { center: LatLng; level: number }
-  ) => KakaoMap;
+  Map: new (container: HTMLElement, options: { center: LatLng; level: number }) => KakaoMap;
   LatLng: new (lat: number, lng: number) => LatLng;
 };
 

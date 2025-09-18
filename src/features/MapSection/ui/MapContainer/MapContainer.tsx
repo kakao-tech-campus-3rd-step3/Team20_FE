@@ -12,12 +12,7 @@ export function MapContainer({
         className ?? '',
       ].join(' ')}
     >
-      <div
-        ref={containerRef}
-        className="absolute inset-0"
-        role="region"
-        aria-label={ariaLabel}
-      />
+      <div ref={containerRef} className="absolute inset-0" role="region" aria-label={ariaLabel} />
     </div>
   );
 }
