@@ -1,7 +1,10 @@
-import type { MapContainerProps } from '../../model/types';
-import mockMap from '@/__mocks__/images/mock-map-screenshot.png';
+import type { MapContainerUiProps } from '../../model/types';
 
-export function MapContainer({ className }: MapContainerProps) {
+export function MapContainer({
+  containerRef,
+  className,
+  ariaLabel = '카카오 지도',
+}: MapContainerUiProps) {
   return (
     <div
       className={[
@@ -9,18 +12,12 @@ export function MapContainer({ className }: MapContainerProps) {
         className ?? '',
       ].join(' ')}
     >
-      <img
-        src={mockMap}
-        alt="Mock map"
-        className="absolute inset-0 w-full h-full object-cover select-none"
-        draggable={false}
+      <div
+        ref={containerRef}
+        className="absolute inset-0"
+        role="region"
+        aria-label={ariaLabel}
       />
-
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-body text-(--color-text-inverse) bg-(--color-background-dark)/50 px-(--spacing-2) py-(--spacing-1) rounded">
-          지도 영역 Mock
-        </span>
-      </div>
     </div>
   );
 }
