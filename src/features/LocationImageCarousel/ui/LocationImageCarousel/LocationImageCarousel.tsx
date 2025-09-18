@@ -8,7 +8,7 @@ export function LocationImageCarousel() {
   const { scenes, currentIndex, nextSlide, prevSlide, goToSlide } = useLocationImageCarousel();
 
   return (
-    <section className="py-(--spacing-16) bg-gradient-to-b from-(--color-gray-600) to-(--color-gray-900)">
+    <section className="py-(--spacing-16) bg-gradient-to-b from-(--color-gray-800) to-(--color-gray-900)">
       <div className="max-w-7xl mx-auto px-(--spacing-4) sm:px-(--spacing-6) lg:px-(--spacing-8)">
         <LocationImageHeader />
 

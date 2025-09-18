@@ -18,7 +18,7 @@ export function ContentOverviewHero({
       <div className="absolute inset-0">
         <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
         {/* 그라데이션 오버레이 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-gray-0)] to-[var(--color-gray-600)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-gray-0)] to-[var(--color-gray-800)]" />
       </div>
 
       {/* 상단 아이콘 그룹 */}
