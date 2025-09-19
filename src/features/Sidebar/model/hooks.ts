@@ -4,10 +4,11 @@ import { getLocationDetail } from '@/entities/location/api/locationApi';
 import type { Place } from '../model/types';
 import type { ContentLocation } from '@/entities/content/model/types';
 import type { LocationDetail } from '@/entities/location/model/types';
+import { contentQueryKeys } from '@/entities/content/api/queryKeys';
 
 export function useSidebarData(contentId?: string) {
   const { data: contentDetail } = useQuery({
-    queryKey: ['contentDetail', contentId],
+    queryKey: contentQueryKeys.detail(contentId || ''),
     queryFn: () => getContentDetail(contentId || ''),
     enabled: !!contentId,
   });
@@ -17,7 +18,7 @@ export function useSidebarData(contentId?: string) {
     isLoading,
     error,
   } = useQuery<Place[]>({
-    queryKey: ['contentLocations', contentId],
+    queryKey: contentQueryKeys.locations(contentId || ''),
     queryFn: async () => {
       const locations = await getContentLocations(contentId || '');
 
