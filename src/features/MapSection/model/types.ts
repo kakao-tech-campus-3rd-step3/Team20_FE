@@ -23,9 +23,14 @@ export type KakaoMap = {
   setZoomable(flag: boolean): void;
 };
 
+export type KakaoMarker = {
+  setMap(map: KakaoMap | null): void;
+};
+
 export type KakaoMapsNS = {
   Map: new (container: HTMLElement, options: { center: LatLng; level: number }) => KakaoMap;
   LatLng: new (lat: number, lng: number) => LatLng;
+  Marker: new (options: { position: LatLng }) => KakaoMarker;
 };
 
 declare global {

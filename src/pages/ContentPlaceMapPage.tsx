@@ -1,17 +1,20 @@
 import { Sidebar } from '@/features/Sidebar';
 import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
-import { useKakaoMap } from '@/features/MapSection/model/hooks';
+import { useKakaoMap, useKakaoMarkers } from '@/features/MapSection/model/hooks';
 import { useParams } from 'react-router-dom';
+import { useSidebarData } from '@/features/Sidebar/model/hooks';
 
 export default function ContentPlaceMapPage() {
-  const { containerRef } = useKakaoMap();
   const { contentId } = useParams<{ contentId: string }>();
+  const { places } = useSidebarData(contentId);
+  const mapHook = useKakaoMap();
+  useKakaoMarkers(places, mapHook.mapRef);
 
   return (
     <div className="h-screen flex flex-col">
       <div className="flex flex-1 overflow-hidden">
         <Sidebar className="w-96 shrink-0 h-full min-h-0" contentId={contentId} />
-        <MapContainer containerRef={containerRef} className="flex-1 h-full min-h-0" />
+        <MapContainer containerRef={mapHook.containerRef} className="flex-1 h-full min-h-0" />
       </div>
     </div>
   );
