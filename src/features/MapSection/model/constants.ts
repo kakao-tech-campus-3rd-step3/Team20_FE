@@ -22,7 +22,7 @@ export const OVERLAY_STYLES = {
   address:
     'font-size: 0.875rem; color: var(--color-text-secondary); margin-bottom: var(--spacing-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;',
   scene:
-    'background-color: var(--color-brand-primary); opacity: 0.1; border-radius: 8px; padding: var(--spacing-3); margin-bottom: var(--spacing-3);',
+    'background-color: var(--color-background-secondary); border-radius: 8px; padding: var(--spacing-3); margin-bottom: var(--spacing-3);',
   sceneHeader:
     'display: flex; align-items: center; gap: var(--spacing-1); margin-bottom: var(--spacing-1);',
   sceneIcon: 'width: 12px; height: 12px; color: var(--color-brand-secondary);',
