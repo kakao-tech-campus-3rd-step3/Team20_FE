@@ -1,6 +1,28 @@
 import { useEffect, useRef } from 'react';
-import type { MapOptions, KakaoMap, KakaoMarker } from './types';
+import type { MapOptions, KakaoMap, KakaoMarker, KakaoCustomOverlay } from './types';
 import type { Place } from '@/features/Sidebar/model/types';
+import { createMapOverlay } from './utils';
+import { MAP_DEFAULTS, SDK_CONFIG } from './constants';
+import { ERROR_MESSAGES } from './messages';
+
+// 유틸리티 함수들
+const createLatLng = (lat: number, lng: number) => {
+  const maps = window.kakao?.maps;
+  if (!maps) throw new Error(ERROR_MESSAGES.sdkNotReady);
+  return new maps.LatLng(lat, lng);
+};
+
+const clearMarkers = (markers: KakaoMarker[]) => {
+  markers.forEach((m) => m.setMap(null));
+  return [];
+};
+
+const clearOverlay = (overlay: KakaoCustomOverlay | null) => {
+  if (overlay) {
+    overlay.setMap(null);
+  }
+  return null;
+};
 
 /**
  * Kakao 지도의 생성/옵션 반영/정리를 담당하는 훅
@@ -12,10 +34,10 @@ import type { Place } from '@/features/Sidebar/model/types';
  */
 export function useKakaoMap(options?: MapOptions) {
   const {
-    center = { lat: 37.5665, lng: 126.978 },
-    level = 5,
-    draggable = true,
-    scrollwheel = true,
+    center = MAP_DEFAULTS.center,
+    level = MAP_DEFAULTS.level,
+    draggable = MAP_DEFAULTS.draggable,
+    scrollwheel = MAP_DEFAULTS.scrollwheel,
   } = options ?? {};
 
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -39,11 +61,11 @@ export function useKakaoMap(options?: MapOptions) {
           if (window.kakao?.maps?.Map) {
             window.clearInterval(timer);
             resolve();
-          } else if (Date.now() - start > 15000) {
+          } else if (Date.now() - start > SDK_CONFIG.timeout) {
             window.clearInterval(timer);
-            reject(new Error('Kakao SDK not ready (15s timeout).'));
+            reject(new Error(ERROR_MESSAGES.sdkTimeout));
           }
-        }, 100);
+        }, SDK_CONFIG.checkInterval);
       });
 
     (async () => {
@@ -56,7 +78,7 @@ export function useKakaoMap(options?: MapOptions) {
 
         createdContainer = containerEl;
 
-        const centerLatLng = new maps.LatLng(center.lat, center.lng);
+        const centerLatLng = createLatLng(center.lat, center.lng);
         const map = new maps.Map(containerEl, { center: centerLatLng, level });
 
         map.setDraggable(draggable);
@@ -64,7 +86,7 @@ export function useKakaoMap(options?: MapOptions) {
 
         mapRef.current = map;
       } catch (e) {
-        console.error('Kakao map init failed. Check JS key / domain / HTTPS / CSP.', e);
+        console.error(ERROR_MESSAGES.mapInitFailed, e);
       }
     })();
 
@@ -81,7 +103,7 @@ export function useKakaoMap(options?: MapOptions) {
     const map = mapRef.current;
     if (!maps || !map) return;
 
-    const centerLatLng = new maps.LatLng(center.lat, center.lng);
+    const centerLatLng = createLatLng(center.lat, center.lng);
     map.setCenter(centerLatLng);
     map.setLevel(level);
     map.setDraggable(draggable);
@@ -96,26 +118,41 @@ export function useKakaoMap(options?: MapOptions) {
  */
 export function useKakaoMarkers(places: Place[], mapRef: React.MutableRefObject<KakaoMap | null>) {
   const markersRef = useRef<KakaoMarker[]>([]);
+  const overlayRef = useRef<KakaoCustomOverlay | null>(null);
 
   useEffect(() => {
     const maps = window.kakao?.maps;
     const map = mapRef.current;
     if (!maps || !map) return;
 
-    // 기존 마커 제거
-    markersRef.current.forEach((m) => m.setMap(null));
-    markersRef.current = [];
+    // 기존 마커와 오버레이 제거
+    markersRef.current = clearMarkers(markersRef.current);
+    overlayRef.current = clearOverlay(overlayRef.current);
 
     const validPlaces = (places ?? []).filter(
       (p) => Number.isFinite(p.latitude) && Number.isFinite(p.longitude),
     );
     if (validPlaces.length === 0) return;
 
-    // 새로운 마커 생성
-    const newMarkers = validPlaces.map((p) => {
-      const position = new maps.LatLng(p.latitude, p.longitude);
+    // 새로운 마커 생성 및 클릭 이벤트 추가
+    const newMarkers = validPlaces.map((place) => {
+      const position = createLatLng(place.latitude, place.longitude);
       const marker = new maps.Marker({ position });
       marker.setMap(map);
+
+      // 마커 클릭 이벤트 추가
+      maps.event.addListener(marker, 'click', () => {
+        // 기존 오버레이 제거
+        overlayRef.current = clearOverlay(overlayRef.current);
+
+        // 새 오버레이 생성
+        const overlay = createMapOverlay(map, place, position, () => {
+          overlayRef.current = clearOverlay(overlayRef.current);
+        });
+
+        overlayRef.current = overlay;
+      });
+
       return marker;
     });
 
@@ -124,13 +161,13 @@ export function useKakaoMarkers(places: Place[], mapRef: React.MutableRefObject<
     // 첫 장소 기준으로 지도 중심 이동 (선택)
     const first = validPlaces[0];
     if (first) {
-      const center = new maps.LatLng(first.latitude, first.longitude);
+      const center = createLatLng(first.latitude, first.longitude);
       map.setCenter(center);
     }
 
     return () => {
-      markersRef.current.forEach((m) => m.setMap(null));
-      markersRef.current = [];
+      markersRef.current = clearMarkers(markersRef.current);
+      overlayRef.current = clearOverlay(overlayRef.current);
     };
   }, [places, mapRef]);
 }
