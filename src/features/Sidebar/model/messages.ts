@@ -10,6 +10,11 @@ export const SIDEBAR_TITLES = {
   FOOTER_TITLE: '🎬 오징어 게임 촬영지 탐방',
 };
 
+export const SIDEBAR_STATUS_TEXT = {
+  LOADING: '로딩 중...',
+  ERROR: '오류가 발생했습니다.',
+} as const;
+
 export const SIDEBAR_SEARCH_TEXT = {
   PLACEHOLDER: '촬영지 검색... (예: 오징어게임, 대한봉진학교)',
   TIP: '💡 팁: "오징어게임"으로 검색하면 모든 촬영지가 표시됩니다',

@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { HomePage } from '@/pages/HomePage';
 import { ContentDetailPage } from '@/pages/ContentDetailPage';
 import ContentPlaceMapPage from '@/pages/ContentPlaceMapPage';
@@ -19,6 +19,10 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.MAP,
+        element: <Navigate to="/map/1" replace />,
+      },
+      {
+        path: ROUTES.MAP_WITH_CONTENT,
         element: <ContentPlaceMapPage />,
       },
     ],

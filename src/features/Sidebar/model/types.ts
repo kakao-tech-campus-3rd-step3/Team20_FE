@@ -1,21 +1,33 @@
 export type PlaceCardProps = {
-  thumbnailUrl?: string;
+  locationImage?: string;
   name?: string;
   address?: string;
-  tags?: string[];
-  rating?: number;
+  description?: string;
+  latitude?: number;
+  longitude?: number;
+  relatedContents?: Array<{
+    contentId: number;
+    title: string;
+    category: 'DRAMA' | 'MOVIE' | 'POP';
+  }>;
   onClick?: () => void;
   className?: string;
   badgeNumber?: number;
 };
 
 export type Place = {
-  id: string;
+  locationId: number;
   name: string;
   address: string;
-  tags: string[];
-  rating: number;
-  thumbnailUrl?: string;
+  description: string;
+  locationImage: string;
+  latitude: number;
+  longitude: number;
+  relatedContents: Array<{
+    contentId: number;
+    title: string;
+    category: 'DRAMA' | 'MOVIE' | 'POP';
+  }>;
 };
 
 export type PlaceListProps = {
@@ -25,10 +37,11 @@ export type PlaceListProps = {
 
 export type SidebarProps = {
   className?: string;
+  contentId?: string;
 };
 
 export type SidebarSearchProps = {
   className?: string;
 };
 
-export type ThumbnailProps = Pick<PlaceCardProps, 'thumbnailUrl' | 'name' | 'badgeNumber'>;
+export type ThumbnailProps = Pick<PlaceCardProps, 'locationImage' | 'name' | 'badgeNumber'>;
