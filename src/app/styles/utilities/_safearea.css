@@ -1,0 +1,104 @@
+/**
+ * TailwindCSS v4 Safe Area 유틸리티
+ *
+ * 모바일 디바이스의 노치, 홈 인디케이터 등을 고려한
+ * safe area 관련 유틸리티를 제공합니다.
+ */
+
+/* Safe Area 패딩 */
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@utility pl-safe {
+  padding-left: env(safe-area-inset-left);
+}
+
+@utility pr-safe {
+  padding-right: env(safe-area-inset-right);
+}
+
+@utility px-safe {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+@utility py-safe {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@utility p-safe {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Safe Area 마진 */
+@utility mt-safe {
+  margin-top: env(safe-area-inset-top);
+}
+
+@utility mb-safe {
+  margin-bottom: env(safe-area-inset-bottom);
+}
+
+@utility ml-safe {
+  margin-left: env(safe-area-inset-left);
+}
+
+@utility mr-safe {
+  margin-right: env(safe-area-inset-right);
+}
+
+@utility mx-safe {
+  margin-left: env(safe-area-inset-left);
+  margin-right: env(safe-area-inset-right);
+}
+
+@utility my-safe {
+  margin-top: env(safe-area-inset-top);
+  margin-bottom: env(safe-area-inset-bottom);
+}
+
+@utility m-safe {
+  margin-top: env(safe-area-inset-top);
+  margin-bottom: env(safe-area-inset-bottom);
+  margin-left: env(safe-area-inset-left);
+  margin-right: env(safe-area-inset-right);
+}
+
+/* Safe Area 높이 */
+@utility h-screen-safe {
+  height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+
+@utility min-h-screen-safe {
+  min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+
+@utility max-h-screen-safe {
+  max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+
+/* Safe Area 위치 */
+@utility top-safe {
+  top: env(safe-area-inset-top);
+}
+
+@utility bottom-safe {
+  bottom: env(safe-area-inset-bottom);
+}
+
+@utility left-safe {
+  left: env(safe-area-inset-left);
+}
+
+@utility right-safe {
+  right: env(safe-area-inset-right);
+}

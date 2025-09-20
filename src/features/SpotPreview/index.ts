@@ -1,1 +1,1 @@
-export * from './ui/SpotPreview';
+export * from './ui/SpotPreview/SpotPreview';

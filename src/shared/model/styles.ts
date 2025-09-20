@@ -23,12 +23,12 @@ export const iconSizeByControl = {
   lg: '1.25rem',
 } as const;
 
-/* 유형별 스타일 클래스 */
+/* 유형별 스타일 클래스 - 브랜드 색상 시스템 적용 */
 export const variantClass = {
-  soft: 'bg-white text-gray-700 hover:text-purple-600 hover:bg-purple-50',
+  soft: 'bg-background text-foreground hover:text-primary hover:bg-secondary/20 border border-border',
   gradient:
-    'text-white bg-gradient-to-br from-purple-600 to-pink-600 shadow-lg hover:shadow-xl border border-transparent',
+    'text-primary-foreground bg-gradient-to-br from-primary to-accent shadow-brand-md hover:shadow-brand-lg border border-transparent',
   outline:
-    'bg-transparent text-gray-700 border border-gray-300 hover:bg-gray-50 hover:text-gray-900',
-  ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 hover:text-gray-900',
+    'bg-transparent text-foreground border border-border hover:bg-secondary/20 hover:text-primary hover:border-primary/50',
+  ghost: 'bg-transparent text-foreground hover:bg-secondary/20 hover:text-primary',
 } as const;
