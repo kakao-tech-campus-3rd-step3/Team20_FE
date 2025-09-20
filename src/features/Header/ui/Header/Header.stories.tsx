@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { MemoryRouter } from 'react-router-dom';
 import { Header } from './Header';
 
 const meta = {
@@ -17,27 +16,25 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <MemoryRouter>
-        <div className="h-screen overflow-y-auto bg-gray-50">
-          <Story />
-          <div className="p-8 pb-24">
-            <h2 className="text-2xl font-bold mb-4">페이지 콘텐츠</h2>
-            <p className="text-gray-600">
-              헤더의 반응형/스티키 동작을 확인하기 위한 샘플 콘텐츠입니다.
-            </p>
-            <div className="mt-8 space-y-4">
-              {Array.from({ length: 15 }, (_, i) => (
-                <div key={i} className="p-4 bg-white rounded-lg shadow-sm">
-                  <h3 className="font-semibold">섹션 {i + 1}</h3>
-                  <p className="text-gray-600">
-                    이 섹션은 헤더의 sticky 동작을 테스트하기 위한 콘텐츠입니다.
-                  </p>
-                </div>
-              ))}
-            </div>
+      <div className="h-screen overflow-y-auto bg-gray-50">
+        <Story />
+        <div className="p-8 pb-24">
+          <h2 className="text-2xl font-bold mb-4">페이지 콘텐츠</h2>
+          <p className="text-gray-600">
+            헤더의 반응형/스티키 동작을 확인하기 위한 샘플 콘텐츠입니다.
+          </p>
+          <div className="mt-8 space-y-4">
+            {Array.from({ length: 15 }, (_, i) => (
+              <div key={i} className="p-4 bg-white rounded-lg shadow-sm">
+                <h3 className="font-semibold">섹션 {i + 1}</h3>
+                <p className="text-gray-600">
+                  이 섹션은 헤더의 sticky 동작을 테스트하기 위한 콘텐츠입니다.
+                </p>
+              </div>
+            ))}
           </div>
         </div>
-      </MemoryRouter>
+      </div>
     ),
   ],
 } satisfies Meta<typeof Header>;
