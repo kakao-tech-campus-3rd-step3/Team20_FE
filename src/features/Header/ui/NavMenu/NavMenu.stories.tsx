@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { MemoryRouter } from 'react-router-dom';
 import { NavMenu } from './NavMenu';
 
 const meta = {
@@ -15,13 +14,6 @@ const meta = {
       options: ['home', 'map', 'content'],
     },
   },
-  decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <Story />
-      </MemoryRouter>
-    ),
-  ],
 } satisfies Meta<typeof NavMenu>;
 
 export default meta;

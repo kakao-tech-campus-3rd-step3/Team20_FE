@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { MemoryRouter } from 'react-router-dom';
 import { FooterContentCategories } from './FooterContentCategories';
 
 const meta = {
@@ -9,13 +8,6 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <Story />
-      </MemoryRouter>
-    ),
-  ],
 } satisfies Meta<typeof FooterContentCategories>;
 
 export default meta;
