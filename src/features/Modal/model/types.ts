@@ -1,3 +1,4 @@
+import type { CategoryContent } from '@/entities/content/model/types';
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -9,13 +10,6 @@ export interface ContentCardGridProps {
   contents: CategoryContent[];
   isLoading?: boolean;
 }
-export type CategoryContent = {
-  contentId: number;
-  category: 'DRAMA' | 'MOVIE' | 'POP';
-  title: string;
-  posterImageUrl: string;
-  releaseDate: string;
-};
 
 export interface ContentCardProps {
   content: CategoryContent;

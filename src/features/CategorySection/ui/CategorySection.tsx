@@ -20,7 +20,7 @@ export function CategorySection() {
     if (href.includes('k-drama')) return 'drama';
     if (href.includes('k-movie')) return 'movie';
     if (href.includes('k-pop')) return 'pop';
-    return 'movie';
+    return 'null';
   };
 
   return (

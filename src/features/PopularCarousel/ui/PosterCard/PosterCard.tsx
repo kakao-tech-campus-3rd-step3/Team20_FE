@@ -1,4 +1,4 @@
-import type { PopularContent } from '../../model/types';
+import type { PopularContent } from '@/entities/content/model/types';
 import { Link } from 'react-router-dom';
 
 export function PosterCard({ contentId, title, posterImageUrl, rank }: PopularContent) {
