@@ -1,6 +1,6 @@
 export const ROUTES = {
   HOME: '/',
-  CONTENT_DETAIL: '/content',
+  CONTENT_DETAIL: '/content/:id',
   MAP: '/map',
 } as const;
 
