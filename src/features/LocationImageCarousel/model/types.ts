@@ -53,3 +53,7 @@ export interface LocationImageThumbnailsProps extends Pick<BaseNavigationProps, 
 export interface UseLocationImageCarouselProps {
   locations: LocationDetail[];
 }
+
+export interface LocationImageCarouselProps {
+  contentId: string;
+}

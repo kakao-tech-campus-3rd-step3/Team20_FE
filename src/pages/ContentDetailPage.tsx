@@ -4,7 +4,7 @@ import { LocationImageCarousel } from '@/features/LocationImageCarousel';
 
 export function ContentDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const contentId = id ? parseInt(id, 10) : 0;
+  const contentId = id ? id : '';
 
   return (
     <div>

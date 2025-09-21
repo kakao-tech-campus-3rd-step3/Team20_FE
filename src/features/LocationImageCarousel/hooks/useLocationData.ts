@@ -1,8 +1,8 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { getLocationDetail } from '@/entities/location/api/locationApi';
-import { useContentDetail } from '@/entities/location/api/queryfn';
-export function useLocationData(contentId: number) {
+import { useContentDetail } from '@/entities/content/api/queryfn';
+export function useLocationData(contentId: string) {
   const { data: contentDetail } = useContentDetail(contentId);
   // locations 배열에서 locationId들 추출
   const locationIds = useMemo(() => {

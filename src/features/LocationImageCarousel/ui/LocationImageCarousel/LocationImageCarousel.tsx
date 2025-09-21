@@ -4,10 +4,7 @@ import { LocationImageHeader } from '../LocationImageHeader/LocationImageHeader'
 import { LocationImageGallery } from '../LocationImageGallery/LocationImageGallery';
 import { LocationImageThumbnails } from '../LocationImageThumbnails/LocationImageThumbnails';
 import { LocationImageActionButton } from '../LocationImageActionButton/LocationImageActionButton';
-
-interface LocationImageCarouselProps {
-  contentId: number;
-}
+import type { LocationImageCarouselProps } from '../../model/types';
 
 export function LocationImageCarousel({ contentId }: LocationImageCarouselProps) {
   const { locations } = useLocationData(contentId);
