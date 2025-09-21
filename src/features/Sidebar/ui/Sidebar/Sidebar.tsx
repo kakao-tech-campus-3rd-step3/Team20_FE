@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { PlaceList } from '../PlaceList/PlaceList';
 import { SidebarSearch } from '../SidebarSearch/SidebarSearch';
-import type { SidebarProps } from '../../model/types';
+import { SidebarEmptyState } from '../SidebarEmptyState/SidebarEmptyState';
+import { SidebarSearchResults } from '../SidebarSearchResults/SidebarSearchResults';
+import { SidebarLoadingState } from '../SidebarLoadingState/SidebarLoadingState';
+import { SidebarErrorState } from '../SidebarErrorState/SidebarErrorState';
+import type { SidebarProps, Place } from '../../model/types';
 import {
   SIDEBAR_TITLES,
-  SIDEBAR_STATUS_TEXT,
   formatFoundCount,
   formatLocations,
   formatAvgRating,
@@ -12,10 +16,26 @@ import {
 import { DEFAULT_AVG_RATING, DEFAULT_DURATION_RANGE } from '../../model/constants';
 import { useSidebarData } from '../../model/hooks';
 
-export function Sidebar({ className, contentId }: SidebarProps) {
+export function Sidebar({ className, contentId, onSearchPlacesChange }: SidebarProps) {
   const { contentDetail, places, isLoading, error } = useSidebarData(contentId);
+  const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const isEmpty = !contentId;
+
+  // 검색 중이면 검색 결과를, 아니면 기존 places를 사용
+  const displayPlaces = isSearching ? searchPlaces : places;
+
+  const handleSearchPlacesChange = (places: Place[]) => {
+    setSearchPlaces(places);
+    onSearchPlacesChange?.(places);
+  };
+
+  const handleSearchStateChange = (searching: boolean, query: string) => {
+    setIsSearching(searching);
+    setSearchQuery(query);
+  };
 
   return (
     <aside
@@ -33,50 +53,25 @@ export function Sidebar({ className, contentId }: SidebarProps) {
                 : SIDEBAR_TITLES.HEADER_TITLE}
           </h2>
           <p className="text-body-small text-(--color-gray-100)">
-            {isEmpty ? '촬영지를 검색해보세요' : formatFoundCount(places.length)}
+            {isEmpty ? '촬영지를 검색해보세요' : formatFoundCount(displayPlaces.length)}
           </p>
         </div>
 
-        <SidebarSearch />
+        <SidebarSearch
+          onPlacesChange={handleSearchPlacesChange}
+          onSearchStateChange={handleSearchStateChange}
+        />
         <div className="flex-1 overflow-y-auto">
-          {isEmpty ? (
-            <div className="p-(--spacing-6) text-center">
-              <div className="mb-(--spacing-4)">
-                <div className="w-16 h-16 mx-auto mb-(--spacing-3) bg-(--color-background-secondary) rounded-full flex items-center justify-center">
-                  <span className="text-2xl">🎬</span>
-                </div>
-                <h3 className="text-heading-6 text-(--color-text-primary) mb-(--spacing-2)">
-                  촬영지를 검색해보세요
-                </h3>
-                <p className="text-body text-(--color-text-secondary) mb-(--spacing-4)">
-                  드라마, 영화, 예능 프로그램의 촬영지를 검색하고 지도에서 확인해보세요.
-                </p>
-                <div className="space-y-2 text-left">
-                  <div className="flex items-center gap-2 text-caption text-(--color-text-tertiary)">
-                    <span className="w-2 h-2 bg-(--color-brand-primary) rounded-full"></span>
-                    <span>드라마명으로 검색 (예: 오징어게임)</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-caption text-(--color-text-tertiary)">
-                    <span className="w-2 h-2 bg-(--color-brand-primary) rounded-full"></span>
-                    <span>장소명으로 검색 (예: 더현대)</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-caption text-(--color-text-tertiary)">
-                    <span className="w-2 h-2 bg-(--color-brand-primary) rounded-full"></span>
-                    <span>지역명으로 검색 (예: 강남구)</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {isSearching ? (
+            <SidebarSearchResults searchQuery={searchQuery} places={displayPlaces} />
+          ) : isEmpty ? (
+            <SidebarEmptyState />
           ) : isLoading ? (
-            <div className="p-4 text-center text-(--color-text-secondary)">
-              {SIDEBAR_STATUS_TEXT.LOADING}
-            </div>
+            <SidebarLoadingState />
           ) : error ? (
-            <div className="p-4 text-center text-(--color-text-error)">
-              {SIDEBAR_STATUS_TEXT.ERROR}
-            </div>
+            <SidebarErrorState />
           ) : (
-            <PlaceList places={places} />
+            <PlaceList places={displayPlaces} />
           )}
         </div>
 
@@ -91,7 +86,7 @@ export function Sidebar({ className, contentId }: SidebarProps) {
             </p>
             {!isEmpty && (
               <div className="flex items-center justify-center gap-(--spacing-4) text-caption text-(--color-text-tertiary)">
-                <span>{formatLocations(places.length)}</span>
+                <span>{formatLocations(displayPlaces.length)}</span>
                 <span>{formatAvgRating(DEFAULT_AVG_RATING)}</span>
                 <span>{formatDuration(DEFAULT_DURATION_RANGE)}</span>
               </div>
