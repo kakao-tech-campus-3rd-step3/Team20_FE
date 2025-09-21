@@ -1,4 +1,6 @@
-export type ContentCategory = 'DRAMA' | 'MOVIE' | 'POP';
+import type { LocationDetail } from '@/entities/location/model/types';
+
+export type Place = LocationDetail;
 
 export type PlaceCardProps = {
   locationImage?: string;
@@ -7,38 +9,23 @@ export type PlaceCardProps = {
   description?: string;
   latitude?: number;
   longitude?: number;
-  relatedContents?: RelatedContent[];
+  relatedContents?: LocationDetail['relatedContents'];
   onClick?: () => void;
   className?: string;
   badgeNumber?: number;
 };
 
-export type Place = {
-  locationId: number;
-  name: string;
-  address: string;
-  description: string;
-  locationImage: string;
-  latitude: number;
-  longitude: number;
-  relatedContents: RelatedContent[];
-};
-
-export type RelatedContent = {
-  contentId: number;
-  title: string;
-  category: ContentCategory;
-};
-
 export type PlaceListProps = {
   places?: Place[];
   className?: string;
+  onPlaceClick?: (place: Place) => void;
 };
 
 export type SidebarProps = {
   className?: string;
   contentId?: string;
   onSearchPlacesChange?: (places: Place[]) => void;
+  onPlaceClick?: (place: Place) => void;
 };
 
 export type SidebarSearchProps = {
@@ -97,4 +84,5 @@ export type WindowWithKakao = {
 export type SidebarSearchResultsProps = {
   searchQuery: string;
   places: Place[];
+  onPlaceClick?: (place: Place) => void;
 };

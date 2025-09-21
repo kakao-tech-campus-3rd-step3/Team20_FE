@@ -2,7 +2,11 @@ import { PlaceList } from '../PlaceList/PlaceList';
 import type { SidebarSearchResultsProps } from '../../model/types';
 import { SIDEBAR_SEARCH_RESULTS } from '../../model/messages';
 
-export function SidebarSearchResults({ searchQuery, places }: SidebarSearchResultsProps) {
+export function SidebarSearchResults({
+  searchQuery,
+  places,
+  onPlaceClick,
+}: SidebarSearchResultsProps) {
   if (places.length === 0) {
     return (
       <div className="p-(--spacing-4)">
@@ -32,7 +36,7 @@ export function SidebarSearchResults({ searchQuery, places }: SidebarSearchResul
           {SIDEBAR_SEARCH_RESULTS.RESULTS_COUNT}
         </p>
       </div>
-      <PlaceList places={places} />
+      <PlaceList places={places} onPlaceClick={onPlaceClick} />
     </div>
   );
 }

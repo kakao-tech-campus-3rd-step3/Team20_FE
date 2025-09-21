@@ -1,7 +1,25 @@
 import type { Place } from '@/features/Sidebar/model/types';
-import type { KakaoMap, KakaoCustomOverlay, LatLng } from './types';
+import type { KakaoMap, KakaoCustomOverlay, LatLng, KakaoMarker } from './types';
 import { OVERLAY_DEFAULTS, OVERLAY_STYLES } from './constants';
 import { OVERLAY_MESSAGES, ERROR_MESSAGES } from './messages';
+
+export const createLatLng = (lat: number, lng: number) => {
+  const maps = window.kakao?.maps;
+  if (!maps) throw new Error(ERROR_MESSAGES.sdkNotReady);
+  return new maps.LatLng(lat, lng);
+};
+
+export const clearMarkers = (markers: KakaoMarker[]) => {
+  markers.forEach((m) => m.setMap(null));
+  return [];
+};
+
+export const clearOverlay = (overlay: KakaoCustomOverlay | null) => {
+  if (overlay) {
+    overlay.setMap(null);
+  }
+  return null;
+};
 
 /**
  * 오버레이 HTML을 직접 생성하는 함수

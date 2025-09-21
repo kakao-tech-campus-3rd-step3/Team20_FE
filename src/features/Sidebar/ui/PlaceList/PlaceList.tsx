@@ -1,7 +1,7 @@
 import { PlaceCard } from '../PlaceCard/PlaceCard';
 import type { PlaceListProps } from '../../model/types';
 
-export function PlaceList({ places = [], className }: PlaceListProps) {
+export function PlaceList({ places = [], className, onPlaceClick }: PlaceListProps) {
   return (
     <div className={['divide-y divide-(--color-border-primary)', className ?? ''].join(' ')}>
       {places.map((place, index) => (
@@ -15,6 +15,7 @@ export function PlaceList({ places = [], className }: PlaceListProps) {
           longitude={place.longitude}
           relatedContents={place.relatedContents}
           badgeNumber={index + 1}
+          onClick={() => onPlaceClick?.(place)}
         />
       ))}
     </div>

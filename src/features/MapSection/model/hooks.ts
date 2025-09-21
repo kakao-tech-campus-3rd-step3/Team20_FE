@@ -1,28 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import type { MapOptions, KakaoMap, KakaoMarker, KakaoCustomOverlay } from './types';
 import type { Place } from '@/features/Sidebar/model/types';
-import { createMapOverlay } from './utils';
+import { createMapOverlay, createLatLng, clearMarkers, clearOverlay } from './utils';
 import { MAP_DEFAULTS, SDK_CONFIG } from './constants';
 import { ERROR_MESSAGES } from './messages';
-
-// 유틸리티 함수들
-const createLatLng = (lat: number, lng: number) => {
-  const maps = window.kakao?.maps;
-  if (!maps) throw new Error(ERROR_MESSAGES.sdkNotReady);
-  return new maps.LatLng(lat, lng);
-};
-
-const clearMarkers = (markers: KakaoMarker[]) => {
-  markers.forEach((m) => m.setMap(null));
-  return [];
-};
-
-const clearOverlay = (overlay: KakaoCustomOverlay | null) => {
-  if (overlay) {
-    overlay.setMap(null);
-  }
-  return null;
-};
 
 /**
  * Kakao 지도의 생성/옵션 반영/정리를 담당하는 훅
@@ -170,4 +151,40 @@ export function useKakaoMarkers(places: Place[], mapRef: React.MutableRefObject<
       overlayRef.current = clearOverlay(overlayRef.current);
     };
   }, [places, mapRef]);
+}
+
+/**
+ * PlaceCard 클릭 시 지도 초점 이동 및 overlay 표시를 담당하는 훅
+ */
+export function usePlaceClick(mapRef: React.MutableRefObject<KakaoMap | null>) {
+  const overlayRef = useRef<KakaoCustomOverlay | null>(null);
+
+  const handlePlaceClick = useCallback(
+    (place: Place) => {
+      const maps = window.kakao?.maps;
+      const map = mapRef.current;
+      if (!maps || !map) return;
+
+      const position = new maps.LatLng(place.latitude, place.longitude);
+      map.setCenter(position);
+      map.setLevel(3);
+
+      if (overlayRef.current) {
+        overlayRef.current.setMap(null);
+        overlayRef.current = null;
+      }
+
+      const overlay = createMapOverlay(map, place, position, () => {
+        if (overlayRef.current) {
+          overlayRef.current.setMap(null);
+          overlayRef.current = null;
+        }
+      });
+
+      overlayRef.current = overlay;
+    },
+    [mapRef],
+  );
+
+  return { handlePlaceClick };
 }

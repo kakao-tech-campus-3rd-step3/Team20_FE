@@ -16,15 +16,18 @@ import {
 import { DEFAULT_AVG_RATING, DEFAULT_DURATION_RANGE } from '../../model/constants';
 import { useSidebarData } from '../../model/hooks';
 
-export function Sidebar({ className, contentId, onSearchPlacesChange }: SidebarProps) {
+export function Sidebar({
+  className,
+  contentId,
+  onSearchPlacesChange,
+  onPlaceClick,
+}: SidebarProps) {
   const { contentDetail, places, isLoading, error } = useSidebarData(contentId);
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const isEmpty = !contentId;
-
-  // 검색 중이면 검색 결과를, 아니면 기존 places를 사용
   const displayPlaces = isSearching ? searchPlaces : places;
 
   const handleSearchPlacesChange = (places: Place[]) => {
@@ -63,7 +66,11 @@ export function Sidebar({ className, contentId, onSearchPlacesChange }: SidebarP
         />
         <div className="flex-1 overflow-y-auto">
           {isSearching ? (
-            <SidebarSearchResults searchQuery={searchQuery} places={displayPlaces} />
+            <SidebarSearchResults
+              searchQuery={searchQuery}
+              places={displayPlaces}
+              onPlaceClick={onPlaceClick}
+            />
           ) : isEmpty ? (
             <SidebarEmptyState />
           ) : isLoading ? (
@@ -71,7 +78,7 @@ export function Sidebar({ className, contentId, onSearchPlacesChange }: SidebarP
           ) : error ? (
             <SidebarErrorState />
           ) : (
-            <PlaceList places={displayPlaces} />
+            <PlaceList places={displayPlaces} onPlaceClick={onPlaceClick} />
           )}
         </div>
 

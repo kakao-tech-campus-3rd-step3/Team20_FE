@@ -71,10 +71,7 @@ const isKakaoMapsLoaded = (): boolean => {
 
 export function useKakaoPlaceSearch(options: UseKakaoPlaceSearchOptions = {}) {
   const { debounceMs = 300, enabled = true, onPlacesChange } = options;
-  const [query, setQuery] = useState('');
-  const [searchResult, setSearchResult] = useState<Place[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const placesServiceRef = useRef<unknown>(null);
 
@@ -100,19 +97,21 @@ export function useKakaoPlaceSearch(options: UseKakaoPlaceSearchOptions = {}) {
     };
   }, []);
 
+  const clearResults = useCallback(() => {
+    onPlacesChange?.([]);
+  }, [onPlacesChange]);
+
   const searchPlaces = useCallback(
     (searchQuery: string) => {
       if (!searchQuery.trim()) {
-        setSearchResult([]);
-        onPlacesChange?.([]);
+        clearResults();
         return;
       }
 
       setIsLoading(true);
 
       if (!placesServiceRef.current || !isKakaoMapsLoaded()) {
-        setSearchResult([]);
-        onPlacesChange?.([]);
+        clearResults();
         setIsLoading(false);
         return;
       }
@@ -134,18 +133,13 @@ export function useKakaoPlaceSearch(options: UseKakaoPlaceSearchOptions = {}) {
           const places: Place[] = data.map((place, index) =>
             convertKakaoPlaceToPlace(place, index),
           );
-          setSearchResult(places);
           onPlacesChange?.(places);
-        } else if (status === kakaoStatus?.ZERO_RESULT) {
-          setSearchResult([]);
-          onPlacesChange?.([]);
         } else {
-          setSearchResult([]);
-          onPlacesChange?.([]);
+          clearResults();
         }
       });
     },
-    [convertKakaoPlaceToPlace, onPlacesChange],
+    [convertKakaoPlaceToPlace, clearResults, onPlacesChange],
   );
 
   const handleSearch = useCallback(
@@ -155,31 +149,22 @@ export function useKakaoPlaceSearch(options: UseKakaoPlaceSearchOptions = {}) {
       }
 
       debounceTimeoutRef.current = setTimeout(() => {
-        setQuery(searchQuery);
         searchPlaces(searchQuery);
       }, debounceMs);
     },
     [searchPlaces, debounceMs],
   );
 
-  const handlePlaceSelect = useCallback((place: Place) => {
-    setSelectedPlace(place);
-  }, []);
-
   const clearSearch = useCallback(() => {
-    setQuery('');
-    setSearchResult([]);
-    setSelectedPlace(null);
-    onPlacesChange?.([]);
-  }, [onPlacesChange]);
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+    clearResults();
+  }, [clearResults]);
 
   return {
-    query,
-    searchResult,
-    selectedPlace,
     isLoading,
     handleSearch,
-    handlePlaceSelect,
     clearSearch,
   };
 }
