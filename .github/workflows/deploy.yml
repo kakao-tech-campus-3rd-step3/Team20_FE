@@ -56,6 +56,7 @@ jobs:
       AWS_ROLE_ARN: ${{ github.ref_name == 'main' && secrets.PROD_AWS_ROLE_ARN || secrets.DEV_AWS_ROLE_ARN }}
       ENVIRONMENT: ${{ github.ref_name == 'main' && 'production' || 'development' }}
       VITE_API_BASE_URL: ${{ secrets.API_BASE_URL }}
+      VITE_KAKAO_MAP_API_KEY: ${{ secrets.KAKAO_MAP_API_KEY }}
 
     permissions:
       id-token: write
