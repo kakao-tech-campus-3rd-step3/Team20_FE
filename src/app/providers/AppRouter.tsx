@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { HomePage } from '@/pages/HomePage';
 import { ContentDetailPage } from '@/pages/ContentDetailPage';
 import ContentPlaceMapPage from '@/pages/ContentPlaceMapPage';
+import MapPage from '@/pages/MapPage';
 import { ROUTES } from '@/shared/config/routes';
 import { GlobalLayout } from '../layout/GlobalLayout';
 
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.MAP,
+        element: <MapPage />,
+      },
+      {
+        path: ROUTES.MAP_WITH_CONTENT,
         element: <ContentPlaceMapPage />,
       },
     ],
