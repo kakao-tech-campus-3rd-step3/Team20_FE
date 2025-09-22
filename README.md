@@ -7,7 +7,18 @@
 
 ## 🏗️ 아키텍처 & 개발 철학
 
-### 1. 🚀 CI/CD 자동화 파이프라인
+### 1. 🎯 Frontend 아키텍처
+
+![FE Architecture](./public/FE-api.png)
+
+**서버리스 API 기반 Frontend 아키텍처**
+
+- **CloudFront + API Gateway + Lambda** 완전 서버리스 구조
+- **S3 정적 호스팅**으로 Frontend 배포
+- **Backend 통합 전 독립적인 서버리스 API** 운영 중
+- **CDN 배포를 통한 글로벌 API 서비스** 제공으로 빠른 응답 속도 보장
+
+### 2. 🚀 CI/CD 자동화 파이프라인
 
 ![CI/CD Architecture](./public/1-CI-CD.png)
 
@@ -18,7 +29,7 @@
   - **Gemini AI 자동 코드 리뷰** 시스템 도입
   - 테스트 자동 실행으로 배포 전 품질 보장
 
-### 2. 📐 Feature-Sliced Design (FSD) 아키텍처
+### 3. 📐 Feature-Sliced Design (FSD) 아키텍처
 
 ![FSD Architecture](./public/2-FSD.png)
 
@@ -39,13 +50,22 @@ shared/  → 공통 유틸리티 및 UI 컴포넌트
 - ✅ **단방향 의존성**: 상위 → 하위 레이어만 참조 가능
 - ⚠️ `widgets` 레이어 의도적 제외 (의견 충돌 방지, 추후 마이그레이션 고려)
 
-### 3. 🎨 Tailwind CSS v4 - CSS-First 철학
+### 4. 🎨 Tailwind CSS v4 - CSS-First 철학
 
 ![Tailwind CSS](https://img.shields.io/badge/tailwind_css-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
 - **CSS-First 접근법**으로 고성능 빌드 최적화
 - 런타임 성능을 고려한 **커스텀 테마 시스템** 구축
 - Design Token 기반 일관된 디자인 시스템
+
+**서비스 테마 시스템 구축**
+
+![Service Theme](./public/3-ServiceTheme.png)
+
+- **통합 테마 시스템** 정의 및 적용
+- 기존 컴포넌트들에 **일관된 디자인 토큰** 적용
+- 브랜드 아이덴티티를 반영한 **컬러 팔레트** 및 **타이포그래피** 체계화
+- **다크모드 대응** 준비 완료
 
 **테마 토큰 구조**
 
@@ -64,13 +84,21 @@ src/
         └── _safearea.css       → 모바일 세이프 에어리어
 ```
 
-### 4. 📖 Storybook 기반 컴포넌트 문서화
+### 5. 📖 Storybook 기반 컴포넌트 문서화
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/storybook/storybook-original.svg" width="24" height="24" alt="Storybook">
 
 - **Presentational 컴포넌트 100% 스토리 작성** 원칙
 - 격리된 환경에서의 UI 테스트 및 문서화
 - 디자이너-개발자 간 효율적인 협업 도구
+
+**Storybook UI 테스팅 환경 구축**
+
+![Storybook Testing](./public/4-storybook.png)
+
+- **LocationImageCarousel** 등 주요 컴포넌트 스토리 작성 완료
+- **컴포넌트 문서화** 자동화로 개발팀 협업 효율성 향상
+- **반응형 디자인** 검증을 위한 뷰포트 테스트 추가
 
 **공통 UI 컴포넌트 구조**
 
@@ -106,22 +134,12 @@ src/shared/ui/
 
 ## 🚀 최근 구현 사항 (이번 주)
 
-### 🎨 서비스 테마 시스템 구축
+### 🔗 API 통합 및 데이터 레이어 구축
 
-![Service Theme](./public/3-ServiceTheme.png)
-
-- **통합 테마 시스템** 정의 및 적용
-- 기존 컴포넌트들에 **일관된 디자인 토큰** 적용
-- 브랜드 아이덴티티를 반영한 **컬러 팔레트** 및 **타이포그래피** 체계화
-- **다크모드 대응** 준비 완료
-
-### 📚 Storybook UI 테스팅 환경 구축
-
-![Storybook Testing](./public/4-storybook.png)
-
-- **LocationImageCarousel** 등 주요 컴포넌트 스토리 작성 완료
-- **컴포넌트 문서화** 자동화로 개발팀 협업 효율성 향상
-- **반응형 디자인** 검증을 위한 뷰포트 테스트 추가
+- **서버리스 API 연동 완료**: 기존 UI 전용 컴포넌트에 실제 데이터 통신 기능 추가
+- **React Query 기반 상태 관리**: 서버 상태와 캐싱 전략 구현으로 성능 최적화
+- **QueryKey Factory 패턴 도입**: 일관된 쿼리 키 관리로 캐시 무효화 전략 체계화
+- **타입 안전성 강화**: API 응답 타입 정의 및 런타임 검증 추가
 
 ---
 
