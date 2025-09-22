@@ -7,7 +7,7 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
   if (!isOpen) return null;
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[var(--z-modal)] p-4"
+      className="fixed inset-0 bg-white/20 bg-opacity-20 flex items-center justify-center z-[var(--z-modal)] p-4"
       onClick={onClose}
     >
       <div
