@@ -2,9 +2,18 @@ import { messages } from '../../model/messages';
 import { PosterCard } from '../PosterCard/PosterCard';
 import { Link } from 'react-router-dom';
 import { usePopularContents } from '@/entities/content/api/queryfn';
+import type { PopularContent } from '@/entities/content/model/types';
 
 export function PopularCarousel() {
-  const { data = [], isLoading, isError } = usePopularContents();
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = usePopularContents() as {
+    data: PopularContent[];
+    isLoading: boolean;
+    isError: boolean;
+  };
 
   return (
     <section className="py-[var(--spacing-8)]">
