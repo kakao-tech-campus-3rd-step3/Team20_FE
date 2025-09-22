@@ -21,3 +21,8 @@ export interface CategoryModalProps {
   category: string;
   categoryTitle: string;
 }
+
+export interface UseModalScrollLockProps {
+  isOpen: boolean;
+  onClose: () => void;
+}

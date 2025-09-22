@@ -1,10 +1,13 @@
+import { X } from 'lucide-react';
 import type { ModalProps } from '../model/types';
-
+import { IconButton } from '@/shared/ui';
+import { useModalScrollLock } from '../hooks/useModalScrollLock';
 export function Modal({ isOpen, onClose, children, title }: ModalProps) {
+  useModalScrollLock({ isOpen, onClose });
   if (!isOpen) return null;
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[var(--z-modal)] p-4"
       onClick={onClose}
     >
       <div
@@ -14,12 +17,14 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
         {title && (
           <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h2 className="text-2xl font-semibold text-gray-900">{title}</h2>
-            <button
+            <IconButton
+              Icon={X}
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              ×
-            </button>
+              variant="ghost"
+              size="md"
+              aria-label="모달 닫기"
+              className="text-gray-400 hover:text-gray-600"
+            />
           </div>
         )}
         <div className="p-6 max-h-[70vh] overflow-y-auto">{children}</div>
