@@ -99,7 +99,7 @@ src/shared/ui/
 
 - `main`: 프로덕션 배포 브랜치
 - `develop`: 개발 통합 브랜치
-- `release` : 안정화 브랜치
+- `release`: 안정화 브랜치
 - `feature/*`: 기능 개발 브랜치
 
 ---

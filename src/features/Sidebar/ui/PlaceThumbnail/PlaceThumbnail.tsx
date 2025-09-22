@@ -1,14 +1,14 @@
 import { Camera } from 'lucide-react';
 import type { ThumbnailProps } from '../../model/types';
 
-export function PlaceThumbnail({ thumbnailUrl, name, badgeNumber }: ThumbnailProps) {
+export function PlaceThumbnail({ locationImage, name, badgeNumber }: ThumbnailProps) {
   return (
     <div className="relative flex-shrink-0">
       <div className="w-16 h-16 rounded-xl overflow-hidden bg-(--color-gray-100) border border-(--color-border-secondary)">
-        {thumbnailUrl ? (
+        {locationImage ? (
           <img
             alt={name}
-            src={thumbnailUrl}
+            src={locationImage}
             className="w-full h-full object-cover"
             loading="lazy"
           />
