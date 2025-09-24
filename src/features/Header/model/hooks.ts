@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import type { NavKey } from './types';
-import { keyToPath } from './constants';
+import { keyToPath, navRouteMap } from './constants';
 
 function toBasePath(p: string) {
   const cut = p.replace(/\/:.*$/, '');
@@ -37,7 +37,9 @@ export function useNavActions(onSelect?: (key: NavKey) => void, onAfterNavigate?
   const navigate = useNavigate();
 
   const onItemClick = (key: NavKey) => {
-    navigate({ to: keyToPath[key] as any });
+    // TanStack Router의 타입 시스템을 활용한 타입 안전한 네비게이션
+    const routeOptions = navRouteMap[key];
+    navigate(routeOptions);
     onSelect?.(key);
     onAfterNavigate?.();
   };

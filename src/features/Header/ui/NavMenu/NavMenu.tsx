@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import { IconButton } from '@/shared/ui';
 import { MENU } from '../../model/utils';
-import { keyToPath } from '../../model/constants';
+import { navRouteMap } from '../../model/constants';
 import type { NavMenuProps, NavKey } from '../../model/types';
 import { useActiveNavKey } from '../../model/hooks';
 
@@ -12,7 +12,9 @@ export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
   const activeKey = controlledActive ?? autoActive;
 
   const handleNavClick = (key: NavKey) => {
-    navigate({ to: keyToPath[key] as any });
+    // TanStack Router의 타입 시스템을 활용한 타입 안전한 네비게이션
+    const routeOptions = navRouteMap[key];
+    navigate(routeOptions);
     onSelect?.(key);
   };
 
