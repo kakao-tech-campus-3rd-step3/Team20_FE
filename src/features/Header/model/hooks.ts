@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import type { NavKey } from './types';
 import { keyToPath } from './constants';
@@ -37,7 +37,7 @@ export function useNavActions(onSelect?: (key: NavKey) => void, onAfterNavigate?
   const navigate = useNavigate();
 
   const onItemClick = (key: NavKey) => {
-    navigate(keyToPath[key]);
+    navigate({ to: keyToPath[key] as any });
     onSelect?.(key);
     onAfterNavigate?.();
   };

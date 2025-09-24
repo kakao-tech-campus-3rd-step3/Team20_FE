@@ -1,6 +1,6 @@
 import { FOOTER_CATEGORIES } from '../../model/constants';
 import { FOOTER_TITLES } from '../../model/messages';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 export function FooterContentCategories() {
   return (

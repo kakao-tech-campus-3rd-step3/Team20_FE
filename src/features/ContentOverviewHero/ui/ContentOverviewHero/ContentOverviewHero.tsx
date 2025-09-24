@@ -4,14 +4,13 @@ import { ContentOverviewInfo } from '../ContentOverviewInfo/ContentOverviewInfo'
 import { ContentOverviewActionButtons } from '../ContentOverviewActionButton/ContentOverviewActionButtons';
 import type { ContentOverviewHeroProps } from '../../model/types';
 import { useContentDetail } from '@/entities/content/api/queryfn';
-import { useParams } from 'react-router-dom';
 
 export function ContentOverviewHero({
+  contentId,
   description = contentHero.description,
   isLiked = false,
 }: ContentOverviewHeroProps) {
-  const { id } = useParams();
-  const { data } = useContentDetail(id ?? '');
+  const { data } = useContentDetail(contentId ?? '');
   return (
     <div className="relative h-screen-safe w-full overflow-hidden">
       {/* 배경 이미지 */}

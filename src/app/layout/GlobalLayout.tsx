@@ -1,14 +1,16 @@
 import { Header } from '@/features/Header';
 import { Footer } from '@/features/Footer';
-import { Outlet } from 'react-router-dom';
+import type { ReactNode } from 'react';
 
-export const GlobalLayout = () => {
+interface GlobalLayoutProps {
+  children: ReactNode;
+}
+
+export const GlobalLayout = ({ children }: GlobalLayoutProps) => {
   return (
     <>
       <Header />
-      <main>
-        <Outlet />
-      </main>
+      <main>{children}</main>
       <Footer />
     </>
   );

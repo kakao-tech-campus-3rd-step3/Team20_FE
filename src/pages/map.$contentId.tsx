@@ -1,12 +1,16 @@
+import { createFileRoute } from '@tanstack/react-router';
 import { Sidebar } from '@/features/Sidebar';
 import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
 import { useKakaoMap, useKakaoMarkers } from '@/features/MapSection/model/hooks';
 import { usePlaceClick } from '@/features/MapSection/model/hooks';
-import { useParams } from 'react-router-dom';
 import { useSidebarData } from '@/features/Sidebar/model/hooks';
 
-export default function ContentPlaceMapPage() {
-  const { contentId } = useParams<{ contentId: string }>();
+export const Route = createFileRoute('/map/$contentId')({
+  component: ContentPlaceMapPage,
+});
+
+function ContentPlaceMapPage() {
+  const { contentId } = Route.useParams();
   const { places } = useSidebarData(contentId);
   const mapHook = useKakaoMap();
   const { handlePlaceClick } = usePlaceClick(mapHook.mapRef);

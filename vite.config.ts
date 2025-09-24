@@ -12,7 +12,15 @@ const dirname =
   typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), tsconfigPaths()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    tsconfigPaths(),
+    TanStackRouterVite({
+      routesDirectory: './src/pages',
+      generatedRouteTree: './src/routeTree.gen.ts',
+    }),
+  ],
   test: {
     projects: [
       {
@@ -20,9 +28,6 @@ export default defineConfig({
         plugins: [
           storybookTest({
             configDir: path.join(dirname, '.storybook'),
-          }),
-          TanStackRouterVite({
-            routesDirectory: './src/pages',
           }),
         ],
         test: {

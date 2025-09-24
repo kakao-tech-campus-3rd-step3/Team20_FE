@@ -1,5 +1,5 @@
 import type { ButtonProps } from '../../model/types';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 export function Button({ href, children, variant = 'primary' }: ButtonProps) {
   const baseStyles =

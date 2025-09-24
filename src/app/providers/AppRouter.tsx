@@ -1,34 +1,17 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { HomePage } from '@/pages/HomePage';
-import { ContentDetailPage } from '@/pages/ContentDetailPage';
-import ContentPlaceMapPage from '@/pages/ContentPlaceMapPage';
-import MapPage from '@/pages/MapPage';
-import { ROUTES } from '@/shared/config/routes';
-import { GlobalLayout } from '../layout/GlobalLayout';
+import { createRouter, RouterProvider } from '@tanstack/react-router';
 
-const router = createBrowserRouter([
-  {
-    element: <GlobalLayout />,
-    children: [
-      {
-        path: ROUTES.HOME,
-        element: <HomePage />,
-      },
-      {
-        path: ROUTES.CONTENT_DETAIL,
-        element: <ContentDetailPage />,
-      },
-      {
-        path: ROUTES.MAP,
-        element: <MapPage />,
-      },
-      {
-        path: ROUTES.MAP_WITH_CONTENT,
-        element: <ContentPlaceMapPage />,
-      },
-    ],
-  },
-]);
+// Import the generated route tree
+import { routeTree } from '../../routeTree.gen';
+
+// Create a new router instance
+const router = createRouter({ routeTree });
+
+// Register the router instance for type safety
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 export function AppRouter() {
   return <RouterProvider router={router} />;
