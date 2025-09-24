@@ -6,9 +6,7 @@ export const Route = createRootRoute({
     <GlobalLayout>
       <Outlet />
       {process.env.NODE_ENV === 'development' && (
-        <div id="router-devtools">
-          {/* TanStack Router DevTools will be loaded here in development */}
-        </div>
+        <div id="router-devtools">{/* 개발환경 : TanStack Router DevTools 전용 디버깅 도구 */}</div>
       )}
     </GlobalLayout>
   ),
