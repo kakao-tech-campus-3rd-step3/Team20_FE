@@ -12,7 +12,6 @@ export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
   const activeKey = controlledActive ?? autoActive;
 
   const handleNavClick = (key: NavKey) => {
-    // TanStack Router의 타입 시스템을 활용한 타입 안전한 네비게이션
     const routeOptions = navRouteMap[key];
     navigate(routeOptions);
     onSelect?.(key);

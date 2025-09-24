@@ -37,7 +37,6 @@ export function useNavActions(onSelect?: (key: NavKey) => void, onAfterNavigate?
   const navigate = useNavigate();
 
   const onItemClick = (key: NavKey) => {
-    // TanStack Router의 타입 시스템을 활용한 타입 안전한 네비게이션
     const routeOptions = navRouteMap[key];
     navigate(routeOptions);
     onSelect?.(key);
