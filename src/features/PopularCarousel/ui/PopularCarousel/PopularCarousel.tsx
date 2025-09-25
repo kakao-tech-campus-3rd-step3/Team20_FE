@@ -51,8 +51,8 @@ export function PopularCarousel() {
 
       {!isLoading && !isError && data.length > 0 && (
         <div className="flex gap-[var(--spacing-4)] overflow-x-auto pb-[var(--spacing-2)] snap-x snap-mandatory">
-          {data.map((content) => (
-            <PosterCard key={content.contentId} {...content} />
+          {data.map((content, index) => (
+            <PosterCard key={content.contentId} {...content} rank={index + 1} />
           ))}
         </div>
       )}

@@ -1,20 +1,26 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
 import { getLocationDetail } from '@/entities/location/api/locationApi';
+import { getContentLocations } from '@/entities/content/api/contentApi';
 import { useContentDetail } from '@/entities/content/api/queryfn';
+
 export function useLocationData(contentId: string) {
   const { data: contentDetail } = useContentDetail(contentId);
-  // locations 배열에서 locationId들 추출
-  const locationIds = useMemo(() => {
-    return contentDetail?.locations?.map((location) => location.locationId) || [];
-  }, [contentDetail?.locations]);
 
-  // 각 locationId로 장소 상세 정보 병렬 조회
+  // 콘텐츠 관련 장소 목록 조회
+  const { data: contentLocations = [] } = useSuspenseQuery({
+    queryKey: ['content-locations', contentId],
+    queryFn: () => getContentLocations(contentId),
+  });
+
+  // 각 location_id로 장소 상세 정보 병렬 조회
   const { data: locations = [] } = useSuspenseQuery({
-    queryKey: ['locations', locationIds],
+    queryKey: ['locations', contentLocations?.map((loc) => loc.location_id) || []],
     queryFn: async () => {
-      const locationPromises = locationIds.map((locationId) =>
-        getLocationDetail(locationId.toString()),
+      if (!contentLocations || contentLocations.length === 0) {
+        return [];
+      }
+      const locationPromises = contentLocations.map((location) =>
+        getLocationDetail(location.location_id.toString()),
       );
       return Promise.all(locationPromises);
     },
