@@ -3,15 +3,15 @@ import type { PlaceCardProps } from '../../model/types';
 import { PLACE_CARD_DEFAULT, PLACE_LABELS } from '../../model/messages';
 import { PlaceThumbnail } from '../PlaceThumbnail/PlaceThumbnail';
 import { PlaceAddress } from '../PlaceAddress/PlaceAddress';
-import { PlaceSimpleInfo } from '../PlaceSimpleInfo/PlaceSimpleInfo';
-import { PlaceTagList } from '../PlaceTagList/PlaceTagList';
 
 export function PlaceCard({
-  thumbnailUrl,
+  locationImage,
   name = PLACE_CARD_DEFAULT.NAME,
   address = PLACE_CARD_DEFAULT.ADDRESS,
-  tags = PLACE_CARD_DEFAULT.TAGS,
-  rating = PLACE_CARD_DEFAULT.RATING,
+  description = '',
+  relatedContents = [],
+  latitude,
+  longitude,
   onClick,
   className,
   badgeNumber,
@@ -28,7 +28,7 @@ export function PlaceCard({
         .join(' ')}
     >
       <div className="flex gap-(--spacing-4)">
-        <PlaceThumbnail thumbnailUrl={thumbnailUrl} name={name} badgeNumber={badgeNumber} />
+        <PlaceThumbnail locationImage={locationImage} name={name} badgeNumber={badgeNumber} />
         <div className="flex-1 min-w-0">
           <h3 className="text-heading-5 text-(--color-text-primary) mb-(--spacing-1) truncate">
             {name}
@@ -42,11 +42,23 @@ export function PlaceCard({
               </span>
             </div>
             <p className="text-caption text-(--color-brand-secondary) line-clamp-2">
-              {tags.slice(0, 2).join(', ')}
+              {description}
             </p>
           </div>
-          <PlaceSimpleInfo rating={rating} />
-          <PlaceTagList tags={tags} />
+          {relatedContents.length > 0 && (
+            <div className="mt-2">
+              <p className="text-caption text-(--color-text-secondary) mb-1">
+                관련 콘텐츠: {relatedContents.map((content) => content.title).join(', ')}
+              </p>
+            </div>
+          )}
+          {latitude !== undefined && longitude !== undefined && (
+            <div className="mt-2">
+              <p className="text-caption text-(--color-text-tertiary)">
+                위치: {latitude.toFixed(4)}, {longitude.toFixed(4)}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

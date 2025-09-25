@@ -54,3 +54,6 @@ coverage/
 .vite/
 *storybook.log
 storybook-static
+
+# cert
+.cert/

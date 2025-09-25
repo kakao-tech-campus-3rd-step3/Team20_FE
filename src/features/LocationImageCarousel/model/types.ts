@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-
+import type { LocationDetail } from '@/entities/location/model/types';
 // ===== 도메인 타입 =====
 export interface ContentScene {
   id: number;
@@ -48,4 +48,12 @@ export interface LocationImageIndicatorsProps extends Pick<BaseNavigationProps, 
 export interface LocationImageThumbnailsProps extends Pick<BaseNavigationProps, 'onGoToSlide'> {
   scenes: ContentScene[];
   currentIndex: number;
+}
+
+export interface UseLocationImageCarouselProps {
+  locations: LocationDetail[];
+}
+
+export interface LocationImageCarouselProps {
+  contentId: string;
 }

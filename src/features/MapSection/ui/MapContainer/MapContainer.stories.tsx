@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import React from 'react';
 import { MapContainer } from './MapContainer';
+
+const sbContainerRef: React.RefObject<HTMLDivElement | null> = { current: null };
 
 const meta = {
   title: 'Features/Map/MapContainer',
@@ -13,5 +16,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 기본 지도 Mock
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    containerRef: sbContainerRef,
+    className: 'h-[600px]',
+    ariaLabel: '스토리북 카카오 지도',
+  },
+};

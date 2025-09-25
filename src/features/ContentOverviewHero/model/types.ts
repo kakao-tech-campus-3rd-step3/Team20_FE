@@ -1,9 +1,6 @@
 export interface ContentOverviewHeroProps {
-  title?: string;
-  category?: string;
+  contentId: string;
   description?: string;
-  imageUrl?: string;
-  countOfLocations?: number;
   isLiked?: boolean;
 }
 

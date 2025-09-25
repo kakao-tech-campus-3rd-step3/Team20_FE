@@ -1,7 +1,8 @@
 export const ROUTES = {
   HOME: '/',
-  CONTENT_DETAIL: '/content',
+  CONTENT_DETAIL: '/content/:id',
   MAP: '/map',
+  MAP_WITH_CONTENT: '/map/:contentId',
 } as const;
 
 //   TODO: 추후 사용 예정
