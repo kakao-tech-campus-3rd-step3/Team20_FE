@@ -11,7 +11,7 @@ const meta = {
   argTypes: {
     active: {
       control: 'select',
-      options: ['home', 'map', 'content'],
+      options: ['home', 'map'],
     },
   },
   decorators: [
@@ -45,4 +45,3 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = { args: { active: 'home' } };
 export const HomeActive: Story = { args: { active: 'home' } };
 export const MapActive: Story = { args: { active: 'map' } };
-export const ContentActive: Story = { args: { active: 'content' } };
