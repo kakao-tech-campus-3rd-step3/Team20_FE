@@ -37,9 +37,3 @@ export type CategoryContent = {
   category?: 'DRAMA' | 'MOVIE' | 'POP';
   releaseDate?: string;
 };
-
-export type CategoryContentsResponse = {
-  status: number;
-  message: string;
-  data: CategoryContent[];
-};
