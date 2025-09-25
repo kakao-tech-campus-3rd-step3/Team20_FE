@@ -4,21 +4,19 @@ import { ContentOverviewInfo } from '../ContentOverviewInfo/ContentOverviewInfo'
 import { ContentOverviewActionButtons } from '../ContentOverviewActionButton/ContentOverviewActionButtons';
 import type { ContentOverviewHeroProps } from '../../model/types';
 import { useContentDetail } from '@/entities/content/api/queryfn';
-import { useParams } from 'react-router-dom';
 import { getContentLocations } from '@/entities/content/api/contentApi';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 export function ContentOverviewHero({
+  contentId,
   description = contentHero.description,
   isLiked = false,
 }: ContentOverviewHeroProps) {
-  const { id } = useParams();
-
-  const { data } = useContentDetail(id ?? '');
+  const { data } = useContentDetail(contentId);
 
   const { data: contentLocations = [] } = useSuspenseQuery({
-    queryKey: ['content-locations', id],
-    queryFn: () => getContentLocations(id ?? ''),
+    queryKey: ['content-locations', contentId],
+    queryFn: () => getContentLocations(contentId),
   });
   return (
     <div className="relative h-screen-safe w-full overflow-hidden">

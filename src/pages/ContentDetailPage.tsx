@@ -8,7 +8,7 @@ export function ContentDetailPage() {
 
   return (
     <div>
-      <ContentOverviewHero />
+      <ContentOverviewHero contentId={contentId} />
       <LocationImageCarousel contentId={contentId} />
     </div>
   );
