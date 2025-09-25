@@ -4,7 +4,11 @@ import { LocationImageCarousel } from '@/features/LocationImageCarousel';
 
 export function ContentDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const contentId = id ? id : '';
+  if (!id) {
+    // TODO: Not Found페이지 구현
+    return null;
+  }
+  const contentId = id;
 
   return (
     <div>
