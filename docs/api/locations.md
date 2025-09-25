@@ -7,13 +7,13 @@
 ID를 사용하여 특정 장소의 상세 정보를 조회합니다.
 
 **Method:** `GET`  
-**Endpoint:** `/locations/{location_id}`
+**Endpoint:** `/locations/{id}`
 
 ### Path Parameters
 
-| 매개변수      | 타입    | 설명           |
-| ------------- | ------- | -------------- |
-| `location_id` | Integer | 장소의 고유 ID |
+| 매개변수 | 타입    | 설명           |
+| -------- | ------- | -------------- |
+| `id`     | Integer | 장소의 고유 ID |
 
 ### ✅ 성공 응답 (200 OK)
 
@@ -28,12 +28,22 @@ ID를 사용하여 특정 장소의 상세 정보를 조회합니다.
     "latitude": 37.5258,
     "longitude": 126.9285,
     "description": "MZ세대의 성지로 불리는 서울의 대표적인 백화점입니다.",
-    "locationImage": "https://.../squidgame-spotdetail.jpg?raw=true",
+    "locationImage": "https:....",
     "relatedContents": [
+      {
+        "contentId": 4,
+        "title": "BTS",
+        "category": "POP"
+      },
       {
         "contentId": 5,
         "title": "오징어게임",
         "category": "DRAMA"
+      },
+      {
+        "contentId": 6,
+        "title": "신과 함께",
+        "category": "MOVIE"
       }
     ]
   }
@@ -42,7 +52,7 @@ ID를 사용하여 특정 장소의 상세 정보를 조회합니다.
 
 ### ❌ 실패 응답 (404 Not Found)
 
-요청한 `location_id`에 해당하는 장소가 없을 경우, 공통 실패 응답 형식에 따라 오류를 반환합니다.
+요청한 `id`에 해당하는 장소가 없을 경우, 공통 실패 응답 형식에 따라 오류를 반환합니다.
 
 **요청 예시:**
 
