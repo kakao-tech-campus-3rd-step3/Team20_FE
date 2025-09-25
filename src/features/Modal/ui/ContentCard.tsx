@@ -47,15 +47,19 @@ export function ContentCard({ content }: ContentCardProps) {
         />
       </div>
       <div className="p-4">
-        <span
-          className={`inline-block text-xs font-medium px-2 py-1 rounded-md mb-2 ${getCategoryColor(content.category)}`}
-        >
-          {content.category}
-        </span>
+        {content.category && (
+          <span
+            className={`inline-block text-xs font-medium px-2 py-1 rounded-md mb-2 ${getCategoryColor(content.category)}`}
+          >
+            {content.category}
+          </span>
+        )}
         <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight">
           {content.title}
         </h3>
-        <p className="text-sm text-gray-500">{formatDate(content.releaseDate)}</p>
+        {content.releaseDate && (
+          <p className="text-sm text-gray-500">{formatDate(content.releaseDate)}</p>
+        )}
       </div>
     </div>
   );

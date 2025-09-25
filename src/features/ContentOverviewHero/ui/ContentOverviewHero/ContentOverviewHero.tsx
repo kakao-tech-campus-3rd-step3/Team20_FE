@@ -4,6 +4,8 @@ import { ContentOverviewInfo } from '../ContentOverviewInfo/ContentOverviewInfo'
 import { ContentOverviewActionButtons } from '../ContentOverviewActionButton/ContentOverviewActionButtons';
 import type { ContentOverviewHeroProps } from '../../model/types';
 import { useContentDetail } from '@/entities/content/api/queryfn';
+import { getContentLocations } from '@/entities/content/api/contentApi';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 export function ContentOverviewHero({
   contentId,
@@ -11,6 +13,13 @@ export function ContentOverviewHero({
   isLiked = false,
 }: ContentOverviewHeroProps) {
   const { data } = useContentDetail(contentId ?? '');
+
+  // 콘텐츠 관련 장소 개수 조회
+  const { data: contentLocations = [] } = useSuspenseQuery({
+    queryKey: ['content-locations', contentId],
+    queryFn: () => getContentLocations(contentId ?? ''),
+  });
+
   return (
     <div className="relative h-screen-safe w-full overflow-hidden">
       {/* 배경 이미지 */}
@@ -28,7 +37,7 @@ export function ContentOverviewHero({
         title={data.title}
         category={data.category}
         description={description}
-        countOfLocations={data.locations.length}
+        countOfLocations={contentLocations.length}
       />
 
       {/* 하단 액션 버튼들 */}

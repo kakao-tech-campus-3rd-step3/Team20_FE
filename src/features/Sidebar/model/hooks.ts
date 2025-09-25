@@ -38,7 +38,9 @@ export function useSidebarData(contentId?: string) {
         locations.map(async (location: ContentLocation | LocationDetail) => {
           try {
             if (!hasAddress(location)) {
-              return await getLocationDetail(location.locationId.toString());
+              // ContentLocation 타입의 경우 location_id 사용
+              const locationId = (location as ContentLocation).location_id;
+              return await getLocationDetail(locationId.toString());
             }
             return location;
           } catch {

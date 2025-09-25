@@ -1,35 +1,41 @@
 // 콘텐츠 관련 타입 정의
 export type PopularContent = {
   contentId: number;
-  category: 'DRAMA' | 'MOVIE' | 'POP';
   title: string;
   posterImageUrl: string;
-  rank: number;
 };
 
 export type ContentLocation = {
-  locationId: number;
+  location_id: number;
   name: string;
-  sceneDescription: string;
+  scene_description: string;
+  location_image_url: string;
+  contentId: number;
+};
+
+export type Artist = {
+  artistId: number;
+  name: string;
 };
 
 export type ContentDetail = {
   contentId: number;
   category: 'DRAMA' | 'MOVIE' | 'POP';
   title: string;
-  posterImageUrl: string;
   releaseDate: string;
-  locations: ContentLocation[];
+  posterImageUrl: string;
+  posterImageUrlVertical: string;
+  description: string;
+  artists: Artist[];
 };
 
-//카테고리별 콘텐츠 타입 추가
-// 카테고리별 콘텐츠 타입 추가
+// 카테고리별 콘텐츠 타입
 export type CategoryContent = {
   contentId: number;
-  category: 'DRAMA' | 'MOVIE' | 'POP';
   title: string;
   posterImageUrl: string;
-  releaseDate: string;
+  category?: 'DRAMA' | 'MOVIE' | 'POP';
+  releaseDate?: string;
 };
 
 export type CategoryContentsResponse = {

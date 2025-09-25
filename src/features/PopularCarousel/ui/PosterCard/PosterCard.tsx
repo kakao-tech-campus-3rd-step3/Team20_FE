@@ -1,7 +1,11 @@
 import type { PopularContent } from '@/entities/content/model/types';
 import { Link } from '@tanstack/react-router';
 
-export function PosterCard({ contentId, title, posterImageUrl, rank }: PopularContent) {
+interface PosterCardProps extends PopularContent {
+  rank: number;
+}
+
+export function PosterCard({ contentId, title, posterImageUrl, rank }: PosterCardProps) {
   return (
     <article className="min-w-[220px] snap-start rounded-xl border border-[var(--color-border-primary)] p-[var(--spacing-4)] bg-[var(--color-background-primary)] hover:shadow-[var(--shadow-card)] transition duration-200 relative">
       <Link to="/content/$id" params={{ id: String(contentId) }} className="block">
