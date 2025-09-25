@@ -5,12 +5,9 @@ import type { ContentOverviewHeroProps } from '../../model/types';
 
 // Mock 데이터
 const mockContentData: ContentOverviewHeroProps = {
-  title: '오징어 게임',
-  category: 'K-DRAMA',
+  contentId: 'mock-content-1',
   description:
     '생존을 위한 극한의 게임, 전 세계를 사로잡은 한국 드라마. 어린 시절 놀이가 생과 사를 가르는 잔혹한 게임이 되어 돌아왔다.',
-  imageUrl: '/src/__mocks__/images/k-drama-squidgame-horizontal.jpg',
-  countOfLocations: 12,
   isLiked: false,
 };
 
@@ -28,25 +25,13 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    title: {
+    contentId: {
       control: 'text',
-      description: '콘텐츠 제목',
-    },
-    category: {
-      control: 'text',
-      description: '콘텐츠 카테고리',
+      description: '콘텐츠 ID (API에서 데이터를 가져오는데 사용)',
     },
     description: {
       control: 'text',
       description: '콘텐츠 설명',
-    },
-    imageUrl: {
-      control: 'text',
-      description: '배경 이미지 URL',
-    },
-    countOfLocations: {
-      control: 'number',
-      description: '촬영지 개수',
     },
     isLiked: {
       control: 'boolean',
@@ -73,35 +58,11 @@ export const Liked: Story = {
   },
 };
 
-// 촬영지 개수가 많은 경우
-export const ManyLocations: Story = {
+// 다른 콘텐츠 ID로 테스트
+export const DifferentContent: Story = {
   args: {
     ...mockContentData,
-    countOfLocations: 25,
-  },
-};
-
-// 촬영지 개수가 적은 경우
-export const FewLocations: Story = {
-  args: {
-    ...mockContentData,
-    countOfLocations: 3,
-  },
-};
-
-// 촬영지 개수가 없는 경우
-export const NoLocations: Story = {
-  args: {
-    ...mockContentData,
-    countOfLocations: undefined,
-  },
-};
-
-// 긴 제목 스토리
-export const LongTitle: Story = {
-  args: {
-    ...mockContentData,
-    title: '매우 긴 제목이 있는 한국 드라마 시리즈의 이름입니다',
+    contentId: 'mock-content-2',
   },
 };
 
@@ -114,46 +75,19 @@ export const LongDescription: Story = {
   },
 };
 
-// 영화 카테고리 스토리
-export const MovieCategory: Story = {
+// 짧은 설명 스토리
+export const ShortDescription: Story = {
   args: {
     ...mockContentData,
-    category: 'MOVIE',
-    title: '기생충',
-    description: '빈부격차를 다룬 한국 영화의 걸작. 국제적으로 인정받은 봉준호 감독의 작품입니다.',
-    countOfLocations: 8,
+    description: '간단한 설명입니다.',
   },
 };
 
-// 예능 카테고리 스토리
-export const VarietyCategory: Story = {
+// 설명 없음 스토리
+export const NoDescription: Story = {
   args: {
     ...mockContentData,
-    category: 'VARIETY',
-    title: '런닝맨',
-    description:
-      '한국을 대표하는 예능 프로그램. 다양한 게임과 미션을 통해 웃음과 재미를 선사합니다.',
-    countOfLocations: 15,
-  },
-};
-
-// 다크 테마 테스트를 위한 어두운 이미지
-export const DarkImage: Story = {
-  args: {
-    ...mockContentData,
-    imageUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1920&h=1080&fit=crop',
-    title: '다크 테마 콘텐츠',
-    description: '어두운 배경 이미지를 사용한 콘텐츠입니다.',
-  },
-};
-
-// 라이트 테마 테스트를 위한 밝은 이미지
-export const LightImage: Story = {
-  args: {
-    ...mockContentData,
-    imageUrl: 'https://images.unsplash.com/photo-1506905925346-14b1e0d0b0b0?w=1920&h=1080&fit=crop',
-    title: '라이트 테마 콘텐츠',
-    description: '밝은 배경 이미지를 사용한 콘텐츠입니다.',
+    description: undefined,
   },
 };
 
