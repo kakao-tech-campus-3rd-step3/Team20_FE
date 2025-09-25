@@ -1,7 +1,7 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import type { NavKey } from './types';
-import { keyToPath } from './constants';
+import { keyToPath, navRouteMap } from './constants';
 
 function toBasePath(p: string) {
   const cut = p.replace(/\/:.*$/, '');
@@ -37,7 +37,8 @@ export function useNavActions(onSelect?: (key: NavKey) => void, onAfterNavigate?
   const navigate = useNavigate();
 
   const onItemClick = (key: NavKey) => {
-    navigate(keyToPath[key]);
+    const routeOptions = navRouteMap[key];
+    navigate(routeOptions);
     onSelect?.(key);
     onAfterNavigate?.();
   };

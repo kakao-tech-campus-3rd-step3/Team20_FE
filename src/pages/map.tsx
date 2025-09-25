@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { Sidebar } from '@/features/Sidebar';
 import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
@@ -5,7 +6,11 @@ import { useKakaoMap, useKakaoMarkers } from '@/features/MapSection/model/hooks'
 import { usePlaceClick } from '@/features/MapSection/model/hooks';
 import type { Place } from '@/features/Sidebar/model/types';
 
-export default function MapPage() {
+export const Route = createFileRoute('/map')({
+  component: MapPage,
+});
+
+function MapPage() {
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const mapHook = useKakaoMap();
   const { handlePlaceClick } = usePlaceClick(mapHook.mapRef);

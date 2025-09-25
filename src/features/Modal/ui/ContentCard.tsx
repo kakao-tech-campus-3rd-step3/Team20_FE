@@ -1,11 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 import type { ContentCardProps } from '../model/types';
 
 export function ContentCard({ content }: ContentCardProps) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/content/${content.contentId}`);
+    navigate({ to: '/content/$id', params: { id: String(content.contentId) } });
   };
 
   const formatDate = (dateString: string) => {

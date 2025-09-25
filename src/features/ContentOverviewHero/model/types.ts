@@ -1,4 +1,5 @@
 export interface ContentOverviewHeroProps {
+  contentId?: string;
   title?: string;
   category?: string;
   description?: string;

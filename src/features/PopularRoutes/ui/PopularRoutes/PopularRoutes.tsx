@@ -1,6 +1,6 @@
 import { sampleRoutes } from '../../model/constants';
 import { messages } from '../../model/messages';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 export function PopularRoutes() {
   return (
@@ -9,7 +9,7 @@ export function PopularRoutes() {
         <h2 className="text-heading-4 text-[var(--color-text-primary)]">
           {messages.popularRoutesTitle}
         </h2>
-        <Link to="/routes" className="text-link text-[var(--color-text-secondary)]">
+        <Link to="/" className="text-link text-[var(--color-text-secondary)]">
           {messages.seeAll}
         </Link>
       </div>
@@ -28,7 +28,7 @@ export function PopularRoutes() {
                 </p>
               </div>
               <Link
-                to={`/routes/${route.id}`}
+                to="/"
                 className="px-[var(--spacing-button-padding-x)] py-[var(--spacing-button-padding-y)] rounded-lg border border-[var(--color-border-primary)] text-button text-[var(--color-text-primary)] bg-[var(--color-background-primary)] hover:bg-[var(--color-background-secondary)] transition duration-200"
               >
                 {messages.share}
