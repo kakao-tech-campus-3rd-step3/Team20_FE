@@ -1,15 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Sidebar } from '@/features/Sidebar';
 import { RouteSidebar } from '@/features/RoutePlanning';
 import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
-import {
-  useKakaoMap,
-  useKakaoMarkers,
-  usePlaceClick,
-  useRouteMarkers,
-} from '@/features/MapSection/model/hooks';
+import { useKakaoMap } from '@/features/MapSection/model/hooks/useKakaoMap';
+import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarkers';
+import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
+import { useRouteMarkers } from '@/features/MapSection/model/hooks/useRouteMarkers';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks';
+import { useSidebarData } from '@/features/Sidebar/model/hooks';
 import type { Place } from '@/features/Sidebar/model/types';
 
 export const Route = createFileRoute('/content/$contentId/map')({
@@ -20,6 +19,7 @@ function ContentPlaceMapPage() {
   const { contentId } = Route.useParams() as { contentId: string };
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const { places: contentPlaces } = useSidebarData(contentId);
   const mapHook = useKakaoMap();
   const { handlePlaceClick, closeOverlay } = usePlaceClick(mapHook.mapRef);
   const {
@@ -30,13 +30,19 @@ function ContentPlaceMapPage() {
     saveRoute,
   } = useRoutePlanning();
 
-  useKakaoMarkers(searchPlaces, mapHook.mapRef, routePlaces);
-  useRouteMarkers(routePlaces, mapHook.mapRef);
+  const handlePlaceSelect = useCallback(
+    (place: Place) => {
+      setSelectedPlace(place);
+      handlePlaceClick(place);
+    },
+    [handlePlaceClick],
+  );
 
-  const handlePlaceSelect = (place: Place) => {
-    setSelectedPlace(place);
-    handlePlaceClick(place);
-  };
+  // 검색 중이면 검색 결과를, 아니면 콘텐츠의 기본 촬영지들을 표시
+  const displayPlaces = searchPlaces.length > 0 ? searchPlaces : contentPlaces;
+
+  useKakaoMarkers(displayPlaces, mapHook.mapRef, routePlaces, handlePlaceSelect);
+  useRouteMarkers(routePlaces, mapHook.mapRef, handlePlaceSelect);
 
   const handleAddToRoute = (place: Place) => {
     addPlace(place);

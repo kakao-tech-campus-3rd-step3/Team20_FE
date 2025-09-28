@@ -1,14 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Sidebar } from '@/features/Sidebar';
 import { RouteSidebar } from '@/features/RoutePlanning';
 import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
-import {
-  useKakaoMap,
-  useKakaoMarkers,
-  usePlaceClick,
-  useRouteMarkers,
-} from '@/features/MapSection/model/hooks';
+import { useKakaoMap } from '@/features/MapSection/model/hooks/useKakaoMap';
+import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarkers';
+import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
+import { useRouteMarkers } from '@/features/MapSection/model/hooks/useRouteMarkers';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks';
 import type { Place } from '@/features/Sidebar/model/types';
 
@@ -29,13 +27,16 @@ function MapPage() {
     saveRoute,
   } = useRoutePlanning();
 
-  useKakaoMarkers(searchPlaces, mapHook.mapRef, routePlaces);
-  useRouteMarkers(routePlaces, mapHook.mapRef);
+  const handlePlaceSelect = useCallback(
+    (place: Place) => {
+      setSelectedPlace(place);
+      handlePlaceClick(place);
+    },
+    [handlePlaceClick],
+  );
 
-  const handlePlaceSelect = (place: Place) => {
-    setSelectedPlace(place);
-    handlePlaceClick(place);
-  };
+  useKakaoMarkers(searchPlaces, mapHook.mapRef, routePlaces, handlePlaceSelect);
+  useRouteMarkers(routePlaces, mapHook.mapRef, handlePlaceSelect);
 
   const handleAddToRoute = (place: Place) => {
     addPlace(place);

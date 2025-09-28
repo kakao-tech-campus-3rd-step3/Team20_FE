@@ -144,3 +144,20 @@ export function createMapOverlay(
     position,
   });
 }
+
+/**
+ * 전역 오버레이를 닫는 공통 함수
+ */
+export function closeGlobalOverlay(): void {
+  if (globalThis.globalOverlayRef) {
+    globalThis.globalOverlayRef.setMap(null);
+    globalThis.globalOverlayRef = null;
+  }
+}
+
+/**
+ * 전역 오버레이를 설정하는 공통 함수
+ */
+export function setGlobalOverlay(overlay: KakaoCustomOverlay): void {
+  globalThis.globalOverlayRef = overlay;
+}
