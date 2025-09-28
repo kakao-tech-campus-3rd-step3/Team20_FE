@@ -29,7 +29,7 @@ export function RoutePlaceCard({ place, onRemove, className }: RoutePlaceCardPro
 
         <div className="flex-1 min-w-0">
           <div className="flex items-start gap-(--spacing-3)">
-            <div className={`${SIDEBAR_DIMENSIONS.ICON_SIZE_SMALL} flex-shrink-0`}>
+            <div className="flex-shrink-0">
               <PlaceThumbnail locationImage={place.locationImage} name={place.name} />
             </div>
 
@@ -37,9 +37,7 @@ export function RoutePlaceCard({ place, onRemove, className }: RoutePlaceCardPro
               <h4 className="text-sm font-medium text-(--color-text-primary) mb-1 truncate">
                 {place.name}
               </h4>
-              <div className="text-xs">
-                <PlaceAddress address={place.address} />
-              </div>
+              <PlaceAddress address={place.address} />
             </div>
           </div>
         </div>
