@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { Sidebar } from '@/features/Sidebar';
+import { RouteSidebar } from '@/features/RoutePlanning';
 import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
 import { useKakaoMap, useKakaoMarkers, usePlaceClick } from '@/features/MapSection/model/hooks';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks';
@@ -15,7 +16,7 @@ function MapPage() {
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const mapHook = useKakaoMap();
   const { handlePlaceClick } = usePlaceClick(mapHook.mapRef);
-  const { places: routePlaces, addPlace } = useRoutePlanning();
+  const { places: routePlaces, addPlace, removePlace, saveRoute } = useRoutePlanning();
 
   useKakaoMarkers(searchPlaces, mapHook.mapRef);
 
@@ -36,6 +37,12 @@ function MapPage() {
           selectedPlace={selectedPlace}
         />
         <MapContainer containerRef={mapHook.containerRef} className="flex-1 h-full min-h-0" />
+        <RouteSidebar
+          className="w-96 shrink-0 h-full min-h-0"
+          places={routePlaces}
+          onRemovePlace={removePlace}
+          onSaveRoute={saveRoute}
+        />
       </div>
     </div>
   );

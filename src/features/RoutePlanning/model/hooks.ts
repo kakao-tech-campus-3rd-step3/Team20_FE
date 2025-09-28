@@ -24,8 +24,39 @@ export function useRoutePlanning() {
     });
   }, []);
 
+  const removePlace = useCallback((placeId: number) => {
+    setState((prev) => {
+      const newPlaces = prev.places
+        .filter((place) => place.locationId !== placeId)
+        .map((place, index) => ({ ...place, order: index + 1 }));
+
+      return {
+        ...prev,
+        places: newPlaces,
+      };
+    });
+  }, []);
+
+  const saveRoute = useCallback(() => {
+    const routeInfo = {
+      places: state.places,
+      totalPlaces: state.places.length,
+      createdAt: new Date().toISOString(),
+    };
+
+    alert(`저장된 동선 정보:\n${JSON.stringify(routeInfo, null, 2)}`);
+    console.log('저장된 동선 정보:', routeInfo);
+
+    setState((prev) => ({
+      ...prev,
+      places: [],
+    }));
+  }, [state.places]);
+
   return {
     places: state.places,
     addPlace,
+    removePlace,
+    saveRoute,
   };
 }
