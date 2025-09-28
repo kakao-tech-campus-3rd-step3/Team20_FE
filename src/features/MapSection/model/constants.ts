@@ -35,9 +35,9 @@ export const OVERLAY_STYLES = {
 } as const;
 
 export const MAP_DEFAULTS = {
-  center: { lat: 36.5, lng: 128.0 },
+  center: { lat: 35.5, lng: 128.0 },
   level: 13,
-  draggable: true,
+  draggable: false,
   scrollwheel: true,
 } as const;
 

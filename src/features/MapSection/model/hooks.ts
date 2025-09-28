@@ -133,12 +133,6 @@ export function useKakaoMarkers(
       });
 
       markersRef.current = newMarkers;
-
-      const first = validPlaces[0];
-      if (first) {
-        const center = createLatLng(first.latitude, first.longitude);
-        map.setCenter(center);
-      }
     } catch (e) {
       console.error('Failed to update markers:', e);
     }
