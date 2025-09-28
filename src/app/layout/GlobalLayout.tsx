@@ -10,7 +10,9 @@ export const GlobalLayout = ({ children }: GlobalLayoutProps) => {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className="w-full bg-gradient-to-b from-[var(--color-brand-primary)]/50 to-[var(--color-brand-primary)]/30">
+        {children}
+      </main>
       <Footer />
     </>
   );
