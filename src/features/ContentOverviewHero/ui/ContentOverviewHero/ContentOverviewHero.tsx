@@ -12,14 +12,12 @@ export function ContentOverviewHero({
   description = contentHero.description,
   isLiked = false,
 }: ContentOverviewHeroProps) {
-  const { data } = useContentDetail(contentId ?? '');
+  const { data } = useContentDetail(contentId);
 
-  // 콘텐츠 관련 장소 개수 조회
   const { data: contentLocations = [] } = useSuspenseQuery({
     queryKey: ['content-locations', contentId],
-    queryFn: () => getContentLocations(contentId ?? ''),
+    queryFn: () => getContentLocations(contentId),
   });
-
   return (
     <div className="relative h-screen-safe w-full overflow-hidden">
       {/* 배경 이미지 */}
