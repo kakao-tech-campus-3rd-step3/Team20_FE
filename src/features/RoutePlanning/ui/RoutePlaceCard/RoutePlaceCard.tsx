@@ -1,11 +1,10 @@
 import { GripVertical, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import type { RoutePlaceCardProps } from '../../model/types';
 import { ROUTE_SIDEBAR_BUTTONS } from '@/features/Sidebar/model/messages';
 import { ROUTE_CARD_STYLES } from '@/features/Sidebar/model/constants';
 import { PlaceThumbnail } from '@/features/Sidebar/ui/PlaceThumbnail/PlaceThumbnail';
 import { PlaceAddress } from '@/features/Sidebar/ui/PlaceAddress/PlaceAddress';
-import { useRoutePlanning } from '../../model/hooks';
 
 export function RoutePlaceCard({
   place,
@@ -17,17 +16,38 @@ export function RoutePlaceCard({
   onDrop,
 }: RoutePlaceCardProps) {
   const [isDragOver, setIsDragOver] = useState(false);
-  const { createPlaceCardEventHandlers } = useRoutePlanning();
-  const { handleDragOver, handleDragLeave, handleDrop } =
-    createPlaceCardEventHandlers(setIsDragOver);
+
+  const handleDragOver = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      setIsDragOver(true);
+      onDragOver?.(e);
+    },
+    [onDragOver],
+  );
+
+  const handleDragLeave = useCallback(() => {
+    setIsDragOver(false);
+    onDragLeave?.();
+  }, [onDragLeave]);
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragOver(false);
+      onDrop?.(e);
+    },
+    [onDrop],
+  );
 
   return (
     <div
       draggable
       onDragStart={onDragStart}
-      onDragOver={(e) => handleDragOver(e, onDragOver)}
-      onDragLeave={() => handleDragLeave(onDragLeave)}
-      onDrop={(e) => handleDrop(e, onDrop)}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
       className={[
         'p-(--spacing-4) border border-(--color-border-primary) rounded-lg bg-(--color-background-primary)',
         'hover:bg-(--color-background-secondary) transition-colors cursor-move',

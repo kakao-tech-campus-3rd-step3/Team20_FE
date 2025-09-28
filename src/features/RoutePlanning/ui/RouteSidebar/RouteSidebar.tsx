@@ -9,7 +9,6 @@ import {
   formatLocations,
 } from '@/features/Sidebar/model/messages';
 import { SIDEBAR_DIMENSIONS, ROUTE_SIDEBAR_STYLES } from '@/features/Sidebar/model/constants';
-import { useRoutePlanning } from '../../model/hooks';
 
 export function RouteSidebar({
   className,
@@ -17,10 +16,9 @@ export function RouteSidebar({
   onSaveRoute,
   onRemovePlace,
   onReorderPlaces,
+  createRouteSidebarHandlers,
 }: RouteSidebarProps) {
   const isEmpty = places.length === 0;
-  const { createRouteSidebarHandlers } = useRoutePlanning();
-
   const { handleDragStart, handleDrop } = createRouteSidebarHandlers(places, onReorderPlaces);
 
   return (
@@ -31,8 +29,10 @@ export function RouteSidebar({
         className ?? '',
       ].join(' ')}
     >
-      <div className={`${SIDEBAR_DIMENSIONS.WIDTH_RESPONSIVE} ${ROUTE_SIDEBAR_STYLES.CONTAINER}`}>
-        <div className={`p-(--spacing-6) ${ROUTE_SIDEBAR_STYLES.HEADER_GRADIENT}`}>
+      <div
+        className={[SIDEBAR_DIMENSIONS.WIDTH_RESPONSIVE, ROUTE_SIDEBAR_STYLES.CONTAINER].join(' ')}
+      >
+        <div className={['p-(--spacing-6)', ROUTE_SIDEBAR_STYLES.HEADER_GRADIENT].join(' ')}>
           <h2 className="text-heading-4 mb-(--spacing-2)">{ROUTE_SIDEBAR_TITLES.HEADER_TITLE}</h2>
           <p className="text-body-small text-(--color-gray-100)">
             {isEmpty ? ROUTE_SIDEBAR_TITLES.SUBTITLE : formatRouteCount(places.length)}
@@ -44,7 +44,7 @@ export function RouteSidebar({
             <RouteSidebarEmptyState />
           ) : (
             <div className="p-(--spacing-4) space-y-(--spacing-3)">
-              {places
+              {[...places]
                 .sort((a, b) => a.order - b.order)
                 .map((place) => (
                   <RoutePlaceCard
@@ -60,7 +60,7 @@ export function RouteSidebar({
         </div>
 
         {!isEmpty && (
-          <div className={`p-(--spacing-4) ${ROUTE_SIDEBAR_STYLES.FOOTER_CONTAINER}`}>
+          <div className={['p-(--spacing-4)', ROUTE_SIDEBAR_STYLES.FOOTER_CONTAINER].join(' ')}>
             <div className="space-y-(--spacing-3)">
               <div className="text-center">
                 <p className="text-caption text-(--color-text-secondary) mb-(--spacing-2)">

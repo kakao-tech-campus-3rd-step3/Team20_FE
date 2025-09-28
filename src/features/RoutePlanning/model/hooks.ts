@@ -59,67 +59,6 @@ export function useRoutePlanning() {
     }));
   }, [state.places]);
 
-  const createPlaceCardHandlers = useCallback(
-    (place: RoutePlace, setIsDragOver: (value: boolean) => void) => {
-      const handleRemove = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        removePlace(place.locationId);
-      };
-
-      const handleDragStart = (e: React.DragEvent) => {
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', place.locationId.toString());
-      };
-
-      const handleDragOver = (e: React.DragEvent) => {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        setIsDragOver(true);
-      };
-
-      const handleDragLeave = () => {
-        setIsDragOver(false);
-      };
-
-      const handleDrop = (e: React.DragEvent) => {
-        e.preventDefault();
-        setIsDragOver(false);
-        const draggedPlaceId = parseInt(e.dataTransfer.getData('text/plain'));
-        if (draggedPlaceId !== place.locationId) {
-          setState((currentState) => {
-            const draggedIndex = currentState.places.findIndex(
-              (p) => p.locationId === draggedPlaceId,
-            );
-            const targetIndex = currentState.places.findIndex(
-              (p) => p.locationId === place.locationId,
-            );
-
-            if (draggedIndex !== -1 && targetIndex !== -1) {
-              const newPlaces = [...currentState.places];
-              const [draggedItem] = newPlaces.splice(draggedIndex, 1);
-              newPlaces.splice(targetIndex, 0, draggedItem);
-
-              return {
-                ...currentState,
-                places: newPlaces.map((place, index) => ({ ...place, order: index + 1 })),
-              };
-            }
-            return currentState;
-          });
-        }
-      };
-
-      return {
-        handleRemove,
-        handleDragStart,
-        handleDragOver,
-        handleDragLeave,
-        handleDrop,
-      };
-    },
-    [removePlace],
-  );
-
   const createRouteSidebarHandlers = useCallback(
     (places: RoutePlace[], onReorderPlaces?: (places: RoutePlace[]) => void) => {
       const handleDragStart = (place: RoutePlace) => (e: React.DragEvent) => {
@@ -151,40 +90,12 @@ export function useRoutePlanning() {
     [],
   );
 
-  const createPlaceCardEventHandlers = useCallback((setIsDragOver: (value: boolean) => void) => {
-    const handleDragOver = (e: React.DragEvent, onDragOver?: (e: React.DragEvent) => void) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      setIsDragOver(true);
-      onDragOver?.(e);
-    };
-
-    const handleDragLeave = (onDragLeave?: () => void) => {
-      setIsDragOver(false);
-      onDragLeave?.();
-    };
-
-    const handleDrop = (e: React.DragEvent, onDrop?: (e: React.DragEvent) => void) => {
-      e.preventDefault();
-      setIsDragOver(false);
-      onDrop?.(e);
-    };
-
-    return {
-      handleDragOver,
-      handleDragLeave,
-      handleDrop,
-    };
-  }, []);
-
   return {
     places: state.places,
     addPlace,
     removePlace,
     reorderPlaces,
     saveRoute,
-    createPlaceCardHandlers,
     createRouteSidebarHandlers,
-    createPlaceCardEventHandlers,
   };
 }

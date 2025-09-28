@@ -25,6 +25,7 @@ function MapPage() {
     removePlace,
     reorderPlaces,
     saveRoute,
+    createRouteSidebarHandlers,
   } = useRoutePlanning();
 
   const handlePlaceSelect = useCallback(
@@ -61,6 +62,7 @@ function MapPage() {
           onSaveRoute={saveRoute}
           onRemovePlace={removePlace}
           onReorderPlaces={reorderPlaces}
+          createRouteSidebarHandlers={createRouteSidebarHandlers}
         />
       </div>
     </div>
