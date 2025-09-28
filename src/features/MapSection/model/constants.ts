@@ -45,3 +45,12 @@ export const SDK_CONFIG = {
   timeout: 15000,
   checkInterval: 100,
 } as const;
+
+export const MARKER_CONFIG = {
+  SIZE: 40,
+  BACKGROUND_COLOR: '#FF6B6B',
+  BORDER_COLOR: '#FFFFFF',
+  BORDER_WIDTH: 3,
+  TEXT_COLOR: '#FFFFFF',
+  FONT: 'bold 16px Arial',
+} as const;

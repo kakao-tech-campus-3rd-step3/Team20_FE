@@ -3,7 +3,12 @@ import { useState } from 'react';
 import { Sidebar } from '@/features/Sidebar';
 import { RouteSidebar } from '@/features/RoutePlanning';
 import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
-import { useKakaoMap, useKakaoMarkers, usePlaceClick } from '@/features/MapSection/model/hooks';
+import {
+  useKakaoMap,
+  useKakaoMarkers,
+  usePlaceClick,
+  useRouteMarkers,
+} from '@/features/MapSection/model/hooks';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks';
 import type { Place } from '@/features/Sidebar/model/types';
 
@@ -15,7 +20,7 @@ function MapPage() {
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const mapHook = useKakaoMap();
-  const { handlePlaceClick } = usePlaceClick(mapHook.mapRef);
+  const { handlePlaceClick, closeOverlay } = usePlaceClick(mapHook.mapRef);
   const {
     places: routePlaces,
     addPlace,
@@ -24,11 +29,17 @@ function MapPage() {
     saveRoute,
   } = useRoutePlanning();
 
-  useKakaoMarkers(searchPlaces, mapHook.mapRef);
+  useKakaoMarkers(searchPlaces, mapHook.mapRef, routePlaces);
+  useRouteMarkers(routePlaces, mapHook.mapRef);
 
   const handlePlaceSelect = (place: Place) => {
     setSelectedPlace(place);
     handlePlaceClick(place);
+  };
+
+  const handleAddToRoute = (place: Place) => {
+    addPlace(place);
+    closeOverlay();
   };
 
   return (
@@ -38,7 +49,7 @@ function MapPage() {
           className="w-96 shrink-0 h-full min-h-0"
           onSearchPlacesChange={setSearchPlaces}
           onPlaceClick={handlePlaceSelect}
-          onAddToRoute={addPlace}
+          onAddToRoute={handleAddToRoute}
           routePlaces={routePlaces}
           selectedPlace={selectedPlace}
         />

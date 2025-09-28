@@ -33,17 +33,41 @@ export type KakaoCustomOverlay = {
   setContent(content: string): void;
 };
 
+export type KakaoSize = {
+  width: number;
+  height: number;
+};
+
+export type KakaoPoint = {
+  x: number;
+  y: number;
+};
+
+export type KakaoMarkerImage = {
+  src: string;
+  size: KakaoSize;
+  offset: KakaoPoint;
+};
+
 export type KakaoMapsNS = {
   Map: new (container: HTMLElement, options: { center: LatLng; level: number }) => KakaoMap;
   LatLng: new (lat: number, lng: number) => LatLng;
-  Marker: new (options: { position: LatLng }) => KakaoMarker;
+  Marker: new (options: { position: LatLng; image?: KakaoMarkerImage }) => KakaoMarker;
   CustomOverlay: new (options: {
     content: string;
     map: KakaoMap;
     position: LatLng;
   }) => KakaoCustomOverlay;
+  Size: new (width: number, height: number) => KakaoSize;
+  Point: new (x: number, y: number) => KakaoPoint;
+  MarkerImage: new (
+    src: string,
+    size: KakaoSize,
+    options: { offset: KakaoPoint },
+  ) => KakaoMarkerImage;
   event: {
-    addListener(target: KakaoMarker, event: string, handler: () => void): void;
+    addListener(target: KakaoMarker | KakaoMap, event: string, handler: () => void): void;
+    removeListener(target: KakaoMarker | KakaoMap, event: string, handler: () => void): void;
   };
 };
 
