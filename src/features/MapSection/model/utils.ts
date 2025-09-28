@@ -1,11 +1,23 @@
 import type { Place } from '@/features/Sidebar/model/types';
-import type { KakaoMap, KakaoCustomOverlay, LatLng, KakaoMarker } from './types';
+import type {
+  KakaoMap,
+  KakaoCustomOverlay,
+  LatLng,
+  KakaoMarker,
+  KakaoPolyline,
+  KakaoMapsNS,
+} from './types';
 import { OVERLAY_DEFAULTS, OVERLAY_STYLES, MARKER_CONFIG } from './constants';
 import { OVERLAY_MESSAGES, ERROR_MESSAGES } from './messages';
 
-export const createLatLng = (lat: number, lng: number) => {
+const getKakaoMaps = (): KakaoMapsNS => {
   const maps = window.kakao?.maps;
   if (!maps) throw new Error(ERROR_MESSAGES.sdkNotReady);
+  return maps;
+};
+
+export const createLatLng = (lat: number, lng: number) => {
+  const maps = getKakaoMaps();
   return new maps.LatLng(lat, lng);
 };
 
@@ -21,9 +33,13 @@ export const clearOverlay = (overlay: KakaoCustomOverlay | null) => {
   return null;
 };
 
+export const clearPolylines = (polylines: KakaoPolyline[]) => {
+  polylines.forEach((polyline) => polyline.setMap(null));
+  return [];
+};
+
 export const createNumberedMarkerImage = (order: number) => {
-  const maps = window.kakao?.maps;
-  if (!maps) throw new Error(ERROR_MESSAGES.sdkNotReady);
+  const maps = getKakaoMaps();
 
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -117,20 +133,14 @@ export function createMapOverlay(
   position: LatLng,
   onClose: () => void,
 ): KakaoCustomOverlay {
-  const maps = window.kakao?.maps;
-  if (!maps) {
-    throw new Error(ERROR_MESSAGES.sdkNotReady);
-  }
-
+  const maps = getKakaoMaps();
   const content = generateOverlayHTML(place);
 
   (window as unknown as { closeMapOverlay?: () => void }).closeMapOverlay = onClose;
 
-  const overlay = new maps.CustomOverlay({
+  return new maps.CustomOverlay({
     content,
     map,
     position,
   });
-
-  return overlay;
 }

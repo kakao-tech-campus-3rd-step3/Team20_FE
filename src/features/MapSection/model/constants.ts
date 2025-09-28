@@ -54,3 +54,9 @@ export const MARKER_CONFIG = {
   TEXT_COLOR: '#FFFFFF',
   FONT: 'bold 16px Arial',
 } as const;
+
+export const POLYLINE_CONFIG = {
+  STROKE_COLOR: '#FF6B6B',
+  STROKE_WEIGHT: 3,
+  STROKE_OPACITY: 0.8,
+} as const;
