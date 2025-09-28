@@ -75,7 +75,8 @@ export function useKakaoMap(options?: MapOptions) {
       if (createdContainer) createdContainer.innerHTML = '';
       mapRef.current = null;
     };
-  }, [center.lat, center.lng, level, draggable, scrollwheel]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const map = mapRef.current;
