@@ -8,6 +8,9 @@ export const PLACE_CARD_DEFAULT = {
 export const SIDEBAR_TITLES = {
   HEADER_TITLE: '오징어 게임 촬영지',
   FOOTER_TITLE: '🎬 오징어 게임 촬영지 탐방',
+  SEARCH_TITLE: '촬영지 검색',
+  SEARCH_SUBTITLE: '촬영지를 검색해보세요',
+  FOOTER_SEARCH_TEXT: '🔍 원하는 촬영지를 검색해보세요',
 };
 
 export const SIDEBAR_STATUS_TEXT = {
@@ -38,6 +41,16 @@ export const SIDEBAR_SEARCH_RESULTS = {
   NO_RESULTS_TITLE: '검색 결과',
   NO_RESULTS_DESCRIPTION: '검색 결과가 없습니다. 다른 키워드로 시도해보세요.',
   RESULTS_COUNT: '개의 장소를 찾았습니다',
+} as const;
+
+export const ROUTE_BUTTON_TEXT = {
+  ADD_TO_ROUTE: '동선에 추가하기',
+  ADDED_TO_ROUTE: '동선에 추가됨',
+} as const;
+
+export const PLACE_CARD_LABELS = {
+  RELATED_CONTENTS: '관련 콘텐츠',
+  LOCATION: '위치',
 } as const;
 
 export const formatFoundCount = (n: number) => `${n}개의 촬영지를 찾았습니다`;

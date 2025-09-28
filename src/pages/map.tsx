@@ -2,8 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { Sidebar } from '@/features/Sidebar';
 import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
-import { useKakaoMap, useKakaoMarkers } from '@/features/MapSection/model/hooks';
-import { usePlaceClick } from '@/features/MapSection/model/hooks';
+import { useKakaoMap, useKakaoMarkers, usePlaceClick } from '@/features/MapSection/model/hooks';
+import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks';
 import type { Place } from '@/features/Sidebar/model/types';
 
 export const Route = createFileRoute('/map')({
@@ -12,10 +12,17 @@ export const Route = createFileRoute('/map')({
 
 function MapPage() {
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const mapHook = useKakaoMap();
   const { handlePlaceClick } = usePlaceClick(mapHook.mapRef);
+  const { places: routePlaces, addPlace } = useRoutePlanning();
 
   useKakaoMarkers(searchPlaces, mapHook.mapRef);
+
+  const handlePlaceSelect = (place: Place) => {
+    setSelectedPlace(place);
+    handlePlaceClick(place);
+  };
 
   return (
     <div className="h-screen flex flex-col">
@@ -23,7 +30,10 @@ function MapPage() {
         <Sidebar
           className="w-96 shrink-0 h-full min-h-0"
           onSearchPlacesChange={setSearchPlaces}
-          onPlaceClick={handlePlaceClick}
+          onPlaceClick={handlePlaceSelect}
+          onAddToRoute={addPlace}
+          routePlaces={routePlaces}
+          selectedPlace={selectedPlace}
         />
         <MapContainer containerRef={mapHook.containerRef} className="flex-1 h-full min-h-0" />
       </div>
