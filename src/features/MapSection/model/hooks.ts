@@ -166,8 +166,6 @@ export function usePlaceClick(mapRef: React.MutableRefObject<KakaoMap | null>) {
       if (!maps || !map) return;
 
       const position = new maps.LatLng(place.latitude, place.longitude);
-      map.setCenter(position);
-      map.setLevel(3);
 
       if (overlayRef.current) {
         overlayRef.current.setMap(null);
