@@ -70,6 +70,7 @@ export const ROUTE_SIDEBAR_BUTTONS = {
 export const ROUTE_SIDEBAR_ICONS = {
   MAP: '🗺️',
   SAVE: 'M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12',
+  ESTIMATED_TIME: '⏱️ 예상 소요시간',
 } as const;
 
 export const formatFoundCount = (n: number) => `${n}개의 촬영지를 찾았습니다`;

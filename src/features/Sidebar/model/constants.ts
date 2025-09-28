@@ -17,3 +17,13 @@ export const ROUTE_CARD_STYLES = {
   REMOVE_BUTTON:
     'p-1 text-(--color-text-tertiary) hover:text-(--color-semantic-error) hover:bg-(--color-semantic-error)/10 rounded transition-colors',
 } as const;
+
+export const ROUTE_SIDEBAR_STYLES = {
+  CONTAINER:
+    'bg-(--color-background-primary) shadow-(--shadow-card) rounded-l-2xl overflow-hidden h-full flex flex-col border-l border-(--color-border-primary)',
+  HEADER_GRADIENT:
+    'bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)',
+  FOOTER_CONTAINER: 'bg-(--color-background-secondary) border-t border-(--color-border-primary)',
+  SAVE_BUTTON:
+    'w-full flex items-center justify-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-lg text-sm font-medium bg-(--color-brand-primary) text-(--color-text-inverse) hover:bg-(--color-brand-secondary) transition-colors shadow-(--shadow-button) hover:shadow-(--shadow-button-hover)',
+} as const;

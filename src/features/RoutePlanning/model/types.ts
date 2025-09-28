@@ -11,13 +11,17 @@ export type RoutePlanningState = {
 export type RouteSidebarProps = {
   className?: string;
   places: RoutePlace[];
-  onRemovePlace: (placeId: number) => void;
-  onReorderPlaces: () => void;
   onSaveRoute: () => void;
+  onRemovePlace?: (placeId: number) => void;
+  onReorderPlaces?: (places: RoutePlace[]) => void;
 };
 
 export type RoutePlaceCardProps = {
   place: RoutePlace;
-  onRemove: (placeId: number) => void;
   className?: string;
+  onRemove: (e: React.MouseEvent) => void;
+  onDragStart: (e: React.DragEvent) => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDragLeave?: () => void;
+  onDrop: (e: React.DragEvent) => void;
 };

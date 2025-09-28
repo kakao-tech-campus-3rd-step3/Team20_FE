@@ -8,15 +8,20 @@ import {
   formatRouteCount,
   formatLocations,
 } from '@/features/Sidebar/model/messages';
-import { SIDEBAR_DIMENSIONS } from '@/features/Sidebar/model/constants';
+import { SIDEBAR_DIMENSIONS, ROUTE_SIDEBAR_STYLES } from '@/features/Sidebar/model/constants';
+import { useRoutePlanning } from '../../model/hooks';
 
 export function RouteSidebar({
   className,
   places,
-  onRemovePlace,
   onSaveRoute,
-}: Omit<RouteSidebarProps, 'onReorderPlaces'>) {
+  onRemovePlace,
+  onReorderPlaces,
+}: RouteSidebarProps) {
   const isEmpty = places.length === 0;
+  const { createRouteSidebarHandlers } = useRoutePlanning();
+
+  const { handleDragStart, handleDrop } = createRouteSidebarHandlers(places, onReorderPlaces);
 
   return (
     <aside
@@ -26,10 +31,8 @@ export function RouteSidebar({
         className ?? '',
       ].join(' ')}
     >
-      <div
-        className={`${SIDEBAR_DIMENSIONS.WIDTH_RESPONSIVE} bg-(--color-background-primary) shadow-(--shadow-card) rounded-l-2xl overflow-hidden h-full flex flex-col border-l border-(--color-border-primary)`}
-      >
-        <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
+      <div className={`${SIDEBAR_DIMENSIONS.WIDTH_RESPONSIVE} ${ROUTE_SIDEBAR_STYLES.CONTAINER}`}>
+        <div className={`p-(--spacing-6) ${ROUTE_SIDEBAR_STYLES.HEADER_GRADIENT}`}>
           <h2 className="text-heading-4 mb-(--spacing-2)">{ROUTE_SIDEBAR_TITLES.HEADER_TITLE}</h2>
           <p className="text-body-small text-(--color-gray-100)">
             {isEmpty ? ROUTE_SIDEBAR_TITLES.SUBTITLE : formatRouteCount(places.length)}
@@ -44,14 +47,20 @@ export function RouteSidebar({
               {places
                 .sort((a, b) => a.order - b.order)
                 .map((place) => (
-                  <RoutePlaceCard key={place.locationId} place={place} onRemove={onRemovePlace} />
+                  <RoutePlaceCard
+                    key={place.locationId}
+                    place={place}
+                    onRemove={() => onRemovePlace?.(place.locationId)}
+                    onDragStart={handleDragStart(place)}
+                    onDrop={handleDrop(place)}
+                  />
                 ))}
             </div>
           )}
         </div>
 
         {!isEmpty && (
-          <div className="p-(--spacing-4) bg-(--color-background-secondary) border-t border-(--color-border-primary)">
+          <div className={`p-(--spacing-4) ${ROUTE_SIDEBAR_STYLES.FOOTER_CONTAINER}`}>
             <div className="space-y-(--spacing-3)">
               <div className="text-center">
                 <p className="text-caption text-(--color-text-secondary) mb-(--spacing-2)">
@@ -59,14 +68,11 @@ export function RouteSidebar({
                 </p>
                 <div className="flex items-center justify-center gap-(--spacing-4) text-caption text-(--color-text-tertiary)">
                   <span>{formatLocations(places.length)}</span>
-                  <span>⏱️ 예상 소요시간</span>
+                  <span>{ROUTE_SIDEBAR_ICONS.ESTIMATED_TIME}</span>
                 </div>
               </div>
 
-              <button
-                onClick={onSaveRoute}
-                className="w-full flex items-center justify-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-lg text-sm font-medium bg-(--color-brand-primary) text-(--color-text-inverse) hover:bg-(--color-brand-secondary) transition-colors shadow-(--shadow-button) hover:shadow-(--shadow-button-hover)"
-              >
+              <button onClick={onSaveRoute} className={ROUTE_SIDEBAR_STYLES.SAVE_BUTTON}>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"

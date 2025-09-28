@@ -16,7 +16,13 @@ function MapPage() {
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const mapHook = useKakaoMap();
   const { handlePlaceClick } = usePlaceClick(mapHook.mapRef);
-  const { places: routePlaces, addPlace, removePlace, saveRoute } = useRoutePlanning();
+  const {
+    places: routePlaces,
+    addPlace,
+    removePlace,
+    reorderPlaces,
+    saveRoute,
+  } = useRoutePlanning();
 
   useKakaoMarkers(searchPlaces, mapHook.mapRef);
 
@@ -40,8 +46,9 @@ function MapPage() {
         <RouteSidebar
           className="w-96 shrink-0 h-full min-h-0"
           places={routePlaces}
-          onRemovePlace={removePlace}
           onSaveRoute={saveRoute}
+          onRemovePlace={removePlace}
+          onReorderPlaces={reorderPlaces}
         />
       </div>
     </div>
