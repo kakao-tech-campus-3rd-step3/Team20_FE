@@ -1,5 +1,7 @@
 import { Header } from '@/features/Header';
 import { Footer } from '@/features/Footer';
+import { Toast } from '@/features/Toast';
+import 'react-toastify/dist/ReactToastify.css';
 import type { ReactNode } from 'react';
 
 interface GlobalLayoutProps {
@@ -13,6 +15,7 @@ export const GlobalLayout = ({ children }: GlobalLayoutProps) => {
       <main className="w-full bg-gradient-to-b from-[var(--color-brand-primary)]/10 to-[var(--color-brand-primary)]/50">
         {children}
       </main>
+      <Toast />
       <Footer />
     </>
   );

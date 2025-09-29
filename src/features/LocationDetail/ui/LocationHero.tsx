@@ -1,4 +1,5 @@
 import { MapPin, Share2, Copy, Navigation, Heart } from 'lucide-react';
+import { toast } from 'react-toastify';
 import { Button, IconButton } from '@/shared/ui';
 import type { LocationHeroProps } from '../model/types';
 
@@ -10,8 +11,10 @@ export function LocationHero({ location }: LocationHeroProps) {
   const handleCopyAddress = async () => {
     try {
       await navigator.clipboard.writeText(location.address);
+      toast.success('주소를 복사했어요.');
     } catch (error) {
       console.error('[LocationHero] 주소 복사 실패', error);
+      toast.error('주소 복사에 실패했어요. 다시 시도해 주세요.');
     }
   };
 
@@ -42,10 +45,14 @@ export function LocationHero({ location }: LocationHeroProps) {
   };
 
   return (
-    <header className="relative rounded-16 overflow-hidden shadow-custom-heavy ">
-      <img src={location.locationImage} alt={location.name} className="w-full h-200 object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-      <div className="absolute bottom-16 left-16 right-16 text-white p-16 rounded-16">
+    <header className="relative mx-auto max-w-[800px] rounded-16 overflow-hidden shadow-custom-heavy">
+      <img
+        src={location.locationImage}
+        alt={location.name}
+        className="w-full h-200 object-cover object-center rounded-2xl"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-2xl" />
+      <div className="absolute bottom-16 left-16 right-16 text-white p-16 rounded-2xl">
         <h1 className="text-32 leading-40 font-semibold">{location.name}</h1>
         <p className="mt-8 text-16 opacity-90 inline-flex items-center">
           <MapPin className="mr-8" size={18} />
