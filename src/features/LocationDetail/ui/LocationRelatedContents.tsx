@@ -1,33 +1,57 @@
 import { Link } from '@tanstack/react-router';
-import { useContentDetail } from '@/entities/content/api/queryfn';
+import { useRelatedContentDetails } from '@/entities/content/api/queryfn';
 import type { RelatedContent } from '@/entities/location';
 import type { LocationRelatedContentsProps } from '../model/types';
 
 export function LocationRelatedContents({ relatedContents }: LocationRelatedContentsProps) {
-  if (!relatedContents?.length) {
+  const list = relatedContents ?? [];
+  const ids = list.map((c) => c.contentId.toString());
+  const { data } = useRelatedContentDetails(ids);
+
+  if (!list.length) {
     return null;
   }
+
+  const byId = new Map(data?.map((d) => [d.contentId, d]));
 
   return (
     <section className="p-6 rounded-16 shadow-custom-light bg-brand-primary">
       <h2 className="text-heading-1 font-bold mb-12">관련 콘텐츠</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-12">
-        {relatedContents.map((content) => (
-          <RelatedContentCard key={content.contentId} content={content} />
-        ))}
+        {list.map((content) => {
+          const detail = byId?.get(content.contentId);
+          const title = detail?.title ?? content.title;
+          const category = detail?.category ?? content.category;
+          const image = detail?.posterImageUrl;
+
+          return (
+            <RelatedContentCard
+              key={content.contentId}
+              contentId={content.contentId}
+              title={title}
+              category={category}
+              image={image}
+            />
+          );
+        })}
       </div>
     </section>
   );
 }
 
-function RelatedContentCard({ content }: { content: RelatedContent }) {
-  const { data } = useContentDetail(content.contentId.toString());
-  const title = data?.title ?? content.title;
-  const category = data?.category ?? content.category;
-  const image = data?.posterImageUrl;
-
+function RelatedContentCard({
+  contentId,
+  title,
+  category,
+  image,
+}: {
+  contentId: number;
+  title: string;
+  category: RelatedContent['category'];
+  image?: string;
+}) {
   return (
-    <Link to="/content/$id" params={{ id: content.contentId.toString() }} className="group block">
+    <Link to="/content/$id" params={{ id: contentId.toString() }} className="group block">
       <div className="rounded-2xl overflow-hidden rounded-16 bg-white shadow-custom-light hover:shadow-custom-medium transition-transform duration-200 group-hover:-translate-y-4">
         <div className="w-full h-100 bg-gray-100">
           {image ? (
