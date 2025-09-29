@@ -8,6 +8,9 @@ export const PLACE_CARD_DEFAULT = {
 export const SIDEBAR_TITLES = {
   HEADER_TITLE: '오징어 게임 촬영지',
   FOOTER_TITLE: '🎬 오징어 게임 촬영지 탐방',
+  SEARCH_TITLE: '촬영지 검색',
+  SEARCH_SUBTITLE: '촬영지를 검색해보세요',
+  FOOTER_SEARCH_TEXT: '🔍 원하는 촬영지를 검색해보세요',
 };
 
 export const SIDEBAR_STATUS_TEXT = {
@@ -40,8 +43,39 @@ export const SIDEBAR_SEARCH_RESULTS = {
   RESULTS_COUNT: '개의 장소를 찾았습니다',
 } as const;
 
+export const ROUTE_BUTTON_TEXT = {
+  ADD_TO_ROUTE: '동선에 추가하기',
+  ADDED_TO_ROUTE: '동선에 추가됨',
+} as const;
+
+export const PLACE_CARD_LABELS = {
+  RELATED_CONTENTS: '관련 콘텐츠',
+  LOCATION: '위치',
+} as const;
+
+export const ROUTE_SIDEBAR_TITLES = {
+  HEADER_TITLE: '동선 계획',
+  SUBTITLE: '추가된 장소를 확인하고 순서를 조정하세요',
+  EMPTY_TITLE: '동선에 장소를 추가해보세요',
+  EMPTY_DESCRIPTION: '좌측에서 장소를 선택하고 "동선에 추가하기" 버튼을 눌러보세요.',
+  FOOTER_TITLE: '🗺️ 나만의 동선 만들기',
+} as const;
+
+export const ROUTE_SIDEBAR_BUTTONS = {
+  SAVE_ROUTE: '동선 저장하기',
+  REORDER: '순서 조정',
+  REMOVE: '제거',
+} as const;
+
+export const ROUTE_SIDEBAR_ICONS = {
+  MAP: '🗺️',
+  SAVE: 'M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12',
+  ESTIMATED_TIME: '⏱️ 예상 소요시간',
+} as const;
+
 export const formatFoundCount = (n: number) => `${n}개의 촬영지를 찾았습니다`;
 export const formatLocations = (n: number) => `📍 ${n}개 장소`;
 export const formatAvgRating = (avg: number) => `⭐ 평균 ${avg.toFixed(1)}점`;
 export const formatDuration = (range: readonly [number, number]) =>
   `⏱️ ${range[0]}-${range[1]}시간`;
+export const formatRouteCount = (n: number) => `${n}개 장소 추가됨`;

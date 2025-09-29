@@ -1,11 +1,23 @@
 import type { Place } from '@/features/Sidebar/model/types';
-import type { KakaoMap, KakaoCustomOverlay, LatLng, KakaoMarker } from './types';
-import { OVERLAY_DEFAULTS, OVERLAY_STYLES } from './constants';
+import type {
+  KakaoMap,
+  KakaoCustomOverlay,
+  LatLng,
+  KakaoMarker,
+  KakaoPolyline,
+  KakaoMapsNS,
+} from './types';
+import { OVERLAY_DEFAULTS, OVERLAY_STYLES, MARKER_CONFIG } from './constants';
 import { OVERLAY_MESSAGES, ERROR_MESSAGES } from './messages';
 
-export const createLatLng = (lat: number, lng: number) => {
+const getKakaoMaps = (): KakaoMapsNS => {
   const maps = window.kakao?.maps;
   if (!maps) throw new Error(ERROR_MESSAGES.sdkNotReady);
+  return maps;
+};
+
+export const createLatLng = (lat: number, lng: number) => {
+  const maps = getKakaoMaps();
   return new maps.LatLng(lat, lng);
 };
 
@@ -21,9 +33,45 @@ export const clearOverlay = (overlay: KakaoCustomOverlay | null) => {
   return null;
 };
 
-/**
- * 오버레이 HTML을 직접 생성하는 함수
- */
+export const clearPolylines = (polylines: KakaoPolyline[]) => {
+  polylines.forEach((polyline) => polyline.setMap(null));
+  return [];
+};
+
+export const createNumberedMarkerImage = (order: number) => {
+  const maps = getKakaoMaps();
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas context not available');
+
+  const { SIZE, BACKGROUND_COLOR, BORDER_COLOR, BORDER_WIDTH, TEXT_COLOR, FONT } = MARKER_CONFIG;
+  const radius = SIZE / 2;
+  canvas.width = SIZE;
+  canvas.height = SIZE;
+
+  ctx.fillStyle = BACKGROUND_COLOR;
+  ctx.beginPath();
+  ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
+  ctx.fill();
+
+  ctx.strokeStyle = BORDER_COLOR;
+  ctx.lineWidth = BORDER_WIDTH;
+  ctx.stroke();
+
+  ctx.fillStyle = TEXT_COLOR;
+  ctx.font = FONT;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(order.toString(), radius, radius);
+
+  const imageDataUrl = canvas.toDataURL();
+  const imageSize = new maps.Size(SIZE, SIZE);
+  const imageOption = { offset: new maps.Point(SIZE / 2, SIZE) };
+
+  return new maps.MarkerImage(imageDataUrl, imageSize, imageOption);
+};
+
 export function generateOverlayHTML(place: Place): string {
   const {
     name = OVERLAY_DEFAULTS.name,
@@ -79,29 +127,37 @@ export function generateOverlayHTML(place: Place): string {
   `;
 }
 
-/**
- * 카카오맵에 커스텀 오버레이를 생성하고 관리하는 함수
- */
 export function createMapOverlay(
   map: KakaoMap,
   place: Place,
   position: LatLng,
   onClose: () => void,
 ): KakaoCustomOverlay {
-  const maps = window.kakao?.maps;
-  if (!maps) {
-    throw new Error(ERROR_MESSAGES.sdkNotReady);
-  }
-
+  const maps = getKakaoMaps();
   const content = generateOverlayHTML(place);
 
   (window as unknown as { closeMapOverlay?: () => void }).closeMapOverlay = onClose;
 
-  const overlay = new maps.CustomOverlay({
+  return new maps.CustomOverlay({
     content,
     map,
     position,
   });
+}
 
-  return overlay;
+/**
+ * 전역 오버레이를 닫는 공통 함수
+ */
+export function closeGlobalOverlay(): void {
+  if (globalThis.globalOverlayRef) {
+    globalThis.globalOverlayRef.setMap(null);
+    globalThis.globalOverlayRef = null;
+  }
+}
+
+/**
+ * 전역 오버레이를 설정하는 공통 함수
+ */
+export function setGlobalOverlay(overlay: KakaoCustomOverlay): void {
+  globalThis.globalOverlayRef = overlay;
 }

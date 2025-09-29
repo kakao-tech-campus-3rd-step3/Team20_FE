@@ -6,6 +6,9 @@ export function SidebarSearchResults({
   searchQuery,
   places,
   onPlaceClick,
+  onAddToRoute,
+  routePlaces = [],
+  selectedPlace,
 }: SidebarSearchResultsProps) {
   if (places.length === 0) {
     return (
@@ -36,7 +39,13 @@ export function SidebarSearchResults({
           {SIDEBAR_SEARCH_RESULTS.RESULTS_COUNT}
         </p>
       </div>
-      <PlaceList places={places} onPlaceClick={onPlaceClick} />
+      <PlaceList
+        places={places}
+        onPlaceClick={onPlaceClick}
+        onAddToRoute={onAddToRoute}
+        routePlaces={routePlaces}
+        selectedPlace={selectedPlace}
+      />
     </div>
   );
 }

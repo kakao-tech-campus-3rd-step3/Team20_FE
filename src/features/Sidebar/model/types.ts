@@ -13,12 +13,16 @@ export type PlaceCardProps = {
   onClick?: () => void;
   className?: string;
   badgeNumber?: number;
+  isInRoute?: boolean;
 };
 
 export type PlaceListProps = {
   places?: Place[];
   className?: string;
   onPlaceClick?: (place: Place) => void;
+  onAddToRoute?: (place: Place) => void;
+  routePlaces?: Place[];
+  selectedPlace?: Place | null;
 };
 
 export type SidebarProps = {
@@ -26,6 +30,9 @@ export type SidebarProps = {
   contentId?: string;
   onSearchPlacesChange?: (places: Place[]) => void;
   onPlaceClick?: (place: Place) => void;
+  onAddToRoute?: (place: Place) => void;
+  routePlaces?: Place[];
+  selectedPlace?: Place | null;
 };
 
 export type SidebarSearchProps = {
@@ -85,4 +92,7 @@ export type SidebarSearchResultsProps = {
   searchQuery: string;
   places: Place[];
   onPlaceClick?: (place: Place) => void;
+  onAddToRoute?: (place: Place) => void;
+  routePlaces?: Place[];
+  selectedPlace?: Place | null;
 };
