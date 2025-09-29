@@ -1,7 +1,6 @@
 import type { Preview } from '@storybook/react';
-import React from 'react';
 import '../src/index.css';
-import { MemoryRouter } from 'react-router-dom';
+import { withTanstackRouter } from './tanstack-router-mock';
 
 const preview: Preview = {
   parameters: {
@@ -18,8 +17,14 @@ const preview: Preview = {
       // 'off' - skip a11y checks entirely
       test: 'todo',
     },
+
+    // TanStack Router 기본 설정
+    router: {
+      initialEntries: ['/'],
+      initialIndex: 0,
+    },
   },
-  decorators: [(Story) => React.createElement(MemoryRouter, null, Story())],
+  decorators: [withTanstackRouter],
 };
 
 export default preview;
