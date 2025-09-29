@@ -42,6 +42,7 @@ export const handlers = [
 
   // 인기 콘텐츠 Top 10 조회
   http.get(`${BASE_URL}/contents`, () => {
+    console.log('🎭 MSW: /contents 요청 처리됨', new Date().toLocaleTimeString());
     return HttpResponse.json({
       status: 200,
       message: '인기 콘텐츠 Top 10 조회 성공',

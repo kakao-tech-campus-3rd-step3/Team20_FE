@@ -39,25 +39,39 @@ export const withApi: Decorator = (Story, context) => {
     delay = 0,
   } = apiConfig;
 
-  // QueryClient 생성 (스토리별로 독립적)
+  // QueryClient 생성 (전역 싱글톤으로 변경)
   const queryClient = useMemo(() => {
-    return new QueryClient({
+    // 기존 QueryClient가 있으면 재사용
+    if (typeof window !== 'undefined' && (window as any).__STORYBOOK_QUERY_CLIENT__) {
+      return (window as any).__STORYBOOK_QUERY_CLIENT__;
+    }
+
+    const client = new QueryClient({
       defaultOptions: {
         queries: {
-          retry: false, // 스토리북에서는 재시도 비활성화
-          staleTime: Infinity, // 무한 캐시로 리페치 방지
-          gcTime: 1000 * 60 * 10,
+          retry: 0, // 재시도 완전 비활성화
+          staleTime: 1000 * 60 * 60, // 1시간 동안 fresh
+          gcTime: 1000 * 60 * 60 * 2, // 2시간 캐시 보관
           refetchOnWindowFocus: false,
-          refetchOnMount: false, // 마운트 시 리페치 방지
-          refetchOnReconnect: false, // 재연결 시 리페치 방지
+          refetchOnMount: false,
+          refetchOnReconnect: false,
+          refetchInterval: false, // 주기적 refetch 비활성화
+          refetchIntervalInBackground: false,
           ...queryClientConfig.defaultOptions?.queries,
         },
         mutations: {
-          retry: false,
+          retry: 0,
           ...queryClientConfig.defaultOptions?.mutations,
         },
       },
     });
+
+    // 전역에 저장하여 재사용
+    if (typeof window !== 'undefined') {
+      (window as any).__STORYBOOK_QUERY_CLIENT__ = client;
+    }
+
+    return client;
   }, []);
 
   // MSW 핸들러 설정
