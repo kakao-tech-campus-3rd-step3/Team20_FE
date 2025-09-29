@@ -8,15 +8,18 @@ import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarke
 import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
 import { useRouteMarkers } from '@/features/MapSection/model/hooks/useRouteMarkers';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks';
+import { useSidebarData } from '@/features/Sidebar/model/hooks';
 import type { Place } from '@/features/Sidebar/model/types';
 
-export const Route = createFileRoute('/map')({
-  component: MapPage,
+export const Route = createFileRoute('/content/$contentId/map')({
+  component: ContentPlaceMapPage,
 });
 
-function MapPage() {
+function ContentPlaceMapPage() {
+  const { contentId } = Route.useParams() as { contentId: string };
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const { places: contentPlaces } = useSidebarData(contentId);
   const mapHook = useKakaoMap();
   const { handlePlaceClick, closeOverlay } = usePlaceClick(mapHook.mapRef);
   const {
@@ -36,7 +39,10 @@ function MapPage() {
     [handlePlaceClick],
   );
 
-  useKakaoMarkers(searchPlaces, mapHook.mapRef, routePlaces, handlePlaceSelect);
+  // 검색 중이면 검색 결과를, 아니면 콘텐츠의 기본 촬영지들을 표시
+  const displayPlaces = searchPlaces.length > 0 ? searchPlaces : contentPlaces;
+
+  useKakaoMarkers(displayPlaces, mapHook.mapRef, routePlaces, handlePlaceSelect);
   useRouteMarkers(routePlaces, mapHook.mapRef, handlePlaceSelect);
 
   const handleAddToRoute = (place: Place) => {
@@ -49,6 +55,7 @@ function MapPage() {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar
           className="w-96 shrink-0 h-full min-h-0"
+          contentId={contentId}
           onSearchPlacesChange={setSearchPlaces}
           onPlaceClick={handlePlaceSelect}
           onAddToRoute={handleAddToRoute}

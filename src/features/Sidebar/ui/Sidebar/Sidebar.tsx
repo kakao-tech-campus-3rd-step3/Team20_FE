@@ -21,6 +21,9 @@ export function Sidebar({
   contentId,
   onSearchPlacesChange,
   onPlaceClick,
+  onAddToRoute,
+  routePlaces = [],
+  selectedPlace,
 }: SidebarProps) {
   const { contentDetail, places, isLoading, error } = useSidebarData(contentId);
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
@@ -52,11 +55,11 @@ export function Sidebar({
             {contentDetail?.title
               ? `${contentDetail.title} 촬영지`
               : isEmpty
-                ? '촬영지 검색'
+                ? SIDEBAR_TITLES.SEARCH_TITLE
                 : SIDEBAR_TITLES.HEADER_TITLE}
           </h2>
           <p className="text-body-small text-(--color-gray-100)">
-            {isEmpty ? '촬영지를 검색해보세요' : formatFoundCount(displayPlaces.length)}
+            {isEmpty ? SIDEBAR_TITLES.SEARCH_SUBTITLE : formatFoundCount(displayPlaces.length)}
           </p>
         </div>
 
@@ -70,6 +73,9 @@ export function Sidebar({
               searchQuery={searchQuery}
               places={displayPlaces}
               onPlaceClick={onPlaceClick}
+              onAddToRoute={onAddToRoute}
+              routePlaces={routePlaces}
+              selectedPlace={selectedPlace}
             />
           ) : isEmpty ? (
             <SidebarEmptyState />
@@ -78,7 +84,13 @@ export function Sidebar({
           ) : error ? (
             <SidebarErrorState />
           ) : (
-            <PlaceList places={displayPlaces} onPlaceClick={onPlaceClick} />
+            <PlaceList
+              places={displayPlaces}
+              onPlaceClick={onPlaceClick}
+              onAddToRoute={onAddToRoute}
+              routePlaces={routePlaces}
+              selectedPlace={selectedPlace}
+            />
           )}
         </div>
 
@@ -88,7 +100,7 @@ export function Sidebar({
               {contentDetail?.title
                 ? `🎬 ${contentDetail.title} 촬영지 탐방`
                 : isEmpty
-                  ? '🔍 원하는 촬영지를 검색해보세요'
+                  ? SIDEBAR_TITLES.FOOTER_SEARCH_TEXT
                   : SIDEBAR_TITLES.FOOTER_TITLE}
             </p>
             {!isEmpty && (
