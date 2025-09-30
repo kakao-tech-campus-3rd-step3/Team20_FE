@@ -1,5 +1,6 @@
 import { setupWorker } from 'msw/browser';
 import { handlers } from './msw-handlers';
+import type { HttpHandler } from 'msw';
 
 export const worker = setupWorker(...handlers);
 
@@ -20,8 +21,8 @@ export const initializeMsw = async () => {
   }
 };
 
-export const updateHandlers = (newHandlers: unknown[]) => {
-  worker.use(...(newHandlers as Parameters<typeof worker.use>));
+export const updateHandlers = (newHandlers: HttpHandler[]) => {
+  worker.use(...newHandlers);
 };
 
 export const mswHelpers = {
@@ -33,8 +34,8 @@ export const mswHelpers = {
     worker.resetHandlers();
   },
 
-  addHandlers: (newHandlers: unknown[]) => {
-    worker.use(...(newHandlers as Parameters<typeof worker.use>));
+  addHandlers: (newHandlers: HttpHandler[]) => {
+    worker.use(...newHandlers);
   },
 
   getStatus: () => {

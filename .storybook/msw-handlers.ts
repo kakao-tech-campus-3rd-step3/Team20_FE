@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse, type ResponseResolver } from 'msw';
 
 /**
  * MSW 핸들러 정의
@@ -289,8 +289,8 @@ export const handlers = [
  */
 
 // 로딩 상태 시뮬레이션
-export const createDelayedHandler = (handler: (info: unknown) => unknown, delay: number = 1000) => {
-  return async (info: unknown) => {
+export const createDelayedHandler = (handler: ResponseResolver, delay: number = 1000) => {
+  return async (info: Parameters<ResponseResolver>[0]) => {
     await new Promise((resolve) => setTimeout(resolve, delay));
     return handler(info);
   };

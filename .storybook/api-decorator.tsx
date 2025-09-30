@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { worker, mswHelpers } from './msw-setup';
 import { scenarioHandlers } from './msw-handlers';
+import type { HttpHandler } from 'msw';
 
 interface ApiStoryParameters {
   api?: {
@@ -13,7 +14,7 @@ interface ApiStoryParameters {
      */
     scenario?: 'default' | 'loading' | 'error' | 'empty' | 'networkError';
 
-    customHandlers?: unknown[];
+    customHandlers?: HttpHandler[];
 
     queryClient?: {
       defaultOptions?: {
@@ -31,7 +32,7 @@ interface ApiStoryParameters {
 const ApiWrapper: React.FC<{
   Story: React.ComponentType;
   scenario: string;
-  customHandlers: unknown[];
+  customHandlers: HttpHandler[];
   queryClientConfig: {
     defaultOptions?: {
       queries?: Record<string, unknown>;

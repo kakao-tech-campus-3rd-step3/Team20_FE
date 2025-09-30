@@ -102,7 +102,7 @@ export const withTanstackRouter: Decorator = (Story, context) => {
         history: memoryHistory,
         context: {},
       });
-    }, []);
+    }, [initialEntries, initialIndex, Story]);
 
     return <RouterProvider router={router} />;
   };
