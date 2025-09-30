@@ -63,7 +63,7 @@ const ApiWrapper: React.FC<{
         },
       },
     });
-  }, [queryClientConfig.defaultOptions?.queries, queryClientConfig.defaultOptions?.mutations]);
+  }, []);
 
   useEffect(() => {
     mswHelpers.resetHandlers();
@@ -83,7 +83,7 @@ const ApiWrapper: React.FC<{
     return () => {
       mswHelpers.resetHandlers();
     };
-  }, [scenario, customHandlers, delay]);
+  }, [scenario, customHandlers]);
 
   return (
     <QueryClientProvider client={queryClient}>
