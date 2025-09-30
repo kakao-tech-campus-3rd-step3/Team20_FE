@@ -9,7 +9,7 @@
 
 ### 1. 🎯 Frontend 아키텍처
 
-![FE Architecture](./public/FE-api.png)
+![FE Architecture](./public/FE-api2.png)
 
 **서버리스 API 기반 Frontend 아키텍처**
 
@@ -136,11 +136,14 @@ src/shared/ui/
 
 ### 🔗 API 통합 및 데이터 레이어 구축
 
-- **서버리스 API 연동 완료**: 기존 UI 전용 컴포넌트에 실제 데이터 통신 기능 추가
-- **React Query 기반 상태 관리**: 서버 상태와 캐싱 전략 구현으로 성능 최적화
-- **QueryKey Factory 패턴 도입**: 일관된 쿼리 키 관리로 캐시 무효화 전략 체계화
-- **타입 안전성 강화**: API 응답 타입 정의 및 런타임 검증 추가
+- **서버리스 API 동선(POST,GET) db연동**: 동선정보를 저장하고 불러올 수 있는 서버리스 환경 구축
+- **장소 상세 페이지 구현**: 장소의 상세정보를 제공해주는 상세 페이지 작성
+- **지도 페이지 고도화**: 동선을 계획하고 지도에 장소를 검색하는 기능 추가(api 미연동)
+- **OAS방식 api명세 작성**: 개발 효율성을 높이고 문서화 목적의 구현
+- **Tanstack router로 리팩토링**: react-router-dom에서 tanstack-router로 리팩토링
+- **storybook MSW(모킹) 구현**: 스토리북에서 api모킹 및 스토리별 독립성 보장하도록 설정
 
 ---
 
+이주의 TMI :
 _"좋은 아키텍처는 결정을 늦출 수 있게 해준다" - Robert C. Martin_
