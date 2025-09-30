@@ -32,7 +32,7 @@ declare module '@storybook/react' {
       search?: Record<string, string>;
 
       //라우터 컨텍스트
-      context?: Record<string, any>;
+      context?: Record<string, unknown>;
     };
   }
 }
@@ -55,7 +55,7 @@ export interface RouterStoryConfig {
   search?: Record<string, string>;
 
   //라우터 컨텍스트
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
 }
 
 //주요 라우트 경로 상수

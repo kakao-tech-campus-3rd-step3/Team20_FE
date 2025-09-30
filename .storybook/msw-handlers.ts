@@ -289,8 +289,8 @@ export const handlers = [
  */
 
 // 로딩 상태 시뮬레이션
-export const createDelayedHandler = (handler: any, delay: number = 1000) => {
-  return async (info: any) => {
+export const createDelayedHandler = (handler: (info: unknown) => unknown, delay: number = 1000) => {
+  return async (info: unknown) => {
     await new Promise((resolve) => setTimeout(resolve, delay));
     return handler(info);
   };

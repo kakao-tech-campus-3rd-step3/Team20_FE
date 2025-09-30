@@ -95,7 +95,7 @@ export const withTanstackRouter: Decorator = (Story, context) => {
   const routerConfig = parameters.router || {};
 
   // 기본 설정
-  const { initialEntries = ['/'], initialIndex = 0, path = '/', params = {} } = routerConfig;
+  const { initialEntries = ['/'], initialIndex = 0 } = routerConfig;
 
   // Router와 Story를 감싸는 Provider 컴포넌트
   const RouterWrapper = () => {
@@ -124,7 +124,7 @@ export const withTanstackRouter: Decorator = (Story, context) => {
       });
 
       return { router, queryClient };
-    }, [initialEntries, initialIndex]);
+    }, []);
 
     return (
       <QueryClientProvider client={queryClient}>

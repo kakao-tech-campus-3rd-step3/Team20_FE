@@ -71,6 +71,9 @@ export const Incheon: Story = {
 
 export const AllCities: Story = {
   name: '🗺️ 모든 도시 쇼케이스',
+  args: {
+    city: 'All',
+  },
   parameters: {
     api: API_SCENARIOS.DEFAULT,
   },

@@ -13,12 +13,12 @@ interface ApiStoryParameters {
      */
     scenario?: 'default' | 'loading' | 'error' | 'empty' | 'networkError';
 
-    customHandlers?: any[];
+    customHandlers?: unknown[];
 
     queryClient?: {
       defaultOptions?: {
-        queries?: any;
-        mutations?: any;
+        queries?: Record<string, unknown>;
+        mutations?: Record<string, unknown>;
       };
     };
 
@@ -27,23 +27,29 @@ interface ApiStoryParameters {
   };
 }
 
-export const withApi: Decorator = (Story, context) => {
-  const parameters: ApiStoryParameters = context.parameters;
-  const apiConfig = parameters.api || {};
-
-  const {
-    scenario = 'default',
-    customHandlers = [],
-    queryClient: queryClientConfig = {},
-    showDevtools = false,
-    delay = 0,
-  } = apiConfig;
-
+// API Wrapper 컴포넌트를 별도로 분리
+const ApiWrapper: React.FC<{
+  Story: React.ComponentType;
+  scenario: string;
+  customHandlers: unknown[];
+  queryClientConfig: {
+    defaultOptions?: {
+      queries?: Record<string, unknown>;
+      mutations?: Record<string, unknown>;
+    };
+  };
+  showDevtools: boolean;
+  delay: number;
+}> = ({ Story, scenario, customHandlers, queryClientConfig, showDevtools, delay }) => {
   // QueryClient 생성 (전역 싱글톤으로 변경)
   const queryClient = useMemo(() => {
     // 기존 QueryClient가 있으면 재사용
-    if (typeof window !== 'undefined' && (window as any).__STORYBOOK_QUERY_CLIENT__) {
-      return (window as any).__STORYBOOK_QUERY_CLIENT__;
+    if (
+      typeof window !== 'undefined' &&
+      (window as unknown as Record<string, unknown>).__STORYBOOK_QUERY_CLIENT__
+    ) {
+      return (window as unknown as Record<string, unknown>)
+        .__STORYBOOK_QUERY_CLIENT__ as QueryClient;
     }
 
     const client = new QueryClient({
@@ -68,11 +74,11 @@ export const withApi: Decorator = (Story, context) => {
 
     // 전역에 저장하여 재사용
     if (typeof window !== 'undefined') {
-      (window as any).__STORYBOOK_QUERY_CLIENT__ = client;
+      (window as unknown as Record<string, unknown>).__STORYBOOK_QUERY_CLIENT__ = client;
     }
 
     return client;
-  }, []);
+  }, [queryClientConfig.defaultOptions?.queries, queryClientConfig.defaultOptions?.mutations]);
 
   // MSW 핸들러 설정
   useEffect(() => {
@@ -82,9 +88,10 @@ export const withApi: Decorator = (Story, context) => {
     mswHelpers.resetHandlers();
 
     // 시나리오별 핸들러 적용
-    if (scenario !== 'default' && scenarioHandlers[scenario]) {
+    if (scenario !== 'default' && scenario in scenarioHandlers) {
       console.log(`📝 시나리오 핸들러 적용: ${scenario}`);
-      mswHelpers.addHandlers(scenarioHandlers[scenario]);
+      const handlers = scenarioHandlers[scenario as keyof typeof scenarioHandlers];
+      mswHelpers.addHandlers(handlers);
     }
 
     // 커스텀 핸들러 적용
@@ -107,8 +114,7 @@ export const withApi: Decorator = (Story, context) => {
     };
   }, [scenario, customHandlers, delay]);
 
-  // API Wrapper 컴포넌트
-  const ApiWrapper = () => (
+  return (
     <QueryClientProvider client={queryClient}>
       <div data-testid="storybook-api-wrapper">
         <Story />
@@ -116,8 +122,30 @@ export const withApi: Decorator = (Story, context) => {
       {showDevtools && <ReactQueryDevtools initialIsOpen={false} position="bottom" />}
     </QueryClientProvider>
   );
+};
 
-  return <ApiWrapper />;
+export const withApi: Decorator = (Story, context) => {
+  const parameters: ApiStoryParameters = context.parameters;
+  const apiConfig = parameters.api || {};
+
+  const {
+    scenario = 'default',
+    customHandlers = [],
+    queryClient: queryClientConfig = {},
+    showDevtools = false,
+    delay = 0,
+  } = apiConfig;
+
+  return (
+    <ApiWrapper
+      Story={Story}
+      scenario={scenario}
+      customHandlers={customHandlers}
+      queryClientConfig={queryClientConfig}
+      showDevtools={showDevtools}
+      delay={delay}
+    />
+  );
 };
 
 interface ApiDebugInfoProps {
@@ -148,7 +176,7 @@ export const ApiDebugInfo: React.FC<ApiDebugInfoProps> = ({
               핸들러 목록 보기
             </summary>
             <div className="mt-1 pl-2 border-l-2 border-blue-200">
-              {worker.listHandlers().map((handler, index) => (
+              {worker.listHandlers().map((_, index) => (
                 <div key={index} className="text-xs text-gray-600">
                   핸들러 #{index + 1}
                 </div>

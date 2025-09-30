@@ -20,8 +20,8 @@ export const initializeMsw = async () => {
   }
 };
 
-export const updateHandlers = (newHandlers: any[]) => {
-  worker.use(...newHandlers);
+export const updateHandlers = (newHandlers: unknown[]) => {
+  worker.use(...(newHandlers as Parameters<typeof worker.use>));
 };
 
 export const mswHelpers = {
@@ -33,8 +33,8 @@ export const mswHelpers = {
     worker.resetHandlers();
   },
 
-  addHandlers: (newHandlers: any[]) => {
-    worker.use(...newHandlers);
+  addHandlers: (newHandlers: unknown[]) => {
+    worker.use(...(newHandlers as Parameters<typeof worker.use>));
   },
 
   getStatus: () => {
