@@ -1,5 +1,5 @@
 import type { Decorator } from '@storybook/react';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { worker, mswHelpers } from './msw-setup';
@@ -41,45 +41,39 @@ const ApiWrapper: React.FC<{
   };
   showDevtools: boolean;
   delay: number;
-}> = ({ Story, scenario, customHandlers, queryClientConfig, showDevtools, delay }) => {
-  // QueryClient 생성 (스토리별 독립 인스턴스)
-  const queryClient = useMemo(() => {
-    return new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: 0, // 재시도 완전 비활성화
-          staleTime: 1000 * 60 * 60, // 1시간 동안 fresh
-          gcTime: 1000 * 60 * 60 * 2, // 2시간 캐시 보관
-          refetchOnWindowFocus: false,
-          refetchOnMount: false,
-          refetchOnReconnect: false,
-          refetchInterval: false, // 주기적 refetch 비활성화
-          refetchIntervalInBackground: false,
-          ...queryClientConfig.defaultOptions?.queries,
-        },
-        mutations: {
-          retry: 0,
-          ...queryClientConfig.defaultOptions?.mutations,
-        },
+}> = ({ Story, scenario, customHandlers, queryClientConfig, showDevtools }) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 0, // 재시도 완전 비활성화
+        staleTime: 1000 * 60 * 60,
+        gcTime: 1000 * 60 * 60 * 2,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        refetchInterval: false,
+        refetchIntervalInBackground: false,
+        ...queryClientConfig.defaultOptions?.queries,
       },
-    });
-  }, []);
+      mutations: {
+        retry: 0,
+        ...queryClientConfig.defaultOptions?.mutations,
+      },
+    },
+  });
 
   useEffect(() => {
     mswHelpers.resetHandlers();
 
-    // 시나리오별 핸들러 적용
     if (scenario !== 'default' && scenario in scenarioHandlers) {
       const handlers = scenarioHandlers[scenario as keyof typeof scenarioHandlers];
       mswHelpers.addHandlers(handlers);
     }
 
-    // 커스텀 핸들러 적용
     if (customHandlers.length > 0) {
       mswHelpers.addHandlers(customHandlers);
     }
 
-    // 정리 함수
     return () => {
       mswHelpers.resetHandlers();
     };
