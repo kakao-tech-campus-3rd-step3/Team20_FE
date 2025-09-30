@@ -24,7 +24,6 @@ interface ApiStoryParameters {
     };
 
     showDevtools?: boolean;
-    delay?: number;
   };
 }
 
@@ -40,7 +39,6 @@ const ApiWrapper: React.FC<{
     };
   };
   showDevtools: boolean;
-  delay: number;
 }> = ({ Story, scenario, customHandlers, queryClientConfig, showDevtools }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -98,7 +96,6 @@ export const withApi: Decorator = (Story, context) => {
     customHandlers = [],
     queryClient: queryClientConfig = {},
     showDevtools = false,
-    delay = 0,
   } = apiConfig;
 
   return (
@@ -108,7 +105,6 @@ export const withApi: Decorator = (Story, context) => {
       customHandlers={customHandlers}
       queryClientConfig={queryClientConfig}
       showDevtools={showDevtools}
-      delay={delay}
     />
   );
 };
@@ -161,7 +157,6 @@ export const API_SCENARIOS = {
   EMPTY: { scenario: 'empty' as const },
   NETWORK_ERROR: { scenario: 'networkError' as const },
   WITH_DEVTOOLS: { scenario: 'default' as const, showDevtools: true },
-  SLOW_RESPONSE: { scenario: 'default' as const, delay: 2000 },
 } as const;
 
 declare module '@storybook/react' {
