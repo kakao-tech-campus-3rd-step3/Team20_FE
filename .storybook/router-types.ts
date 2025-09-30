@@ -1,3 +1,5 @@
+import type React from 'react';
+
 declare module '@storybook/react' {
   interface Parameters {
     router?: {
@@ -56,6 +58,12 @@ export interface RouterStoryConfig {
 
   //라우터 컨텍스트
   context?: Record<string, unknown>;
+
+  //스토리 컴포넌트를 특정 라우트에만 렌더링할지 여부
+  renderOnlyOnTargetRoute?: boolean;
+
+  //라우트별 커스텀 컴포넌트 매핑
+  routeComponents?: Record<string, React.ComponentType>;
 }
 
 //Storybook Parameters에서 사용할 라우터 설정 타입

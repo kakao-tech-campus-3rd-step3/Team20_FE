@@ -6,68 +6,60 @@ import {
   RouterProvider,
   createRootRoute,
   createRoute,
+  Outlet,
 } from '@tanstack/react-router';
 import type { RouterStoryParameters } from './router-types';
 
 const createMockRouteTree = (StoryComponent: React.ComponentType) => {
-  // Root Route 생성
+  // Root Route 생성 - Outlet을 사용하여 중첩 라우팅 지원
   const rootRoute = createRootRoute({
     component: () => (
       <div data-testid="storybook-router-wrapper">
-        <StoryComponent />
+        <Outlet />
       </div>
     ),
   });
 
-  // 하위 라우트들 생성
+  // StoryComponent를 감싸는 래퍼 컴포넌트
+  const StoryWrapper = () => (
+    <div data-testid="storybook-story-component">
+      <StoryComponent />
+    </div>
+  );
+
+  // 기본 인덱스 라우트
   const indexRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/',
-    component: () => (
-      <div data-testid="storybook-router-wrapper">
-        <StoryComponent />
-      </div>
-    ),
+    component: StoryWrapper,
   });
 
+  // 콘텐츠 상세 라우트
   const contentRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/content/$id',
-    component: () => (
-      <div data-testid="storybook-router-wrapper">
-        <StoryComponent />
-      </div>
-    ),
+    component: StoryWrapper,
   });
 
+  // 위치 상세 라우트
   const locationRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/location/$id',
-    component: () => (
-      <div data-testid="storybook-router-wrapper">
-        <StoryComponent />
-      </div>
-    ),
+    component: StoryWrapper,
   });
 
+  // 콘텐츠 맵 라우트
   const contentMapRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/content/$contentId/map',
-    component: () => (
-      <div data-testid="storybook-router-wrapper">
-        <StoryComponent />
-      </div>
-    ),
+    component: StoryWrapper,
   });
 
+  // 맵 라우트
   const mapRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/map',
-    component: () => (
-      <div data-testid="storybook-router-wrapper">
-        <StoryComponent />
-      </div>
-    ),
+    component: StoryWrapper,
   });
 
   // Route Tree 생성
@@ -85,7 +77,7 @@ export const withTanstackRouter: Decorator = (Story, context) => {
   const routerConfig = parameters.router || {};
 
   // 기본 설정
-  const { initialEntries = ['/'], initialIndex = 0 } = routerConfig;
+  const { initialEntries = ['/'], initialIndex = 0, context: routerContext = {} } = routerConfig;
 
   // Router만 감싸는 Provider 컴포넌트 (QueryClient는 withApi에서 제공)
   const RouterWrapper = () => {
@@ -100,9 +92,9 @@ export const withTanstackRouter: Decorator = (Story, context) => {
       return createRouter({
         routeTree: createMockRouteTree(Story),
         history: memoryHistory,
-        context: {},
+        context: routerContext,
       });
-    }, [initialEntries, initialIndex, Story]);
+    }, [initialEntries, initialIndex, Story, routerContext]);
 
     return <RouterProvider router={router} />;
   };
