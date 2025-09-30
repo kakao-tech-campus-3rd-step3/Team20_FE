@@ -49,37 +49,39 @@ export const Default: Story = {
   },
 };
 
-// 좋아요 상태 스토리
-export const Liked: Story = {
-  args: {
-    onBackClick: fn(),
-    onShareClick: fn(),
-    onLikeClick: fn(),
-    isLiked: true,
-  },
-};
+// TODO 현재는 필요 없어보이나, 추가되어있는걸로 봐서 추후 동작되게 하면 될 것 같아요.
 
-// 핸들러가 없는 상태
-export const NoHandlers: Story = {
-  args: {
-    isLiked: false,
-  },
-};
+// // 좋아요 상태 스토리
+// export const Liked: Story = {
+//   args: {
+//     onBackClick: fn(),
+//     onShareClick: fn(),
+//     onLikeClick: fn(),
+//     isLiked: true,
+//   },
+// };
 
-// 모든 핸들러가 있는 상태
-export const WithHandlers: Story = {
-  args: {
-    onBackClick: fn(),
-    onShareClick: fn(),
-    onLikeClick: fn(),
-    isLiked: false,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          '모든 버튼에 핸들러가 연결된 상태입니다. Actions 패널에서 클릭 이벤트를 확인할 수 있습니다.',
-      },
-    },
-  },
-};
+// // 핸들러가 없는 상태
+// export const NoHandlers: Story = {
+//   args: {
+//     isLiked: false,
+//   },
+// };
+
+// // 모든 핸들러가 있는 상태
+// export const WithHandlers: Story = {
+//   args: {
+//     onBackClick: fn(),
+//     onShareClick: fn(),
+//     onLikeClick: fn(),
+//     isLiked: false,
+//   },
+//   parameters: {
+//     docs: {
+//       description: {
+//         story:
+//           '모든 버튼에 핸들러가 연결된 상태입니다. Actions 패널에서 클릭 이벤트를 확인할 수 있습니다.',
+//       },
+//     },
+//   },
+// };
