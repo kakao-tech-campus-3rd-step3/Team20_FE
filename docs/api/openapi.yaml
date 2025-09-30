@@ -272,7 +272,7 @@ paths:
       tags:
         - Itineraries
       summary: 새로운 여행 계획 생성
-      description: 새로운 여행 계획을 생성합니다.
+      description: 사용자가 제공한 정보로 새로운 여행 계획을 생성합니다.
       requestBody:
         required: true
         content:
@@ -285,31 +285,26 @@ paths:
                 value:
                   title: '서울 드라마 촬영지 투어'
                   description: '인기 드라마 촬영지를 둘러보는 서울 투어'
-                  locationIds: [101, 102, 103, 104, 105]
+                  locations:
+                    - locationId: 101
+                      visitOrder: 1
+                    - locationId: 102
+                      visitOrder: 2
       responses:
         '201':
           description: 여행 계획 생성 성공
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ItineraryDetailResponse'
+                $ref: '#/components/schemas/CreateItineraryResponse'
               examples:
                 success:
                   summary: 생성 성공 응답 예시
                   value:
                     status: 201
-                    message: '여행 계획이 성공적으로 생성되었습니다'
+                    message: '여행 계획이 성공적으로 생성되었습니다.'
                     data:
                       itineraryId: '36174360-f244-4207-b808-a6a71d58f4ac'
-                      title: '서울 드라마 촬영지 투어'
-                      description: '인기 드라마 촬영지를 둘러보는 서울 투어'
-                      createdAt: '2025-09-29T07:30:53.387784Z'
-                      userId: 'test-user-123'
-                      locations:
-                        - locationId: 105
-                          name: '쌍문동 백운시장'
-                          address: '서울 도봉구 우이천로 336'
-                          visitOrder: 1
         '400':
           description: 잘못된 요청
           content:
@@ -687,28 +682,50 @@ components:
 
     CreateItineraryRequest:
       type: object
-      required:
-        - title
-        - locationIds
       properties:
         title:
           type: string
-          description: 여행 계획 제목
-          example: '서울 드라마 촬영지 투어'
-          maxLength: 100
+          description: 여행 계획의 제목
+          example: '부산 영화 촬영지 투어'
         description:
           type: string
-          description: 여행 계획 설명
-          example: '인기 드라마 촬영지를 둘러보는 서울 투어'
-          maxLength: 500
-        locationIds:
+          description: 여행 계획에 대한 상세 설명
+          example: '국제시장과 친구 촬영지를 둘러보는 계획입니다.'
+        locations:
           type: array
+          description: 방문할 장소 목록과 순서
           items:
-            type: integer
-          description: 방문할 장소 ID 목록
-          example: [101, 102, 103, 104, 105]
-          minItems: 1
-          maxItems: 10
+            type: object
+            properties:
+              locationId:
+                type: integer
+                description: 장소의 고유 ID
+                example: 104
+              visitOrder:
+                type: integer
+                description: 방문 순서
+                example: 1
+      required:
+        - title
+        - description
+        - locations
+
+    CreateItineraryResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 201
+        message:
+          type: string
+          example: '여행 계획이 성공적으로 생성되었습니다.'
+        data:
+          type: object
+          properties:
+            itineraryId:
+              type: string
+              format: uuid
+              example: '36174360-f244-4207-b808-a6a71d58f4ac'
 
     ItineraryLocation:
       type: object
