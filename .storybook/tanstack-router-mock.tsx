@@ -94,7 +94,7 @@ export const withTanstackRouter: Decorator = (Story, context) => {
         history: memoryHistory,
         context: routerContext,
       });
-    }, [initialEntries, initialIndex, Story, routerContext]);
+    }, []);
 
     return <RouterProvider router={router} />;
   };
