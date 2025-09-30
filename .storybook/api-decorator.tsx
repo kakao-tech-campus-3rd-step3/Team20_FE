@@ -42,18 +42,9 @@ const ApiWrapper: React.FC<{
   showDevtools: boolean;
   delay: number;
 }> = ({ Story, scenario, customHandlers, queryClientConfig, showDevtools, delay }) => {
-  // QueryClient 생성 (전역 싱글톤으로 변경)
+  // QueryClient 생성 (스토리별 독립 인스턴스)
   const queryClient = useMemo(() => {
-    // 기존 QueryClient가 있으면 재사용
-    if (
-      typeof window !== 'undefined' &&
-      (window as unknown as Record<string, unknown>).__STORYBOOK_QUERY_CLIENT__
-    ) {
-      return (window as unknown as Record<string, unknown>)
-        .__STORYBOOK_QUERY_CLIENT__ as QueryClient;
-    }
-
-    const client = new QueryClient({
+    return new QueryClient({
       defaultOptions: {
         queries: {
           retry: 0, // 재시도 완전 비활성화
@@ -72,41 +63,20 @@ const ApiWrapper: React.FC<{
         },
       },
     });
-
-    // 전역에 저장하여 재사용
-    if (typeof window !== 'undefined') {
-      (window as unknown as Record<string, unknown>).__STORYBOOK_QUERY_CLIENT__ = client;
-    }
-
-    return client;
   }, [queryClientConfig.defaultOptions?.queries, queryClientConfig.defaultOptions?.mutations]);
 
-  // MSW 핸들러 설정
   useEffect(() => {
-    console.log(`🎭 MSW 시나리오 설정: ${scenario}`);
-
-    // 기본 핸들러 리셋
     mswHelpers.resetHandlers();
 
     // 시나리오별 핸들러 적용
     if (scenario !== 'default' && scenario in scenarioHandlers) {
-      console.log(`📝 시나리오 핸들러 적용: ${scenario}`);
       const handlers = scenarioHandlers[scenario as keyof typeof scenarioHandlers];
       mswHelpers.addHandlers(handlers);
     }
 
     // 커스텀 핸들러 적용
     if (customHandlers.length > 0) {
-      console.log(`🎨 커스텀 핸들러 ${customHandlers.length}개 적용`);
       mswHelpers.addHandlers(customHandlers);
-    }
-
-    // 활성 핸들러 수 확인
-    console.log(`🔧 현재 활성 핸들러: ${worker.listHandlers().length}개`);
-
-    // 지연 시간 적용 (개발용)
-    if (delay > 0) {
-      console.log(`🕐 API 응답 지연: ${delay}ms`);
     }
 
     // 정리 함수
