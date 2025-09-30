@@ -7,7 +7,7 @@ import {
   createRootRoute,
   createRoute,
 } from '@tanstack/react-router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import type { RouterStoryParameters } from './router-types';
 
 const createMockRouteTree = (StoryComponent: React.ComponentType) => {
   // Root Route 생성
@@ -80,16 +80,6 @@ const createMockRouteTree = (StoryComponent: React.ComponentType) => {
   ]);
 };
 
-// Storybook Parameters 타입 정의
-interface RouterStoryParameters {
-  router?: {
-    initialEntries?: string[];
-    initialIndex?: number;
-    path?: string;
-    params?: Record<string, string>;
-  };
-}
-
 export const withTanstackRouter: Decorator = (Story, context) => {
   const parameters: RouterStoryParameters = context.parameters;
   const routerConfig = parameters.router || {};
@@ -97,9 +87,9 @@ export const withTanstackRouter: Decorator = (Story, context) => {
   // 기본 설정
   const { initialEntries = ['/'], initialIndex = 0 } = routerConfig;
 
-  // Router와 Story를 감싸는 Provider 컴포넌트
+  // Router만 감싸는 Provider 컴포넌트 (QueryClient는 withApi에서 제공)
   const RouterWrapper = () => {
-    const { router, queryClient } = useMemo(() => {
+    const router = useMemo(() => {
       // Memory History 생성
       const memoryHistory = createMemoryHistory({
         initialEntries,
@@ -107,30 +97,14 @@ export const withTanstackRouter: Decorator = (Story, context) => {
       });
 
       // Mock Router 생성
-      const router = createRouter({
+      return createRouter({
         routeTree: createMockRouteTree(Story),
         history: memoryHistory,
         context: {},
       });
-
-      // QueryClient 생성
-      const queryClient = new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: false,
-            staleTime: Infinity,
-          },
-        },
-      });
-
-      return { router, queryClient };
     }, []);
 
-    return (
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    );
+    return <RouterProvider router={router} />;
   };
 
   return <RouterWrapper />;

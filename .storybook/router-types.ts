@@ -58,6 +58,11 @@ export interface RouterStoryConfig {
   context?: Record<string, unknown>;
 }
 
+//Storybook Parameters에서 사용할 라우터 설정 타입
+export interface RouterStoryParameters {
+  router?: RouterStoryConfig;
+}
+
 //주요 라우트 경로 상수
 export const ROUTE_PATHS = {
   HOME: '/',
