@@ -21,18 +21,15 @@ export const SignupForm = () => {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <form onSubmit={onSubmit} className="space-y-8">
+      <form onSubmit={onSubmit} className="space-y-6">
         {/* 제목 */}
-        <div className="text-left">
+        <div className="text-left mb-4">
           <h2
-            className="text-4xl font-bold text-gray-900 mb-2"
+            className="text-3xl font-bold text-gray-900"
             style={{ fontFamily: 'Fredoka, sans-serif' }}
           >
             회원가입
           </h2>
-          <p className="text-lg text-gray-600" style={{ fontFamily: 'Fredoka, sans-serif' }}>
-            K-콘텐츠 여행의 세계로 떠나보세요
-          </p>
         </div>
         <div>
           <label
@@ -74,8 +71,8 @@ export const SignupForm = () => {
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   onBlur={field.handleBlur}
-                  className="w-full px-6 py-5 text-lg border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
-                  style={{ fontFamily: 'Fredoka, sans-serif' }}
+                  className="w-full px-6 py-5 text-xl border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
+                  style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '1.25rem' }}
                   placeholder="이메일을 입력하세요"
                 />
                 {!field.state.meta.isValid &&
@@ -128,8 +125,8 @@ export const SignupForm = () => {
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   onBlur={field.handleBlur}
-                  className="w-full px-6 py-5 text-lg border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
-                  style={{ fontFamily: 'Fredoka, sans-serif' }}
+                  className="w-full px-6 py-5 text-xl border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
+                  style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '1.25rem' }}
                   placeholder="비밀번호를 입력하세요 (8자리 이상)"
                 />
                 {!field.state.meta.isValid &&
@@ -184,8 +181,8 @@ export const SignupForm = () => {
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   onBlur={field.handleBlur}
-                  className="w-full px-6 py-5 text-lg border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
-                  style={{ fontFamily: 'Fredoka, sans-serif' }}
+                  className="w-full px-6 py-5 text-xl border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
+                  style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '1.25rem' }}
                   placeholder="비밀번호를 다시 입력하세요"
                 />
                 {!field.state.meta.isValid &&
@@ -244,8 +241,8 @@ export const SignupForm = () => {
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   onBlur={field.handleBlur}
-                  className="w-full px-6 py-5 text-lg border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
-                  style={{ fontFamily: 'Fredoka, sans-serif' }}
+                  className="w-full px-6 py-5 text-xl border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
+                  style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '1.25rem' }}
                   placeholder="닉네임을 입력하세요 (2-20자)"
                 />
                 {!field.state.meta.isValid &&
