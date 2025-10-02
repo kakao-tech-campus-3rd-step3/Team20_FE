@@ -13,6 +13,8 @@ import { Route as MapRouteImport } from './pages/map'
 import { Route as IndexRouteImport } from './pages/index'
 import { Route as LocationIdRouteImport } from './pages/location.$id'
 import { Route as ContentIdRouteImport } from './pages/content.$id'
+import { Route as AuthSignupRouteImport } from './pages/auth/signup'
+import { Route as AuthLoginRouteImport } from './pages/auth/login'
 import { Route as ContentContentIdMapRouteImport } from './pages/content.$contentId.map'
 
 const MapRoute = MapRouteImport.update({
@@ -35,6 +37,16 @@ const ContentIdRoute = ContentIdRouteImport.update({
   path: '/content/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/auth/signup',
+  path: '/auth/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContentContentIdMapRoute = ContentContentIdMapRouteImport.update({
   id: '/content/$contentId/map',
   path: '/content/$contentId/map',
@@ -44,6 +56,8 @@ const ContentContentIdMapRoute = ContentContentIdMapRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
@@ -51,6 +65,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
@@ -59,6 +75,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
@@ -68,6 +86,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/map'
+    | '/auth/login'
+    | '/auth/signup'
     | '/content/$id'
     | '/location/$id'
     | '/content/$contentId/map'
@@ -75,6 +95,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/map'
+    | '/auth/login'
+    | '/auth/signup'
     | '/content/$id'
     | '/location/$id'
     | '/content/$contentId/map'
@@ -82,6 +104,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/map'
+    | '/auth/login'
+    | '/auth/signup'
     | '/content/$id'
     | '/location/$id'
     | '/content/$contentId/map'
@@ -90,6 +114,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MapRoute: typeof MapRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthSignupRoute: typeof AuthSignupRoute
   ContentIdRoute: typeof ContentIdRoute
   LocationIdRoute: typeof LocationIdRoute
   ContentContentIdMapRoute: typeof ContentContentIdMapRoute
@@ -125,6 +151,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContentIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/signup': {
+      id: '/auth/signup'
+      path: '/auth/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/content/$contentId/map': {
       id: '/content/$contentId/map'
       path: '/content/$contentId/map'
@@ -138,6 +178,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MapRoute: MapRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthSignupRoute: AuthSignupRoute,
   ContentIdRoute: ContentIdRoute,
   LocationIdRoute: LocationIdRoute,
   ContentContentIdMapRoute: ContentContentIdMapRoute,
