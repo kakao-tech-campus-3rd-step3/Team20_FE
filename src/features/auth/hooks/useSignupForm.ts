@@ -1,7 +1,10 @@
 import { useForm } from '@tanstack/react-form';
-import { signupSchema, type SignupFormData } from '../model';
+import { type SignupFormData } from '../model';
+import { useFormValidation } from './useFormValidation';
 
 export const useSignupForm = () => {
+  const validation = useFormValidation();
+
   const form = useForm({
     defaultValues: {
       email: '',
@@ -19,5 +22,6 @@ export const useSignupForm = () => {
   return {
     form,
     handleSubmit: form.handleSubmit,
+    validation,
   };
 };

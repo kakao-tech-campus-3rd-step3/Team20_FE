@@ -1,145 +1,47 @@
-import { Link } from '@tanstack/react-router';
-import { useState } from 'react';
 import { useLoginForm } from '../hooks/useLoginForm';
+import { FormTitle, FormFieldWrapper, FormButton, FormNavigation } from '../../../shared/ui';
 
 export const LoginForm = () => {
-  const { form, handleSubmit } = useLoginForm();
-  const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
+  const { form, handleSubmit, validation } = useLoginForm();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await handleSubmit();
   };
 
-  const getErrorMessage = (error: any): string => {
-    if (typeof error === 'string') return error;
-    if (error && typeof error === 'object' && 'message' in error) {
-      return error.message;
-    }
-    return '입력값을 확인해주세요';
-  };
-
   return (
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={onSubmit} className="space-y-6">
-        {/* 제목 */}
-        <div className="text-left mb-4">
-          <h2
-            className="text-3xl font-bold text-gray-900"
-            style={{ fontFamily: 'Fredoka, sans-serif' }}
-          >
-            로그인
-          </h2>
-        </div>
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-lg font-semibold text-gray-800 mb-3"
-            style={{ fontFamily: 'Fredoka, sans-serif' }}
-          >
-            이메일
-          </label>
-          <form.Field
-            name="email"
-            validators={{
-              onBlur: ({ value }) => {
-                setTouchedFields((prev) => new Set(prev).add('email'));
-                if (!value) return '이메일을 입력해주세요';
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(value)) {
-                  return '올바른 이메일 형식을 입력해주세요';
-                }
-                return undefined;
-              },
-              onChange: ({ value }) => {
-                // 입력 중에도 실시간 검증 (에러 메시지는 blur 후에만 표시)
-                if (!value) return '이메일을 입력해주세요';
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(value)) {
-                  return '올바른 이메일 형식을 입력해주세요';
-                }
-                return undefined;
-              },
-            }}
-          >
-            {(field) => (
-              <div>
-                <input
-                  id={field.name}
-                  name={field.name}
-                  type="email"
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  onBlur={field.handleBlur}
-                  className="w-full px-6 py-5 text-xl border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
-                  style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '1.25rem' }}
-                  placeholder="이메일을 입력하세요"
-                />
-                {!field.state.meta.isValid &&
-                  touchedFields.has('email') &&
-                  field.state.meta.errors.length > 0 && (
-                    <p className="mt-3 text-base text-red-500 font-medium" role="alert">
-                      {getErrorMessage(field.state.meta.errors[0])}
-                    </p>
-                  )}
-              </div>
-            )}
-          </form.Field>
-        </div>
+        <FormTitle>로그인</FormTitle>
+        <form.Field name="email" validators={validation.createEmailValidator()}>
+          {(field) => (
+            <FormFieldWrapper
+              field={field}
+              touchedFields={validation.touchedFields}
+              getErrorMessage={validation.getErrorMessage}
+              inputProps={{
+                label: '이메일',
+                type: 'email',
+                placeholder: '이메일을 입력하세요',
+              }}
+            />
+          )}
+        </form.Field>
 
-        <div>
-          <label
-            htmlFor="password"
-            className="block text-lg font-semibold text-gray-800 mb-3"
-            style={{ fontFamily: 'Fredoka, sans-serif' }}
-          >
-            비밀번호
-          </label>
-          <form.Field
-            name="password"
-            validators={{
-              onBlur: ({ value }) => {
-                setTouchedFields((prev) => new Set(prev).add('password'));
-                if (!value) return '비밀번호를 입력해주세요';
-                if (value.length < 8) {
-                  return '비밀번호는 8자리 이상이어야 합니다';
-                }
-                return undefined;
-              },
-              onChange: ({ value }) => {
-                // 입력 중에도 실시간 검증 (에러 메시지는 blur 후에만 표시)
-                if (!value) return '비밀번호를 입력해주세요';
-                if (value.length < 8) {
-                  return '비밀번호는 8자리 이상이어야 합니다';
-                }
-                return undefined;
-              },
-            }}
-          >
-            {(field) => (
-              <div>
-                <input
-                  id={field.name}
-                  name={field.name}
-                  type="password"
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  onBlur={field.handleBlur}
-                  className="w-full px-6 py-5 text-xl border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
-                  style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '1.25rem' }}
-                  placeholder="비밀번호를 입력하세요"
-                />
-                {!field.state.meta.isValid &&
-                  touchedFields.has('password') &&
-                  field.state.meta.errors.length > 0 && (
-                    <p className="mt-3 text-base text-red-500 font-medium" role="alert">
-                      {getErrorMessage(field.state.meta.errors[0])}
-                    </p>
-                  )}
-              </div>
-            )}
-          </form.Field>
-        </div>
+        <form.Field name="password" validators={validation.createPasswordValidator()}>
+          {(field) => (
+            <FormFieldWrapper
+              field={field}
+              touchedFields={validation.touchedFields}
+              getErrorMessage={validation.getErrorMessage}
+              inputProps={{
+                label: '비밀번호',
+                type: 'password',
+                placeholder: '비밀번호를 입력하세요',
+              }}
+            />
+          )}
+        </form.Field>
 
         <form.Subscribe selector={(state) => [state.isValid, state.isSubmitting, state.values]}>
           {([isValid, isSubmitting, values]) => {
@@ -151,55 +53,26 @@ export const LoginForm = () => {
               values.email &&
               values.password;
 
-            // 모든 필드가 유효하면 버튼 활성화 (blur 이벤트 불필요)
             const canSubmit = hasValues && isValid && !isSubmitting;
 
             return (
-              <button
+              <FormButton
                 type="submit"
-                disabled={!canSubmit}
-                className={`w-full flex justify-center py-5 px-8 border border-transparent rounded-2xl shadow-lg text-xl font-bold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-offset-2 ${
-                  canSubmit
-                    ? 'text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 focus:ring-purple-300 shadow-lg'
-                    : 'text-gray-400 bg-gray-200 cursor-not-allowed shadow-sm'
-                }`}
-                style={{ fontFamily: 'Fredoka, sans-serif' }}
+                variant={canSubmit ? 'primary' : 'disabled'}
+                isLoading={isSubmitting as boolean}
+                disabled={!canSubmit as boolean}
               >
-                {isSubmitting ? '로그인 중...' : '로그인'}
-              </button>
+                로그인
+              </FormButton>
             );
           }}
         </form.Subscribe>
 
-        {/* 하단 네비게이션 */}
-        <div className="flex justify-between items-center pt-6">
-          <div className="text-left">
-            {/* <Link
-              to="/auth/forgot-password"
-              className="text-base text-purple-600 hover:text-purple-500 font-medium transition-colors"
-            >
-              비밀번호 재설정하기
-            </Link> */}
-            <span
-              className="text-base text-purple-600 font-medium"
-              style={{ fontFamily: 'Fredoka, sans-serif' }}
-            >
-              비밀번호 재설정하기
-            </span>
-          </div>
-          <div className="text-right">
-            <span className="text-base text-gray-600" style={{ fontFamily: 'Fredoka, sans-serif' }}>
-              계정이 없으신가요?{' '}
-            </span>
-            <Link
-              to="/auth/signup"
-              className="text-base text-purple-600 hover:text-purple-500 font-semibold transition-colors"
-              style={{ fontFamily: 'Fredoka, sans-serif' }}
-            >
-              회원가입하기
-            </Link>
-          </div>
-        </div>
+        <FormNavigation
+          leftLink={{ to: '/auth/forgot-password', text: '비밀번호 재설정하기' }}
+          rightText="계정이 없으신가요?"
+          rightLink={{ to: '/auth/signup', text: '회원가입하기' }}
+        />
       </form>
     </div>
   );

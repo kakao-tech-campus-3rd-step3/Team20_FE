@@ -1,7 +1,10 @@
 import { useForm } from '@tanstack/react-form';
 import { type LoginFormData } from '../model';
+import { useFormValidation } from './useFormValidation';
 
 export const useLoginForm = () => {
+  const validation = useFormValidation();
+
   const form = useForm({
     defaultValues: {
       email: '',
@@ -17,5 +20,6 @@ export const useLoginForm = () => {
   return {
     form,
     handleSubmit: form.handleSubmit,
+    validation,
   };
 };
