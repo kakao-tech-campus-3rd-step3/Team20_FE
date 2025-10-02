@@ -2,6 +2,22 @@ import { useState } from 'react';
 import { z } from 'zod';
 import { loginSchema, signupSchema } from '../model/schemas';
 
+// 간단한 validator 타입 정의
+interface ValidatorConfig {
+  onBlur: (params: { value: string; fieldApi?: any }) => string | undefined;
+  onChange: (params: { value: string; fieldApi?: any }) => string | undefined;
+}
+
+export interface ValidationHelpers {
+  touchedFields: Set<string>;
+  markFieldAsTouched: (fieldName: string) => void;
+  createEmailValidator: () => ValidatorConfig;
+  createPasswordValidator: () => ValidatorConfig;
+  createConfirmPasswordValidator: () => ValidatorConfig;
+  createNicknameValidator: () => ValidatorConfig;
+  getErrorMessage: (error: string | { message: string } | undefined) => string;
+}
+
 export const useFormValidation = () => {
   const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
 
@@ -21,64 +37,60 @@ export const useFormValidation = () => {
     }
   };
 
-  const createEmailValidator = () => ({
-    onBlur: ({ value }: { value: string }) => {
+  const createEmailValidator = (): ValidatorConfig => ({
+    onBlur: ({ value }) => {
       markFieldAsTouched('email');
       return validateField(loginSchema.shape.email, value);
     },
-    onChange: ({ value }: { value: string }) => {
+    onChange: ({ value }) => {
       return validateField(loginSchema.shape.email, value);
     },
   });
 
-  const createPasswordValidator = () => ({
-    onBlur: ({ value }: { value: string }) => {
+  const createPasswordValidator = (): ValidatorConfig => ({
+    onBlur: ({ value }) => {
       markFieldAsTouched('password');
       return validateField(loginSchema.shape.password, value);
     },
-    onChange: ({ value }: { value: string }) => {
+    onChange: ({ value }) => {
       return validateField(loginSchema.shape.password, value);
     },
   });
 
-  const createConfirmPasswordValidator = () =>
-    ({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onBlur: ({ value, fieldApi }: any) => {
-        markFieldAsTouched('confirmPassword');
-        const password = fieldApi.form.getFieldValue('password');
+  const createConfirmPasswordValidator = (): ValidatorConfig => ({
+    onBlur: ({ value, fieldApi }) => {
+      markFieldAsTouched('confirmPassword');
+      const password = fieldApi?.form.getFieldValue('password') || '';
 
-        const basicValidation = validateField(signupSchema.shape.confirmPassword, value);
-        if (basicValidation) return basicValidation;
+      const basicValidation = validateField(signupSchema.shape.confirmPassword, value);
+      if (basicValidation) return basicValidation;
 
-        if (value !== password) {
-          return '비밀번호가 일치하지 않습니다';
-        }
+      if (value !== password) {
+        return '비밀번호가 일치하지 않습니다';
+      }
 
-        return undefined;
-      },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onChange: ({ value, fieldApi }: any) => {
-        const password = fieldApi.form.getFieldValue('password');
+      return undefined;
+    },
+    onChange: ({ value, fieldApi }) => {
+      const password = fieldApi?.form.getFieldValue('password') || '';
 
-        const basicValidation = validateField(signupSchema.shape.confirmPassword, value);
-        if (basicValidation) return basicValidation;
+      const basicValidation = validateField(signupSchema.shape.confirmPassword, value);
+      if (basicValidation) return basicValidation;
 
-        if (value !== password) {
-          return '비밀번호가 일치하지 않습니다';
-        }
+      if (value !== password) {
+        return '비밀번호가 일치하지 않습니다';
+      }
 
-        return undefined;
-      },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }) as any;
+      return undefined;
+    },
+  });
 
-  const createNicknameValidator = () => ({
-    onBlur: ({ value }: { value: string }) => {
+  const createNicknameValidator = (): ValidatorConfig => ({
+    onBlur: ({ value }) => {
       markFieldAsTouched('nickname');
       return validateField(signupSchema.shape.nickname, value);
     },
-    onChange: ({ value }: { value: string }) => {
+    onChange: ({ value }) => {
       return validateField(signupSchema.shape.nickname, value);
     },
   });

@@ -1,5 +1,7 @@
 import { useLoginForm } from '../hooks/useLoginForm';
-import { FormTitle, FormFieldWrapper, FormButton, FormNavigation } from '../../../shared/ui';
+import { FormTitle, FormButton, FormNavigation } from '../../../shared/ui';
+import { FormFieldRenderer } from './FormFieldRenderer';
+import { createLoginFields } from '../model/fieldConfigs';
 
 export const LoginForm = () => {
   const { form, handleSubmit, validation } = useLoginForm();
@@ -9,39 +11,34 @@ export const LoginForm = () => {
     await handleSubmit();
   };
 
+  const fields = createLoginFields(
+    validation.createEmailValidator,
+    validation.createPasswordValidator,
+  );
+
   return (
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={onSubmit} className="space-y-6">
         <FormTitle>로그인</FormTitle>
-        <form.Field name="email" validators={validation.createEmailValidator()}>
-          {(field) => (
-            <FormFieldWrapper
-              field={field}
-              touchedFields={validation.touchedFields}
-              getErrorMessage={validation.getErrorMessage}
-              inputProps={{
-                label: '이메일',
-                type: 'email',
-                placeholder: '이메일을 입력하세요',
-              }}
-            />
-          )}
-        </form.Field>
 
-        <form.Field name="password" validators={validation.createPasswordValidator()}>
-          {(field) => (
-            <FormFieldWrapper
-              field={field}
-              touchedFields={validation.touchedFields}
-              getErrorMessage={validation.getErrorMessage}
-              inputProps={{
-                label: '비밀번호',
-                type: 'password',
-                placeholder: '비밀번호를 입력하세요',
-              }}
-            />
-          )}
-        </form.Field>
+        {fields.map((fieldConfig) => (
+          <form.Field
+            key={fieldConfig.name}
+            name={fieldConfig.name}
+            validators={fieldConfig.validator}
+          >
+            {(field) => (
+              <FormFieldRenderer
+                field={field}
+                touchedFields={validation.touchedFields}
+                getErrorMessage={validation.getErrorMessage}
+                label={fieldConfig.label}
+                type={fieldConfig.type}
+                placeholder={fieldConfig.placeholder}
+              />
+            )}
+          </form.Field>
+        ))}
 
         <form.Subscribe selector={(state) => [state.isValid, state.isSubmitting, state.values]}>
           {([isValid, isSubmitting, values]) => {
