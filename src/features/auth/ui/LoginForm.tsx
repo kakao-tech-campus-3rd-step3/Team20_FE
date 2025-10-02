@@ -24,11 +24,22 @@ export const LoginForm = () => {
       <form onSubmit={onSubmit} className="space-y-8">
         {/* 제목 */}
         <div className="text-left">
-          <h2 className="text-4xl font-bold text-gray-900 mb-2">로그인</h2>
-          <p className="text-lg text-gray-600">K-콘텐츠 여행의 세계로 떠나보세요</p>
+          <h2
+            className="text-4xl font-bold text-gray-900 mb-2"
+            style={{ fontFamily: 'Fredoka, sans-serif' }}
+          >
+            로그인
+          </h2>
+          <p className="text-lg text-gray-600" style={{ fontFamily: 'Fredoka, sans-serif' }}>
+            K-콘텐츠 여행의 세계로 떠나보세요
+          </p>
         </div>
         <div>
-          <label htmlFor="email" className="block text-lg font-semibold text-gray-800 mb-3">
+          <label
+            htmlFor="email"
+            className="block text-lg font-semibold text-gray-800 mb-3"
+            style={{ fontFamily: 'Fredoka, sans-serif' }}
+          >
             이메일
           </label>
           <form.Field
@@ -64,6 +75,7 @@ export const LoginForm = () => {
                   onChange={(e) => field.handleChange(e.target.value)}
                   onBlur={field.handleBlur}
                   className="w-full px-6 py-5 text-lg border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
+                  style={{ fontFamily: 'Fredoka, sans-serif' }}
                   placeholder="이메일을 입력하세요"
                 />
                 {!field.state.meta.isValid &&
@@ -79,7 +91,11 @@ export const LoginForm = () => {
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-lg font-semibold text-gray-800 mb-3">
+          <label
+            htmlFor="password"
+            className="block text-lg font-semibold text-gray-800 mb-3"
+            style={{ fontFamily: 'Fredoka, sans-serif' }}
+          >
             비밀번호
           </label>
           <form.Field
@@ -113,6 +129,7 @@ export const LoginForm = () => {
                   onChange={(e) => field.handleChange(e.target.value)}
                   onBlur={field.handleBlur}
                   className="w-full px-6 py-5 text-lg border-2 border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-4 focus:ring-purple-100 focus:border-purple-400 transition-all duration-200 placeholder:text-gray-400 bg-white hover:border-gray-300"
+                  style={{ fontFamily: 'Fredoka, sans-serif' }}
                   placeholder="비밀번호를 입력하세요"
                 />
                 {!field.state.meta.isValid &&
@@ -144,7 +161,12 @@ export const LoginForm = () => {
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className="w-full flex justify-center py-5 px-8 border border-transparent rounded-2xl shadow-lg text-xl font-bold text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-purple-300 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+                className={`w-full flex justify-center py-5 px-8 border border-transparent rounded-2xl shadow-lg text-xl font-bold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-offset-2 ${
+                  canSubmit
+                    ? 'text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 focus:ring-purple-300 shadow-lg'
+                    : 'text-gray-400 bg-gray-200 cursor-not-allowed shadow-sm'
+                }`}
+                style={{ fontFamily: 'Fredoka, sans-serif' }}
               >
                 {isSubmitting ? '로그인 중...' : '로그인'}
               </button>
@@ -161,13 +183,21 @@ export const LoginForm = () => {
             >
               비밀번호 재설정하기
             </Link> */}
-            <span className="text-base text-purple-600 font-medium">비밀번호 재설정하기</span>
+            <span
+              className="text-base text-purple-600 font-medium"
+              style={{ fontFamily: 'Fredoka, sans-serif' }}
+            >
+              비밀번호 재설정하기
+            </span>
           </div>
           <div className="text-right">
-            <span className="text-base text-gray-600">계정이 없으신가요? </span>
+            <span className="text-base text-gray-600" style={{ fontFamily: 'Fredoka, sans-serif' }}>
+              계정이 없으신가요?{' '}
+            </span>
             <Link
               to="/auth/signup"
               className="text-base text-purple-600 hover:text-purple-500 font-semibold transition-colors"
+              style={{ fontFamily: 'Fredoka, sans-serif' }}
             >
               회원가입하기
             </Link>
