@@ -1,5 +1,5 @@
 import { useForm } from '@tanstack/react-form';
-import { type SignupFormData } from '../model';
+import { type SignupFormData, signupSchema } from '../model';
 import { useFormValidation } from './useFormValidation';
 
 export const useSignupForm = () => {
@@ -12,6 +12,17 @@ export const useSignupForm = () => {
       confirmPassword: '',
       nickname: '',
     } as SignupFormData,
+    validators: {
+      onChange: ({ value }) => {
+        // 전체 폼 유효성 검사
+        try {
+          signupSchema.parse(value);
+          return undefined;
+        } catch (error) {
+          return '입력값을 확인해주세요';
+        }
+      },
+    },
     onSubmit: async ({ value }) => {
       // TODO: 실제 회원가입 API 호출
       console.log('Signup form submitted:', value);
