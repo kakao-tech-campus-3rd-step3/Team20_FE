@@ -38,7 +38,7 @@ export const MAP_DEFAULTS = {
   center: { lat: 35.5, lng: 128.0 },
   level: 13,
   draggable: false,
-  scrollwheel: true,
+  scrollwheel: false,
 } as const;
 
 export const SDK_CONFIG = {

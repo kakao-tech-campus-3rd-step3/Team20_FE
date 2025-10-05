@@ -52,7 +52,12 @@ export function useKakaoMap(options?: MapOptions) {
 
         createdContainer = containerEl;
         const centerLatLng = createLatLng(center.lat, center.lng);
-        const map = new maps.Map(containerEl, { center: centerLatLng, level });
+        const map = new maps.Map(containerEl, {
+          center: centerLatLng,
+          level,
+          draggable: draggable,
+          scrollwheel: scrollwheel,
+        });
 
         map.setDraggable(draggable);
         map.setZoomable(scrollwheel);
