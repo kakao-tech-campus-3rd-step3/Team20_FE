@@ -35,5 +35,6 @@ export function useSearchInput(
     searchQuery,
     handleInputChange,
     handleClearSearch,
+    handleSearch,
   };
 }

@@ -1,7 +1,9 @@
 import { getLocationDetail } from '@/entities/location/api/locationApi';
+import { getContentLocations } from '@/entities/content/api/contentApi';
 import type { Place } from '../model/types';
 import type { ContentLocation } from '@/entities/content/model/types';
 import type { LocationDetail } from '@/entities/location/model/types';
+import type { ContentDetail } from '@/entities/content/model/types';
 
 export const hasAddress = (
   location: ContentLocation | LocationDetail,
@@ -31,4 +33,20 @@ export const convertLocationsToPlaces = async (locations: ContentLocation[]): Pr
       }
     }),
   );
+};
+
+export const getPlacesFromContents = async (contents: ContentDetail[]): Promise<Place[]> => {
+  const allPlaces: Place[] = [];
+
+  for (const content of contents) {
+    try {
+      const locations = await getContentLocations(content.contentId.toString());
+      const places = await convertLocationsToPlaces(locations);
+      allPlaces.push(...places);
+    } catch (error) {
+      console.warn(`장소를 찾는 것에 실패했습니다. ${content.contentId}:`, error);
+    }
+  }
+
+  return allPlaces;
 };

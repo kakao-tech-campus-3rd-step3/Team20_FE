@@ -1,8 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
-import { getContentLocations, searchContents } from '@/entities/content/api/contentApi';
-import { convertLocationsToPlaces } from '../utils';
-import type { Place, UseContentSearchOptions } from '../types';
-import type { ContentDetail } from '@/entities/content/model/types';
+import { searchContents } from '@/entities/content/api/contentApi';
+import { getPlacesFromContents } from '../utils';
+import type { UseContentSearchOptions } from '../types';
 
 export function useContentSearch(options: UseContentSearchOptions = {}) {
   const { debounceMs = 300, onPlacesChange } = options;
@@ -10,23 +9,6 @@ export function useContentSearch(options: UseContentSearchOptions = {}) {
   const [isError, setIsError] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // 검색된 콘텐츠들의 장소 정보를 가져오는 함수
-  const getPlacesFromContents = useCallback(async (contents: ContentDetail[]): Promise<Place[]> => {
-    const allPlaces: Place[] = [];
-
-    for (const content of contents) {
-      try {
-        const locations = await getContentLocations(content.contentId.toString());
-        const places = await convertLocationsToPlaces(locations);
-        allPlaces.push(...places);
-      } catch (error) {
-        console.warn(`장소를 찾는 것에 실패했습니다. ${content.contentId}:`, error);
-      }
-    }
-
-    return allPlaces;
-  }, []);
 
   const clearResults = useCallback(() => {
     onPlacesChange?.([]);
@@ -60,7 +42,7 @@ export function useContentSearch(options: UseContentSearchOptions = {}) {
         setIsLoading(false);
       }
     },
-    [getPlacesFromContents, clearResults, onPlacesChange],
+    [clearResults, onPlacesChange],
   );
 
   const handleSearch = useCallback(

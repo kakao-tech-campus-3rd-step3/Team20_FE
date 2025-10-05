@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { PlaceList } from '../PlaceList/PlaceList';
 import { SidebarSearch } from '../SidebarSearch/SidebarSearch';
 import { SidebarEmptyState } from '../SidebarEmptyState/SidebarEmptyState';
 import { SidebarSearchResults } from '../SidebarSearchResults/SidebarSearchResults';
 import { SidebarLoadingState } from '../SidebarLoadingState/SidebarLoadingState';
 import { SidebarErrorState } from '../SidebarErrorState/SidebarErrorState';
-import type { SidebarProps, Place } from '../../model/types';
+import type { SidebarProps } from '../../model/types';
 import {
   SIDEBAR_TITLES,
   formatFoundCount,
@@ -14,7 +13,7 @@ import {
   formatDuration,
 } from '../../model/messages';
 import { DEFAULT_AVG_RATING, DEFAULT_DURATION_RANGE } from '../../model/constants';
-import { useSidebarData } from '../../model/hooks/useSidebarData';
+import { useSidebar } from '../../model/hooks/useSidebar';
 
 export function Sidebar({
   className,
@@ -25,23 +24,21 @@ export function Sidebar({
   routePlaces = [],
   selectedPlace,
 }: SidebarProps) {
-  const { contentDetail, places, isLoading, error } = useSidebarData(contentId);
-  const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const isEmpty = !contentId;
-  const displayPlaces = isSearching ? searchPlaces : places;
-
-  const handleSearchPlacesChange = (places: Place[]) => {
-    setSearchPlaces(places);
-    onSearchPlacesChange?.(places);
-  };
-
-  const handleSearchStateChange = (searching: boolean, query: string) => {
-    setIsSearching(searching);
-    setSearchQuery(query);
-  };
+  const {
+    contentDetail,
+    places: displayPlaces,
+    isLoading,
+    error,
+    isEmpty,
+    isSearching,
+    searchQuery,
+    handleSearchPlacesChange,
+    handleSearchStateChange,
+    handleContentClick,
+  } = useSidebar({
+    contentId,
+    onSearchPlacesChange,
+  });
 
   return (
     <aside
@@ -74,7 +71,11 @@ export function Sidebar({
               selectedPlace={selectedPlace}
             />
           ) : isEmpty ? (
-            <SidebarEmptyState />
+            <SidebarEmptyState
+              onContentClick={handleContentClick}
+              onPlacesChange={handleSearchPlacesChange}
+              onSearchStateChange={handleSearchStateChange}
+            />
           ) : isLoading ? (
             <SidebarLoadingState />
           ) : error ? (
