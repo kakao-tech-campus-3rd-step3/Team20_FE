@@ -32,14 +32,14 @@ export const searchContents = async (query: string): Promise<ContentDetail[]> =>
     // 기존 함수를 재사용하여 모든 인기 콘텐츠를 가져옴
     const allContents = await getPopularContents();
 
-    // 클라이언트에서 제목으로 필터링
+    // 클라이언트에서 제목으로 필터링 (공백 무시)
     const filteredContents = (allContents as unknown as ContentDetail[]).filter(
       (content: ContentDetail) => {
-        const searchTerm = query.toLowerCase();
-        return (
-          content.title?.toLowerCase().includes(searchTerm) ||
-          content.description?.toLowerCase().includes(searchTerm)
-        );
+        const searchTerm = query.toLowerCase().replace(/\s+/g, '');
+        const title = content.title?.toLowerCase().replace(/\s+/g, '') || '';
+        const description = content.description?.toLowerCase().replace(/\s+/g, '') || '';
+
+        return title.includes(searchTerm) || description.includes(searchTerm);
       },
     );
 
