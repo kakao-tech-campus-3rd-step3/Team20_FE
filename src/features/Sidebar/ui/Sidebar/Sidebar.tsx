@@ -14,7 +14,7 @@ import {
   formatDuration,
 } from '../../model/messages';
 import { DEFAULT_AVG_RATING, DEFAULT_DURATION_RANGE } from '../../model/constants';
-import { useSidebarData } from '../../model/hooks';
+import { useSidebarData } from '../../model/hooks/useSidebarData';
 
 export function Sidebar({
   className,
@@ -52,11 +52,7 @@ export function Sidebar({
       <div className="w-full lg:w-96 bg-(--color-background-primary) shadow-(--shadow-card) rounded-r-2xl overflow-hidden h-full flex flex-col border-r border-(--color-border-primary)">
         <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
           <h2 className="text-heading-4 mb-(--spacing-2)">
-            {contentDetail?.title
-              ? `${contentDetail.title} 촬영지`
-              : isEmpty
-                ? SIDEBAR_TITLES.SEARCH_TITLE
-                : SIDEBAR_TITLES.HEADER_TITLE}
+            {contentDetail?.title ? `${contentDetail.title} 촬영지` : SIDEBAR_TITLES.HEADER_TITLE}
           </h2>
           <p className="text-body-small text-(--color-gray-100)">
             {isEmpty ? SIDEBAR_TITLES.SEARCH_SUBTITLE : formatFoundCount(displayPlaces.length)}
@@ -100,7 +96,7 @@ export function Sidebar({
               {contentDetail?.title
                 ? `🎬 ${contentDetail.title} 촬영지 탐방`
                 : isEmpty
-                  ? SIDEBAR_TITLES.FOOTER_SEARCH_TEXT
+                  ? SIDEBAR_TITLES.HEADER_TITLE
                   : SIDEBAR_TITLES.FOOTER_TITLE}
             </p>
             {!isEmpty && (

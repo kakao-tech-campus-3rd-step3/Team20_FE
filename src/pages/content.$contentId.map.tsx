@@ -8,7 +8,7 @@ import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarke
 import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
 import { useRouteMarkers } from '@/features/MapSection/model/hooks/useRouteMarkers';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks';
-import { useSidebarData } from '@/features/Sidebar/model/hooks';
+import { useSidebarData } from '@/features/Sidebar/model/hooks/useSidebarData';
 import type { Place } from '@/features/Sidebar/model/types';
 
 export const Route = createFileRoute('/content/$contentId/map')({

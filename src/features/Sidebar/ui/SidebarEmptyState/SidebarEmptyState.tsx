@@ -14,18 +14,15 @@ export function SidebarEmptyState() {
           {SIDEBAR_EMPTY_STATE.DESCRIPTION}
         </p>
         <div className="space-y-2 text-left">
-          <div className="flex items-center gap-2 text-caption text-(--color-text-tertiary)">
-            <span className="w-2 h-2 bg-(--color-brand-primary) rounded-full"></span>
-            <span>{SIDEBAR_EMPTY_STATE.SEARCH_TIPS.DRAMA}</span>
-          </div>
-          <div className="flex items-center gap-2 text-caption text-(--color-text-tertiary)">
-            <span className="w-2 h-2 bg-(--color-brand-primary) rounded-full"></span>
-            <span>{SIDEBAR_EMPTY_STATE.SEARCH_TIPS.PLACE}</span>
-          </div>
-          <div className="flex items-center gap-2 text-caption text-(--color-text-tertiary)">
-            <span className="w-2 h-2 bg-(--color-brand-primary) rounded-full"></span>
-            <span>{SIDEBAR_EMPTY_STATE.SEARCH_TIPS.REGION}</span>
-          </div>
+          {Object.entries(SIDEBAR_EMPTY_STATE.SEARCH_TIPS).map(([key, tip]) => (
+            <div
+              key={key}
+              className="flex items-center gap-2 text-caption text-(--color-text-tertiary)"
+            >
+              <span className="w-2 h-2 bg-(--color-brand-primary) rounded-full"></span>
+              <span>{tip}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
