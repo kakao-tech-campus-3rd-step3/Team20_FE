@@ -21,8 +21,8 @@ export const LABELS = {
     PROFILE: '프로필',
   },
   CATEGORY: {
-    DRAMA: 'K-드라마',
-    MOVIE: 'K-영화',
+    DRAMA: 'K-Drama',
+    MOVIE: 'K-Movie',
     KPOP: 'K-POP',
   },
   POLICY: {
