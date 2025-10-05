@@ -1,6 +1,6 @@
 import { messages } from '../../model/messages';
 import { PosterCard } from '../PosterCard/PosterCard';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 import { usePopularContents } from '@/entities/content/api/queryfn';
 import type { PopularContent } from '@/entities/content/model/types';
 
@@ -19,7 +19,7 @@ export function PopularCarousel() {
     <section className="py-[var(--spacing-8)]">
       <div className="flex items-center justify-between mb-[var(--spacing-4)]">
         <h2 className="text-heading-4 text-[var(--color-text-primary)]">{messages.popularNow}</h2>
-        <Link to="/trending" className="text-link text-[var(--color-text-secondary)]">
+        <Link to="/" className="text-link text-[var(--color-text-secondary)]">
           {messages.seeAll}
         </Link>
       </div>

@@ -13,6 +13,8 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      VITE_KAKAO_MAP_API_KEY: ${{ secrets.KAKAO_MAP_API_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

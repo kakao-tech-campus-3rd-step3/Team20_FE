@@ -11,7 +11,7 @@ const meta = {
   argTypes: {
     active: {
       control: 'select',
-      options: ['home', 'map', 'content'],
+      options: ['home', 'map'],
     },
   },
 } satisfies Meta<typeof NavMenu>;
@@ -33,13 +33,6 @@ export const MapActive: Story = {
   },
 };
 
-// 컨텐츠가 활성화된 상태
-export const ContentActive: Story = {
-  args: {
-    active: 'content',
-  },
-};
-
 // 모든 메뉴 상태 쇼케이스
 export const AllStates: Story = {
   render: () => (
@@ -51,10 +44,6 @@ export const AllStates: Story = {
       <div>
         <h3 className="mb-4 text-lg font-semibold">지도 활성화</h3>
         <NavMenu active="map" />
-      </div>
-      <div>
-        <h3 className="mb-4 text-lg font-semibold">컨텐츠 활성화</h3>
-        <NavMenu active="content" />
       </div>
     </div>
   ),

@@ -1,5 +1,5 @@
 import { messages } from '../../model/messages';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 export function SpotCard() {
   return (
@@ -18,13 +18,13 @@ export function SpotCard() {
           </p>
           <div className="mt-[var(--spacing-2)] flex gap-[var(--spacing-2)]">
             <Link
-              to="/save"
+              to="/"
               className="px-[var(--spacing-button-padding-x)] py-[var(--spacing-button-padding-y)] rounded-lg border border-[var(--color-border-primary)] text-button text-[var(--color-text-primary)] bg-[var(--color-background-primary)] hover:bg-[var(--color-background-secondary)] transition duration-200"
             >
               {messages.save}
             </Link>
             <Link
-              to="/map/directions"
+              to="/map"
               className="px-[var(--spacing-button-padding-x)] py-[var(--spacing-button-padding-y)] rounded-lg border border-[var(--color-border-primary)] text-button text-[var(--color-text-primary)] bg-[var(--color-background-primary)] hover:bg-[var(--color-background-secondary)] transition duration-200"
             >
               {messages.directions}

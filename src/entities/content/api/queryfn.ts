@@ -27,3 +27,14 @@ export const useCategoryContents = (category: string) => {
     queryFn: () => getCategoryContents(category),
   });
 };
+
+// 여러 콘텐츠 상세 정보 일괄 조회
+export const useRelatedContentDetails = (ids: (string | number)[]) => {
+  return useSuspenseQuery<ContentDetail[], Error>({
+    queryKey: contentQueryKeys.details(ids),
+    queryFn: async () => {
+      const results = await Promise.all(ids.map((id) => getContentDetail(String(id))));
+      return results;
+    },
+  });
+};

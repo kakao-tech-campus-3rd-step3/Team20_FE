@@ -35,13 +35,28 @@ export const OVERLAY_STYLES = {
 } as const;
 
 export const MAP_DEFAULTS = {
-  center: { lat: 37.5665, lng: 126.978 },
-  level: 5,
-  draggable: true,
+  center: { lat: 35.5, lng: 128.0 },
+  level: 13,
+  draggable: false,
   scrollwheel: true,
 } as const;
 
 export const SDK_CONFIG = {
   timeout: 15000,
   checkInterval: 100,
+} as const;
+
+export const MARKER_CONFIG = {
+  SIZE: 40,
+  BACKGROUND_COLOR: '#FF6B6B',
+  BORDER_COLOR: '#FFFFFF',
+  BORDER_WIDTH: 3,
+  TEXT_COLOR: '#FFFFFF',
+  FONT: 'bold 16px Arial',
+} as const;
+
+export const POLYLINE_CONFIG = {
+  STROKE_COLOR: '#FF6B6B',
+  STROKE_WEIGHT: 3,
+  STROKE_OPACITY: 0.8,
 } as const;

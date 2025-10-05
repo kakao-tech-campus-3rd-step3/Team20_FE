@@ -4,7 +4,7 @@ import { CitySelector } from '../CitySelector/CitySelector';
 import { MapPreview } from '../MapPreview/MapPreview';
 import { SpotCard } from '../SpotCard/SpotCard';
 import { cities } from '../../model/types';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 export function SpotPreview() {
   const [selected, setSelected] = useState<(typeof cities)[number]>('All');

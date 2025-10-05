@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 import { IconButton } from '@/shared/ui';
 import { MENU } from '../../model/utils';
-import { keyToPath } from '../../model/constants';
+import { navRouteMap } from '../../model/constants';
 import type { NavMenuProps, NavKey } from '../../model/types';
 import { useActiveNavKey } from '../../model/hooks';
 
@@ -12,7 +12,8 @@ export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
   const activeKey = controlledActive ?? autoActive;
 
   const handleNavClick = (key: NavKey) => {
-    navigate(keyToPath[key]);
+    const routeOptions = navRouteMap[key];
+    navigate(routeOptions);
     onSelect?.(key);
   };
 
