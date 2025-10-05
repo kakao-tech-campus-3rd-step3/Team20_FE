@@ -5,10 +5,10 @@ import { SidebarSearchResults } from '../SidebarSearchResults/SidebarSearchResul
 import { SidebarLoadingState } from '../SidebarLoadingState/SidebarLoadingState';
 import { SidebarErrorState } from '../SidebarErrorState/SidebarErrorState';
 import type { SidebarProps } from '../../model/types';
+import { formatLocations } from '@/features/RoutePlanning/model/messages';
 import {
   SIDEBAR_TITLES,
   formatFoundCount,
-  formatLocations,
   formatAvgRating,
   formatDuration,
 } from '../../model/messages';

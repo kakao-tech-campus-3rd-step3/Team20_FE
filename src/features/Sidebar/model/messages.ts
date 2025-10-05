@@ -43,39 +43,12 @@ export const SIDEBAR_SEARCH_RESULTS = {
   RESULTS_COUNT: '개의 장소를 찾았습니다',
 } as const;
 
-export const ROUTE_BUTTON_TEXT = {
-  ADD_TO_ROUTE: '동선에 추가하기',
-  ADDED_TO_ROUTE: '동선에 추가됨',
-} as const;
-
 export const PLACE_CARD_LABELS = {
   RELATED_CONTENTS: '관련 콘텐츠',
   LOCATION: '위치',
 } as const;
 
-export const ROUTE_SIDEBAR_TITLES = {
-  HEADER_TITLE: '동선 계획',
-  SUBTITLE: '추가된 장소를 확인하고 순서를 조정하세요',
-  EMPTY_TITLE: '동선에 장소를 추가해보세요',
-  EMPTY_DESCRIPTION: '좌측에서 장소를 선택하고 "동선에 추가하기" 버튼을 눌러보세요.',
-  FOOTER_TITLE: '🗺️ 나만의 동선 만들기',
-} as const;
-
-export const ROUTE_SIDEBAR_BUTTONS = {
-  SAVE_ROUTE: '동선 저장하기',
-  REORDER: '순서 조정',
-  REMOVE: '제거',
-} as const;
-
-export const ROUTE_SIDEBAR_ICONS = {
-  MAP: '🗺️',
-  SAVE: '💾',
-  ESTIMATED_TIME: '⏱️ 예상 소요시간',
-} as const;
-
 export const formatFoundCount = (n: number) => `${n}개의 촬영지를 찾았습니다`;
-export const formatLocations = (n: number) => `📍 ${n}개 장소`;
 export const formatAvgRating = (avg: number) => `⭐ 평균 ${avg.toFixed(1)}점`;
 export const formatDuration = (range: readonly [number, number]) =>
   `⏱️ ${range[0]}-${range[1]}시간`;
-export const formatRouteCount = (n: number) => `${n}개 장소 추가됨`;

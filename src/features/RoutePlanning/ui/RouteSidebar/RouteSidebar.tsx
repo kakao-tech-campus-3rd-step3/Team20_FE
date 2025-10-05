@@ -1,5 +1,6 @@
 import { RoutePlaceCard } from '../RoutePlaceCard/RoutePlaceCard';
 import { RouteSidebarEmptyState } from '../RouteSidebarEmptyState/RouteSidebarEmptyState';
+import { SaveRouteModal } from '../SaveRouteModal/SaveRouteModal';
 import type { RouteSidebarProps } from '../../model/types';
 import {
   ROUTE_SIDEBAR_TITLES,
@@ -7,8 +8,8 @@ import {
   ROUTE_SIDEBAR_ICONS,
   formatRouteCount,
   formatLocations,
-} from '@/features/Sidebar/model/messages';
-import { SIDEBAR_DIMENSIONS, ROUTE_SIDEBAR_STYLES } from '@/features/Sidebar/model/constants';
+} from '../../model/messages';
+import { useSaveRouteModal } from '../../model/hooks/useSaveRouteModal';
 
 export function RouteSidebar({
   className,
@@ -20,19 +21,18 @@ export function RouteSidebar({
 }: RouteSidebarProps) {
   const isEmpty = places.length === 0;
   const { handleDragStart, handleDrop } = createRouteSidebarHandlers(places, onReorderPlaces);
+  const { isModalOpen, openModal, closeModal, handleSave } = useSaveRouteModal({
+    onSaveRoute,
+  });
+
+  const sidebarClasses = 'w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full';
 
   return (
-    <aside
-      className={[
-        SIDEBAR_DIMENSIONS.WIDTH_RESPONSIVE,
-        'lg:flex-shrink-0 overflow-hidden h-full',
-        className ?? '',
-      ].join(' ')}
-    >
+    <aside className={[sidebarClasses, className ?? ''].join(' ')}>
       <div
-        className={[SIDEBAR_DIMENSIONS.WIDTH_RESPONSIVE, ROUTE_SIDEBAR_STYLES.CONTAINER].join(' ')}
+        className={`${sidebarClasses} bg-(--color-background-primary) shadow-(--shadow-card) rounded-l-2xl flex flex-col border-l border-(--color-border-primary)`}
       >
-        <div className={['p-(--spacing-6)', ROUTE_SIDEBAR_STYLES.HEADER_GRADIENT].join(' ')}>
+        <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
           <h2 className="text-heading-4 mb-(--spacing-2)">{ROUTE_SIDEBAR_TITLES.HEADER_TITLE}</h2>
           <p className="text-body-small text-(--color-gray-100)">
             {isEmpty ? ROUTE_SIDEBAR_TITLES.SUBTITLE : formatRouteCount(places.length)}
@@ -60,7 +60,7 @@ export function RouteSidebar({
         </div>
 
         {!isEmpty && (
-          <div className={['p-(--spacing-4)', ROUTE_SIDEBAR_STYLES.FOOTER_CONTAINER].join(' ')}>
+          <div className="p-(--spacing-4) bg-(--color-background-secondary) border-t border-(--color-border-primary)">
             <div className="space-y-(--spacing-3)">
               <div className="text-center">
                 <p className="text-caption text-(--color-text-secondary) mb-(--spacing-2)">
@@ -72,13 +72,16 @@ export function RouteSidebar({
                 </div>
               </div>
 
-              <button onClick={onSaveRoute} className={ROUTE_SIDEBAR_STYLES.SAVE_BUTTON}>
+              <button
+                onClick={openModal}
+                className="w-full flex items-center justify-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-lg text-button font-medium transition-all duration-200 shadow-(--shadow-button) hover:shadow-(--shadow-button-hover) bg-(--color-brand-primary) text-(--color-text-inverse) hover:bg-(--color-brand-secondary)"
+              >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d={ROUTE_SIDEBAR_ICONS.SAVE}
+                    d={ROUTE_SIDEBAR_ICONS.SAVE_ICON_PATH}
                   />
                 </svg>
                 {ROUTE_SIDEBAR_BUTTONS.SAVE_ROUTE}
@@ -87,6 +90,13 @@ export function RouteSidebar({
           </div>
         )}
       </div>
+
+      <SaveRouteModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        places={places}
+        onSave={handleSave}
+      />
     </aside>
   );
 }

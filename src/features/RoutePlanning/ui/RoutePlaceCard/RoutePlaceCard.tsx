@@ -1,8 +1,7 @@
 import { GripVertical, Trash2 } from 'lucide-react';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import type { RoutePlaceCardProps } from '../../model/types';
-import { ROUTE_SIDEBAR_BUTTONS } from '@/features/Sidebar/model/messages';
-import { ROUTE_CARD_STYLES } from '@/features/Sidebar/model/constants';
+import { ROUTE_SIDEBAR_BUTTONS } from '../../model/messages';
 import { PlaceThumbnail } from '@/features/Sidebar/ui/PlaceThumbnail/PlaceThumbnail';
 import { PlaceAddress } from '@/features/Sidebar/ui/PlaceAddress/PlaceAddress';
 
@@ -17,29 +16,23 @@ export function RoutePlaceCard({
 }: RoutePlaceCardProps) {
   const [isDragOver, setIsDragOver] = useState(false);
 
-  const handleDragOver = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      setIsDragOver(true);
-      onDragOver?.(e);
-    },
-    [onDragOver],
-  );
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setIsDragOver(true);
+    onDragOver?.(e);
+  };
 
-  const handleDragLeave = useCallback(() => {
+  const handleDragLeave = () => {
     setIsDragOver(false);
     onDragLeave?.();
-  }, [onDragLeave]);
+  };
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setIsDragOver(false);
-      onDrop?.(e);
-    },
-    [onDrop],
-  );
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    onDrop?.(e);
+  };
 
   return (
     <div
@@ -59,8 +52,10 @@ export function RoutePlaceCard({
     >
       <div className="flex items-start gap-(--spacing-3)">
         <div className="flex items-center gap-(--spacing-2) mt-1">
-          <GripVertical className={ROUTE_CARD_STYLES.DRAG_HANDLE} />
-          <span className={ROUTE_CARD_STYLES.ORDER_BADGE}>{place.order}</span>
+          <GripVertical className="w-4 h-4 text-(--color-text-tertiary) cursor-grab" />
+          <span className="text-caption-bold text-(--color-text-inverse) bg-(--color-brand-primary) rounded-full w-5 h-5 flex items-center justify-center">
+            {place.order}
+          </span>
         </div>
 
         <div className="flex-1 min-w-0">
@@ -70,7 +65,7 @@ export function RoutePlaceCard({
             </div>
 
             <div className="flex-1 min-w-0">
-              <h4 className="text-sm font-medium text-(--color-text-primary) mb-1 truncate">
+              <h4 className="text-body-small font-medium text-(--color-text-primary) mb-1 truncate">
                 {place.name}
               </h4>
               <PlaceAddress address={place.address} />
@@ -80,7 +75,7 @@ export function RoutePlaceCard({
 
         <button
           onClick={onRemove}
-          className={ROUTE_CARD_STYLES.REMOVE_BUTTON}
+          className="p-(--spacing-1) text-(--color-text-tertiary) hover:text-(--color-semantic-error) transition-colors"
           title={ROUTE_SIDEBAR_BUTTONS.REMOVE}
         >
           <Trash2 className="w-4 h-4" />
