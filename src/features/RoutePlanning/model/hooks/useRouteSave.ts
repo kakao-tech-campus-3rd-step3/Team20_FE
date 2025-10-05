@@ -1,28 +1,29 @@
 import { useCallback } from 'react';
 import type { RoutePlanningState, RoutePlace } from '../types';
+import { useCreateItinerary } from '@/entities/itinerary/api/queryfn';
 
-export function useRouteSave(
-  _state: RoutePlanningState,
-  setState: React.Dispatch<React.SetStateAction<RoutePlanningState>>,
-) {
+export function useRouteSave(setState: React.Dispatch<React.SetStateAction<RoutePlanningState>>) {
+  const createItineraryMutation = useCreateItinerary();
+
   const saveRoute = useCallback(
-    (title: string, description: string, places: RoutePlace[]) => {
-      const routeInfo = {
+    async (title: string, description: string, places: RoutePlace[]) => {
+      const apiRequest = {
         title,
         description,
-        places,
-        totalPlaces: places.length,
-        createdAt: new Date().toISOString(),
+        locations: places.map((place, index) => ({
+          locationId: place.locationId,
+          visitOrder: index + 1,
+        })),
       };
 
-      console.log('동선 저장:', routeInfo);
+      await createItineraryMutation.mutateAsync(apiRequest);
 
       setState((prev) => ({
         ...prev,
         places: [],
       }));
     },
-    [setState],
+    [createItineraryMutation, setState],
   );
 
   return {

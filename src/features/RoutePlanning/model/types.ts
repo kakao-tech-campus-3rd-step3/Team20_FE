@@ -8,24 +8,24 @@ export type RoutePlanningState = {
   places: RoutePlace[];
 };
 
-export type DragHandlers = {
-  handleDragStart: (place: RoutePlace) => (e: React.DragEvent) => void;
-  handleDrop: (place: RoutePlace) => (e: React.DragEvent) => void;
-};
-
 export type WithPlaces = {
   places: RoutePlace[];
 };
 
+export type SaveRouteHandler = (title: string, description: string, places: RoutePlace[]) => void;
+
 export type RouteSidebarProps = WithPlaces & {
   className?: string;
-  onSaveRoute: (title: string, description: string, places: RoutePlace[]) => void;
+  onSaveRoute: SaveRouteHandler;
   onRemovePlace?: (placeId: number) => void;
   onReorderPlaces?: (places: RoutePlace[]) => void;
   createRouteSidebarHandlers: (
     places: RoutePlace[],
     onReorderPlaces?: (places: RoutePlace[]) => void,
-  ) => DragHandlers;
+  ) => {
+    handleDragStart: (place: RoutePlace) => (e: React.DragEvent) => void;
+    handleDrop: (place: RoutePlace) => (e: React.DragEvent) => void;
+  };
 };
 
 export type RoutePlaceCardProps = {
@@ -41,5 +41,10 @@ export type RoutePlaceCardProps = {
 export type SaveRouteModalProps = WithPlaces & {
   isOpen: boolean;
   onClose: () => void;
-  onSave?: (title: string, description: string, places: RoutePlace[]) => void;
+  onSave?: SaveRouteHandler;
+};
+
+export type UseSaveRouteFormOptions = {
+  onSave?: SaveRouteHandler;
+  onClose?: () => void;
 };

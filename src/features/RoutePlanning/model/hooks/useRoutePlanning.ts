@@ -11,7 +11,7 @@ export function useRoutePlanning() {
 
   const { addPlace, removePlace, reorderPlaces } = useRoutePlaces(state, setState);
   const { createRouteSidebarHandlers } = useRouteDragHandlers();
-  const { saveRoute } = useRouteSave(state, setState);
+  const { saveRoute } = useRouteSave(setState);
 
   return {
     places: state.places,

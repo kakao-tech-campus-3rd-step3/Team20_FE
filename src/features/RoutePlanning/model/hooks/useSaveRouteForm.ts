@@ -1,11 +1,6 @@
 import { useState, useCallback } from 'react';
-import type { RoutePlace } from '../types';
+import type { RoutePlace, UseSaveRouteFormOptions } from '../types';
 import { SAVE_ROUTE_MODAL } from '../messages';
-
-interface UseSaveRouteFormOptions {
-  onSave?: (title: string, description: string) => void;
-  onClose?: () => void;
-}
 
 export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
   const { onSave, onClose } = options;
@@ -14,17 +9,34 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent, places: RoutePlace[]) => {
-      e.preventDefault();
+  const resetForm = useCallback(() => {
+    setTitle('');
+    setDescription('');
+    setError(null);
+  }, []);
 
+  const validateForm = useCallback(
+    (places: RoutePlace[]) => {
       if (!title.trim()) {
         setError(SAVE_ROUTE_MODAL.VALIDATION.TITLE_REQUIRED);
-        return;
+        return false;
       }
 
       if (places.length === 0) {
         setError(SAVE_ROUTE_MODAL.VALIDATION.NO_PLACES);
+        return false;
+      }
+
+      return true;
+    },
+    [title],
+  );
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent, places: RoutePlace[]) => {
+      e.preventDefault();
+
+      if (!validateForm(places)) {
         return;
       }
 
@@ -32,13 +44,9 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
       setError(null);
 
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // 임시 딜레이
-
-        onSave?.(title.trim(), description.trim());
+        await onSave?.(title.trim(), description.trim(), places);
         onClose?.();
-
-        setTitle('');
-        setDescription('');
+        resetForm();
       } catch (err) {
         setError(SAVE_ROUTE_MODAL.VALIDATION.SAVE_FAILED);
         console.error('Failed to save route:', err);
@@ -46,17 +54,15 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
         setIsLoading(false);
       }
     },
-    [title, description, onSave, onClose],
+    [title, description, onSave, onClose, resetForm, validateForm],
   );
 
   const handleClose = useCallback(() => {
     if (!isLoading) {
-      setTitle('');
-      setDescription('');
-      setError(null);
+      resetForm();
       onClose?.();
     }
-  }, [isLoading, onClose]);
+  }, [isLoading, onClose, resetForm]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
