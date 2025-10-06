@@ -10,7 +10,7 @@ export function ContentCard({ content }: ContentCardProps) {
 
   return (
     <div
-      className="rounded-xl overflow-hidden cursor-pointer transition-all duration-200 bg-(--color-background-primary) border border-(--color-border-primary) shadow-[var(--shadow-card)] hover:shadow-[0_12px_28px_-12px_rgba(3,7,18,0.35)] hover:-translate-y-1"
+      className="rounded-xl overflow-hidden cursor-pointer transition-all duration-200 bg-[var(--color-background-primary)] border border-[var(--color-border-primary)] shadow-[var(--shadow-card)] hover:shadow-[0_12px_28px_-12px_color-mix(in_oklab,var(--color-gray-950)_35%,transparent)] hover:-translate-y-1"
       onClick={handleClick}
     >
       <div className="relative w-full aspect-[3/4] overflow-hidden">

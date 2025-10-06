@@ -9,7 +9,7 @@ export const Route = createFileRoute('/')({
 
 function HomePage() {
   return (
-    <main className="mx-auto max-w-screen-2xl px-3">
+    <main className="mx-auto max-w-screen-2xl px-[var(--spacing-container-padding)] md:px-[var(--spacing-container-padding-tablet)] lg:px-[var(--spacing-container-padding-desktop)]">
       <ServiceMainHero />
       <CategorySection />
       <PopularSection />

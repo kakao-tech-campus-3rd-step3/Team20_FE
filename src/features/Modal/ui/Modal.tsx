@@ -11,19 +11,19 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-2xl border border-(--color-border-primary) bg-(--color-background-primary) shadow-[0_20px_50px_-12px_rgba(0,0,0,0.35)]"
+        className="relative w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-background-primary)] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.35)]"
         onClick={(e) => e.stopPropagation()}
       >
         {title && (
-          <div className="px-6 py-4 flex justify-between items-center border-b border-(--color-border-primary) bg-[var(--color-brand-primary)]">
-            <h2 className="text-heading-4 text-(--color-text-inverse)">{title}</h2>
+          <div className="px-6 py-4 flex justify-between items-center border-b border-[var(--color-border-primary)] bg-[var(--color-brand-primary)]">
+            <h2 className="text-heading-4 text-[var(--color-text-inverse)]">{title}</h2>
             <IconButton
               Icon={X}
               onClick={onClose}
               variant="ghost"
               size="md"
               aria-label="모달 닫기"
-              className="text-(--color-text-inverse)/80 hover:bg-white/70"
+              className="text-[var(--color-text-inverse)]/80 hover:bg-white/70"
             />
           </div>
         )}

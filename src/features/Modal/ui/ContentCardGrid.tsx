@@ -4,7 +4,7 @@ import type { ContentCardGridProps } from '../model/types';
 export function ContentCardGrid({ contents }: ContentCardGridProps) {
   if (contents.length === 0) {
     return (
-      <div className="text-center py-(--spacing-8) text-(--color-text-secondary)">
+      <div className="text-center py-[var(--spacing-8)] text-[var(--color-text-secondary)]">
         표시할 콘텐츠가 없습니다.
       </div>
     );

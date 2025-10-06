@@ -17,7 +17,7 @@ export function PosterCard({ contentId, title, posterImageUrl }: PosterCardProps
         </div>
       </Link>
       <div className="p-[var(--spacing-3)] bg-brand-primary/50">
-        <h3 className="mt-2 text-heading-4 text-[var(--color-text-primary)] line-clamp-2 ">
+        <h3 className="mt-[var(--spacing-2)] text-heading-4 text-[var(--color-text-primary)] line-clamp-2 ">
           {title}
         </h3>
       </div>
