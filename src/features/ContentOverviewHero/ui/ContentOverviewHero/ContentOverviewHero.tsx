@@ -6,6 +6,7 @@ import type { ContentOverviewHeroProps } from '../../model/types';
 import { useContentDetail } from '@/entities/content/api/queryfn';
 import { getContentLocations } from '@/entities/content/api/contentApi';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 
 export function ContentOverviewHero({
   contentId,
@@ -17,6 +18,12 @@ export function ContentOverviewHero({
     queryKey: ['content-locations', contentId],
     queryFn: () => getContentLocations(contentId),
   });
+
+  const navigate = useNavigate();
+
+  const handleMapViewClick = () => {
+    navigate({ to: `/content/${contentId}/map` });
+  };
   return (
     <section className="bg-gradient-to-t from-(--color-gray-800) to-(--color-gray-900)">
       <div className="mx-auto max-w-7xl px-[--spacing-4] sm:px-[--spacing-6] lg:px-[--spacing-8]">
@@ -41,7 +48,7 @@ export function ContentOverviewHero({
 
         {/* 하단 액션 버튼들 */}
         <div>
-          <ContentOverviewActionButtons />
+          <ContentOverviewActionButtons onMapViewClick={handleMapViewClick} />
         </div>
       </div>
     </section>
