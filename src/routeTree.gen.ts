@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
+import { Route as MypageRouteImport } from './pages/mypage'
 import { Route as MapRouteImport } from './pages/map'
 import { Route as IndexRouteImport } from './pages/index'
 import { Route as LocationIdRouteImport } from './pages/location.$id'
 import { Route as ContentIdRouteImport } from './pages/content.$id'
 import { Route as ContentContentIdMapRouteImport } from './pages/content.$contentId.map'
 
+const MypageRoute = MypageRouteImport.update({
+  id: '/mypage',
+  path: '/mypage',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
@@ -44,6 +50,7 @@ const ContentContentIdMapRoute = ContentContentIdMapRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/mypage': typeof MypageRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/mypage': typeof MypageRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
@@ -59,6 +67,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/mypage': typeof MypageRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
@@ -68,6 +77,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/map'
+    | '/mypage'
     | '/content/$id'
     | '/location/$id'
     | '/content/$contentId/map'
@@ -75,6 +85,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/map'
+    | '/mypage'
     | '/content/$id'
     | '/location/$id'
     | '/content/$contentId/map'
@@ -82,6 +93,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/map'
+    | '/mypage'
     | '/content/$id'
     | '/location/$id'
     | '/content/$contentId/map'
@@ -90,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MapRoute: typeof MapRoute
+  MypageRoute: typeof MypageRoute
   ContentIdRoute: typeof ContentIdRoute
   LocationIdRoute: typeof LocationIdRoute
   ContentContentIdMapRoute: typeof ContentContentIdMapRoute
@@ -97,6 +110,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/mypage': {
+      id: '/mypage'
+      path: '/mypage'
+      fullPath: '/mypage'
+      preLoaderRoute: typeof MypageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/map': {
       id: '/map'
       path: '/map'
@@ -138,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MapRoute: MapRoute,
+  MypageRoute: MypageRoute,
   ContentIdRoute: ContentIdRoute,
   LocationIdRoute: LocationIdRoute,
   ContentContentIdMapRoute: ContentContentIdMapRoute,

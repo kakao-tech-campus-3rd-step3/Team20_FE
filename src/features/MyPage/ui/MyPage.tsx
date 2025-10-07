@@ -28,7 +28,7 @@ const TravelCard = ({ card }: TravelCardProps) => {
       {/* Description Button */}
       <div className="mb-6">
         <button className="bg-white border-2 border-gray-400 text-gray-700 px-8 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors shadow-md tracking-wide">
-          DESCRIPTION
+          {card.title}
         </button>
       </div>
 
@@ -48,7 +48,23 @@ const TravelCard = ({ card }: TravelCardProps) => {
 };
 
 export const MyPage = () => {
-  const { travelCards } = useMyPage();
+  const { travelCards, isLoading, isError } = useMyPage();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600 text-xl">로딩 중...</div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-red-600 text-xl">데이터를 불러오는데 실패했습니다.</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
