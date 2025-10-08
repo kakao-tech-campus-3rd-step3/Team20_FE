@@ -4,8 +4,6 @@ import type { User, LoginRequest, SignupRequest } from '@/entities/auth';
 import { httpBackend } from '@/shared/api/httpBakend';
 import { tokenStorage } from '@/shared/api/tokenStorage';
 
-//TODO : console.err 대신 에러처리 로직 사용하도록 변경할 것 
-
 interface AuthContextType {
   user: User | null;
   accessToken: string | null;
@@ -23,9 +21,10 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [isLoading] = useState(false); // 메모리 기반이므로 초기화 불필요
+  const [isLoading] = useState(false);
 
   const login = async (credentials: LoginRequest) => {
     try {
@@ -42,6 +41,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       setAccessToken(response.accessToken);
       setUser(newUser);
+      setIsAuthenticated(true);
 
       tokenStorage.setToken(response.accessToken);
     } catch (error) {
@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       setAccessToken(response.accessToken);
       setUser(newUser);
+      setIsAuthenticated(true);
 
       tokenStorage.setToken(response.accessToken);
     } catch (error) {
@@ -80,13 +81,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = () => {
     setAccessToken(null);
     setUser(null);
+    setIsAuthenticated(false);
     tokenStorage.removeToken();
   };
 
   const value: AuthContextType = {
     user,
     accessToken,
-    isAuthenticated: !!accessToken,
+    isAuthenticated,
     isLoading,
     login,
     signup,
