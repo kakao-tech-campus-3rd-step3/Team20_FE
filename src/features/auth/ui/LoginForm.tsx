@@ -1,5 +1,5 @@
 import { useLoginForm } from '../hooks/useLoginForm';
-import { FormTitle, FormButton, FormNavigation } from '../../../shared/ui';
+import { FormTitle, FormButton, FormNavigation } from '@/shared/ui';
 import { FormFieldRenderer } from './FormFieldRenderer';
 import { createLoginFields, AUTH_MESSAGES } from '../model';
 

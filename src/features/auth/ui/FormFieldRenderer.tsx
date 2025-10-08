@@ -1,4 +1,4 @@
-import { FormFieldWrapper } from '../../../shared/ui';
+import { FormFieldWrapper } from '@/shared/ui';
 
 //TODO : any 타입 수정 
 interface FormFieldRendererProps {

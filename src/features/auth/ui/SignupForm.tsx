@@ -1,5 +1,5 @@
 import { useSignupForm } from '../hooks/useSignupForm';
-import { FormTitle, FormButton, FormNavigation } from '../../../shared/ui';
+import { FormTitle, FormButton, FormNavigation } from '@/shared/ui';
 import { FormFieldRenderer } from './FormFieldRenderer';
 import { createSignupFields, AUTH_MESSAGES } from '../model';
 
