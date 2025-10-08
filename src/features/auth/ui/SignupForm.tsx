@@ -1,7 +1,7 @@
 import { useSignupForm } from '../hooks/useSignupForm';
 import { FormTitle, FormButton, FormNavigation } from '../../../shared/ui';
 import { FormFieldRenderer } from './FormFieldRenderer';
-import { createSignupFields } from '../model/fieldConfigs';
+import { createSignupFields, AUTH_MESSAGES } from '../model';
 
 export const SignupForm = () => {
   const { form, handleSubmit, validation, signupMutation } = useSignupForm();
@@ -21,15 +21,15 @@ export const SignupForm = () => {
   return (
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={onSubmit} className="space-y-6">
-        <FormTitle>회원가입</FormTitle>
+        <FormTitle>{AUTH_MESSAGES.SIGNUP_TITLE}</FormTitle>
 
         {signupMutation.isError && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-            <p className="font-medium">회원가입에 실패했습니다</p>
+            <p className="font-medium">{AUTH_MESSAGES.SIGNUP_ERROR_TITLE}</p>
             <p className="mt-1">
               {signupMutation.error instanceof Error
                 ? signupMutation.error.message
-                : '이미 사용 중인 이메일이거나 입력 정보를 확인해주세요.'}
+                : AUTH_MESSAGES.SIGNUP_ERROR_DEFAULT}
             </p>
           </div>
         )}
@@ -76,15 +76,15 @@ export const SignupForm = () => {
                 isLoading={isSubmitting as boolean}
                 disabled={!canSubmit as boolean}
               >
-                회원가입
+                {AUTH_MESSAGES.SIGNUP_BUTTON}
               </FormButton>
             );
           }}
         </form.Subscribe>
 
         <FormNavigation
-          rightText="이미 계정이 있으신가요?"
-          rightLink={{ to: '/auth/login', text: '로그인하기' }}
+          rightText={AUTH_MESSAGES.HAVE_ACCOUNT_TEXT}
+          rightLink={{ to: '/auth/login', text: AUTH_MESSAGES.LOGIN_LINK }}
         />
       </form>
     </div>
