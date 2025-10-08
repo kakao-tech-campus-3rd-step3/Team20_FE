@@ -7,8 +7,11 @@ export interface ApiResponse<T = unknown> {
   data: T;
 }
 
+// 개발 환경에서는 Vite 프록시 사용, 프로덕션에서는 실제 URL 사용
+const baseURL = import.meta.env.DEV ? '' : 'https://k-spot.kro.kr';
+
 export const httpBackend = axios.create({
-  baseURL: 'https://k-spot.kro.kr/',
+  baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

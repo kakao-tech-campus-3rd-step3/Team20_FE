@@ -4,7 +4,7 @@ import { FormFieldRenderer } from './FormFieldRenderer';
 import { createSignupFields } from '../model/fieldConfigs';
 
 export const SignupForm = () => {
-  const { form, handleSubmit, validation } = useSignupForm();
+  const { form, handleSubmit, validation, signupMutation } = useSignupForm();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +22,17 @@ export const SignupForm = () => {
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={onSubmit} className="space-y-6">
         <FormTitle>회원가입</FormTitle>
+
+        {signupMutation.isError && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+            <p className="font-medium">회원가입에 실패했습니다</p>
+            <p className="mt-1">
+              {signupMutation.error instanceof Error
+                ? signupMutation.error.message
+                : '이미 사용 중인 이메일이거나 입력 정보를 확인해주세요.'}
+            </p>
+          </div>
+        )}
 
         {fields.map((fieldConfig) => (
           <form.Field

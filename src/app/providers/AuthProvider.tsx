@@ -1,7 +1,10 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
+import axios from 'axios';
 import type { User, LoginRequest, SignupRequest } from '@/entities/auth';
 import { httpBackend } from '@/shared/api/httpBakend';
 import { tokenStorage } from '@/shared/api/tokenStorage';
+
+//TODO : console.err 대신 에러처리 로직 사용하도록 변경할 것 
 
 interface AuthContextType {
   user: User | null;
@@ -65,7 +68,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       tokenStorage.setToken(response.accessToken);
     } catch (error) {
-      console.error('Signup failed:', error);
+      console.error('❌ Signup failed:', error);
+      if (axios.isAxiosError(error)) {
+        console.error('Response data:', error.response?.data);
+        console.error('Response status:', error.response?.status);
+      }
       throw error;
     }
   };

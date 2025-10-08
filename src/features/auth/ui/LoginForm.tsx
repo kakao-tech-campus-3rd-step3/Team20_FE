@@ -4,7 +4,7 @@ import { FormFieldRenderer } from './FormFieldRenderer';
 import { createLoginFields } from '../model/fieldConfigs';
 
 export const LoginForm = () => {
-  const { form, handleSubmit, validation } = useLoginForm();
+  const { form, handleSubmit, validation, loginMutation } = useLoginForm();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +20,17 @@ export const LoginForm = () => {
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={onSubmit} className="space-y-6">
         <FormTitle>로그인</FormTitle>
+
+        {loginMutation.isError && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+            <p className="font-medium">로그인에 실패했습니다</p>
+            <p className="mt-1">
+              {loginMutation.error instanceof Error 
+                ? loginMutation.error.message 
+                : '이메일 또는 비밀번호를 확인해주세요.'}
+            </p>
+          </div>
+        )}
 
         {fields.map((fieldConfig) => (
           <form.Field
