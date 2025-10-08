@@ -1,13 +1,12 @@
 import axios from 'axios';
+import { tokenStorage } from './tokenStorage';
 
-// API 응답 타입 정의
 export interface ApiResponse<T = unknown> {
   status: number;
   message: string;
   data: T;
 }
 
-// 백엔드 전용 Axios 인스턴스 생성 (Auth 관련)
 export const httpBackend = axios.create({
   baseURL: 'https://k-spot.kro.kr/',
   timeout: 10000,
@@ -16,10 +15,8 @@ export const httpBackend = axios.create({
   },
 });
 
-// 응답 인터셉터 - API 응답에서 data 부분만 추출
 httpBackend.interceptors.response.use(
   (response) => {
-    // 성공 응답에서 data 추출
     return response.data.data;
   },
   (error) => {
@@ -36,13 +33,22 @@ httpBackend.interceptors.response.use(
   },
 );
 
-// 요청 인터셉터 - JWT 토큰 자동 추가
+const PUBLIC_API_PATHS = ['/api/users/login', '/api/users', '/contents', '/locations'];
+
 httpBackend.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
+    const url = config.url || '';
+
+    const isPublicApi = PUBLIC_API_PATHS.some((path) => url.startsWith(path));
+    if (isPublicApi) {
+      return config;
+    }
+
+    const token = tokenStorage.getToken();
+    if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => {
