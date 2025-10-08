@@ -15,6 +15,22 @@ export interface RelatedContent {
   category: string;
 }
 
+export interface SavedLocation {
+  locationId: number;
+  name: string;
+  image: string;
+  address: string;
+  description: string;
+}
+
+export interface SavedRoute {
+  routeId: number;
+  name: string;
+  locations: string[];
+  createdAt: string;
+  description: string;
+}
+
 export interface TravelCardData {
   title: string;
   image: string;
