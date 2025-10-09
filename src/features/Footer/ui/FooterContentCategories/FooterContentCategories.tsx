@@ -1,11 +1,10 @@
 import { FOOTER_CATEGORIES } from '../../model/constants';
 import { FOOTER_TITLES } from '../../model/messages';
-import { useCategoryModal } from '../../model/hooks';
+import { useCategoryModal, getCategoryKey } from '../../model/hooks';
 import { CategoryModal } from '@/features/Modal/ui/CategoryModal';
 
 export function FooterContentCategories() {
-  const { selectedCategory, getCategoryKey, handleCategoryClick, handleCloseModal } =
-    useCategoryModal();
+  const { selectedCategory, handleCategoryClick, handleCloseModal } = useCategoryModal();
 
   return (
     <>

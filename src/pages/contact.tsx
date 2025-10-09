@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
 import { ArrowLeft, MessageCircle, Mail, Phone, Clock, HelpCircle, Send } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 export const Route = createFileRoute('/contact')({
   component: ContactPage,
@@ -10,8 +11,10 @@ function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert('문의가 완료되었습니다.');
-    router.navigate({ to: '/' });
+    toast.success('문의가 완료되었습니다.');
+    setTimeout(() => {
+      router.navigate({ to: '/' });
+    }, 500);
   };
 
   return (

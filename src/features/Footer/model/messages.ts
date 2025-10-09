@@ -7,7 +7,6 @@ export const BRAND = {
 export const FOOTER_TITLES = {
   CATEGORIES: '카테고리',
   QUICK_LINKS: '빠른 링크',
-  SOCIAL: '소셜 미디어',
 };
 
 export const COPYRIGHT_TEXT = `© ${new Date().getFullYear()} KTC. All rights reserved.`;
@@ -29,11 +28,5 @@ export const LABELS = {
     PRIVACY: '개인정보처리방침',
     TERMS: '이용약관',
     CONTACT: '고객센터',
-  },
-  SOCIAL: {
-    INSTAGRAM: 'Instagram',
-    YOUTUBE: 'YouTube',
-    MAIL: 'Mail',
-    TWITTER: 'Twitter',
   },
 };
