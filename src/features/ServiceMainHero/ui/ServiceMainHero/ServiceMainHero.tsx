@@ -11,7 +11,11 @@ export function ServiceMainHero() {
         </h1>
         <p className="text-heading-4 text-[--color-text-secondary]">{messages.heroSub}</p>
         <div className="flex gap-[var(--spacing-4)]">
-          <Button href={PATHS.MAP} variant="primary">
+          <Button
+            href={PATHS.MAP}
+            variant="primary"
+            className="[--spacing-button-padding-x:var(--spacing-12)] [--spacing-button-padding-y:var(--spacing-4)]"
+          >
             {messages.Browse}
           </Button>
         </div>
