@@ -1,6 +1,7 @@
 import { categories } from '../model/constants';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { CategoryModal } from '@/features/Modal/ui/CategoryModal';
+import { Modal } from '@/features/Modal/ui/Modal';
 
 export function CategorySection() {
   const [selectedCategory, setSelectedCategory] = useState<{
@@ -34,12 +35,31 @@ export function CategorySection() {
       </section>
 
       {selectedCategory && (
-        <CategoryModal
-          isOpen={!!selectedCategory}
-          onClose={handleCloseModal}
-          category={selectedCategory.category}
-          categoryTitle={selectedCategory.title}
-        />
+        <Suspense
+          fallback={
+            <Modal
+              isOpen={!!selectedCategory}
+              onClose={handleCloseModal}
+              title={selectedCategory.title}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 animate-pulse">
+                {Array.from({ length: 10 }).map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="h-36 rounded-xl bg-[rgba(var(--color-brand-secondary-rgb)/0.12)]"
+                  />
+                ))}
+              </div>
+            </Modal>
+          }
+        >
+          <CategoryModal
+            isOpen={!!selectedCategory}
+            onClose={handleCloseModal}
+            category={selectedCategory.category}
+            categoryTitle={selectedCategory.title}
+          />
+        </Suspense>
       )}
     </>
   );
