@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import axios from 'axios';
 import type { User, LoginRequest, SignupRequest } from '@/entities/auth';
-import { httpBackend } from '@/shared/api/httpBakend';
+import { loginApi, signupApi } from '@/entities/auth/api/authApi';
 import { tokenStorage } from '@/shared/api/tokenStorage';
 
 interface AuthContextType {
@@ -28,10 +28,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (credentials: LoginRequest) => {
     try {
-      const response = await httpBackend.post<
-        unknown,
-        { userId: string; email: string; nickname: string; accessToken: string }
-      >('/api/users/login', credentials);
+      const response = await loginApi(credentials);
 
       const newUser: User = {
         userId: response.userId,
@@ -52,10 +49,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signup = async (userData: SignupRequest) => {
     try {
-      const response = await httpBackend.post<
-        unknown,
-        { userId: string; email: string; nickname: string; accessToken: string }
-      >('/api/users', userData);
+      const response = await signupApi(userData);
 
       const newUser: User = {
         userId: response.userId,
