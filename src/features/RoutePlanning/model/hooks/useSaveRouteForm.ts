@@ -15,6 +15,9 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
     setError(null);
   };
 
+  // handleSubmit 함수가 매 렌더링마다 새로 생성되는 것을 방지하여
+  // 불필요한 자식 컴포넌트의 리렌더링을 막기 위해 useCallback을 사용합니다.
+  // title, description, onSave, onClose가 변경될 때만 함수가 재생성됩니다.
   const handleSubmit = useCallback(
     async (e: React.FormEvent, places: RoutePlace[]) => {
       e.preventDefault();
@@ -46,6 +49,9 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
     [title, description, onSave, onClose],
   );
 
+  // handleClose 함수가 매 렌더링마다 새로 생성되는 것을 방지하여
+  // 불필요한 자식 컴포넌트의 리렌더링을 막기 위해 useCallback을 사용합니다.
+  // isLoading이나 onClose가 변경될 때만 함수가 재생성됩니다.
   const handleClose = useCallback(() => {
     if (!isLoading) {
       resetForm();

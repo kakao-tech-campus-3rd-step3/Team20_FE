@@ -7,6 +7,9 @@ const recalculateOrder = (places: RoutePlace[]): RoutePlace[] => {
 };
 
 export function useRoutePlaces(setState: React.Dispatch<React.SetStateAction<RoutePlanningState>>) {
+  // addPlace 함수가 매 렌더링마다 새로 생성되는 것을 방지하여
+  // 불필요한 자식 컴포넌트의 리렌더링을 막기 위해 useCallback을 사용합니다.
+  // setState가 변경될 때만 함수가 재생성됩니다.
   const addPlace = useCallback(
     (place: Place) => {
       setState((prev) => {
@@ -27,6 +30,9 @@ export function useRoutePlaces(setState: React.Dispatch<React.SetStateAction<Rou
     [setState],
   );
 
+  // removePlace 함수가 매 렌더링마다 새로 생성되는 것을 방지하여
+  // 불필요한 자식 컴포넌트의 리렌더링을 막기 위해 useCallback을 사용합니다.
+  // setState가 변경될 때만 함수가 재생성됩니다.
   const removePlace = useCallback(
     (placeId: number) => {
       setState((prev) => {
@@ -42,6 +48,9 @@ export function useRoutePlaces(setState: React.Dispatch<React.SetStateAction<Rou
     [setState],
   );
 
+  // reorderPlaces 함수가 매 렌더링마다 새로 생성되는 것을 방지하여
+  // 불필요한 자식 컴포넌트의 리렌더링을 막기 위해 useCallback을 사용합니다.
+  // setState가 변경될 때만 함수가 재생성됩니다.
   const reorderPlaces = useCallback(
     (places: RoutePlace[]) => {
       setState((prev) => ({

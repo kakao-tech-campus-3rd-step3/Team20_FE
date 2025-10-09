@@ -10,6 +10,9 @@ export function useContentSearch(options: UseContentSearchOptions = {}) {
   const [searchQuery, setSearchQuery] = useState('');
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // handleSearch 함수가 매 렌더링마다 새로 생성되는 것을 방지하여
+  // 불필요한 자식 컴포넌트의 리렌더링을 막기 위해 useCallback을 사용합니다.
+  // debounceMs나 onPlacesChange가 변경될 때만 함수가 재생성됩니다.
   const handleSearch = useCallback(
     (query: string) => {
       if (debounceTimeoutRef.current) {
@@ -47,6 +50,9 @@ export function useContentSearch(options: UseContentSearchOptions = {}) {
     [debounceMs, onPlacesChange],
   );
 
+  // clearSearch 함수가 매 렌더링마다 새로 생성되는 것을 방지하여
+  // 불필요한 자식 컴포넌트의 리렌더링을 막기 위해 useCallback을 사용합니다.
+  // onPlacesChange가 변경될 때만 함수가 재생성됩니다.
   const clearSearch = useCallback(() => {
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
