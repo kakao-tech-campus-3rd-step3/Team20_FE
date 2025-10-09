@@ -11,7 +11,7 @@ export function useRouteDragHandlers() {
 
       const handleDrop = (targetPlace: RoutePlace) => (e: React.DragEvent) => {
         e.preventDefault();
-        const draggedPlaceId = parseInt(e.dataTransfer.getData('text/plain'));
+        const draggedPlaceId = Number(e.dataTransfer.getData('text/plain'));
         if (draggedPlaceId !== targetPlace.locationId) {
           const draggedIndex = places.findIndex((p) => p.locationId === draggedPlaceId);
           const targetIndex = places.findIndex((p) => p.locationId === targetPlace.locationId);
