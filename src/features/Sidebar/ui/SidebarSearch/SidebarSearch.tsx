@@ -1,32 +1,17 @@
-import { useState } from 'react';
 import { Search, X } from 'lucide-react';
 import type { SidebarSearchProps } from '../../model/types';
 import { SIDEBAR_SEARCH_TEXT } from '../../model/messages';
-import { useKakaoPlaceSearch } from '../../model/hooks';
+import { useSearchInput } from '../../model/hooks/useSearchInput';
 
 export function SidebarSearch({
   className,
   onPlacesChange,
   onSearchStateChange,
 }: SidebarSearchProps) {
-  const [inputValue, setInputValue] = useState('');
-
-  const { handleSearch, clearSearch } = useKakaoPlaceSearch({
+  const { inputValue, searchQuery, handleInputChange, handleClearSearch } = useSearchInput(
     onPlacesChange,
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
-    handleSearch(value);
-    onSearchStateChange?.(value.trim().length > 0, value);
-  };
-
-  const handleClearSearch = () => {
-    setInputValue('');
-    clearSearch();
-    onSearchStateChange?.(false, '');
-  };
+    onSearchStateChange,
+  );
 
   return (
     <div
@@ -61,9 +46,15 @@ export function SidebarSearch({
         )}
       </div>
 
-      <p className="mt-(--spacing-2) text-caption text-(--color-text-secondary)">
-        {SIDEBAR_SEARCH_TEXT.TIP}
-      </p>
+      <div className="mt-(--spacing-2) text-caption text-(--color-text-secondary)">
+        {searchQuery ? (
+          <p className="text-(--color-text-primary)">
+            "{searchQuery}" {SIDEBAR_SEARCH_TEXT.COMPLETED}
+          </p>
+        ) : (
+          <p>{SIDEBAR_SEARCH_TEXT.TIP}</p>
+        )}
+      </div>
     </div>
   );
 }

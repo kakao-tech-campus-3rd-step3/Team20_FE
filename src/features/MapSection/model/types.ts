@@ -7,6 +7,7 @@ export type MapOptions = {
   level?: number;
   draggable?: boolean;
   scrollwheel?: boolean;
+  disableDoubleClickZoom?: boolean;
 };
 
 export type MapContainerUiProps = {
@@ -20,6 +21,7 @@ export type KakaoMap = {
   setLevel(level: number): void;
   setDraggable(flag: boolean): void;
   setZoomable(flag: boolean): void;
+  getNode(): HTMLElement;
 };
 
 export type KakaoMarker = {
@@ -56,7 +58,16 @@ export type KakaoMarkerImage = {
 };
 
 export type KakaoMapsNS = {
-  Map: new (container: HTMLElement, options: { center: LatLng; level: number }) => KakaoMap;
+  Map: new (
+    container: HTMLElement,
+    options: {
+      center: LatLng;
+      level: number;
+      draggable?: boolean;
+      scrollwheel?: boolean;
+      disableDoubleClickZoom?: boolean;
+    },
+  ) => KakaoMap;
   LatLng: new (lat: number, lng: number) => LatLng;
   Marker: new (options: { position: LatLng; image?: KakaoMarkerImage }) => KakaoMarker;
   CustomOverlay: new (options: {

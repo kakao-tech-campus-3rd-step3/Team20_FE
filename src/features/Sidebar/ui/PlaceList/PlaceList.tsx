@@ -1,6 +1,6 @@
 import { PlaceCard } from '../PlaceCard/PlaceCard';
 import type { PlaceListProps } from '../../model/types';
-import { ROUTE_BUTTON_TEXT } from '../../model/messages';
+import { ROUTE_BUTTON_TEXT } from '@/features/RoutePlanning/model/messages';
 
 export function PlaceList({
   places = [],
