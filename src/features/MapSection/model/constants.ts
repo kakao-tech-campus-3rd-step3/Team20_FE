@@ -39,6 +39,7 @@ export const MAP_DEFAULTS = {
   level: 13,
   draggable: false,
   scrollwheel: false,
+  disableDoubleClickZoom: true,
 } as const;
 
 export const SDK_CONFIG = {

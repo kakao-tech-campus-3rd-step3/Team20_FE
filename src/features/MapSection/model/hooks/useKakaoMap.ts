@@ -13,10 +13,12 @@ export function useKakaoMap(options?: MapOptions) {
     level = MAP_DEFAULTS.level,
     draggable = MAP_DEFAULTS.draggable,
     scrollwheel = MAP_DEFAULTS.scrollwheel,
+    disableDoubleClickZoom = MAP_DEFAULTS.disableDoubleClickZoom,
   } = options ?? {};
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<KakaoMap | null>(null);
+  const wheelHandlerRef = useRef<((e: WheelEvent) => void) | null>(null);
 
   useEffect(() => {
     if (mapRef.current) return;
@@ -57,10 +59,20 @@ export function useKakaoMap(options?: MapOptions) {
           level,
           draggable: draggable,
           scrollwheel: scrollwheel,
+          disableDoubleClickZoom: disableDoubleClickZoom,
         });
 
-        map.setDraggable(draggable);
-        map.setZoomable(scrollwheel);
+        // Ctrl + 휠 브라우저 확대 방지
+        const mapContainer = map.getNode();
+        const handleWheel = (e: WheelEvent) => {
+          if (e.ctrlKey) {
+            e.preventDefault();
+          }
+        };
+
+        wheelHandlerRef.current = handleWheel;
+        mapContainer.addEventListener('wheel', handleWheel, { passive: false });
+
         mapRef.current = map;
       } catch (e) {
         console.error(ERROR_MESSAGES.mapInitFailed, e);
@@ -69,8 +81,16 @@ export function useKakaoMap(options?: MapOptions) {
 
     return () => {
       cancelled = true;
-      if (createdContainer) createdContainer.innerHTML = '';
+      if (createdContainer) {
+        createdContainer.innerHTML = '';
+        // 이벤트 리스너 정리
+        const mapContainer = mapRef.current?.getNode();
+        if (mapContainer && wheelHandlerRef.current) {
+          mapContainer.removeEventListener('wheel', wheelHandlerRef.current);
+        }
+      }
       mapRef.current = null;
+      wheelHandlerRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 마운트 시에만 실행 - props 변경 시에는 두 번째 useEffect에서 처리
