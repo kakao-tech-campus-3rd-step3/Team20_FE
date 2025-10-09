@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { PopularCarousel } from 'src/features/PopularCarousel';
+import { PopularSection } from '@/features/PopularSection';
 import { API_SCENARIOS } from '../../../../../.storybook/api-decorator';
 
 const meta = {
   title: 'Features/PopularCarousel',
-  component: PopularCarousel,
+  component: PopularSection,
   parameters: {
     layout: 'padded',
     docs: {
@@ -18,7 +18,7 @@ const meta = {
     controls: { disable: true }, // Controls 비활성화로 circular JSON 오류 방지
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof PopularCarousel>;
+} satisfies Meta<typeof PopularSection>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -65,7 +65,7 @@ export const CarouselShowcase: Story = {
       </div>
       <div>
         <h3 className="text-lg font-semibold mb-4">PopularCarousel 컴포넌트</h3>
-        <PopularCarousel />
+        <PopularSection />
       </div>
     </div>
   ),
@@ -86,19 +86,19 @@ export const ResponsiveShowcase: Story = {
       <div>
         <h4 className="text-sm font-medium mb-2">모바일 크기</h4>
         <div className="max-w-sm border border-gray-200 p-4 rounded-lg">
-          <PopularCarousel />
+          <PopularSection />
         </div>
       </div>
       <div>
         <h4 className="text-sm font-medium mb-2">태블릿 크기</h4>
         <div className="max-w-2xl border border-gray-200 p-4 rounded-lg">
-          <PopularCarousel />
+          <PopularSection />
         </div>
       </div>
       <div>
         <h4 className="text-sm font-medium mb-2">데스크톱 크기</h4>
         <div className="max-w-6xl border border-gray-200 p-4 rounded-lg">
-          <PopularCarousel />
+          <PopularSection />
         </div>
       </div>
     </div>

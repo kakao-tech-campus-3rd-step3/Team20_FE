@@ -1,7 +1,7 @@
 import type { ButtonProps } from '../../model/types';
 import { Link } from '@tanstack/react-router';
 
-export function Button({ href, children, variant = 'primary' }: ButtonProps) {
+export function Button({ href, children, variant = 'primary', className }: ButtonProps) {
   const baseStyles =
     'px-[var(--spacing-button-padding-x)] py-[var(--spacing-button-padding-y)] rounded-xl text-button transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--color-border-focus]';
 
@@ -14,7 +14,7 @@ export function Button({ href, children, variant = 'primary' }: ButtonProps) {
   const variantClasses = variant === 'primary' ? primaryClasses : secondaryClasses;
 
   return (
-    <Link to={href} className={`${baseStyles} ${variantClasses}`}>
+    <Link to={href} className={`${baseStyles} ${variantClasses} ${className ?? ''}`}>
       {children}
     </Link>
   );

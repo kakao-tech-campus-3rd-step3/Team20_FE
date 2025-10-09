@@ -1,10 +1,9 @@
 import { messages } from '../../model/messages';
 import { PosterCard } from '../PosterCard/PosterCard';
-import { Link } from '@tanstack/react-router';
 import { usePopularContents } from '@/entities/content/api/queryfn';
 import type { PopularContent } from '@/entities/content/model/types';
 
-export function PopularCarousel() {
+export function PopularSection() {
   const {
     data = [],
     isLoading,
@@ -18,22 +17,19 @@ export function PopularCarousel() {
   return (
     <section className="py-[var(--spacing-8)]">
       <div className="flex items-center justify-between mb-[var(--spacing-4)]">
-        <h2 className="text-heading-4 text-[var(--color-text-primary)]">{messages.popularNow}</h2>
-        <Link to="/" className="text-link text-[var(--color-text-secondary)]">
-          {messages.seeAll}
-        </Link>
+        <h2 className="text-heading-2 text-[var(--color-text-primary)]">{messages.popularNow}</h2>
       </div>
 
       {isLoading && (
-        <div className="flex gap-[var(--spacing-4)] overflow-x-auto pb-[var(--spacing-2)] snap-x snap-mandatory">
-          {Array.from({ length: 5 }).map((_, i) => (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[var(--spacing-4)] pb-[var(--spacing-2)]">
+          {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}
-              className="min-w-[220px] snap-start rounded-xl border border-[var(--color-border-primary)] p-[var(--spacing-4)] bg-[var(--color-background-primary)] animate-pulse"
+              className="rounded-xl border border-[var(--color-border-primary)] p-[var(--spacing-4)] bg-[var(--color-background-primary)] animate-pulse"
             >
               <div className="aspect-[3/4] rounded-lg bg-[var(--color-gray-100)]" />
-              <div className="h-4 mt-[var(--spacing-4)] bg-[var(--color-gray-100)] rounded" />
-              <div className="h-3 mt-[var(--spacing-2)] bg-[var(--color-gray-100)] rounded w-1/2" />
+              <div className="h-5 mt-[var(--spacing-4)] bg-[var(--color-gray-100)] rounded w-24" />
+              <div className="h-4 mt-[var(--spacing-2)] bg-[var(--color-gray-100)] rounded w-3/4" />
             </div>
           ))}
         </div>
@@ -50,9 +46,9 @@ export function PopularCarousel() {
       )}
 
       {!isLoading && !isError && data.length > 0 && (
-        <div className="flex gap-[var(--spacing-4)] overflow-x-auto pb-[var(--spacing-2)] snap-x snap-mandatory">
-          {data.map((content, index) => (
-            <PosterCard key={content.contentId} {...content} rank={index + 1} />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[var(--spacing-16)] pb-[var(--spacing-2)]">
+          {data.map((content) => (
+            <PosterCard key={content.contentId} {...content} />
           ))}
         </div>
       )}
