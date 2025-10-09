@@ -6,10 +6,7 @@ const recalculateOrder = (places: RoutePlace[]): RoutePlace[] => {
   return places.map((place, index) => ({ ...place, order: index + 1 }));
 };
 
-export function useRoutePlaces(
-  _state: RoutePlanningState,
-  setState: React.Dispatch<React.SetStateAction<RoutePlanningState>>,
-) {
+export function useRoutePlaces(setState: React.Dispatch<React.SetStateAction<RoutePlanningState>>) {
   const addPlace = useCallback(
     (place: Place) => {
       setState((prev) => {

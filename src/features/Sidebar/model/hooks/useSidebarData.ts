@@ -25,9 +25,9 @@ export function useSidebarData(contentId?: string) {
         (location): location is ContentLocation => !hasAddress(location),
       );
       const convertedPlaces = await convertLocationsToPlaces(contentLocations);
-      const existingPlaces = locations.filter(hasAddress) as unknown as Place[];
+      const existingPlaces = locations.filter(hasAddress);
 
-      return [...convertedPlaces, ...existingPlaces];
+      return [...convertedPlaces, ...existingPlaces] as Place[];
     },
     enabled: !!contentId,
   });

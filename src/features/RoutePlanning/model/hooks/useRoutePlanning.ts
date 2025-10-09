@@ -9,7 +9,7 @@ export function useRoutePlanning() {
     places: [],
   });
 
-  const { addPlace, removePlace, reorderPlaces } = useRoutePlaces(state, setState);
+  const { addPlace, removePlace, reorderPlaces } = useRoutePlaces(setState);
   const { createRouteSidebarHandlers } = useRouteDragHandlers();
   const { saveRoute } = useRouteSave(setState);
 
