@@ -11,7 +11,6 @@ export function FooterQuickMenuLinks() {
             <a
               href={to}
               className="group flex items-center gap-(--spacing-2) text-(--color-text-secondary) transition-colors duration-200 hover:text-(--color-text-inverse)"
-              aria-label={label}
             >
               <Icon
                 className="h-(--spacing-4) w-(--spacing-4) transition-transform duration-200 group-hover:scale-110"
