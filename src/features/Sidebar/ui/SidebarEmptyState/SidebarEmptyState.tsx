@@ -3,16 +3,11 @@ import { usePopularContents } from '../../model/hooks/usePopularContents';
 import type { Place } from '../../model/types';
 
 interface SidebarEmptyStateProps {
-  onContentClick?: (contentTitle: string) => void;
   onPlacesChange?: (places: Place[]) => void;
   onSearchStateChange?: (isSearching: boolean, query: string) => void;
 }
 
-export function SidebarEmptyState({
-  onContentClick,
-  onPlacesChange,
-  onSearchStateChange,
-}: SidebarEmptyStateProps) {
+export function SidebarEmptyState({ onPlacesChange, onSearchStateChange }: SidebarEmptyStateProps) {
   const { popularContents, isLoading, handleContentClick } = usePopularContents({
     onPlacesChange,
     onSearchStateChange,
@@ -45,11 +40,10 @@ export function SidebarEmptyState({
             </div>
           ) : (
             <div className="space-y-(--spacing-2)">
-              {popularContents.map((content, index) => (
+              {popularContents.map((content) => (
                 <button
-                  key={content.contentId || index}
+                  key={content.contentId}
                   onClick={() => {
-                    onContentClick?.(content.title || '');
                     handleContentClick(content.title || '');
                   }}
                   className="w-full flex items-center gap-(--spacing-2) p-(--spacing-2) text-left text-body-small text-(--color-text-secondary) hover:text-(--color-text-primary) hover:bg-(--color-background-secondary) rounded-lg transition-colors"

@@ -28,11 +28,6 @@ export function useSidebar(options: UseSidebarOptions = {}) {
     setSearchQuery(query);
   };
 
-  const handleContentClick = (contentTitle: string) => {
-    setIsSearching(true);
-    setSearchQuery(contentTitle);
-  };
-
   return {
     contentDetail,
     places: displayPlaces,
@@ -43,6 +38,5 @@ export function useSidebar(options: UseSidebarOptions = {}) {
     searchQuery,
     handleSearchPlacesChange,
     handleSearchStateChange,
-    handleContentClick,
   };
 }

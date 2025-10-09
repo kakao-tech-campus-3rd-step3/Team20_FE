@@ -34,7 +34,6 @@ export function Sidebar({
     searchQuery,
     handleSearchPlacesChange,
     handleSearchStateChange,
-    handleContentClick,
   } = useSidebar({
     contentId,
     onSearchPlacesChange,
@@ -72,7 +71,6 @@ export function Sidebar({
             />
           ) : isEmpty ? (
             <SidebarEmptyState
-              onContentClick={handleContentClick}
               onPlacesChange={handleSearchPlacesChange}
               onSearchStateChange={handleSearchStateChange}
             />
