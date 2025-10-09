@@ -7,7 +7,7 @@ export function Brand() {
   return (
     <Link
       to="/"
-      onClick={() => window.scrollTo(0, 0)}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       className="group flex items-center gap-(--spacing-4) transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/60 focus-visible:ring-offset-2 rounded-lg"
       aria-label="홈페이지로 이동"
     >
