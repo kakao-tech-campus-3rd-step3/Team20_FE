@@ -17,9 +17,9 @@ if (typeof globalThis !== 'undefined') {
  * PlaceCard 클릭 시 overlay 표시를 담당하는 훅
  */
 export function usePlaceClick(mapRef: React.MutableRefObject<KakaoMap | null>) {
-  const closeOverlay = useCallback(() => {
+  const closeOverlay = () => {
     closeGlobalOverlay();
-  }, []);
+  };
 
   const handlePlaceClick = useCallback(
     (place: Place) => {
@@ -27,15 +27,15 @@ export function usePlaceClick(mapRef: React.MutableRefObject<KakaoMap | null>) {
       if (!map) return;
 
       try {
-        closeOverlay();
+        closeGlobalOverlay();
         const position = createLatLng(place.latitude, place.longitude);
-        const overlay = createMapOverlay(map, place, position, closeOverlay);
+        const overlay = createMapOverlay(map, place, position, closeGlobalOverlay);
         setGlobalOverlay(overlay);
       } catch (e) {
         console.error('Failed to show place overlay:', e);
       }
     },
-    [mapRef, closeOverlay],
+    [mapRef],
   );
 
   return { handlePlaceClick, closeOverlay };

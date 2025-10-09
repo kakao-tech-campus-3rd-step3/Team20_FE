@@ -9,34 +9,23 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const resetForm = useCallback(() => {
+  const resetForm = () => {
     setTitle('');
     setDescription('');
     setError(null);
-  }, []);
-
-  const validateForm = useCallback(
-    (places: RoutePlace[]) => {
-      if (!title.trim()) {
-        setError(SAVE_ROUTE_MODAL.VALIDATION.TITLE_REQUIRED);
-        return false;
-      }
-
-      if (places.length === 0) {
-        setError(SAVE_ROUTE_MODAL.VALIDATION.NO_PLACES);
-        return false;
-      }
-
-      return true;
-    },
-    [title],
-  );
+  };
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent, places: RoutePlace[]) => {
       e.preventDefault();
 
-      if (!validateForm(places)) {
+      if (!title.trim()) {
+        setError(SAVE_ROUTE_MODAL.VALIDATION.TITLE_REQUIRED);
+        return;
+      }
+
+      if (places.length === 0) {
+        setError(SAVE_ROUTE_MODAL.VALIDATION.NO_PLACES);
         return;
       }
 
@@ -54,7 +43,7 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
         setIsLoading(false);
       }
     },
-    [title, description, onSave, onClose, resetForm, validateForm],
+    [title, description, onSave, onClose],
   );
 
   const handleClose = useCallback(() => {
@@ -62,7 +51,7 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
       resetForm();
       onClose?.();
     }
-  }, [isLoading, onClose, resetForm]);
+  }, [isLoading, onClose]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);

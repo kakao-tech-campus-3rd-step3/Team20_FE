@@ -9,20 +9,20 @@ export function useSaveRouteModal(options: UseSaveRouteModalOptions = {}) {
   const { onSaveRoute } = options;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = useCallback(() => {
+  const openModal = () => {
     setIsModalOpen(true);
-  }, []);
+  };
 
-  const closeModal = useCallback(() => {
+  const closeModal = () => {
     setIsModalOpen(false);
-  }, []);
+  };
 
   const handleSave = useCallback(
     (title: string, description: string, places: RoutePlace[]) => {
       onSaveRoute?.(title, description, places);
-      closeModal();
+      setIsModalOpen(false);
     },
-    [onSaveRoute, closeModal],
+    [onSaveRoute],
   );
 
   return {

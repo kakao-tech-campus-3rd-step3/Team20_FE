@@ -10,52 +10,41 @@ export function useContentSearch(options: UseContentSearchOptions = {}) {
   const [searchQuery, setSearchQuery] = useState('');
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const clearResults = useCallback(() => {
-    onPlacesChange?.([]);
-  }, [onPlacesChange]);
-
-  const searchContentsAndPlaces = useCallback(
-    async (query: string) => {
-      if (!query.trim()) {
-        clearResults();
-        return;
-      }
-
-      setIsLoading(true);
-      setIsError(false);
-      setSearchQuery(query);
-
-      try {
-        const contents = await searchContents(query);
-
-        if (!contents || contents.length === 0) {
-          clearResults();
-          return;
-        }
-
-        const places = await getPlacesFromContents(contents);
-        onPlacesChange?.(places);
-      } catch {
-        setIsError(true);
-        clearResults();
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [clearResults, onPlacesChange],
-  );
-
   const handleSearch = useCallback(
     (query: string) => {
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);
       }
 
-      debounceTimeoutRef.current = setTimeout(() => {
-        searchContentsAndPlaces(query);
+      debounceTimeoutRef.current = setTimeout(async () => {
+        if (!query.trim()) {
+          onPlacesChange?.([]);
+          return;
+        }
+
+        setIsLoading(true);
+        setIsError(false);
+        setSearchQuery(query);
+
+        try {
+          const contents = await searchContents(query);
+
+          if (!contents || contents.length === 0) {
+            onPlacesChange?.([]);
+            return;
+          }
+
+          const places = await getPlacesFromContents(contents);
+          onPlacesChange?.(places);
+        } catch {
+          setIsError(true);
+          onPlacesChange?.([]);
+        } finally {
+          setIsLoading(false);
+        }
       }, debounceMs);
     },
-    [searchContentsAndPlaces, debounceMs],
+    [debounceMs, onPlacesChange],
   );
 
   const clearSearch = useCallback(() => {
@@ -65,8 +54,8 @@ export function useContentSearch(options: UseContentSearchOptions = {}) {
 
     setSearchQuery('');
     setIsError(false);
-    clearResults();
-  }, [clearResults]);
+    onPlacesChange?.([]);
+  }, [onPlacesChange]);
 
   return {
     isLoading,
