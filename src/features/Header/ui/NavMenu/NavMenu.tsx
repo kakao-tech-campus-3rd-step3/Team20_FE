@@ -15,6 +15,9 @@ export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
     const routeOptions = navRouteMap[key];
     navigate(routeOptions);
     onSelect?.(key);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   return (
