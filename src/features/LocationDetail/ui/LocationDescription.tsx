@@ -34,9 +34,7 @@ export function LocationDescription({ description, quickFacts }: LocationDescrip
             장소 소개
           </h2>
           <div className="prose prose-lg max-w-none">
-            <p className="text-gray-700 leading-relaxed whitespace-pre-line text-lg">
-              {description}
-            </p>
+            <p className="whitespace-pre-line">{description}</p>
           </div>
         </div>
       </article>
