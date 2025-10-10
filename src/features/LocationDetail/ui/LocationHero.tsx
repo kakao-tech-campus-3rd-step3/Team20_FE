@@ -30,9 +30,11 @@ export function LocationHero({ location }: LocationHeroProps) {
         await navigator.share(shareData);
       } else {
         await navigator.clipboard.writeText(shareData.url);
+        toast.success('링크를 복사했어요.');
       }
     } catch (error) {
       console.error('[LocationHero] 공유 실패', error);
+      toast.error('공유에 실패했어요. 다시 시도해 주세요.');
     }
   };
 
