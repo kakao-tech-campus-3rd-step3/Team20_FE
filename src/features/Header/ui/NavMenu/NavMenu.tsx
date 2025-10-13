@@ -1,24 +1,11 @@
-import { useNavigate } from '@tanstack/react-router';
 import { IconButton } from '@/shared/ui';
 import { MENU } from '../../model/utils';
-import { navRouteMap } from '../../model/constants';
-import type { NavMenuProps, NavKey } from '../../model/types';
-import { useActiveNavKey } from '../../model/hooks';
+import type { NavMenuProps } from '../../model/types';
+import { useResolvedActiveKey, useNavActions } from '../../model/hooks';
 
 export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
-  const navigate = useNavigate();
-
-  const autoActive = useActiveNavKey();
-  const activeKey = controlledActive ?? autoActive;
-
-  const handleNavClick = (key: NavKey) => {
-    const routeOptions = navRouteMap[key];
-    navigate(routeOptions);
-    onSelect?.(key);
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
-  };
+  const activeKey = useResolvedActiveKey(controlledActive);
+  const { onItemClick } = useNavActions(onSelect);
 
   return (
     <nav aria-label="주요 메뉴" className="hidden md:flex items-center gap-(--spacing-4)">
@@ -31,7 +18,7 @@ export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
           variant="soft"
           active={key === activeKey}
           aria-current={key === activeKey ? 'page' : undefined}
-          onClick={() => handleNavClick(key)}
+          onClick={() => onItemClick(key)}
         >
           {label}
         </IconButton>
