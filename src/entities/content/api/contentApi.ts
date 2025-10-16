@@ -13,7 +13,7 @@ export const getPopularContents = async (): Promise<PopularContent[]> => {
   const data = await httpBackend.get<
     PopularResponse | PopularContent[],
     PopularResponse | PopularContent[]
-  >('/contents');
+  >('/contents/popular');
   if (Array.isArray(data)) return data;
   return data?.items ?? [];
 };
@@ -35,7 +35,7 @@ export const getCategoryContents = async (category: string): Promise<CategoryCon
   const data = await httpBackend.get<
     CategoryContent[] | { items: CategoryContent[] },
     CategoryContent[] | { items: CategoryContent[] }
-  >(`/contents?category=${category}`);
+  >(`/contents/popular?category=${category}`);
 
   // 어떤 형태로 와도 배열만 리턴
   return Array.isArray(data) ? data : (data?.items ?? []);
