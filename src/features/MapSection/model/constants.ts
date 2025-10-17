@@ -61,3 +61,21 @@ export const POLYLINE_CONFIG = {
   STROKE_WEIGHT: 3,
   STROKE_OPACITY: 0.8,
 } as const;
+
+export const MOBILE_BUTTON_STYLES = {
+  CONTAINER:
+    'absolute bottom-(--spacing-4) left-1/2 transform -translate-x-1/2 z-(--z-elevated) flex gap-(--spacing-2)',
+  BUTTON_BASE:
+    'flex items-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-full shadow-(--shadow-card) transition-all duration-200',
+  ICON: 'w-(--spacing-5) h-(--spacing-5)',
+  TEXT: 'text-sm font-medium',
+  BADGE:
+    'bg-(--color-semantic-error) text-(--color-text-inverse) text-xs rounded-full px-(--spacing-2) py-(--spacing-1) min-w-[20px] text-center',
+} as const;
+
+export const BUTTON_VARIANTS = {
+  ACTIVE:
+    'bg-(--color-brand-primary) text-(--color-text-inverse) hover:bg-(--color-brand-secondary)',
+  INACTIVE:
+    'bg-(--color-background-primary) text-(--color-text-primary) hover:bg-(--color-brand-primary) hover:text-(--color-text-inverse)',
+} as const;

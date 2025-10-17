@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { Sidebar } from '@/features/Sidebar';
 import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch/SidebarSearch';
 import { RouteSidebar } from '@/features/RoutePlanning';
-import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
+import { MapContainer } from '@/features/MapSection';
+import { MobileBottomButtons } from '@/features/MapSection/ui/MobileControls/MobileBottomButtons';
+import type { MobileBottomSection } from '@/features/MapSection/model/types';
 import { useKakaoMap } from '@/features/MapSection/model/hooks/useKakaoMap';
 import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarkers';
 import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
@@ -20,6 +22,7 @@ export const Route = createFileRoute('/map')({
 
 function MapPage() {
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
+  const [mobileBottomSection, setMobileBottomSection] = useState<MobileBottomSection>(null);
   const { isMobileOrTablet, isLaptop } = useBreakpoints();
   const mapHook = useKakaoMap();
   const { handlePlaceClick, closeOverlay } = usePlaceClick(mapHook.mapRef);
@@ -93,6 +96,12 @@ function MapPage() {
                 />
               </div>
             </div>
+
+            <MobileBottomButtons
+              activeSection={mobileBottomSection}
+              onSectionChange={setMobileBottomSection}
+              routePlacesCount={routePlaces.length}
+            />
           </div>
         )}
       </div>
