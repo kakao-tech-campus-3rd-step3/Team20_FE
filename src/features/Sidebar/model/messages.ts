@@ -36,8 +36,6 @@ export const SIDEBAR_EMPTY_STATE = {
 } as const;
 
 export const SIDEBAR_SEARCH_RESULTS = {
-  TITLE: '검색 결과',
-  NO_RESULTS_TITLE: '검색 결과가 없습니다',
   NO_RESULTS_DESCRIPTION: '다른 키워드로 시도해보세요.',
   RESULTS_COUNT: '개의 장소를 찾았습니다',
 } as const;

@@ -117,6 +117,7 @@ function MapPage() {
                     onAddToRoute={handleAddToRoute}
                     routePlaces={routePlaces}
                     selectedPlace={selectedPlace}
+                    searchPlaces={searchPlaces}
                   />
                 </div>
               </div>

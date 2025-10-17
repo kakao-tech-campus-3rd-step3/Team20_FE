@@ -17,22 +17,27 @@ export function Sidebar({
   onAddToRoute,
   routePlaces = [],
   selectedPlace,
+  searchPlaces,
 }: SidebarProps) {
   const { isLaptop } = useBreakpoints();
   const {
     contentDetail,
-    places: displayPlaces,
+    places: internalPlaces,
     isLoading,
     error,
     isEmpty,
     isSearching,
-    searchQuery,
     handleSearchPlacesChange,
     handleSearchStateChange,
   } = useSidebar({
     contentId,
     onSearchPlacesChange,
   });
+
+  const displayPlaces = searchPlaces && searchPlaces.length > 0 ? searchPlaces : internalPlaces;
+  const isExternalSearch = searchPlaces && searchPlaces.length > 0;
+  const finalIsSearching = isExternalSearch ? true : isSearching;
+  const finalIsEmpty = isExternalSearch ? false : isEmpty;
 
   return (
     <aside
@@ -61,7 +66,9 @@ export function Sidebar({
                   : SIDEBAR_TITLES.HEADER_TITLE}
               </h2>
               <p className="text-body-small text-(--color-gray-100)">
-                {isEmpty ? SIDEBAR_TITLES.SEARCH_SUBTITLE : formatFoundCount(displayPlaces.length)}
+                {finalIsEmpty
+                  ? SIDEBAR_TITLES.SEARCH_SUBTITLE
+                  : formatFoundCount(displayPlaces.length)}
               </p>
             </div>
 
@@ -72,16 +79,15 @@ export function Sidebar({
           </>
         )}
         <div className="flex-1 overflow-y-auto">
-          {isSearching ? (
+          {finalIsSearching ? (
             <SidebarSearchResults
-              searchQuery={searchQuery}
               places={displayPlaces}
               onPlaceClick={onPlaceClick}
               onAddToRoute={onAddToRoute}
               routePlaces={routePlaces}
               selectedPlace={selectedPlace}
             />
-          ) : isEmpty ? (
+          ) : finalIsEmpty ? (
             <SidebarEmptyState
               onPlacesChange={handleSearchPlacesChange}
               onSearchStateChange={handleSearchStateChange}
