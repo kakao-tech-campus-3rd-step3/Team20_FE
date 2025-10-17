@@ -1,5 +1,10 @@
 // API (순수 API 함수)
-export { loginApi, signupApi } from './api/authApi';
+export {
+  loginApi,
+  signupApi,
+  verifyEmailApi,
+  resendVerificationEmailApi,
+} from './api/authApi';
 
 // Types
 export type {
@@ -8,4 +13,8 @@ export type {
   SignupRequest,
   SignupResponse,
   User,
+  EmailVerificationRequest,
+  EmailVerificationResponse,
+  EmailResendRequest,
+  EmailResendResponse,
 } from './model/types';

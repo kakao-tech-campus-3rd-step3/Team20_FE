@@ -49,19 +49,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signup = async (userData: SignupRequest) => {
     try {
-      const response = await signupApi(userData);
-
-      const newUser: User = {
-        userId: response.userId,
-        email: response.email,
-        nickname: response.nickname,
-      };
-
-      setAccessToken(response.accessToken);
-      setUser(newUser);
-      setIsAuthenticated(true);
-
-      tokenStorage.setToken(response.accessToken);
+      // 회원가입만 처리 (로그인 상태로 만들지 않음)
+      await signupApi(userData);
+      // 이메일 인증 후 로그인해야 하므로 여기서는 상태 변경 없음
     } catch (error) {
       console.error('❌ Signup failed:', error);
       if (axios.isAxiosError(error)) {

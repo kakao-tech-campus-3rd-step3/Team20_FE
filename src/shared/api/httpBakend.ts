@@ -16,6 +16,7 @@ export const httpBackend = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 httpBackend.interceptors.response.use(

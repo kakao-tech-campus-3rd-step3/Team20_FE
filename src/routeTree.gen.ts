@@ -9,14 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
+import { Route as VerifiedEmailRouteImport } from './pages/verified-email'
 import { Route as MapRouteImport } from './pages/map'
 import { Route as IndexRouteImport } from './pages/index'
 import { Route as LocationIdRouteImport } from './pages/location.$id'
 import { Route as ContentIdRouteImport } from './pages/content.$id'
+import { Route as AuthSignupSuccessRouteImport } from './pages/auth/signup-success'
 import { Route as AuthSignupRouteImport } from './pages/auth/signup'
 import { Route as AuthLoginRouteImport } from './pages/auth/login'
 import { Route as ContentContentIdMapRouteImport } from './pages/content.$contentId.map'
 
+const VerifiedEmailRoute = VerifiedEmailRouteImport.update({
+  id: '/verified-email',
+  path: '/verified-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
@@ -35,6 +42,11 @@ const LocationIdRoute = LocationIdRouteImport.update({
 const ContentIdRoute = ContentIdRouteImport.update({
   id: '/content/$id',
   path: '/content/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignupSuccessRoute = AuthSignupSuccessRouteImport.update({
+  id: '/auth/signup-success',
+  path: '/auth/signup-success',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthSignupRoute = AuthSignupRouteImport.update({
@@ -56,8 +68,10 @@ const ContentContentIdMapRoute = ContentContentIdMapRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/verified-email': typeof VerifiedEmailRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
@@ -65,8 +79,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/verified-email': typeof VerifiedEmailRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
@@ -75,8 +91,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/verified-email': typeof VerifiedEmailRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
@@ -86,8 +104,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/map'
+    | '/verified-email'
     | '/auth/login'
     | '/auth/signup'
+    | '/auth/signup-success'
     | '/content/$id'
     | '/location/$id'
     | '/content/$contentId/map'
@@ -95,8 +115,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/map'
+    | '/verified-email'
     | '/auth/login'
     | '/auth/signup'
+    | '/auth/signup-success'
     | '/content/$id'
     | '/location/$id'
     | '/content/$contentId/map'
@@ -104,8 +126,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/map'
+    | '/verified-email'
     | '/auth/login'
     | '/auth/signup'
+    | '/auth/signup-success'
     | '/content/$id'
     | '/location/$id'
     | '/content/$contentId/map'
@@ -114,8 +138,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MapRoute: typeof MapRoute
+  VerifiedEmailRoute: typeof VerifiedEmailRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  AuthSignupSuccessRoute: typeof AuthSignupSuccessRoute
   ContentIdRoute: typeof ContentIdRoute
   LocationIdRoute: typeof LocationIdRoute
   ContentContentIdMapRoute: typeof ContentContentIdMapRoute
@@ -123,6 +149,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verified-email': {
+      id: '/verified-email'
+      path: '/verified-email'
+      fullPath: '/verified-email'
+      preLoaderRoute: typeof VerifiedEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/map': {
       id: '/map'
       path: '/map'
@@ -149,6 +182,13 @@ declare module '@tanstack/react-router' {
       path: '/content/$id'
       fullPath: '/content/$id'
       preLoaderRoute: typeof ContentIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/signup-success': {
+      id: '/auth/signup-success'
+      path: '/auth/signup-success'
+      fullPath: '/auth/signup-success'
+      preLoaderRoute: typeof AuthSignupSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/signup': {
@@ -178,8 +218,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MapRoute: MapRoute,
+  VerifiedEmailRoute: VerifiedEmailRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
+  AuthSignupSuccessRoute: AuthSignupSuccessRoute,
   ContentIdRoute: ContentIdRoute,
   LocationIdRoute: LocationIdRoute,
   ContentContentIdMapRoute: ContentContentIdMapRoute,

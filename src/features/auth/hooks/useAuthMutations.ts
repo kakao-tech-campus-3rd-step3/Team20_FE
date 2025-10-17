@@ -28,9 +28,14 @@ export const useSignupMutation = () => {
     return useMutation({
         mutationFn: async (userData: SignupRequest) => {
             await signup(userData);
+            return userData.email;
         },
-        onSuccess: () => {
-            navigate({ to: '/' });
+        onSuccess: (email) => {
+            // 회원가입 성공 후 이메일 인증 안내 페이지로 이동
+            navigate({ 
+                to: '/auth/signup-success',
+                search: { email }
+            });
         },
         onError: (error) => {
             console.error('Signup failed:', error);
