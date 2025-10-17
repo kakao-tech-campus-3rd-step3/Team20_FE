@@ -82,10 +82,10 @@ export const BUTTON_VARIANTS = {
 
 export const MOBILE_SIDEBAR_STYLES = {
   CONTAINER:
-    'absolute bottom-0 left-0 right-0 z-20 bg-white border-t border-gray-200 shadow-lg max-h-[60vh] rounded-t-2xl',
+    'absolute bottom-0 left-0 right-0 z-20 bg-white border-t border-gray-200 shadow-lg h-[85vh] rounded-t-2xl',
   HEADER: 'flex items-center justify-between p-4 border-b border-gray-200',
   TITLE: 'text-lg font-semibold text-gray-900',
-  CONTENT: 'flex-1 overflow-y-auto max-h-[50vh]',
+  CONTENT: 'flex-1 overflow-y-auto h-[calc(85vh-80px)]',
 } as const;
 
 export const MOBILE_SEARCH_BAR_STYLES = {
