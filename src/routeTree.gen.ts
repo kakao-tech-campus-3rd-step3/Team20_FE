@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './pages/__root'
 import { Route as VerifiedEmailRouteImport } from './pages/verified-email'
 import { Route as MapRouteImport } from './pages/map'
 import { Route as IndexRouteImport } from './pages/index'
+import { Route as VerifiedEmailVerifyEmailRouteImport } from './pages/verified-email/verify-email'
 import { Route as LocationIdRouteImport } from './pages/location.$id'
 import { Route as ContentIdRouteImport } from './pages/content.$id'
 import { Route as AuthSignupSuccessRouteImport } from './pages/auth/signup-success'
@@ -34,6 +35,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VerifiedEmailVerifyEmailRoute =
+  VerifiedEmailVerifyEmailRouteImport.update({
+    id: '/verify-email',
+    path: '/verify-email',
+    getParentRoute: () => VerifiedEmailRoute,
+  } as any)
 const LocationIdRoute = LocationIdRouteImport.update({
   id: '/location/$id',
   path: '/location/$id',
@@ -68,35 +75,38 @@ const ContentContentIdMapRoute = ContentContentIdMapRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
-  '/verified-email': typeof VerifiedEmailRoute
+  '/verified-email': typeof VerifiedEmailRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
+  '/verified-email/verify-email': typeof VerifiedEmailVerifyEmailRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
-  '/verified-email': typeof VerifiedEmailRoute
+  '/verified-email': typeof VerifiedEmailRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
+  '/verified-email/verify-email': typeof VerifiedEmailVerifyEmailRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/map': typeof MapRoute
-  '/verified-email': typeof VerifiedEmailRoute
+  '/verified-email': typeof VerifiedEmailRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
+  '/verified-email/verify-email': typeof VerifiedEmailVerifyEmailRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
 }
 export interface FileRouteTypes {
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/auth/signup-success'
     | '/content/$id'
     | '/location/$id'
+    | '/verified-email/verify-email'
     | '/content/$contentId/map'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/auth/signup-success'
     | '/content/$id'
     | '/location/$id'
+    | '/verified-email/verify-email'
     | '/content/$contentId/map'
   id:
     | '__root__'
@@ -132,13 +144,14 @@ export interface FileRouteTypes {
     | '/auth/signup-success'
     | '/content/$id'
     | '/location/$id'
+    | '/verified-email/verify-email'
     | '/content/$contentId/map'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MapRoute: typeof MapRoute
-  VerifiedEmailRoute: typeof VerifiedEmailRoute
+  VerifiedEmailRoute: typeof VerifiedEmailRouteWithChildren
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
   AuthSignupSuccessRoute: typeof AuthSignupSuccessRoute
@@ -169,6 +182,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/verified-email/verify-email': {
+      id: '/verified-email/verify-email'
+      path: '/verify-email'
+      fullPath: '/verified-email/verify-email'
+      preLoaderRoute: typeof VerifiedEmailVerifyEmailRouteImport
+      parentRoute: typeof VerifiedEmailRoute
     }
     '/location/$id': {
       id: '/location/$id'
@@ -215,10 +235,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface VerifiedEmailRouteChildren {
+  VerifiedEmailVerifyEmailRoute: typeof VerifiedEmailVerifyEmailRoute
+}
+
+const VerifiedEmailRouteChildren: VerifiedEmailRouteChildren = {
+  VerifiedEmailVerifyEmailRoute: VerifiedEmailVerifyEmailRoute,
+}
+
+const VerifiedEmailRouteWithChildren = VerifiedEmailRoute._addFileChildren(
+  VerifiedEmailRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MapRoute: MapRoute,
-  VerifiedEmailRoute: VerifiedEmailRoute,
+  VerifiedEmailRoute: VerifiedEmailRouteWithChildren,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
   AuthSignupSuccessRoute: AuthSignupSuccessRoute,
