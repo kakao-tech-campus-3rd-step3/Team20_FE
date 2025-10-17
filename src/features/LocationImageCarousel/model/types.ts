@@ -4,8 +4,8 @@ import type { LocationDetail } from '@/entities/location/model/types';
 export interface ContentScene {
   id: number;
   title: string;
-  description: string;
-  image: string;
+  description?: string;
+  image?: string;
   episode: string;
   timestamp: string;
 }
