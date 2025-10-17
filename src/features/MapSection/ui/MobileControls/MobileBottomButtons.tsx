@@ -7,23 +7,24 @@ export function MobileBottomButtons({
   onSectionChange,
   routePlacesCount,
 }: MobileBottomButtonsProps) {
+  const getButtonClass = (section: 'search' | 'route') =>
+    `${MOBILE_BUTTON_STYLES.BUTTON_BASE} ${
+      activeSection === section ? BUTTON_VARIANTS.ACTIVE : BUTTON_VARIANTS.INACTIVE
+    }`;
+
   return (
     <div className={MOBILE_BUTTON_STYLES.CONTAINER}>
       <button
         onClick={() => onSectionChange(activeSection === 'search' ? null : 'search')}
-        className={`${MOBILE_BUTTON_STYLES.BUTTON_BASE} ${
-          activeSection === 'search' ? BUTTON_VARIANTS.ACTIVE : BUTTON_VARIANTS.INACTIVE
-        }`}
+        className={getButtonClass('search')}
       >
         <Search className={MOBILE_BUTTON_STYLES.ICON} />
-        <span className={MOBILE_BUTTON_STYLES.TEXT}>검색</span>
+        <span className={MOBILE_BUTTON_STYLES.TEXT}>검색 결과</span>
       </button>
 
       <button
         onClick={() => onSectionChange(activeSection === 'route' ? null : 'route')}
-        className={`${MOBILE_BUTTON_STYLES.BUTTON_BASE} ${
-          activeSection === 'route' ? BUTTON_VARIANTS.ACTIVE : BUTTON_VARIANTS.INACTIVE
-        }`}
+        className={getButtonClass('route')}
       >
         <RouteIcon className={MOBILE_BUTTON_STYLES.ICON} />
         <span className={MOBILE_BUTTON_STYLES.TEXT}>동선</span>

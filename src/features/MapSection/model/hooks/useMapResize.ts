@@ -5,16 +5,10 @@ interface UseMapResizeProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mapRef: RefObject<any>;
   containerRef: RefObject<HTMLDivElement | null>;
-  isMobileOrTablet: boolean;
   isLaptop: boolean;
 }
 
-export function useMapResize({
-  mapRef,
-  containerRef,
-  isMobileOrTablet,
-  isLaptop,
-}: UseMapResizeProps) {
+export function useMapResize({ mapRef, containerRef, isLaptop }: UseMapResizeProps) {
   useLayoutEffect(() => {
     const container = containerRef.current;
     if (!container || !window.kakao?.maps) return;
@@ -32,7 +26,7 @@ export function useMapResize({
     });
 
     mapRef.current = newMap;
-  }, [isMobileOrTablet, isLaptop, mapRef, containerRef]);
+  }, [isLaptop, mapRef, containerRef]);
 
   useEffect(() => {
     const el = containerRef.current;

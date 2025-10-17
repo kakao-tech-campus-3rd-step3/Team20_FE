@@ -6,6 +6,7 @@ import { RouteSidebar } from '@/features/RoutePlanning';
 import { MapContainer } from '@/features/MapSection';
 import { MobileBottomButtons } from '@/features/MapSection/ui/MobileControls/MobileBottomButtons';
 import type { MobileBottomSection } from '@/features/MapSection/model/types';
+import { MOBILE_SIDEBAR_STYLES } from '@/features/MapSection/model/constants';
 import { useKakaoMap } from '@/features/MapSection/model/hooks/useKakaoMap';
 import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarkers';
 import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
@@ -23,7 +24,7 @@ export const Route = createFileRoute('/map')({
 function MapPage() {
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const [mobileBottomSection, setMobileBottomSection] = useState<MobileBottomSection>(null);
-  const { isMobileOrTablet, isLaptop } = useBreakpoints();
+  const { isLaptop } = useBreakpoints();
   const mapHook = useKakaoMap();
   const { handlePlaceClick, closeOverlay } = usePlaceClick(mapHook.mapRef);
   const {
@@ -41,7 +42,6 @@ function MapPage() {
   useMapResize({
     mapRef: mapHook.mapRef,
     containerRef: mapHook.containerRef,
-    isMobileOrTablet,
     isLaptop,
   });
   useKakaoMarkers(searchPlaces, mapHook.mapRef, routePlaces, handlePlaceSelect);
@@ -102,6 +102,43 @@ function MapPage() {
               onSectionChange={setMobileBottomSection}
               routePlacesCount={routePlaces.length}
             />
+
+            {mobileBottomSection === 'search' && (
+              <div className={MOBILE_SIDEBAR_STYLES.CONTAINER}>
+                <div className={MOBILE_SIDEBAR_STYLES.HEADER}>
+                  <h3 className={MOBILE_SIDEBAR_STYLES.TITLE}>검색 결과</h3>
+                  <button
+                    onClick={() => setMobileBottomSection(null)}
+                    className={MOBILE_SIDEBAR_STYLES.CLOSE_BUTTON}
+                  >
+                    <svg
+                      className={MOBILE_SIDEBAR_STYLES.CLOSE_ICON}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className={MOBILE_SIDEBAR_STYLES.CONTENT}>
+                  <Sidebar
+                    className="w-full h-full"
+                    onSearchPlacesChange={setSearchPlaces}
+                    onPlaceClick={handlePlaceSelect}
+                    onAddToRoute={handleAddToRoute}
+                    routePlaces={routePlaces}
+                    selectedPlace={selectedPlace}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

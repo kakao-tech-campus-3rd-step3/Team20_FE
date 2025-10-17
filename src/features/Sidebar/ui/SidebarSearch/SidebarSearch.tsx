@@ -10,7 +10,7 @@ export function SidebarSearch({
   onPlacesChange,
   onSearchStateChange,
 }: SidebarSearchProps) {
-  const { isMobileOrTablet } = useBreakpoints();
+  const { isLaptop } = useBreakpoints();
   const { inputValue, searchQuery, handleInputChange, handleClearSearch } = useSearchInput(
     onPlacesChange,
     onSearchStateChange,
@@ -20,7 +20,7 @@ export function SidebarSearch({
     <div
       className={[
         SIDEBAR_SEARCH_CLASSES.CONTAINER,
-        !isMobileOrTablet && SIDEBAR_SEARCH_CONDITIONAL_CLASSES.DESKTOP_ONLY.BORDER_BOTTOM,
+        isLaptop && SIDEBAR_SEARCH_CONDITIONAL_CLASSES.DESKTOP_ONLY.BORDER_BOTTOM,
         className ?? '',
       ]
         .filter(Boolean)
@@ -42,7 +42,7 @@ export function SidebarSearch({
         )}
       </div>
 
-      {!isMobileOrTablet && (
+      {isLaptop && (
         <div className={SIDEBAR_SEARCH_CLASSES.BOTTOM_SECTION}>
           {searchQuery ? (
             <p className={SIDEBAR_SEARCH_CLASSES.QUERY_TEXT}>

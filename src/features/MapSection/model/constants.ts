@@ -79,3 +79,13 @@ export const BUTTON_VARIANTS = {
   INACTIVE:
     'bg-(--color-background-primary) text-(--color-text-primary) hover:bg-(--color-brand-primary) hover:text-(--color-text-inverse)',
 } as const;
+
+export const MOBILE_SIDEBAR_STYLES = {
+  CONTAINER:
+    'absolute bottom-0 left-0 right-0 z-20 bg-white border-t border-gray-200 shadow-lg max-h-[60vh] rounded-t-2xl',
+  HEADER: 'flex items-center justify-between p-4 border-b border-gray-200',
+  TITLE: 'text-lg font-semibold text-gray-900',
+  CLOSE_BUTTON: 'p-2 hover:bg-gray-100 rounded-full transition-colors',
+  CLOSE_ICON: 'w-5 h-5 text-gray-500',
+  CONTENT: 'flex-1 overflow-y-auto max-h-[50vh]',
+} as const;

@@ -5,15 +5,9 @@ import { SidebarSearchResults } from '../SidebarSearchResults/SidebarSearchResul
 import { SidebarLoadingState } from '../SidebarLoadingState/SidebarLoadingState';
 import { SidebarErrorState } from '../SidebarErrorState/SidebarErrorState';
 import type { SidebarProps } from '../../model/types';
-import { formatLocations } from '@/features/RoutePlanning/model/messages';
-import {
-  SIDEBAR_TITLES,
-  formatFoundCount,
-  formatAvgRating,
-  formatDuration,
-} from '../../model/messages';
-import { DEFAULT_AVG_RATING, DEFAULT_DURATION_RANGE } from '../../model/constants';
+import { SIDEBAR_TITLES, formatFoundCount } from '../../model/messages';
 import { useSidebar } from '../../model/hooks/useSidebar';
+import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 
 export function Sidebar({
   className,
@@ -24,6 +18,7 @@ export function Sidebar({
   routePlaces = [],
   selectedPlace,
 }: SidebarProps) {
+  const { isLaptop } = useBreakpoints();
   const {
     contentDetail,
     places: displayPlaces,
@@ -41,24 +36,41 @@ export function Sidebar({
 
   return (
     <aside
-      className={['w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full', className ?? ''].join(
-        ' ',
-      )}
+      className={[
+        'w-full overflow-hidden h-full',
+        isLaptop ? 'lg:w-96 lg:flex-shrink-0' : '',
+        className ?? '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
-      <div className="w-full lg:w-96 bg-(--color-background-primary) shadow-(--shadow-card) rounded-r-2xl overflow-hidden h-full flex flex-col border-r border-(--color-border-primary)">
-        <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
-          <h2 className="text-heading-4 mb-(--spacing-2)">
-            {contentDetail?.title ? `${contentDetail.title} 촬영지` : SIDEBAR_TITLES.HEADER_TITLE}
-          </h2>
-          <p className="text-body-small text-(--color-gray-100)">
-            {isEmpty ? SIDEBAR_TITLES.SEARCH_SUBTITLE : formatFoundCount(displayPlaces.length)}
-          </p>
-        </div>
+      <div
+        className={[
+          'w-full bg-(--color-background-primary) shadow-(--shadow-card) rounded-r-2xl overflow-hidden h-full flex flex-col',
+          isLaptop ? 'lg:w-96 border-r border-(--color-border-primary)' : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        {isLaptop && (
+          <>
+            <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
+              <h2 className="text-heading-4 mb-(--spacing-2)">
+                {contentDetail?.title
+                  ? `${contentDetail.title} 촬영지`
+                  : SIDEBAR_TITLES.HEADER_TITLE}
+              </h2>
+              <p className="text-body-small text-(--color-gray-100)">
+                {isEmpty ? SIDEBAR_TITLES.SEARCH_SUBTITLE : formatFoundCount(displayPlaces.length)}
+              </p>
+            </div>
 
-        <SidebarSearch
-          onPlacesChange={handleSearchPlacesChange}
-          onSearchStateChange={handleSearchStateChange}
-        />
+            <SidebarSearch
+              onPlacesChange={handleSearchPlacesChange}
+              onSearchStateChange={handleSearchStateChange}
+            />
+          </>
+        )}
         <div className="flex-1 overflow-y-auto">
           {isSearching ? (
             <SidebarSearchResults
@@ -87,25 +99,6 @@ export function Sidebar({
               selectedPlace={selectedPlace}
             />
           )}
-        </div>
-
-        <div className="p-(--spacing-4) bg-(--color-background-secondary) border-t border-(--color-border-primary)">
-          <div className="text-center">
-            <p className="text-caption text-(--color-text-secondary) mb-(--spacing-2)">
-              {contentDetail?.title
-                ? `🎬 ${contentDetail.title} 촬영지 탐방`
-                : isEmpty
-                  ? SIDEBAR_TITLES.HEADER_TITLE
-                  : SIDEBAR_TITLES.FOOTER_TITLE}
-            </p>
-            {!isEmpty && (
-              <div className="flex items-center justify-center gap-(--spacing-4) text-caption text-(--color-text-tertiary)">
-                <span>{formatLocations(displayPlaces.length)}</span>
-                <span>{formatAvgRating(DEFAULT_AVG_RATING)}</span>
-                <span>{formatDuration(DEFAULT_DURATION_RANGE)}</span>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </aside>
