@@ -17,6 +17,11 @@ export const ROUTE_SIDEBAR_BUTTONS = {
   REMOVE: '제거',
 } as const;
 
+export const ROUTE_SIDEBAR_STYLES = {
+  SAVE_BUTTON:
+    'w-full flex items-center justify-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-lg text-button font-medium transition-all duration-200 shadow-(--shadow-button) hover:shadow-(--shadow-button-hover) bg-(--color-brand-primary) text-(--color-text-inverse) hover:bg-(--color-brand-secondary)',
+} as const;
+
 export const ROUTE_SIDEBAR_ICONS = {
   MAP: '🗺️',
   SAVE: '💾',

@@ -6,10 +6,12 @@ import {
   ROUTE_SIDEBAR_TITLES,
   ROUTE_SIDEBAR_BUTTONS,
   ROUTE_SIDEBAR_ICONS,
+  ROUTE_SIDEBAR_STYLES,
   formatRouteCount,
   formatLocations,
 } from '../../model/messages';
 import { useSaveRouteModal } from '../../model/hooks/useSaveRouteModal';
+import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 
 export function RouteSidebar({
   className,
@@ -19,32 +21,35 @@ export function RouteSidebar({
   onReorderPlaces,
   createRouteSidebarHandlers,
 }: RouteSidebarProps) {
+  const { isLaptop } = useBreakpoints();
   const isEmpty = places.length === 0;
   const { handleDragStart, handleDrop } = createRouteSidebarHandlers(places, onReorderPlaces);
   const { isModalOpen, openModal, closeModal, handleSave } = useSaveRouteModal({
     onSaveRoute,
   });
 
-  const sidebarClasses = 'w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full';
-
   return (
-    <aside className={[sidebarClasses, className ?? ''].join(' ')}>
-      <div
-        className={`${sidebarClasses} bg-(--color-background-primary) shadow-(--shadow-card) rounded-l-2xl flex flex-col border-l border-(--color-border-primary)`}
-      >
-        <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
-          <h2 className="text-heading-4 mb-(--spacing-2)">{ROUTE_SIDEBAR_TITLES.HEADER_TITLE}</h2>
-          <p className="text-body-small text-(--color-gray-100)">
-            {isEmpty ? ROUTE_SIDEBAR_TITLES.SUBTITLE : formatRouteCount(places.length)}
-          </p>
-        </div>
+    <aside
+      className={['w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full', className ?? ''].join(
+        ' ',
+      )}
+    >
+      <div className="bg-(--color-background-primary) shadow-(--shadow-card) rounded-l-2xl flex flex-col border-l border-(--color-border-primary) overflow-hidden h-full">
+        {isLaptop && (
+          <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
+            <h2 className="text-heading-4 mb-(--spacing-2)">{ROUTE_SIDEBAR_TITLES.HEADER_TITLE}</h2>
+            <p className="text-body-small text-(--color-gray-100)">
+              {isEmpty ? ROUTE_SIDEBAR_TITLES.SUBTITLE : formatRouteCount(places.length)}
+            </p>
+          </div>
+        )}
 
         <div className="flex-1 overflow-y-auto">
           {isEmpty ? (
             <RouteSidebarEmptyState />
           ) : (
             <div className="p-(--spacing-4) space-y-(--spacing-3)">
-              {[...places]
+              {places
                 .sort((a, b) => a.order - b.order)
                 .map((place) => (
                   <RoutePlaceCard
@@ -72,10 +77,7 @@ export function RouteSidebar({
                 </div>
               </div>
 
-              <button
-                onClick={openModal}
-                className="w-full flex items-center justify-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-lg text-button font-medium transition-all duration-200 shadow-(--shadow-button) hover:shadow-(--shadow-button-hover) bg-(--color-brand-primary) text-(--color-text-inverse) hover:bg-(--color-brand-secondary)"
-              >
+              <button onClick={openModal} className={ROUTE_SIDEBAR_STYLES.SAVE_BUTTON}>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"

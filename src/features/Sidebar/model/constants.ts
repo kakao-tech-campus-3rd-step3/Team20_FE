@@ -26,3 +26,9 @@ export const SIDEBAR_SEARCH_CONDITIONAL_CLASSES = {
     BORDER_BOTTOM: SIDEBAR_SEARCH_CLASSES.BORDER_BOTTOM,
   },
 } as const;
+
+export const CLOSE_BUTTON_STYLES = {
+  BUTTON: 'p-2 hover:bg-gray-100 rounded-full transition-colors',
+  ICON: 'w-5 h-5 text-gray-500',
+  ICON_PATH: 'M6 18L18 6M6 6l12 12',
+} as const;

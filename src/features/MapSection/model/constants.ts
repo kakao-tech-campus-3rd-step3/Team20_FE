@@ -68,7 +68,7 @@ export const MOBILE_BUTTON_STYLES = {
   BUTTON_BASE:
     'flex items-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-full shadow-(--shadow-card) transition-all duration-200',
   ICON: 'w-(--spacing-5) h-(--spacing-5)',
-  TEXT: 'text-sm font-medium',
+  TEXT: 'text-sm font-medium whitespace-nowrap',
   BADGE:
     'bg-(--color-semantic-error) text-(--color-text-inverse) text-xs rounded-full px-(--spacing-2) py-(--spacing-1) min-w-[20px] text-center',
 } as const;
@@ -85,7 +85,11 @@ export const MOBILE_SIDEBAR_STYLES = {
     'absolute bottom-0 left-0 right-0 z-20 bg-white border-t border-gray-200 shadow-lg max-h-[60vh] rounded-t-2xl',
   HEADER: 'flex items-center justify-between p-4 border-b border-gray-200',
   TITLE: 'text-lg font-semibold text-gray-900',
-  CLOSE_BUTTON: 'p-2 hover:bg-gray-100 rounded-full transition-colors',
-  CLOSE_ICON: 'w-5 h-5 text-gray-500',
   CONTENT: 'flex-1 overflow-y-auto max-h-[50vh]',
+} as const;
+
+export const MOBILE_SEARCH_BAR_STYLES = {
+  CONTAINER:
+    'absolute top-0 left-0 right-0 z-10 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-2 py-1 shadow-sm',
+  WRAPPER: 'scale-90 origin-top',
 } as const;

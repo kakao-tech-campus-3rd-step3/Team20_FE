@@ -2,11 +2,15 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { Sidebar } from '@/features/Sidebar';
 import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch/SidebarSearch';
+import { CloseButton } from '@/features/Sidebar/ui/CloseButton/CloseButton';
 import { RouteSidebar } from '@/features/RoutePlanning';
 import { MapContainer } from '@/features/MapSection';
 import { MobileBottomButtons } from '@/features/MapSection/ui/MobileControls/MobileBottomButtons';
 import type { MobileBottomSection } from '@/features/MapSection/model/types';
-import { MOBILE_SIDEBAR_STYLES } from '@/features/MapSection/model/constants';
+import {
+  MOBILE_SIDEBAR_STYLES,
+  MOBILE_SEARCH_BAR_STYLES,
+} from '@/features/MapSection/model/constants';
 import { useKakaoMap } from '@/features/MapSection/model/hooks/useKakaoMap';
 import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarkers';
 import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
@@ -86,14 +90,9 @@ function MapPage() {
               containerRef={mapHook.containerRef}
               className="absolute inset-0 w-full h-full min-h-screen"
             />
-            <div className="absolute top-0 left-0 right-0 z-10 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-2 py-1 shadow-sm">
-              <div className="scale-90 origin-top">
-                <SidebarSearch
-                  onPlacesChange={setSearchPlaces}
-                  onSearchStateChange={() => {
-                    // Search state changed
-                  }}
-                />
+            <div className={MOBILE_SEARCH_BAR_STYLES.CONTAINER}>
+              <div className={MOBILE_SEARCH_BAR_STYLES.WRAPPER}>
+                <SidebarSearch onPlacesChange={setSearchPlaces} onSearchStateChange={() => {}} />
               </div>
             </div>
 
@@ -103,28 +102,12 @@ function MapPage() {
               routePlacesCount={routePlaces.length}
             />
 
+            {/* 모바일 검색 Sidebar */}
             {mobileBottomSection === 'search' && (
               <div className={MOBILE_SIDEBAR_STYLES.CONTAINER}>
                 <div className={MOBILE_SIDEBAR_STYLES.HEADER}>
                   <h3 className={MOBILE_SIDEBAR_STYLES.TITLE}>검색 결과</h3>
-                  <button
-                    onClick={() => setMobileBottomSection(null)}
-                    className={MOBILE_SIDEBAR_STYLES.CLOSE_BUTTON}
-                  >
-                    <svg
-                      className={MOBILE_SIDEBAR_STYLES.CLOSE_ICON}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
+                  <CloseButton onClick={() => setMobileBottomSection(null)} />
                 </div>
 
                 <div className={MOBILE_SIDEBAR_STYLES.CONTENT}>
@@ -135,6 +118,27 @@ function MapPage() {
                     onAddToRoute={handleAddToRoute}
                     routePlaces={routePlaces}
                     selectedPlace={selectedPlace}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* 모바일 동선 Sidebar */}
+            {mobileBottomSection === 'route' && (
+              <div className={MOBILE_SIDEBAR_STYLES.CONTAINER}>
+                <div className={MOBILE_SIDEBAR_STYLES.HEADER}>
+                  <h3 className={MOBILE_SIDEBAR_STYLES.TITLE}>동선 관리</h3>
+                  <CloseButton onClick={() => setMobileBottomSection(null)} />
+                </div>
+
+                <div className={MOBILE_SIDEBAR_STYLES.CONTENT}>
+                  <RouteSidebar
+                    className="w-full h-full"
+                    places={routePlaces}
+                    onSaveRoute={saveRoute}
+                    onRemovePlace={removePlace}
+                    onReorderPlaces={reorderPlaces}
+                    createRouteSidebarHandlers={createRouteSidebarHandlers}
                   />
                 </div>
               </div>
