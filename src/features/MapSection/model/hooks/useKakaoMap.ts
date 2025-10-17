@@ -74,8 +74,8 @@ export function useKakaoMap(options?: MapOptions) {
         mapContainer.addEventListener('wheel', handleWheel, { passive: false });
 
         mapRef.current = map;
-      } catch (e) {
-        console.error(ERROR_MESSAGES.mapInitFailed, e);
+      } catch {
+        // Map initialization failed
       }
     })();
 
@@ -105,8 +105,8 @@ export function useKakaoMap(options?: MapOptions) {
       map.setLevel(level);
       map.setDraggable(draggable);
       map.setZoomable(scrollwheel);
-    } catch (e) {
-      console.error('Failed to update map options:', e);
+    } catch {
+      // Failed to update map options
     }
   }, [center.lat, center.lng, level, draggable, scrollwheel]);
 

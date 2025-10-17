@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { Sidebar } from '@/features/Sidebar';
+import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch/SidebarSearch';
 import { RouteSidebar } from '@/features/RoutePlanning';
 import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
 import { useKakaoMap } from '@/features/MapSection/model/hooks/useKakaoMap';
@@ -76,11 +77,23 @@ function MapPage() {
             />
           </>
         ) : (
-          <MapContainer
-            key="mobile"
-            containerRef={mapHook.containerRef}
-            className="flex-1 h-full min-h-0 w-full"
-          />
+          <div className="relative flex-1 h-full min-h-0 w-full">
+            <MapContainer
+              key="mobile"
+              containerRef={mapHook.containerRef}
+              className="absolute inset-0 w-full h-full min-h-screen"
+            />
+            <div className="absolute top-0 left-0 right-0 z-10 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-2 py-1 shadow-sm">
+              <div className="scale-90 origin-top">
+                <SidebarSearch
+                  onPlacesChange={setSearchPlaces}
+                  onSearchStateChange={() => {
+                    // Search state changed
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>

@@ -32,8 +32,6 @@ export function useMapResize({
     });
 
     mapRef.current = newMap;
-
-    console.log('Map recreated for screen size change');
   }, [isMobileOrTablet, isLaptop, mapRef, containerRef]);
 
   useEffect(() => {
@@ -48,9 +46,8 @@ export function useMapResize({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window.kakao!.maps!.event as any).trigger(map, 'resize');
         map.setCenter(center);
-        console.log('Map resized for container size change');
-      } catch (e) {
-        console.error('Failed to resize map:', e);
+      } catch {
+        // Failed to resize map
       }
     });
 
