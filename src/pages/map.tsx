@@ -5,7 +5,7 @@ import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch/SidebarSearch
 import { CloseButton } from '@/features/Sidebar/ui/CloseButton/CloseButton';
 import { RouteSidebar } from '@/features/RoutePlanning';
 import { MapContainer } from '@/features/MapSection';
-import { MobileBottomButtons } from '@/features/MapSection/ui/MobileControls/MobileBottomButtons';
+import { MobileBottomButtons } from '@/features/MapSection/ui/MobileBottomButtons/MobileBottomButtons';
 import type { MobileBottomSection } from '@/features/MapSection/model/types';
 import {
   MOBILE_SIDEBAR_STYLES,

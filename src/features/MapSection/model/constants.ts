@@ -64,7 +64,7 @@ export const POLYLINE_CONFIG = {
 
 export const MOBILE_BUTTON_STYLES = {
   CONTAINER:
-    'absolute bottom-(--spacing-4) left-1/2 transform -translate-x-1/2 z-(--z-elevated) flex gap-(--spacing-2)',
+    'absolute bottom-(--spacing-4) right-(--spacing-4) z-(--z-elevated) flex gap-(--spacing-2)',
   BUTTON_BASE:
     'flex items-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-full shadow-(--shadow-card) transition-all duration-200',
   ICON: 'w-(--spacing-5) h-(--spacing-5)',

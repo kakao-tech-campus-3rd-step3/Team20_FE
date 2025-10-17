@@ -5,7 +5,7 @@ import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch/SidebarSearch
 import { CloseButton } from '@/features/Sidebar/ui/CloseButton/CloseButton';
 import { RouteSidebar } from '@/features/RoutePlanning';
 import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
-import { MobileBottomButtons } from '@/features/MapSection/ui/MobileControls/MobileBottomButtons';
+import { MobileBottomButtons } from '@/features/MapSection/ui/MobileBottomButtons/MobileBottomButtons';
 import { useKakaoMap } from '@/features/MapSection/model/hooks/useKakaoMap';
 import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarkers';
 import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
