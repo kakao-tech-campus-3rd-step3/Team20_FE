@@ -1,4 +1,5 @@
 import type { Place } from '@/features/Sidebar/model/types';
+import type { RoutePlace } from '@/features/RoutePlanning/model/types';
 import type {
   KakaoMap,
   KakaoCustomOverlay,
@@ -10,7 +11,7 @@ import type {
 import { OVERLAY_DEFAULTS, OVERLAY_STYLES, MARKER_CONFIG } from './constants';
 import { OVERLAY_MESSAGES, ERROR_MESSAGES } from './messages';
 
-const getKakaoMaps = (): KakaoMapsNS => {
+export const getKakaoMaps = (): KakaoMapsNS => {
   const maps = window.kakao?.maps;
   if (!maps) throw new Error(ERROR_MESSAGES.sdkNotReady);
   return maps;
@@ -24,13 +25,6 @@ export const createLatLng = (lat: number, lng: number) => {
 export const clearMarkers = (markers: KakaoMarker[]) => {
   markers.forEach((m) => m.setMap(null));
   return [];
-};
-
-export const clearOverlay = (overlay: KakaoCustomOverlay | null) => {
-  if (overlay) {
-    overlay.setMap(null);
-  }
-  return null;
 };
 
 export const clearPolylines = (polylines: KakaoPolyline[]) => {
@@ -72,7 +66,7 @@ export const createNumberedMarkerImage = (order: number) => {
   return new maps.MarkerImage(imageDataUrl, imageSize, imageOption);
 };
 
-export function generateOverlayHTML(place: Place): string {
+export function generateOverlayHTML(place: Place | RoutePlace): string {
   const {
     name = OVERLAY_DEFAULTS.name,
     address = OVERLAY_DEFAULTS.address,
@@ -129,7 +123,7 @@ export function generateOverlayHTML(place: Place): string {
 
 export function createMapOverlay(
   map: KakaoMap,
-  place: Place,
+  place: Place | RoutePlace,
   position: LatLng,
   onClose: () => void,
 ): KakaoCustomOverlay {
@@ -138,20 +132,50 @@ export function createMapOverlay(
 
   (window as unknown as { closeMapOverlay?: () => void }).closeMapOverlay = onClose;
 
-  return new maps.CustomOverlay({
+  const overlay = new maps.CustomOverlay({
     content,
     map,
     position,
   });
+
+  return overlay as KakaoCustomOverlay;
+}
+
+/**
+ * 오버레이 위치를 결정하는 헬퍼 함수
+ */
+export function getOverlayPosition(
+  map: KakaoMap,
+  place: Place | RoutePlace,
+  isLaptop: boolean,
+): LatLng {
+  return !isLaptop
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (map as any).getCenter()
+    : createLatLng(place.latitude, place.longitude);
+}
+
+// 전역 오버레이 관리
+declare global {
+  var globalOverlayRef: KakaoCustomOverlay | null;
+}
+
+// 전역 변수 초기화
+if (typeof globalThis !== 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (globalThis as any).globalOverlayRef = null;
 }
 
 /**
  * 전역 오버레이를 닫는 공통 함수
  */
 export function closeGlobalOverlay(): void {
-  if (globalThis.globalOverlayRef) {
-    globalThis.globalOverlayRef.setMap(null);
-    globalThis.globalOverlayRef = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if ((globalThis as any).globalOverlayRef) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (globalThis as any).globalOverlayRef.setMap(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (globalThis as any).globalOverlayRef = null;
   }
 }
 
@@ -159,5 +183,25 @@ export function closeGlobalOverlay(): void {
  * 전역 오버레이를 설정하는 공통 함수
  */
 export function setGlobalOverlay(overlay: KakaoCustomOverlay): void {
-  globalThis.globalOverlayRef = overlay;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (globalThis as any).globalOverlayRef = overlay;
+}
+
+/**
+ * 마커 클릭 시 오버레이를 생성하고 표시하는 공통 함수
+ */
+export function createAndShowOverlay(
+  map: KakaoMap,
+  place: Place | RoutePlace,
+  isLaptop: boolean,
+): void {
+  try {
+    closeGlobalOverlay();
+
+    const position = getOverlayPosition(map, place, isLaptop);
+    const overlay = createMapOverlay(map, place, position, closeGlobalOverlay);
+    setGlobalOverlay(overlay);
+  } catch (e) {
+    console.error('Failed to show place overlay:', e);
+  }
 }

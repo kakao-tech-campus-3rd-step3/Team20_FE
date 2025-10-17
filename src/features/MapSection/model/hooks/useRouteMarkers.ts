@@ -6,11 +6,12 @@ import {
   clearMarkers,
   createNumberedMarkerImage,
   clearPolylines,
-  createMapOverlay,
   closeGlobalOverlay,
-  setGlobalOverlay,
+  createAndShowOverlay,
+  getKakaoMaps,
 } from '../utils';
 import { POLYLINE_CONFIG } from '../constants';
+import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 
 /**
  * 동선 마커를 순서와 함께 표시하고 마커 간 연결선을 그리는 훅
@@ -20,6 +21,7 @@ export function useRouteMarkers(
   mapRef: React.MutableRefObject<KakaoMap | null>,
   onPlaceClick?: (place: RoutePlace) => void,
 ) {
+  const { isLaptop } = useBreakpoints();
   const routeMarkersRef = useRef<KakaoMarker[]>([]);
   const routePolylinesRef = useRef<KakaoPolyline[]>([]);
 
@@ -33,10 +35,9 @@ export function useRouteMarkers(
 
       if (routePlaces.length === 0) return;
 
-      const maps = window.kakao?.maps;
-      if (!maps) return;
+      const maps = getKakaoMaps();
 
-      const sortedPlaces = [...routePlaces].sort((a, b) => a.order - b.order);
+      const sortedPlaces = routePlaces.slice().sort((a, b) => a.order - b.order);
 
       // 마커 생성
       const newRouteMarkers = sortedPlaces.map((place) => {
@@ -53,11 +54,7 @@ export function useRouteMarkers(
         // 동선 마커 클릭 이벤트 추가
         maps.event.addListener(marker, 'click', () => {
           onPlaceClick?.(place);
-
-          closeGlobalOverlay();
-
-          const overlay = createMapOverlay(map, place, position, closeGlobalOverlay);
-          setGlobalOverlay(overlay);
+          createAndShowOverlay(map, place, isLaptop);
         });
 
         return marker;
@@ -88,5 +85,5 @@ export function useRouteMarkers(
       routePolylinesRef.current = clearPolylines(routePolylinesRef.current);
       closeGlobalOverlay();
     };
-  }, [routePlaces, mapRef, onPlaceClick]);
+  }, [routePlaces, mapRef, onPlaceClick, isLaptop]);
 }
