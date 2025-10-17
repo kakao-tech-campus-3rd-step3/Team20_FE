@@ -10,8 +10,25 @@ import {
   formatRouteCount,
   formatLocations,
 } from '../../model/messages';
+import { DRAG_STYLES } from '../../model/constants';
 import { useSaveRouteModal } from '../../model/hooks/useSaveRouteModal';
+import { useDragScrollLock } from '../../model/hooks/useDragScrollLock';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
 export function RouteSidebar({
   className,
@@ -19,14 +36,32 @@ export function RouteSidebar({
   onSaveRoute,
   onRemovePlace,
   onReorderPlaces,
-  createRouteSidebarHandlers,
 }: RouteSidebarProps) {
   const { isLaptop } = useBreakpoints();
   const isEmpty = places.length === 0;
-  const { handleDragStart, handleDrop } = createRouteSidebarHandlers(places, onReorderPlaces);
   const { isModalOpen, openModal, closeModal, handleSave } = useSaveRouteModal({
     onSaveRoute,
   });
+  const { lockScroll, unlockScroll } = useDragScrollLock();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const oldIndex = places.findIndex((place) => place.locationId === active.id);
+      const newIndex = places.findIndex((place) => place.locationId === over.id);
+
+      const newPlaces = arrayMove(places, oldIndex, newIndex);
+      onReorderPlaces?.(newPlaces);
+    }
+  };
 
   return (
     <aside
@@ -44,23 +79,34 @@ export function RouteSidebar({
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto" style={DRAG_STYLES.CONTAINER}>
           {isEmpty ? (
             <RouteSidebarEmptyState />
           ) : (
-            <div className="p-(--spacing-4) space-y-(--spacing-3)">
-              {places
-                .sort((a, b) => a.order - b.order)
-                .map((place) => (
-                  <RoutePlaceCard
-                    key={place.locationId}
-                    place={place}
-                    onRemove={() => onRemovePlace?.(place.locationId)}
-                    onDragStart={handleDragStart(place)}
-                    onDrop={handleDrop(place)}
-                  />
-                ))}
-            </div>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragStart={lockScroll}
+              onDragEnd={(event) => {
+                unlockScroll();
+                handleDragEnd(event);
+              }}
+            >
+              <SortableContext
+                items={places.map((place) => place.locationId)}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="p-(--spacing-4) space-y-(--spacing-3)">
+                  {places.map((place) => (
+                    <RoutePlaceCard
+                      key={place.locationId}
+                      place={place}
+                      onRemove={() => onRemovePlace?.(place.locationId)}
+                    />
+                  ))}
+                </div>
+              </SortableContext>
+            </DndContext>
           )}
         </div>
 

@@ -1,58 +1,46 @@
 import { GripVertical, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import type { RoutePlaceCardProps } from '../../model/types';
 import { ROUTE_SIDEBAR_BUTTONS } from '../../model/messages';
 import { PlaceThumbnail } from '@/features/Sidebar/ui/PlaceThumbnail/PlaceThumbnail';
 import { PlaceAddress } from '@/features/Sidebar/ui/PlaceAddress/PlaceAddress';
 
-export function RoutePlaceCard({
-  place,
-  className,
-  onRemove,
-  onDragStart,
-  onDragOver,
-  onDragLeave,
-  onDrop,
-}: RoutePlaceCardProps) {
-  const [isDragOver, setIsDragOver] = useState(false);
+export function RoutePlaceCard({ place, className, onRemove }: RoutePlaceCardProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: place.locationId,
+  });
 
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    setIsDragOver(true);
-    onDragOver?.(e);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragOver(false);
-    onDragLeave?.();
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    onDrop?.(e);
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
   };
 
   return (
     <div
-      draggable
-      onDragStart={onDragStart}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
+      ref={setNodeRef}
+      style={{
+        ...style,
+        touchAction: 'none',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+      }}
       className={[
         'p-(--spacing-4) border border-(--color-border-primary) rounded-lg bg-(--color-background-primary)',
         'hover:bg-(--color-background-secondary) transition-colors cursor-move',
-        isDragOver && 'border-(--color-brand-primary) bg-(--color-brand-primary)/5',
+        isDragging && 'opacity-50 scale-105 shadow-lg z-50',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
+      {...attributes}
     >
       <div className="flex items-start gap-(--spacing-3)">
         <div className="flex items-center gap-(--spacing-2) mt-1">
-          <GripVertical className="w-4 h-4 text-(--color-text-tertiary) cursor-grab" />
+          <div {...listeners} className="p-2 -m-2 cursor-grab active:cursor-grabbing">
+            <GripVertical className="w-4 h-4 text-(--color-text-tertiary)" />
+          </div>
           <span className="text-caption-bold text-(--color-text-inverse) bg-(--color-brand-primary) rounded-full w-5 h-5 flex items-center justify-center">
             {place.order}
           </span>

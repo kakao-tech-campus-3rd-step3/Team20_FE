@@ -11,6 +11,7 @@ import {
   MOBILE_SIDEBAR_STYLES,
   MOBILE_SEARCH_BAR_STYLES,
 } from '@/features/MapSection/model/constants';
+import { DRAG_STYLES } from '@/features/RoutePlanning/model/constants';
 import { useKakaoMap } from '@/features/MapSection/model/hooks/useKakaoMap';
 import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarkers';
 import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
@@ -37,7 +38,6 @@ function MapPage() {
     removePlace,
     reorderPlaces,
     saveRoute,
-    createRouteSidebarHandlers,
   } = useRoutePlanning();
   const { selectedPlace, handlePlaceSelect } = usePlaceSelection({
     onPlaceClick: handlePlaceClick,
@@ -80,7 +80,6 @@ function MapPage() {
               onSaveRoute={saveRoute}
               onRemovePlace={removePlace}
               onReorderPlaces={reorderPlaces}
-              createRouteSidebarHandlers={createRouteSidebarHandlers}
             />
           </>
         ) : (
@@ -131,14 +130,13 @@ function MapPage() {
                   <CloseButton onClick={() => setMobileBottomSection(null)} />
                 </div>
 
-                <div className={MOBILE_SIDEBAR_STYLES.CONTENT}>
+                <div className={MOBILE_SIDEBAR_STYLES.CONTENT} style={DRAG_STYLES.CONTAINER}>
                   <RouteSidebar
                     className="w-full h-full"
                     places={routePlaces}
                     onSaveRoute={saveRoute}
                     onRemovePlace={removePlace}
                     onReorderPlaces={reorderPlaces}
-                    createRouteSidebarHandlers={createRouteSidebarHandlers}
                   />
                 </div>
               </div>
