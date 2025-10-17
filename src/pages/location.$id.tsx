@@ -55,12 +55,12 @@ function LocationDetailPage() {
       <main className="container mx-auto px-4 py-12 space-y-12">
         {/* Description Section */}
         <div className="transform -mt-8 relative z-10">
-          <LocationDescription description={data.description} quickFacts={quickFacts} />
+          <LocationDescription description={data.description ?? ''} quickFacts={quickFacts} />
         </div>
 
         {/* Related Contents Section */}
         <div className="relative z-10">
-          <LocationRelatedContents relatedContents={data.relatedContents} />
+          <LocationRelatedContents relatedContents={data.relatedContents ?? []} />
         </div>
       </main>
 
