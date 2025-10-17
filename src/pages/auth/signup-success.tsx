@@ -46,7 +46,7 @@ function SignupSuccessPage() {
         <div className="bg-white py-12 px-8 shadow-2xl rounded-3xl border border-gray-100">
           <div className="text-center">
             <Mail className="mx-auto h-16 w-16 text-purple-600" />
-            <h2 className="mt-6 text-2xl font-bold text-gray-900">회원가입 완료!</h2>
+            <h2 className="mt-6 text-2xl font-bold text-gray-900">이메일 발송 완료!</h2>
             <p className="mt-2 text-sm text-gray-600">
               인증 메일이 발송되었습니다.
               <br />

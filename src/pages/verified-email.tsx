@@ -29,9 +29,11 @@ function VerifyEmailPage() {
 
             try {
                 const response = await verifyEmailApi(token);
+                console.log('✅ Verification success:', response);
                 setStatus('success');
                 setMessage(response.message || '이메일 인증이 완료되었습니다.');
             } catch (error) {
+                console.error('❌ Verification error:', error);
                 setStatus('error');
                 
                 // Axios 에러 처리
