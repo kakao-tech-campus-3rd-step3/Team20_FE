@@ -1,9 +1,13 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useEffect } from 'react';
 
+type VerifyEmailSearch = {
+  token: string;
+};
+
 export const Route = createFileRoute('/verified-email/verify-email')({
   component: RedirectToVerifiedEmail,
-  validateSearch: (search: Record<string, unknown>) => {
+  validateSearch: (search: Record<string, unknown>): VerifyEmailSearch => {
     return {
       token: (search.token as string) || '',
     };
@@ -12,9 +16,10 @@ export const Route = createFileRoute('/verified-email/verify-email')({
 
 function RedirectToVerifiedEmail() {
   const navigate = useNavigate();
-  const { token } = Route.useSearch();
+  const { token } = Route.useSearch() as VerifyEmailSearch;
 
   useEffect(() => {
+    console.log('🔄 Redirecting with token:', token);
     // 올바른 경로로 리다이렉트
     navigate({
       to: '/verified-email',
