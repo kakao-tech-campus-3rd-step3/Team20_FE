@@ -6,8 +6,6 @@ export const getLocationDetail = async (locationId: string): Promise<LocationDet
   try {
     const response = await httpBackend.get(`/locations/${locationId}`);
 
-    // httpBackend 인터셉터가 response.data.data를 반환하므로
-    // 이미 data 부분만 반환됨. 만약 undefined라면 기본값 반환
     if (!response) {
       console.warn('Location API returned undefined, using default values');
       return {
@@ -24,7 +22,7 @@ export const getLocationDetail = async (locationId: string): Promise<LocationDet
     return response as unknown as LocationDetail;
   } catch (error) {
     console.error('Location API error:', error);
-    // API 에러 시에도 기본값 반환
+
     return {
       locationId: parseInt(locationId, 10),
       name: '알 수 없는 장소',

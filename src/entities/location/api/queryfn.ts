@@ -7,6 +7,6 @@ export const useLocationDetail = (locationId: string): UseQueryResult<LocationDe
   return useQuery<LocationDetail, Error>({
     queryKey: locationQueryKeys.detail(locationId),
     queryFn: () => getLocationDetail(locationId),
-    enabled: !!locationId, // locationId가 있을 때만 쿼리 실행
+    enabled: !!locationId,
   });
 };
