@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect } from 'react';
+import { toast } from 'react-toastify';
 import type { RefObject } from 'react';
 
 interface UseMapResizeProps {
@@ -40,8 +41,9 @@ export function useMapResize({ mapRef, containerRef, isLaptop }: UseMapResizePro
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window.kakao!.maps!.event as any).trigger(map, 'resize');
         map.setCenter(center);
-      } catch {
-        // Failed to resize map
+      } catch (error) {
+        console.error('지도 리사이즈 실패:', error);
+        toast.error('지도 크기 조정 실패');
       }
     });
 

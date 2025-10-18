@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 import type { KakaoMap, KakaoMarker, KakaoPolyline } from '../types';
 import type { RoutePlace } from '@/features/RoutePlanning/model/types';
 import {
@@ -78,6 +79,7 @@ export function useRouteMarkers(
       }
     } catch (e) {
       console.error('Failed to update route markers:', e);
+      toast.error('동선 마커 표시 실패');
     }
 
     return () => {

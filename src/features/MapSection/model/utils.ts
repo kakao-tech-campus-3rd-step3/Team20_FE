@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import type { Place } from '@/features/Sidebar/model/types';
 import type { RoutePlace } from '@/features/RoutePlanning/model/types';
 import type {
@@ -203,5 +204,6 @@ export function createAndShowOverlay(
     setGlobalOverlay(overlay);
   } catch (e) {
     console.error('Failed to show place overlay:', e);
+    toast.error('장소 정보 표시 실패');
   }
 }

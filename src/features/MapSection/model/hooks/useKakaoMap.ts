@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 import type { MapOptions, KakaoMap } from '../types';
 import { createLatLng } from '../utils';
 import { MAP_DEFAULTS, SDK_CONFIG } from '../constants';
@@ -74,8 +75,9 @@ export function useKakaoMap(options?: MapOptions) {
         mapContainer.addEventListener('wheel', handleWheel, { passive: false });
 
         mapRef.current = map;
-      } catch {
-        // Map initialization failed
+      } catch (error) {
+        console.error('카카오맵 초기화 실패:', error);
+        toast.error('카카오맵 로딩 실패, 페이지 새로고침 해보세요');
       }
     })();
 
@@ -105,8 +107,9 @@ export function useKakaoMap(options?: MapOptions) {
       map.setLevel(level);
       map.setDraggable(draggable);
       map.setZoomable(scrollwheel);
-    } catch {
-      // Failed to update map options
+    } catch (error) {
+      console.error('카카오맵 옵션 업데이트 실패:', error);
+      toast.error('지도 설정 업데이트 실패');
     }
   }, [center.lat, center.lng, level, draggable, scrollwheel]);
 
