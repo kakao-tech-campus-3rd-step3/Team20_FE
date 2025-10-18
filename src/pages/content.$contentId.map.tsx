@@ -101,7 +101,7 @@ function ContentPlaceMapPage() {
             <MapContainer
               key="mobile"
               containerRef={mapHook.containerRef}
-              className="absolute inset-0 w-full h-full min-h-screen"
+              className="absolute inset-0 w-full h-full"
             />
             <div className={MOBILE_SEARCH_BAR_STYLES.CONTAINER}>
               <div className={MOBILE_SEARCH_BAR_STYLES.WRAPPER}>

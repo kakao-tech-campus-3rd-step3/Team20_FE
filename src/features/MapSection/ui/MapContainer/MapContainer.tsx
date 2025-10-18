@@ -9,7 +9,7 @@ export function MapContainer({
   return (
     <div
       className={cn(
-        'relative w-full h-full min-h-[600px] bg-(--color-background-tertiary) overflow-hidden',
+        'relative w-full h-full bg-(--color-background-tertiary) overflow-hidden',
         className,
       )}
     >
