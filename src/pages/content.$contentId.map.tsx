@@ -4,23 +4,25 @@ import { Sidebar } from '@/features/Sidebar';
 import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch/SidebarSearch';
 import { CloseButton } from '@/features/Sidebar/ui/CloseButton/CloseButton';
 import { RouteSidebar } from '@/features/RoutePlanning';
-import { MapContainer } from '@/features/MapSection/ui/MapContainer/MapContainer';
+import { MapContainer } from '@/features/MapSection';
 import { MobileBottomButtons } from '@/features/MapSection/ui/MobileBottomButtons/MobileBottomButtons';
-import { useKakaoMap } from '@/features/MapSection/model/hooks/useKakaoMap';
-import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarkers';
-import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
-import { useRouteMarkers } from '@/features/MapSection/model/hooks/useRouteMarkers';
-import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks/useRoutePlanning';
-import { useSidebarData } from '@/features/Sidebar/model/hooks/useSidebarData';
-import { useMapResize } from '@/features/MapSection/model/hooks/useMapResize';
-import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
+import type { MobileBottomSection } from '@/features/MapSection/model/types';
 import {
   MOBILE_SIDEBAR_STYLES,
   MOBILE_SEARCH_BAR_STYLES,
 } from '@/features/MapSection/model/constants';
+import {
+  useKakaoMap,
+  useKakaoMarkers,
+  usePlaceClick,
+  useRouteMarkers,
+  useMapResize,
+} from '@/features/MapSection/model/hooks';
+import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks/useRoutePlanning';
+import { useSidebarData } from '@/features/Sidebar/model/hooks/useSidebarData';
+import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 import { DRAG_STYLES } from '@/features/RoutePlanning/model/constants';
 import type { Place } from '@/features/Sidebar/model/types';
-import type { MobileBottomSection } from '@/features/MapSection/model/types';
 
 export const Route = createFileRoute('/content/$contentId/map')({
   component: ContentPlaceMapPage,

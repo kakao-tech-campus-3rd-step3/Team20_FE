@@ -11,14 +11,16 @@ import {
   MOBILE_SIDEBAR_STYLES,
   MOBILE_SEARCH_BAR_STYLES,
 } from '@/features/MapSection/model/constants';
+import {
+  useKakaoMap,
+  useKakaoMarkers,
+  usePlaceClick,
+  useRouteMarkers,
+  useMapResize,
+  usePlaceSelection,
+} from '@/features/MapSection/model/hooks';
 import { DRAG_STYLES } from '@/features/RoutePlanning/model/constants';
-import { useKakaoMap } from '@/features/MapSection/model/hooks/useKakaoMap';
-import { useKakaoMarkers } from '@/features/MapSection/model/hooks/useKakaoMarkers';
-import { usePlaceClick } from '@/features/MapSection/model/hooks/usePlaceClick';
-import { useRouteMarkers } from '@/features/MapSection/model/hooks/useRouteMarkers';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks/useRoutePlanning';
-import { useMapResize } from '@/features/MapSection/model/hooks/useMapResize';
-import { usePlaceSelection } from '@/features/MapSection/model/hooks/usePlaceSelection';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 import type { Place } from '@/features/Sidebar/model/types';
 
