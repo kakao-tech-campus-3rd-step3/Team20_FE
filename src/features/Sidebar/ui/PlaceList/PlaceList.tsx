@@ -1,6 +1,7 @@
 import { PlaceCard } from '../PlaceCard/PlaceCard';
 import type { PlaceListProps } from '../../model/types';
 import { ROUTE_BUTTON_TEXT } from '@/features/RoutePlanning/model/messages';
+import { cn } from '@/shared/lib';
 
 export function PlaceList({
   places = [],
@@ -11,9 +12,7 @@ export function PlaceList({
   selectedPlace,
 }: PlaceListProps) {
   return (
-    <div
-      className={['divide-y divide-(--color-border-primary)', className].filter(Boolean).join(' ')}
-    >
+    <div className={cn('divide-y divide-(--color-border-primary)', className)}>
       {places.map((place, index) => {
         const isInRoute = routePlaces.some(
           (routePlace) => routePlace.locationId === place.locationId,
@@ -38,7 +37,7 @@ export function PlaceList({
               <div className="p-(--spacing-4) bg-(--color-background-secondary) border-b border-(--color-border-primary)">
                 <button
                   onClick={() => onAddToRoute(place)}
-                  className={[
+                  className={cn(
                     'w-full flex items-center justify-center gap-(--spacing-2)',
                     'px-(--spacing-4) py-(--spacing-3) rounded-lg text-sm font-medium',
                     'transition-all duration-200 shadow-(--shadow-button)',
@@ -46,7 +45,7 @@ export function PlaceList({
                     isInRoute
                       ? 'bg-(--color-semantic-success)/10 text-(--color-semantic-success) border border-(--color-semantic-success)/20'
                       : 'bg-(--color-brand-secondary) text-(--color-text-inverse) hover:bg-(--color-brand-tertiary)',
-                  ].join(' ')}
+                  )}
                 >
                   {isInRoute ? (
                     <>

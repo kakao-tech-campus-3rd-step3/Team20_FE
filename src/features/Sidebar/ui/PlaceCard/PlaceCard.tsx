@@ -7,6 +7,7 @@ import {
 } from '../../model/messages';
 import { PlaceThumbnail } from '../PlaceThumbnail/PlaceThumbnail';
 import { PlaceAddress } from '../PlaceAddress/PlaceAddress';
+import { cn } from '@/shared/lib';
 
 export function PlaceCard({
   locationImage,
@@ -24,12 +25,10 @@ export function PlaceCard({
     <div
       role="button"
       onClick={onClick}
-      className={[
+      className={cn(
         'p-(--spacing-4) cursor-pointer transition-all hover:bg-(--color-background-tertiary)',
         className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
+      )}
     >
       <div className="flex gap-(--spacing-4)">
         <PlaceThumbnail locationImage={locationImage} name={name} badgeNumber={badgeNumber} />

@@ -1,4 +1,5 @@
 import type { MapContainerUiProps } from '../../model/types';
+import { cn } from '@/shared/lib';
 
 export function MapContainer({
   containerRef,
@@ -7,10 +8,10 @@ export function MapContainer({
 }: MapContainerUiProps) {
   return (
     <div
-      className={[
+      className={cn(
         'relative w-full h-full min-h-[600px] bg-(--color-background-tertiary) overflow-hidden',
-        className ?? '',
-      ].join(' ')}
+        className,
+      )}
     >
       <div ref={containerRef} className="absolute inset-0" role="region" aria-label={ariaLabel} />
     </div>

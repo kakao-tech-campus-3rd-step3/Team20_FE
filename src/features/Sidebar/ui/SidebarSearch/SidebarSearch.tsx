@@ -4,6 +4,7 @@ import { SIDEBAR_SEARCH_TEXT } from '../../model/messages';
 import { useSearchInput } from '../../model/hooks/useSearchInput';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 import { SIDEBAR_SEARCH_CLASSES, SIDEBAR_SEARCH_CONDITIONAL_CLASSES } from '../../model/constants';
+import { cn } from '@/shared/lib';
 
 export function SidebarSearch({
   className,
@@ -18,13 +19,11 @@ export function SidebarSearch({
 
   return (
     <div
-      className={[
+      className={cn(
         SIDEBAR_SEARCH_CLASSES.CONTAINER,
         isLaptop && SIDEBAR_SEARCH_CONDITIONAL_CLASSES.DESKTOP_ONLY.BORDER_BOTTOM,
-        className ?? '',
-      ]
-        .filter(Boolean)
-        .join(' ')}
+        className,
+      )}
     >
       <div className="relative">
         <input

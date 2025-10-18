@@ -8,6 +8,7 @@ import type { SidebarProps } from '../../model/types';
 import { SIDEBAR_TITLES, formatFoundCount } from '../../model/messages';
 import { useSidebar } from '../../model/hooks/useSidebar';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
+import { cn } from '@/shared/lib';
 
 export function Sidebar({
   className,
@@ -41,21 +42,17 @@ export function Sidebar({
 
   return (
     <aside
-      className={[
+      className={cn(
         'w-full overflow-hidden h-full',
-        isLaptop ? 'lg:w-96 lg:flex-shrink-0' : '',
-        className ?? '',
-      ]
-        .filter(Boolean)
-        .join(' ')}
+        isLaptop && 'lg:w-96 lg:flex-shrink-0',
+        className,
+      )}
     >
       <div
-        className={[
+        className={cn(
           'w-full bg-(--color-background-primary) shadow-(--shadow-card) rounded-r-2xl overflow-hidden h-full flex flex-col',
-          isLaptop ? 'lg:w-96 border-r border-(--color-border-primary)' : '',
-        ]
-          .filter(Boolean)
-          .join(' ')}
+          isLaptop && 'lg:w-96 border-r border-(--color-border-primary)',
+        )}
       >
         {isLaptop && (
           <>
