@@ -5,15 +5,10 @@ import { SidebarSearchResults } from '../SidebarSearchResults/SidebarSearchResul
 import { SidebarLoadingState } from '../SidebarLoadingState/SidebarLoadingState';
 import { SidebarErrorState } from '../SidebarErrorState/SidebarErrorState';
 import type { SidebarProps } from '../../model/types';
-import { formatLocations } from '@/features/RoutePlanning/model/messages';
-import {
-  SIDEBAR_TITLES,
-  formatFoundCount,
-  formatAvgRating,
-  formatDuration,
-} from '../../model/messages';
-import { DEFAULT_AVG_RATING, DEFAULT_DURATION_RANGE } from '../../model/constants';
+import { SIDEBAR_TITLES, formatFoundCount } from '../../model/messages';
 import { useSidebar } from '../../model/hooks/useSidebar';
+import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
+import { cn } from '@/shared/lib';
 
 export function Sidebar({
   className,
@@ -23,15 +18,16 @@ export function Sidebar({
   onAddToRoute,
   routePlaces = [],
   selectedPlace,
+  searchPlaces,
 }: SidebarProps) {
+  const { isLaptop } = useBreakpoints();
   const {
     contentDetail,
-    places: displayPlaces,
+    places: internalPlaces,
     isLoading,
     error,
     isEmpty,
     isSearching,
-    searchQuery,
     handleSearchPlacesChange,
     handleSearchStateChange,
   } = useSidebar({
@@ -39,37 +35,56 @@ export function Sidebar({
     onSearchPlacesChange,
   });
 
+  const displayPlaces = searchPlaces && searchPlaces.length > 0 ? searchPlaces : internalPlaces;
+  const isExternalSearch = searchPlaces && searchPlaces.length > 0;
+  const finalIsSearching = isExternalSearch ? true : isSearching;
+  const finalIsEmpty = isExternalSearch ? false : isEmpty;
+
   return (
     <aside
-      className={['w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full', className ?? ''].join(
-        ' ',
+      className={cn(
+        'w-full overflow-hidden h-full',
+        isLaptop && 'lg:w-96 lg:flex-shrink-0',
+        className,
       )}
     >
-      <div className="w-full lg:w-96 bg-(--color-background-primary) shadow-(--shadow-card) rounded-r-2xl overflow-hidden h-full flex flex-col border-r border-(--color-border-primary)">
-        <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
-          <h2 className="text-heading-4 mb-(--spacing-2)">
-            {contentDetail?.title ? `${contentDetail.title} 촬영지` : SIDEBAR_TITLES.HEADER_TITLE}
-          </h2>
-          <p className="text-body-small text-(--color-gray-100)">
-            {isEmpty ? SIDEBAR_TITLES.SEARCH_SUBTITLE : formatFoundCount(displayPlaces.length)}
-          </p>
-        </div>
+      <div
+        className={cn(
+          'w-full bg-(--color-background-primary) shadow-(--shadow-card) rounded-r-2xl overflow-hidden h-full flex flex-col',
+          isLaptop && 'lg:w-96 border-r border-(--color-border-primary)',
+        )}
+      >
+        {isLaptop && (
+          <>
+            <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
+              <h2 className="text-heading-4 mb-(--spacing-2)">
+                {contentDetail?.title
+                  ? `${contentDetail.title} 촬영지`
+                  : SIDEBAR_TITLES.HEADER_TITLE}
+              </h2>
+              <p className="text-body-small text-(--color-gray-100)">
+                {finalIsEmpty
+                  ? SIDEBAR_TITLES.SEARCH_SUBTITLE
+                  : formatFoundCount(displayPlaces.length)}
+              </p>
+            </div>
 
-        <SidebarSearch
-          onPlacesChange={handleSearchPlacesChange}
-          onSearchStateChange={handleSearchStateChange}
-        />
+            <SidebarSearch
+              onPlacesChange={handleSearchPlacesChange}
+              onSearchStateChange={handleSearchStateChange}
+            />
+          </>
+        )}
         <div className="flex-1 overflow-y-auto">
-          {isSearching ? (
+          {finalIsSearching ? (
             <SidebarSearchResults
-              searchQuery={searchQuery}
               places={displayPlaces}
               onPlaceClick={onPlaceClick}
               onAddToRoute={onAddToRoute}
               routePlaces={routePlaces}
               selectedPlace={selectedPlace}
             />
-          ) : isEmpty ? (
+          ) : finalIsEmpty ? (
             <SidebarEmptyState
               onPlacesChange={handleSearchPlacesChange}
               onSearchStateChange={handleSearchStateChange}
@@ -87,25 +102,6 @@ export function Sidebar({
               selectedPlace={selectedPlace}
             />
           )}
-        </div>
-
-        <div className="p-(--spacing-4) bg-(--color-background-secondary) border-t border-(--color-border-primary)">
-          <div className="text-center">
-            <p className="text-caption text-(--color-text-secondary) mb-(--spacing-2)">
-              {contentDetail?.title
-                ? `🎬 ${contentDetail.title} 촬영지 탐방`
-                : isEmpty
-                  ? SIDEBAR_TITLES.HEADER_TITLE
-                  : SIDEBAR_TITLES.FOOTER_TITLE}
-            </p>
-            {!isEmpty && (
-              <div className="flex items-center justify-center gap-(--spacing-4) text-caption text-(--color-text-tertiary)">
-                <span>{formatLocations(displayPlaces.length)}</span>
-                <span>{formatAvgRating(DEFAULT_AVG_RATING)}</span>
-                <span>{formatDuration(DEFAULT_DURATION_RANGE)}</span>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </aside>

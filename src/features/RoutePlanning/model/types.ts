@@ -19,23 +19,12 @@ export type RouteSidebarProps = WithPlaces & {
   onSaveRoute: SaveRouteHandler;
   onRemovePlace?: (placeId: number) => void;
   onReorderPlaces?: (places: RoutePlace[]) => void;
-  createRouteSidebarHandlers: (
-    places: RoutePlace[],
-    onReorderPlaces?: (places: RoutePlace[]) => void,
-  ) => {
-    handleDragStart: (place: RoutePlace) => (e: React.DragEvent) => void;
-    handleDrop: (place: RoutePlace) => (e: React.DragEvent) => void;
-  };
 };
 
 export type RoutePlaceCardProps = {
   place: RoutePlace;
   className?: string;
   onRemove: () => void;
-  onDragStart: (e: React.DragEvent) => void;
-  onDragOver?: (e: React.DragEvent) => void;
-  onDragLeave?: () => void;
-  onDrop: (e: React.DragEvent) => void;
 };
 
 export type SaveRouteModalProps = WithPlaces & {

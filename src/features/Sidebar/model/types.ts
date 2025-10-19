@@ -28,6 +28,7 @@ export type PlaceListProps = {
 export type SidebarProps = PlaceListProps & {
   contentId?: string;
   onSearchPlacesChange?: (places: Place[]) => void;
+  searchPlaces?: Place[];
 };
 
 export type SidebarSearchProps = {
@@ -41,8 +42,4 @@ export type ThumbnailProps = Pick<PlaceCardProps, 'locationImage' | 'name' | 'ba
 export type UseContentSearchOptions = {
   debounceMs?: number;
   onPlacesChange?: (places: Place[]) => void;
-};
-
-export type SidebarSearchResultsProps = PlaceListProps & {
-  searchQuery: string;
 };

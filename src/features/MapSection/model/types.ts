@@ -99,3 +99,11 @@ declare global {
     kakao?: { maps?: KakaoMapsNS };
   }
 }
+
+export type MobileBottomSection = 'search' | 'route' | null;
+
+export interface MobileBottomButtonsProps {
+  activeSection: MobileBottomSection;
+  onSectionChange: (section: MobileBottomSection) => void;
+  routePlacesCount: number;
+}

@@ -1,23 +1,16 @@
 import { PlaceList } from '../PlaceList/PlaceList';
-import type { SidebarSearchResultsProps } from '../../model/types';
+import type { PlaceListProps } from '../../model/types';
 import { SIDEBAR_SEARCH_RESULTS } from '../../model/messages';
 
 export function SidebarSearchResults({
-  searchQuery,
   places = [],
   onPlaceClick,
   onAddToRoute,
   routePlaces = [],
   selectedPlace,
-}: SidebarSearchResultsProps) {
+}: PlaceListProps) {
   const renderHeader = () => (
     <div className="p-(--spacing-4) border-b border-(--color-border-primary)">
-      <h3 className="text-heading-6 text-(--color-text-primary) mb-1">
-        "{searchQuery}"{' '}
-        {places.length === 0
-          ? SIDEBAR_SEARCH_RESULTS.NO_RESULTS_TITLE
-          : SIDEBAR_SEARCH_RESULTS.TITLE}
-      </h3>
       <p className="text-caption text-(--color-text-secondary)">
         {places.length === 0
           ? SIDEBAR_SEARCH_RESULTS.NO_RESULTS_DESCRIPTION
