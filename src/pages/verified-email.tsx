@@ -20,10 +20,8 @@ function VerifyEmailPage() {
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        // URL 경로 확인: /verified-email/reset-password 형태면 비밀번호 재설정 페이지로 리다이렉트
         const currentPath = window.location.pathname;
         if (currentPath.includes('/reset-password') && token) {
-            console.log('🔄 비밀번호 재설정 페이지로 리다이렉트:', token);
             navigate({ to: '/auth/reset-password', search: { token } });
             return;
         }
@@ -37,40 +35,30 @@ function VerifyEmailPage() {
 
             try {
                 const response = await verifyEmailApi(token);
-                console.log('✅ Verification success:', response);
                 setStatus('success');
                 setMessage(response.message || '이메일 인증이 완료되었습니다.');
             } catch (error) {
-                console.error('❌ Verification error:', error);
-                
-                // Axios 에러 처리
+                console.error('Verification error:', error);
+
                 if (axios.isAxiosError(error)) {
                     const statusCode = error.response?.status;
                     const serverMessage = error.response?.data?.message;
-                    
-                    // 409 Conflict - 이미 인증된 경우 → 성공으로 처리
+
                     if (statusCode === 409) {
-                        console.log('ℹ️ Already verified - treating as success');
                         setStatus('success');
                         setMessage('이미 인증이 완료된 계정입니다. 바로 로그인하실 수 있습니다.');
                         return;
                     }
-                    
-                    // 나머지는 에러로 처리
                     setStatus('error');
-                    // 400 Bad Request - 잘못된 토큰
                     if (statusCode === 400) {
                         setMessage(serverMessage || '유효하지 않은 인증 링크입니다.');
                     }
-                    // 404 Not Found - 토큰을 찾을 수 없음
                     else if (statusCode === 404) {
                         setMessage(serverMessage || '인증 정보를 찾을 수 없습니다. 인증 메일을 다시 요청해주세요.');
                     }
-                    // 410 Gone - 토큰 만료
                     else if (statusCode === 410) {
                         setMessage(serverMessage || '인증 링크가 만료되었습니다. 인증 메일을 다시 요청해주세요.');
                     }
-                    // 기타 에러
                     else {
                         setMessage(serverMessage || '이메일 인증에 실패했습니다. 잠시 후 다시 시도해주세요.');
                     }

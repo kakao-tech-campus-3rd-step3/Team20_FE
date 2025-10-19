@@ -25,14 +25,12 @@ export const usePasswordResetRequestForm = () => {
       },
     },
     onSubmit: async ({ value }) => {
-      console.log('🟢 [usePasswordResetRequestForm] onSubmit 호출:', value);
       try {
         await resetRequestMutation.mutateAsync({
           email: value.email,
         });
-        console.log('✅ [usePasswordResetRequestForm] mutateAsync 완료');
       } catch (error) {
-        console.error('❌ [usePasswordResetRequestForm] 에러:', error);
+        console.error('[usePasswordResetRequestForm] 에러:', error);
       }
     },
   });

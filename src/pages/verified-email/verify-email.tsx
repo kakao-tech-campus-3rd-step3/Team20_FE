@@ -19,12 +19,10 @@ function RedirectToVerifiedEmail() {
   const { token } = Route.useSearch() as VerifyEmailSearch;
 
   useEffect(() => {
-    console.log('🔄 Redirecting with token:', token);
-    // 올바른 경로로 리다이렉트
     navigate({
       to: '/verified-email',
       search: { token },
-      replace: true, // 히스토리에 남기지 않음
+      replace: true,
     });
   }, [navigate, token]);
 

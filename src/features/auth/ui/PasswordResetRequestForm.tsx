@@ -7,10 +7,8 @@ export const PasswordResetRequestForm = () => {
   const { form, handleSubmit, validation, resetRequestMutation } = usePasswordResetRequestForm();
 
   const onSubmit = async (e: React.FormEvent) => {
-    console.log('🔴 [PasswordResetRequestForm] onSubmit 호출');
     e.preventDefault();
     await handleSubmit();
-    console.log('✅ [PasswordResetRequestForm] handleSubmit 완료');
   };
 
   return (

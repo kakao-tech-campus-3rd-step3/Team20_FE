@@ -15,7 +15,6 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
     await handleSubmit();
   };
 
-  // 비밀번호 재설정 전용 필드 사용
   const fields = createPasswordResetFields(
     validation.createPasswordValidator,
     validation.createConfirmPasswordValidator,

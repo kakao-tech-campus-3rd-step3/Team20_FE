@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { z } from 'zod';
 import { loginSchema, signupSchema } from '../model/schemas';
 
-// 간단한 validator 타입 정의
 interface ValidatorConfig {
   onBlur: (params: { value: string; fieldApi?: any }) => string | undefined;
   onChange: (params: { value: string; fieldApi?: any }) => string | undefined;
@@ -28,7 +27,7 @@ export const useFormValidation = () => {
   const validateField = (schema: z.ZodSchema, value: string) => {
     try {
       schema.parse(value);
-      return undefined; // 유효한 경우
+      return undefined; 
     } catch (error) {
       if (error instanceof z.ZodError) {
         return error.issues[0]?.message || '입력값을 확인해주세요';

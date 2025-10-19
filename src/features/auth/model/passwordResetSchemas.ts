@@ -1,11 +1,10 @@
 import { z } from 'zod';
 
-// 비밀번호 재설정 요청 스키마 (이메일만)
+// 인증폼 스키마 재활용 하지않음. 각 상황마다 명확한 검증 스키마를 사용
 export const passwordResetRequestSchema = z.object({
   email: z.string().min(1, '이메일을 입력해주세요').email('올바른 이메일 형식을 입력해주세요'),
 });
 
-// 비밀번호 재설정 스키마 (비밀번호와 확인만)
 export const passwordResetSchema = z
   .object({
     password: z

@@ -21,9 +21,6 @@ export const httpBackend = axios.create({
 
 httpBackend.interceptors.response.use(
   (response) => {
-    // 응답 구조에 따라 처리
-    // { status, message, data } 형태인 경우 data 반환
-    // { message } 형태인 경우 전체 반환
     if (response.data && 'data' in response.data) {
       return response.data.data;
     }

@@ -14,7 +14,6 @@ export const useLoginForm = () => {
     } as LoginFormData,
     validators: {
       onChange: ({ value }) => {
-        // 전체 폼 유효성 검사
         try {
           loginSchema.parse(value);
           return undefined;
@@ -25,13 +24,11 @@ export const useLoginForm = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        // TanStack Query mutation으로 실제 로그인 API 호출
         await loginMutation.mutateAsync({
           email: value.email,
           password: value.password,
         });
       } catch (error) {
-        // 에러는 mutation.error로 UI에서 처리
         console.error('Login submission error:', error);
       }
     },
@@ -41,6 +38,6 @@ export const useLoginForm = () => {
     form,
     handleSubmit: form.handleSubmit,
     validation,
-    loginMutation, // 에러 처리를 위해 mutation 객체도 반환
+    loginMutation,
   };
 };
