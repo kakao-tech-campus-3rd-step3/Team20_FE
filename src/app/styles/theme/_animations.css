@@ -65,6 +65,17 @@
   }
 }
 
+@keyframes fade-in-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 /* 유틸리티 클래스 - Tailwind CSS v4 호환 방식 */
 @layer utilities {
   .animate-fade-in {
@@ -85,5 +96,9 @@
 
   .animate-bounce-in {
     animation: bounce-in 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .animate-fadeInUp {
+    animation: fade-in-up 400ms cubic-bezier(0, 0, 0.2, 1) both;
   }
 }

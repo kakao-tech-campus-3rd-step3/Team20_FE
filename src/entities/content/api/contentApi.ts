@@ -1,29 +1,44 @@
-import { http } from '@/shared/api';
+import { httpBackend } from '@/shared/api/httpBackend';
 import type {
   ContentDetail,
   ContentLocation,
-  PopularContent,
   CategoryContent,
+  PopularContent,
+  PopularResponse,
 } from '../model/types';
 
 // 인기 콘텐츠 Top 10 조회
+// src/entities/content/api/contentApi.ts
 export const getPopularContents = async (): Promise<PopularContent[]> => {
-  return http.get('/contents');
+  const data = await httpBackend.get<
+    PopularResponse | PopularContent[],
+    PopularResponse | PopularContent[]
+  >('/contents/popular');
+  if (Array.isArray(data)) return data;
+  return data?.items ?? [];
 };
 
 // 콘텐츠 상세 정보 조회
 export const getContentDetail = async (contentId: string): Promise<ContentDetail> => {
-  return http.get(`/contents/${contentId}`);
+  return httpBackend.get(`/contents/${contentId}`);
 };
 
 // 콘텐츠 관련 장소 조회
 export const getContentLocations = async (contentId: string): Promise<ContentLocation[]> => {
-  return http.get(`/contents/${contentId}/related-locations`);
+  return httpBackend.get(`/contents/${contentId}/related-locations`);
 };
 
 // 카테고리별 콘텐츠 목록 조회
 export const getCategoryContents = async (category: string): Promise<CategoryContent[]> => {
-  return http.get(`/contents?category=${category}`);
+  // ① 서버 raw data 타입 | { items: CategoryContent[] } 둘 다 수용
+  // ② 인터셉터 이후 최종 반환 타입도 동일하게 지정(두 번째 제네릭)
+  const data = await httpBackend.get<
+    CategoryContent[] | { items: CategoryContent[] },
+    CategoryContent[] | { items: CategoryContent[] }
+  >(`/contents/popular?category=${category}`);
+
+  // 어떤 형태로 와도 배열만 리턴
+  return Array.isArray(data) ? data : (data?.items ?? []);
 };
 
 // 작품명으로 콘텐츠 검색 (임시: 모든 콘텐츠를 가져와서 클라이언트에서 필터링)

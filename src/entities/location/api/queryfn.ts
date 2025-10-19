@@ -7,5 +7,6 @@ export const useLocationDetail = (locationId: string): UseQueryResult<LocationDe
   return useQuery<LocationDetail, Error>({
     queryKey: locationQueryKeys.detail(locationId),
     queryFn: () => getLocationDetail(locationId),
+    enabled: !!locationId,
   });
 };
