@@ -29,14 +29,14 @@ export const usePasswordResetMutation = () => {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: ({ token, data }: { token: string; data: PasswordResetData }) =>
-      resetPasswordApi(token, data),
+    mutationFn: (data: PasswordResetData) => resetPasswordApi(data),
     onSuccess: () => {
+      console.log('✅ [usePasswordResetMutation] 성공');
       // 성공 시 로그인 페이지로 이동
       navigate({ to: '/auth/login' });
     },
     onError: (error) => {
-      console.error('Password reset error:', error);
+      console.error('❌ [usePasswordResetMutation] 에러:', error);
     },
   });
 };

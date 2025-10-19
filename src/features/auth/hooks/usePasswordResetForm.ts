@@ -9,10 +9,8 @@ export const usePasswordResetForm = (token: string) => {
 
   const form = useForm({
     defaultValues: {
-      email: '',
       password: '',
       confirmPassword: '',
-      nickname: '',
     } as PasswordResetFormData,
     validators: {
       onChange: ({ value }) => {
@@ -25,17 +23,15 @@ export const usePasswordResetForm = (token: string) => {
       },
     },
     onSubmit: async ({ value }) => {
+      console.log('🟢 [usePasswordResetForm] onSubmit 호출, 토큰:', token);
       try {
         await resetMutation.mutateAsync({
-          token,
-          data: {
-            email: value.email,
-            password: value.password,
-            nickname: value.nickname,
-          },
+          rawToken: token,
+          password: value.password,
         });
+        console.log('✅ [usePasswordResetForm] mutateAsync 완료');
       } catch (error) {
-        console.error('Password reset submission error:', error);
+        console.error('❌ [usePasswordResetForm] 에러:', error);
       }
     },
   });

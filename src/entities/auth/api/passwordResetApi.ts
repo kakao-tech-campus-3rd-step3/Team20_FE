@@ -9,9 +9,8 @@ export interface PasswordResetRequestResponse {
 }
 
 export interface PasswordResetData {
-  email: string;
+  rawToken: string;
   password: string;
-  nickname: string;
 }
 
 export interface PasswordResetResponse {
@@ -32,12 +31,12 @@ export const requestPasswordResetApi = async (
 };
 
 // 비밀번호 재설정 (토큰으로 변경)
-export const resetPasswordApi = async (
-  token: string,
-  data: PasswordResetData,
-): Promise<PasswordResetResponse> => {
-  return await httpBackend.patch<PasswordResetData, PasswordResetResponse>(
-    `/api/password-reset?token=${token}`,
+export const resetPasswordApi = async (data: PasswordResetData): Promise<PasswordResetResponse> => {
+  console.log('🔵 [resetPasswordApi] 호출됨:', data);
+  const result = await httpBackend.patch<PasswordResetData, PasswordResetResponse>(
+    '/api/password-reset',
     data,
   );
+  console.log('✅ [resetPasswordApi] 응답:', result);
+  return result;
 };

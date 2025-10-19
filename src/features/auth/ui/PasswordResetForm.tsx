@@ -1,7 +1,7 @@
 import { usePasswordResetForm } from '../hooks/usePasswordResetForm';
 import { FormTitle, FormButton, FormNavigation } from '@/shared/ui';
 import { FormFieldRenderer } from './FormFieldRenderer';
-import { createSignupFields, AUTH_MESSAGES } from '../model';
+import { createPasswordResetFields, AUTH_MESSAGES } from '../model';
 
 interface PasswordResetFormProps {
   token: string;
@@ -15,12 +15,10 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
     await handleSubmit();
   };
 
-  // 회원가입과 동일한 필드 사용
-  const fields = createSignupFields(
-    validation.createEmailValidator,
+  // 비밀번호 재설정 전용 필드 사용
+  const fields = createPasswordResetFields(
     validation.createPasswordValidator,
     validation.createConfirmPasswordValidator,
-    validation.createNicknameValidator,
   );
 
   return (
@@ -74,14 +72,10 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
             const hasValues =
               values &&
               typeof values === 'object' &&
-              'email' in values &&
               'password' in values &&
               'confirmPassword' in values &&
-              'nickname' in values &&
-              values.email &&
               values.password &&
-              values.confirmPassword &&
-              values.nickname;
+              values.confirmPassword;
 
             const canSubmit = hasValues && isValid && !isSubmitting;
 
