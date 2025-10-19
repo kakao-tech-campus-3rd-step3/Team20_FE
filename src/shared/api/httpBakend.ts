@@ -43,7 +43,13 @@ httpBackend.interceptors.response.use(
   },
 );
 
-const PUBLIC_API_PATHS = ['/api/users/login', '/api/users', '/contents', '/locations'];
+const PUBLIC_API_PATHS = [
+  '/api/users/login',
+  '/api/users',
+  '/api/password-reset',
+  '/contents',
+  '/locations',
+];
 
 httpBackend.interceptors.request.use(
   (config) => {

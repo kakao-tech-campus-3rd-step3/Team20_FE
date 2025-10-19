@@ -20,6 +20,14 @@ function VerifyEmailPage() {
     const [message, setMessage] = useState('');
 
     useEffect(() => {
+        // URL 경로 확인: /verified-email/reset-password 형태면 비밀번호 재설정 페이지로 리다이렉트
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('/reset-password') && token) {
+            console.log('🔄 비밀번호 재설정 페이지로 리다이렉트:', token);
+            navigate({ to: '/auth/reset-password', search: { token } });
+            return;
+        }
+
         const verifyEmail = async () => {
             if (!token) {
                 setStatus('error');
@@ -75,7 +83,7 @@ function VerifyEmailPage() {
         };
 
         verifyEmail();
-    }, [token]);
+    }, [token, navigate]);
 
     const handleGoToLogin = () => {
         navigate({ to: '/auth/login' });

@@ -5,6 +5,10 @@ export {
   verifyEmailApi,
   resendVerificationEmailApi,
 } from './api/authApi';
+export {
+  requestPasswordResetApi,
+  resetPasswordApi,
+} from './api/passwordResetApi';
 
 // Types
 export type {

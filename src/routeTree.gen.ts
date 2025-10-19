@@ -17,7 +17,9 @@ import { Route as LocationIdRouteImport } from './pages/location.$id'
 import { Route as ContentIdRouteImport } from './pages/content.$id'
 import { Route as AuthSignupSuccessRouteImport } from './pages/auth/signup-success'
 import { Route as AuthSignupRouteImport } from './pages/auth/signup'
+import { Route as AuthResetPasswordRouteImport } from './pages/auth/reset-password'
 import { Route as AuthLoginRouteImport } from './pages/auth/login'
+import { Route as AuthForgotPasswordRouteImport } from './pages/auth/forgot-password'
 import { Route as ContentContentIdMapRouteImport } from './pages/content.$contentId.map'
 
 const VerifiedEmailRoute = VerifiedEmailRouteImport.update({
@@ -61,9 +63,19 @@ const AuthSignupRoute = AuthSignupRouteImport.update({
   path: '/auth/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
+  id: '/auth/reset-password',
+  path: '/auth/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
+  id: '/auth/forgot-password',
+  path: '/auth/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContentContentIdMapRoute = ContentContentIdMapRouteImport.update({
@@ -76,7 +88,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
   '/verified-email': typeof VerifiedEmailRouteWithChildren
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
@@ -88,7 +102,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
   '/verified-email': typeof VerifiedEmailRouteWithChildren
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
@@ -101,7 +117,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
   '/verified-email': typeof VerifiedEmailRouteWithChildren
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
@@ -115,7 +133,9 @@ export interface FileRouteTypes {
     | '/'
     | '/map'
     | '/verified-email'
+    | '/auth/forgot-password'
     | '/auth/login'
+    | '/auth/reset-password'
     | '/auth/signup'
     | '/auth/signup-success'
     | '/content/$id'
@@ -127,7 +147,9 @@ export interface FileRouteTypes {
     | '/'
     | '/map'
     | '/verified-email'
+    | '/auth/forgot-password'
     | '/auth/login'
+    | '/auth/reset-password'
     | '/auth/signup'
     | '/auth/signup-success'
     | '/content/$id'
@@ -139,7 +161,9 @@ export interface FileRouteTypes {
     | '/'
     | '/map'
     | '/verified-email'
+    | '/auth/forgot-password'
     | '/auth/login'
+    | '/auth/reset-password'
     | '/auth/signup'
     | '/auth/signup-success'
     | '/content/$id'
@@ -152,7 +176,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MapRoute: typeof MapRoute
   VerifiedEmailRoute: typeof VerifiedEmailRouteWithChildren
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthSignupRoute: typeof AuthSignupRoute
   AuthSignupSuccessRoute: typeof AuthSignupSuccessRoute
   ContentIdRoute: typeof ContentIdRoute
@@ -218,11 +244,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/reset-password': {
+      id: '/auth/reset-password'
+      path: '/auth/reset-password'
+      fullPath: '/auth/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/login': {
       id: '/auth/login'
       path: '/auth/login'
       fullPath: '/auth/login'
       preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/forgot-password': {
+      id: '/auth/forgot-password'
+      path: '/auth/forgot-password'
+      fullPath: '/auth/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/content/$contentId/map': {
@@ -251,7 +291,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MapRoute: MapRoute,
   VerifiedEmailRoute: VerifiedEmailRouteWithChildren,
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
+  AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthSignupRoute: AuthSignupRoute,
   AuthSignupSuccessRoute: AuthSignupSuccessRoute,
   ContentIdRoute: ContentIdRoute,

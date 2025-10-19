@@ -24,4 +24,19 @@ export const AUTH_MESSAGES = {
   SIGNUP_LINK: '회원가입하기',
   HAVE_ACCOUNT_TEXT: '이미 계정이 있으신가요?',
   LOGIN_LINK: '로그인하기',
+
+  // 비밀번호 재설정 관련
+  PASSWORD_RESET_REQUEST_TITLE: '비밀번호 재설정',
+  PASSWORD_RESET_REQUEST_DESCRIPTION: '가입하신 이메일 주소를 입력하시면 비밀번호 재설정 링크를 보내드립니다.',
+  PASSWORD_RESET_REQUEST_BUTTON: '재설정 링크 보내기',
+  PASSWORD_RESET_REQUEST_SUCCESS: '이메일로 비밀번호 재설정 링크를 보내드렸습니다.',
+  PASSWORD_RESET_REQUEST_ERROR_TITLE: '요청에 실패했습니다',
+  PASSWORD_RESET_REQUEST_ERROR_DEFAULT: '이메일을 확인해주세요.',
+
+  PASSWORD_RESET_TITLE: '새 비밀번호 설정',
+  PASSWORD_RESET_DESCRIPTION: '새로운 비밀번호를 설정해주세요.',
+  PASSWORD_RESET_BUTTON: '비밀번호 변경하기',
+  PASSWORD_RESET_SUCCESS: '비밀번호가 성공적으로 변경되었습니다.',
+  PASSWORD_RESET_ERROR_TITLE: '비밀번호 변경에 실패했습니다',
+  PASSWORD_RESET_ERROR_DEFAULT: '입력 정보를 확인하거나 링크가 만료되었을 수 있습니다.',
 } as const;
