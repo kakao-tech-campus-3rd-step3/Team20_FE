@@ -39,4 +39,22 @@ export const AUTH_MESSAGES = {
   PASSWORD_RESET_SUCCESS: '비밀번호가 성공적으로 변경되었습니다.',
   PASSWORD_RESET_ERROR_TITLE: '비밀번호 변경에 실패했습니다',
   PASSWORD_RESET_ERROR_DEFAULT: '입력 정보를 확인하거나 링크가 만료되었을 수 있습니다.',
+
+  // 이메일 인증 관련
+  EMAIL_VERIFICATION_LOADING_TITLE: '이메일 인증 중...',
+  EMAIL_VERIFICATION_LOADING_DESCRIPTION: '잠시만 기다려주세요.',
+  EMAIL_VERIFICATION_SUCCESS_TITLE: '인증 완료!',
+  EMAIL_VERIFICATION_SUCCESS_DEFAULT: '이메일 인증이 완료되었습니다.',
+  EMAIL_VERIFICATION_ERROR_TITLE: '인증 실패',
+  
+  // 이메일 인증 에러 메시지
+  EMAIL_VERIFICATION_ERROR_INVALID_TOKEN: '유효하지 않은 인증 링크입니다.',
+  EMAIL_VERIFICATION_ERROR_NOT_FOUND: '인증 정보를 찾을 수 없습니다. 인증 메일을 다시 요청해주세요.',
+  EMAIL_VERIFICATION_ERROR_ALREADY_VERIFIED: '이미 인증이 완료된 계정입니다. 바로 로그인하실 수 있습니다.',
+  EMAIL_VERIFICATION_ERROR_EXPIRED: '인증 링크가 만료되었습니다. 인증 메일을 다시 요청해주세요.',
+  EMAIL_VERIFICATION_ERROR_DEFAULT: '이메일 인증에 실패했습니다. 잠시 후 다시 시도해주세요.',
+
+  // 이메일 인증 버튼
+  EMAIL_VERIFICATION_GO_TO_LOGIN: '로그인하기',
+  EMAIL_VERIFICATION_GO_TO_HOME: '홈으로 가기',
 } as const;
