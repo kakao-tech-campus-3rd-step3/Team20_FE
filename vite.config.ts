@@ -21,6 +21,15 @@ export default defineConfig({
       generatedRouteTree: './src/routeTree.gen.ts',
     }),
   ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://k-spot.kro.kr',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   test: {
     projects: [
       {

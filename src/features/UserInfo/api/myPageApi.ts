@@ -1,8 +1,15 @@
-import { http } from '@/shared/api/http';
+import { httpBackend } from '@/shared/api/httpBackend';
+import { tokenStorage } from '@/shared/api/tokenStorage';
 import type { MyPageData } from '../model/types';
+
+// 테스트용 마스터 토큰
+const TEST_TOKEN =
+  'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidHlwIjoibWFzdGVyIn0.3PZMoQI6OU7L-WBSB7S-tx2ZYJ_Jt37wN6PY3q64uOLbrO18Y_qHPir1dXkWvjE0';
 
 export const myPageApi = {
   getMyPage: async (): Promise<MyPageData> => {
-    return http.get('/api/users/mypage');
+    // 테스트 토큰 설정
+    tokenStorage.setToken(TEST_TOKEN);
+    return httpBackend.get('/api/users/mypage');
   },
 };
