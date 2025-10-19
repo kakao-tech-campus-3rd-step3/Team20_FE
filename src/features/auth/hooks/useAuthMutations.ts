@@ -8,11 +8,9 @@ import type { LoginRequest, SignupRequest } from '@/entities/auth';
 const getErrorMessage = (error: unknown, defaultMessage: string): string => {
     if (axios.isAxiosError(error)) {
         const data = error.response?.data;
-        // 서버 응답이 문자열인 경우
         if (typeof data === 'string') {
             return data;
         }
-        // 서버 응답이 객체이고 message 속성이 있는 경우
         if (data && typeof data === 'object' && 'message' in data) {
             return data.message as string;
         }

@@ -24,14 +24,10 @@ export const usePasswordResetRequestForm = () => {
         }
       },
     },
-    onSubmit: async ({ value }) => {
-      try {
-        await resetRequestMutation.mutateAsync({
-          email: value.email,
-        });
-      } catch (error) {
-        // 에러는 mutation의 onError에서 토스트로 처리됨
-      }
+    onSubmit: ({ value }) => {
+      resetRequestMutation.mutate({
+        email: value.email,
+      });
     },
   });
 

@@ -22,15 +22,11 @@ export const useLoginForm = () => {
         }
       },
     },
-    onSubmit: async ({ value }) => {
-      try {
-        await loginMutation.mutateAsync({
-          email: value.email,
-          password: value.password,
-        });
-      } catch (error) {
-        // 에러는 mutation의 onError에서 토스트로 처리됨
-      }
+    onSubmit: ({ value }) => {
+      loginMutation.mutate({
+        email: value.email,
+        password: value.password,
+      });
     },
   });
 

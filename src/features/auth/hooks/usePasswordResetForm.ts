@@ -22,15 +22,11 @@ export const usePasswordResetForm = (token: string) => {
         }
       },
     },
-    onSubmit: async ({ value }) => {
-      try {
-        await resetMutation.mutateAsync({
-          rawToken: token,
-          password: value.password,
-        });
-      } catch (error) {
-        // 에러는 mutation의 onError에서 토스트로 처리됨
-      }
+    onSubmit: ({ value }) => {
+      resetMutation.mutate({
+        rawToken: token,
+        password: value.password,
+      });
     },
   });
 

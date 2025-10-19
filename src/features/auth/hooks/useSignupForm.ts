@@ -24,16 +24,12 @@ export const useSignupForm = () => {
         }
       },
     },
-    onSubmit: async ({ value }) => {
-      try {
-        await signupMutation.mutateAsync({
-          email: value.email,
-          password: value.password,
-          nickname: value.nickname,
-        });
-      } catch (error) {
-        // 에러는 mutation의 onError에서 토스트로 처리됨
-      }
+    onSubmit: ({ value }) => {
+      signupMutation.mutate({
+        email: value.email,
+        password: value.password,
+        nickname: value.nickname,
+      });
     },
   });
 

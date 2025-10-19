@@ -1,26 +1,26 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useEffect } from 'react';
 
-type VerifyEmailSearch = {
+type ResetPasswordSearch = {
   token: string;
 };
 
-export const Route = createFileRoute('/auth/verified-email/verify-email')({
-  component: RedirectToVerifiedEmail,
-  validateSearch: (search: Record<string, unknown>): VerifyEmailSearch => {
+export const Route = createFileRoute('/verified-email/reset-password')({
+  component: RedirectToResetPassword,
+  validateSearch: (search: Record<string, unknown>): ResetPasswordSearch => {
     return {
       token: (search.token as string) || '',
     };
   },
 });
 
-function RedirectToVerifiedEmail() {
+function RedirectToResetPassword() {
   const navigate = useNavigate();
-  const { token } = Route.useSearch() as VerifyEmailSearch;
+  const { token } = Route.useSearch() as ResetPasswordSearch;
 
   useEffect(() => {
     navigate({
-      to: '/auth/verified-email',
+      to: '/auth/reset-password', // 리다이렉트 실행(파일 이름 같게함)
       search: { token },
       replace: true,
     });

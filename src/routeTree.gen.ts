@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './pages/__root'
 import { Route as MapRouteImport } from './pages/map'
 import { Route as IndexRouteImport } from './pages/index'
+import { Route as VerifiedEmailVerifyEmailRouteImport } from './pages/verified-email/verify-email'
+import { Route as VerifiedEmailResetPasswordRouteImport } from './pages/verified-email/reset-password'
 import { Route as LocationIdRouteImport } from './pages/location.$id'
 import { Route as ContentIdRouteImport } from './pages/content.$id'
 import { Route as AuthVerifiedEmailRouteImport } from './pages/auth/verified-email'
@@ -21,7 +23,6 @@ import { Route as AuthResetPasswordRouteImport } from './pages/auth/reset-passwo
 import { Route as AuthLoginRouteImport } from './pages/auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './pages/auth/forgot-password'
 import { Route as ContentContentIdMapRouteImport } from './pages/content.$contentId.map'
-import { Route as AuthVerifiedEmailVerifyEmailRouteImport } from './pages/auth/verified-email/verify-email'
 
 const MapRoute = MapRouteImport.update({
   id: '/map',
@@ -33,6 +34,18 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VerifiedEmailVerifyEmailRoute =
+  VerifiedEmailVerifyEmailRouteImport.update({
+    id: '/verified-email/verify-email',
+    path: '/verified-email/verify-email',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const VerifiedEmailResetPasswordRoute =
+  VerifiedEmailResetPasswordRouteImport.update({
+    id: '/verified-email/reset-password',
+    path: '/verified-email/reset-password',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LocationIdRoute = LocationIdRouteImport.update({
   id: '/location/$id',
   path: '/location/$id',
@@ -84,12 +97,6 @@ const ContentContentIdMapRoute = ContentContentIdMapRouteImport.update({
   path: '/content/$contentId/map',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthVerifiedEmailVerifyEmailRoute =
-  AuthVerifiedEmailVerifyEmailRouteImport.update({
-    id: '/verify-email',
-    path: '/verify-email',
-    getParentRoute: () => AuthVerifiedEmailRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -100,10 +107,11 @@ export interface FileRoutesByFullPath {
   '/auth/reset-password-success': typeof AuthResetPasswordSuccessRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
-  '/auth/verified-email': typeof AuthVerifiedEmailRouteWithChildren
+  '/auth/verified-email': typeof AuthVerifiedEmailRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
-  '/auth/verified-email/verify-email': typeof AuthVerifiedEmailVerifyEmailRoute
+  '/verified-email/reset-password': typeof VerifiedEmailResetPasswordRoute
+  '/verified-email/verify-email': typeof VerifiedEmailVerifyEmailRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
 }
 export interface FileRoutesByTo {
@@ -115,10 +123,11 @@ export interface FileRoutesByTo {
   '/auth/reset-password-success': typeof AuthResetPasswordSuccessRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
-  '/auth/verified-email': typeof AuthVerifiedEmailRouteWithChildren
+  '/auth/verified-email': typeof AuthVerifiedEmailRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
-  '/auth/verified-email/verify-email': typeof AuthVerifiedEmailVerifyEmailRoute
+  '/verified-email/reset-password': typeof VerifiedEmailResetPasswordRoute
+  '/verified-email/verify-email': typeof VerifiedEmailVerifyEmailRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
 }
 export interface FileRoutesById {
@@ -131,10 +140,11 @@ export interface FileRoutesById {
   '/auth/reset-password-success': typeof AuthResetPasswordSuccessRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
-  '/auth/verified-email': typeof AuthVerifiedEmailRouteWithChildren
+  '/auth/verified-email': typeof AuthVerifiedEmailRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
-  '/auth/verified-email/verify-email': typeof AuthVerifiedEmailVerifyEmailRoute
+  '/verified-email/reset-password': typeof VerifiedEmailResetPasswordRoute
+  '/verified-email/verify-email': typeof VerifiedEmailVerifyEmailRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
 }
 export interface FileRouteTypes {
@@ -151,7 +161,8 @@ export interface FileRouteTypes {
     | '/auth/verified-email'
     | '/content/$id'
     | '/location/$id'
-    | '/auth/verified-email/verify-email'
+    | '/verified-email/reset-password'
+    | '/verified-email/verify-email'
     | '/content/$contentId/map'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -166,7 +177,8 @@ export interface FileRouteTypes {
     | '/auth/verified-email'
     | '/content/$id'
     | '/location/$id'
-    | '/auth/verified-email/verify-email'
+    | '/verified-email/reset-password'
+    | '/verified-email/verify-email'
     | '/content/$contentId/map'
   id:
     | '__root__'
@@ -181,7 +193,8 @@ export interface FileRouteTypes {
     | '/auth/verified-email'
     | '/content/$id'
     | '/location/$id'
-    | '/auth/verified-email/verify-email'
+    | '/verified-email/reset-password'
+    | '/verified-email/verify-email'
     | '/content/$contentId/map'
   fileRoutesById: FileRoutesById
 }
@@ -194,9 +207,11 @@ export interface RootRouteChildren {
   AuthResetPasswordSuccessRoute: typeof AuthResetPasswordSuccessRoute
   AuthSignupRoute: typeof AuthSignupRoute
   AuthSignupSuccessRoute: typeof AuthSignupSuccessRoute
-  AuthVerifiedEmailRoute: typeof AuthVerifiedEmailRouteWithChildren
+  AuthVerifiedEmailRoute: typeof AuthVerifiedEmailRoute
   ContentIdRoute: typeof ContentIdRoute
   LocationIdRoute: typeof LocationIdRoute
+  VerifiedEmailResetPasswordRoute: typeof VerifiedEmailResetPasswordRoute
+  VerifiedEmailVerifyEmailRoute: typeof VerifiedEmailVerifyEmailRoute
   ContentContentIdMapRoute: typeof ContentContentIdMapRoute
 }
 
@@ -214,6 +229,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verified-email/verify-email': {
+      id: '/verified-email/verify-email'
+      path: '/verified-email/verify-email'
+      fullPath: '/verified-email/verify-email'
+      preLoaderRoute: typeof VerifiedEmailVerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verified-email/reset-password': {
+      id: '/verified-email/reset-password'
+      path: '/verified-email/reset-password'
+      fullPath: '/verified-email/reset-password'
+      preLoaderRoute: typeof VerifiedEmailResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/location/$id': {
@@ -286,26 +315,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContentContentIdMapRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/verified-email/verify-email': {
-      id: '/auth/verified-email/verify-email'
-      path: '/verify-email'
-      fullPath: '/auth/verified-email/verify-email'
-      preLoaderRoute: typeof AuthVerifiedEmailVerifyEmailRouteImport
-      parentRoute: typeof AuthVerifiedEmailRoute
-    }
   }
 }
-
-interface AuthVerifiedEmailRouteChildren {
-  AuthVerifiedEmailVerifyEmailRoute: typeof AuthVerifiedEmailVerifyEmailRoute
-}
-
-const AuthVerifiedEmailRouteChildren: AuthVerifiedEmailRouteChildren = {
-  AuthVerifiedEmailVerifyEmailRoute: AuthVerifiedEmailVerifyEmailRoute,
-}
-
-const AuthVerifiedEmailRouteWithChildren =
-  AuthVerifiedEmailRoute._addFileChildren(AuthVerifiedEmailRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -316,9 +327,11 @@ const rootRouteChildren: RootRouteChildren = {
   AuthResetPasswordSuccessRoute: AuthResetPasswordSuccessRoute,
   AuthSignupRoute: AuthSignupRoute,
   AuthSignupSuccessRoute: AuthSignupSuccessRoute,
-  AuthVerifiedEmailRoute: AuthVerifiedEmailRouteWithChildren,
+  AuthVerifiedEmailRoute: AuthVerifiedEmailRoute,
   ContentIdRoute: ContentIdRoute,
   LocationIdRoute: LocationIdRoute,
+  VerifiedEmailResetPasswordRoute: VerifiedEmailResetPasswordRoute,
+  VerifiedEmailVerifyEmailRoute: VerifiedEmailVerifyEmailRoute,
   ContentContentIdMapRoute: ContentContentIdMapRoute,
 }
 export const routeTree = rootRouteImport
