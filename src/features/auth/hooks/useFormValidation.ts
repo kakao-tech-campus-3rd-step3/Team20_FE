@@ -2,15 +2,11 @@ import { useState } from 'react';
 import { z } from 'zod';
 import { loginSchema, signupSchema } from '../model/schemas';
 
-interface FieldApi {
-  form: {
-    getFieldValue: (fieldName: string) => string;
-  };
-}
-
 interface ValidatorConfig {
-  onBlur: (params: { value: string; fieldApi?: FieldApi }) => string | undefined;
-  onChange: (params: { value: string; fieldApi?: FieldApi }) => string | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onBlur: (params: { value: string; fieldApi?: any }) => string | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange: (params: { value: string; fieldApi?: any }) => string | undefined;
 }
 
 export interface ValidationHelpers {
@@ -33,7 +29,7 @@ export const useFormValidation = () => {
   const validateField = (schema: z.ZodSchema, value: string) => {
     try {
       schema.parse(value);
-      return undefined; 
+      return undefined;
     } catch (error) {
       if (error instanceof z.ZodError) {
         return error.issues[0]?.message || '입력값을 확인해주세요';
@@ -65,7 +61,7 @@ export const useFormValidation = () => {
   const createConfirmPasswordValidator = (): ValidatorConfig => ({
     onBlur: ({ value, fieldApi }) => {
       markFieldAsTouched('confirmPassword');
-      const password = fieldApi?.form.getFieldValue('password') || '';
+      const password = fieldApi?.form?.getFieldValue?.('password') || '';
 
       const basicValidation = validateField(signupSchema.shape.confirmPassword, value);
       if (basicValidation) return basicValidation;
@@ -77,7 +73,7 @@ export const useFormValidation = () => {
       return undefined;
     },
     onChange: ({ value, fieldApi }) => {
-      const password = fieldApi?.form.getFieldValue('password') || '';
+      const password = fieldApi?.form?.getFieldValue?.('password') || '';
 
       const basicValidation = validateField(signupSchema.shape.confirmPassword, value);
       if (basicValidation) return basicValidation;

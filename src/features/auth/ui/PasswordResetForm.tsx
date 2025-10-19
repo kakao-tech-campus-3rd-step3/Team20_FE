@@ -40,13 +40,13 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
           </svg>
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
-          비밀번호 변경 완료!
+          {AUTH_MESSAGES.PASSWORD_RESET_SUCCESS_TITLE}
         </h2>
         <p className="text-gray-600 mb-2">
-          비밀번호가 성공적으로 변경되었습니다.
+          {AUTH_MESSAGES.PASSWORD_RESET_SUCCESS_MESSAGE}
         </p>
         <p className="text-sm text-gray-500">
-          잠시 후 로그인 페이지로 이동합니다...
+          {AUTH_MESSAGES.PASSWORD_RESET_SUCCESS_REDIRECT}
         </p>
       </div>
     );
@@ -57,9 +57,6 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
       <form onSubmit={onSubmit} className="space-y-6">
         <div>
           <FormTitle>{AUTH_MESSAGES.PASSWORD_RESET_TITLE}</FormTitle>
-          <p className="mt-2 text-sm text-gray-600 text-center">
-            {AUTH_MESSAGES.PASSWORD_RESET_DESCRIPTION}
-          </p>
         </div>
 
         {resetMutation.isError && (
@@ -102,13 +99,14 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
               values.password &&
               values.confirmPassword;
 
-            const canSubmit = hasValues && isValid && !isSubmitting;
+            const isLoading = isSubmitting || resetMutation.isPending;
+            const canSubmit = hasValues && isValid && !isLoading;
 
             return (
               <FormButton
                 type="submit"
                 variant={canSubmit ? 'primary' : 'disabled'}
-                isLoading={isSubmitting as boolean}
+                isLoading={isLoading as boolean}
                 disabled={!canSubmit as boolean}
               >
                 {AUTH_MESSAGES.PASSWORD_RESET_BUTTON}

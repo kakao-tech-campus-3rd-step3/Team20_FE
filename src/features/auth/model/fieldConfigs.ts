@@ -1,13 +1,11 @@
-// Validator 타입 정의
-interface FieldApi {
-  form: {
-    getFieldValue: (fieldName: string) => string;
-  };
-}
+import { AUTH_MESSAGES } from './messages';
 
+// Validator 타입 정의 - 의도적 any - tanstack form 23개 제네릭 타입 
 interface ValidatorConfig {
-  onBlur: (params: { value: string; fieldApi?: FieldApi }) => string | undefined;
-  onChange: (params: { value: string; fieldApi?: FieldApi }) => string | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onBlur: (params: { value: string; fieldApi?: any }) => string | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange: (params: { value: string; fieldApi?: any }) => string | undefined;
 }
 
 export interface FieldConfig {
@@ -26,23 +24,22 @@ export interface SignupFieldConfig extends FieldConfig {
   name: 'email' | 'password' | 'confirmPassword' | 'nickname';
 }
 
-// 필드 설정 생성 함수들
 export const createLoginFields = (
   createEmailValidator: () => ValidatorConfig,
   createPasswordValidator: () => ValidatorConfig,
 ): LoginFieldConfig[] => [
     {
       name: 'email',
-      label: '이메일',
+      label: AUTH_MESSAGES.FIELD_LABEL_EMAIL,
       type: 'email',
-      placeholder: '이메일을 입력하세요',
+      placeholder: AUTH_MESSAGES.FIELD_PLACEHOLDER_EMAIL,
       validator: createEmailValidator(),
     },
     {
       name: 'password',
-      label: '비밀번호',
+      label: AUTH_MESSAGES.FIELD_LABEL_PASSWORD,
       type: 'password',
-      placeholder: '비밀번호를 입력하세요',
+      placeholder: AUTH_MESSAGES.FIELD_PLACEHOLDER_PASSWORD,
       validator: createPasswordValidator(),
     },
   ];
@@ -59,30 +56,30 @@ export const createSignupFields = (
 ): SignupFieldConfig[] => [
     {
       name: 'email',
-      label: '이메일',
+      label: AUTH_MESSAGES.FIELD_LABEL_EMAIL,
       type: 'email',
-      placeholder: '이메일을 입력하세요',
+      placeholder: AUTH_MESSAGES.FIELD_PLACEHOLDER_EMAIL,
       validator: createEmailValidator(),
     },
     {
       name: 'password',
-      label: '비밀번호',
+      label: AUTH_MESSAGES.FIELD_LABEL_PASSWORD,
       type: 'password',
-      placeholder: '비밀번호를 입력하세요 (8자리 이상)',
+      placeholder: AUTH_MESSAGES.FIELD_PLACEHOLDER_PASSWORD_MIN,
       validator: createPasswordValidator(),
     },
     {
       name: 'confirmPassword',
-      label: '비밀번호 확인',
+      label: AUTH_MESSAGES.FIELD_LABEL_CONFIRM_PASSWORD,
       type: 'password',
-      placeholder: '비밀번호를 다시 입력하세요',
+      placeholder: AUTH_MESSAGES.FIELD_PLACEHOLDER_CONFIRM_PASSWORD,
       validator: createConfirmPasswordValidator(),
     },
     {
       name: 'nickname',
-      label: '닉네임',
+      label: AUTH_MESSAGES.FIELD_LABEL_NICKNAME,
       type: 'text',
-      placeholder: '닉네임을 입력하세요 (2-20자)',
+      placeholder: AUTH_MESSAGES.FIELD_PLACEHOLDER_NICKNAME,
       validator: createNicknameValidator(),
     },
   ];
@@ -93,16 +90,16 @@ export const createPasswordResetFields = (
 ): PasswordResetFieldConfig[] => [
     {
       name: 'password',
-      label: '새 비밀번호',
+      label: AUTH_MESSAGES.FIELD_LABEL_NEW_PASSWORD,
       type: 'password',
-      placeholder: '새 비밀번호를 입력하세요 (8자리 이상)',
+      placeholder: AUTH_MESSAGES.FIELD_PLACEHOLDER_NEW_PASSWORD,
       validator: createPasswordValidator(),
     },
     {
       name: 'confirmPassword',
-      label: '비밀번호 확인',
+      label: AUTH_MESSAGES.FIELD_LABEL_CONFIRM_PASSWORD,
       type: 'password',
-      placeholder: '비밀번호를 다시 입력하세요',
+      placeholder: AUTH_MESSAGES.FIELD_PLACEHOLDER_CONFIRM_PASSWORD,
       validator: createConfirmPasswordValidator(),
     },
   ];

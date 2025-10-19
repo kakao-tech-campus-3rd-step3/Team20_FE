@@ -27,16 +27,16 @@ export const AUTH_MESSAGES = {
 
   // 비밀번호 재설정 관련
   PASSWORD_RESET_REQUEST_TITLE: '비밀번호 재설정',
-  PASSWORD_RESET_REQUEST_DESCRIPTION: '가입하신 이메일 주소를 입력하시면 비밀번호 재설정 링크를 보내드립니다.',
   PASSWORD_RESET_REQUEST_BUTTON: '재설정 링크 보내기',
   PASSWORD_RESET_REQUEST_SUCCESS: '이메일로 비밀번호 재설정 링크를 보내드렸습니다.',
   PASSWORD_RESET_REQUEST_ERROR_TITLE: '요청에 실패했습니다',
   PASSWORD_RESET_REQUEST_ERROR_DEFAULT: '이메일을 확인해주세요.',
 
   PASSWORD_RESET_TITLE: '새 비밀번호 설정',
-  PASSWORD_RESET_DESCRIPTION: '새로운 비밀번호를 설정해주세요.',
   PASSWORD_RESET_BUTTON: '비밀번호 변경하기',
-  PASSWORD_RESET_SUCCESS: '비밀번호가 성공적으로 변경되었습니다.',
+  PASSWORD_RESET_SUCCESS_TITLE: '비밀번호 변경 완료!',
+  PASSWORD_RESET_SUCCESS_MESSAGE: '비밀번호가 성공적으로 변경되었습니다.',
+  PASSWORD_RESET_SUCCESS_REDIRECT: '잠시 후 로그인 페이지로 이동합니다...',
   PASSWORD_RESET_ERROR_TITLE: '비밀번호 변경에 실패했습니다',
   PASSWORD_RESET_ERROR_DEFAULT: '입력 정보를 확인하거나 링크가 만료되었을 수 있습니다.',
 
@@ -57,4 +57,19 @@ export const AUTH_MESSAGES = {
   // 이메일 인증 버튼
   EMAIL_VERIFICATION_GO_TO_LOGIN: '로그인하기',
   EMAIL_VERIFICATION_GO_TO_HOME: '홈으로 가기',
+
+  // 폼 필드 레이블
+  FIELD_LABEL_EMAIL: '이메일',
+  FIELD_LABEL_PASSWORD: '비밀번호',
+  FIELD_LABEL_CONFIRM_PASSWORD: '비밀번호 확인',
+  FIELD_LABEL_NICKNAME: '닉네임',
+  FIELD_LABEL_NEW_PASSWORD: '새 비밀번호',
+
+  // 폼 필드 플레이스홀더
+  FIELD_PLACEHOLDER_EMAIL: '이메일을 입력하세요',
+  FIELD_PLACEHOLDER_PASSWORD: '비밀번호를 입력하세요',
+  FIELD_PLACEHOLDER_PASSWORD_MIN: '비밀번호를 입력하세요 (8자리 이상)',
+  FIELD_PLACEHOLDER_CONFIRM_PASSWORD: '비밀번호를 다시 입력하세요',
+  FIELD_PLACEHOLDER_NICKNAME: '닉네임을 입력하세요 (2-20자)',
+  FIELD_PLACEHOLDER_NEW_PASSWORD: '새 비밀번호를 입력하세요 (8자리 이상)',
 } as const;
