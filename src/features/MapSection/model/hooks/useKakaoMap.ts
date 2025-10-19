@@ -4,15 +4,17 @@ import type { MapOptions, KakaoMap } from '../types';
 import { createLatLng } from '../utils';
 import { MAP_DEFAULTS, SDK_CONFIG } from '../constants';
 import { ERROR_MESSAGES } from '../messages';
+import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 
 /**
  * Kakao 지도의 생성/옵션 반영/정리를 담당하는 훅
  */
 export function useKakaoMap(options?: MapOptions) {
+  const { isLaptop } = useBreakpoints();
+
   const {
     center = MAP_DEFAULTS.center,
     level = MAP_DEFAULTS.level,
-    draggable = MAP_DEFAULTS.draggable,
     scrollwheel = MAP_DEFAULTS.scrollwheel,
     disableDoubleClickZoom = MAP_DEFAULTS.disableDoubleClickZoom,
   } = options ?? {};
@@ -58,12 +60,11 @@ export function useKakaoMap(options?: MapOptions) {
         const map = new maps.Map(containerEl, {
           center: centerLatLng,
           level,
-          draggable: draggable,
+          draggable: !isLaptop,
           scrollwheel: scrollwheel,
           disableDoubleClickZoom: disableDoubleClickZoom,
         });
 
-        // Ctrl + 휠 브라우저 확대 방지
         const mapContainer = map.getNode();
         const handleWheel = (e: WheelEvent) => {
           if (e.ctrlKey) {
@@ -102,16 +103,14 @@ export function useKakaoMap(options?: MapOptions) {
     if (!map) return;
 
     try {
-      const centerLatLng = createLatLng(center.lat, center.lng);
-      map.setCenter(centerLatLng);
       map.setLevel(level);
-      map.setDraggable(draggable);
+      map.setDraggable(!isLaptop);
       map.setZoomable(scrollwheel);
     } catch (error) {
       console.error('카카오맵 옵션 업데이트 실패:', error);
       toast.error('지도 설정 업데이트 실패');
     }
-  }, [center.lat, center.lng, level, draggable, scrollwheel]);
+  }, [level, isLaptop, scrollwheel]);
 
   return { containerRef, mapRef };
 }

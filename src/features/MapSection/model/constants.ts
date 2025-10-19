@@ -42,6 +42,14 @@ export const MAP_DEFAULTS = {
   disableDoubleClickZoom: true,
 } as const;
 
+// 남한(대한민국) 지도 범위 (북위 33.2도~38.45도, 동경 124.1도~131.9도)
+export const KOREA_BOUNDS = {
+  north: 38.45, // 북위 38.45도
+  south: 33.2, // 북위 33.2도
+  east: 131.9, // 동경 131.9도
+  west: 124.1, // 동경 124.1도
+} as const;
+
 export const SDK_CONFIG = {
   timeout: 15000,
   checkInterval: 100,

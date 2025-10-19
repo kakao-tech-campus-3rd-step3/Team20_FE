@@ -18,6 +18,7 @@ import {
   useRouteMarkers,
   useMapResize,
   usePlaceSelection,
+  useMapCenterAdjust,
 } from '@/features/MapSection/model/hooks';
 import { DRAG_STYLES } from '@/features/RoutePlanning/model/constants';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks/useRoutePlanning';
@@ -50,6 +51,7 @@ function MapPage() {
     containerRef: mapHook.containerRef,
     isLaptop,
   });
+  useMapCenterAdjust({ mapRef: mapHook.mapRef });
   useKakaoMarkers(searchPlaces, mapHook.mapRef, routePlaces, handlePlaceSelect);
   useRouteMarkers(routePlaces, mapHook.mapRef, handlePlaceSelect);
 

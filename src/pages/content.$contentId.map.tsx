@@ -17,6 +17,7 @@ import {
   usePlaceClick,
   useRouteMarkers,
   useMapResize,
+  useMapCenterAdjust,
 } from '@/features/MapSection/model/hooks';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks/useRoutePlanning';
 import { useSidebarData } from '@/features/Sidebar/model/hooks/useSidebarData';
@@ -61,6 +62,7 @@ function ContentPlaceMapPage() {
     containerRef: mapHook.containerRef,
     isLaptop,
   });
+  useMapCenterAdjust({ mapRef: mapHook.mapRef });
   useKakaoMarkers(displayPlaces, mapHook.mapRef, routePlaces, handlePlaceSelect);
   useRouteMarkers(routePlaces, mapHook.mapRef, handlePlaceSelect);
 
