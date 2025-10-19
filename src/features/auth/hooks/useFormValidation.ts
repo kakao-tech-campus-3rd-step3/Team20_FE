@@ -2,9 +2,15 @@ import { useState } from 'react';
 import { z } from 'zod';
 import { loginSchema, signupSchema } from '../model/schemas';
 
+interface FieldApi {
+  form: {
+    getFieldValue: (fieldName: string) => string;
+  };
+}
+
 interface ValidatorConfig {
-  onBlur: (params: { value: string; fieldApi?: any }) => string | undefined;
-  onChange: (params: { value: string; fieldApi?: any }) => string | undefined;
+  onBlur: (params: { value: string; fieldApi?: FieldApi }) => string | undefined;
+  onChange: (params: { value: string; fieldApi?: FieldApi }) => string | undefined;
 }
 
 export interface ValidationHelpers {

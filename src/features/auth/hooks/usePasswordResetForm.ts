@@ -17,7 +17,7 @@ export const usePasswordResetForm = (token: string) => {
         try {
           passwordResetSchema.parse(value);
           return undefined;
-        } catch (error) {
+        } catch {
           return '입력값을 확인해주세요';
         }
       },
