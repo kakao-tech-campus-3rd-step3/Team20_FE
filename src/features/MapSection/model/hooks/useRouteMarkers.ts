@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import type { KakaoMap, KakaoMarker, KakaoPolyline } from '../types';
 import type { RoutePlace } from '@/features/RoutePlanning/model/types';
+import type { Place } from '@/features/Sidebar/model/types';
 import {
   createLatLng,
   clearMarkers,
@@ -21,6 +22,7 @@ export function useRouteMarkers(
   routePlaces: RoutePlace[],
   mapRef: React.MutableRefObject<KakaoMap | null>,
   onPlaceClick?: (place: RoutePlace) => void,
+  onAddToRoute?: (place: Place | RoutePlace) => void,
 ) {
   const { isLaptop } = useBreakpoints();
   const routeMarkersRef = useRef<KakaoMarker[]>([]);
@@ -54,8 +56,7 @@ export function useRouteMarkers(
 
         // 동선 마커 클릭 이벤트 추가
         maps.event.addListener(marker, 'click', () => {
-          onPlaceClick?.(place);
-          createAndShowOverlay(map, place, isLaptop);
+          createAndShowOverlay(map, place, isLaptop, onAddToRoute, true); // 동선 마커는 항상 동선에 추가된 상태
         });
 
         return marker;
@@ -87,5 +88,5 @@ export function useRouteMarkers(
       routePolylinesRef.current = clearPolylines(routePolylinesRef.current);
       closeGlobalOverlay();
     };
-  }, [routePlaces, mapRef, onPlaceClick, isLaptop]);
+  }, [routePlaces, mapRef, onPlaceClick, onAddToRoute, isLaptop]);
 }

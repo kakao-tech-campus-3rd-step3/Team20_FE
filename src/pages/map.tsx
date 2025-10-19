@@ -52,13 +52,14 @@ function MapPage() {
     isLaptop,
   });
   useMapCenterAdjust({ mapRef: mapHook.mapRef });
-  useKakaoMarkers(searchPlaces, mapHook.mapRef, routePlaces, handlePlaceSelect);
-  useRouteMarkers(routePlaces, mapHook.mapRef, handlePlaceSelect);
 
   const handleAddToRoute = (place: Place) => {
     addPlace(place);
     closeOverlay();
   };
+
+  useKakaoMarkers(searchPlaces, mapHook.mapRef, routePlaces, handlePlaceSelect, handleAddToRoute);
+  useRouteMarkers(routePlaces, mapHook.mapRef, handlePlaceSelect, handleAddToRoute);
 
   return (
     <div className="h-screen flex flex-col">

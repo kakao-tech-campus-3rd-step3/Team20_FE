@@ -7,7 +7,10 @@ import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 /**
  * PlaceCard 클릭 시 overlay 표시를 담당하는 훅
  */
-export function usePlaceClick(mapRef: React.MutableRefObject<KakaoMap | null>) {
+export function usePlaceClick(
+  mapRef: React.MutableRefObject<KakaoMap | null>,
+  onAddToRoute?: (place: Place) => void,
+) {
   const { isLaptop } = useBreakpoints();
 
   // handlePlaceClick 함수가 매 렌더링마다 새로 생성되는 것을 방지하여
@@ -18,9 +21,9 @@ export function usePlaceClick(mapRef: React.MutableRefObject<KakaoMap | null>) {
       const map = mapRef.current;
       if (!map) return;
 
-      createAndShowOverlay(map, place, isLaptop);
+      createAndShowOverlay(map, place, isLaptop, onAddToRoute, false); // PlaceCard 클릭 시에는 기본적으로 추가되지 않은 상태
     },
-    [mapRef, isLaptop],
+    [mapRef, isLaptop, onAddToRoute],
   );
 
   return { handlePlaceClick, closeOverlay: closeGlobalOverlay };

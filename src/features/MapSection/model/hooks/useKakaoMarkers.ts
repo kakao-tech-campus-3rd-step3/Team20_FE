@@ -20,6 +20,7 @@ export function useKakaoMarkers(
   mapRef: React.MutableRefObject<KakaoMap | null>,
   routePlaces: RoutePlace[] = [],
   onPlaceClick?: (place: Place) => void,
+  onAddToRoute?: (place: Place) => void,
 ) {
   const { isLaptop } = useBreakpoints();
   const markersRef = useRef<KakaoMarker[]>([]);
@@ -50,8 +51,8 @@ export function useKakaoMarkers(
 
         // 마커 클릭 이벤트 추가
         maps.event.addListener(marker, 'click', () => {
-          onPlaceClick?.(place);
-          createAndShowOverlay(map, place, isLaptop);
+          const isInRoute = routePlaceIds.has(place.locationId);
+          createAndShowOverlay(map, place, isLaptop, onAddToRoute, isInRoute);
         });
 
         return marker;
@@ -67,5 +68,5 @@ export function useKakaoMarkers(
       markersRef.current = clearMarkers(markersRef.current);
       closeGlobalOverlay();
     };
-  }, [places, mapRef, routePlaces, onPlaceClick, isLaptop]);
+  }, [places, mapRef, routePlaces, onPlaceClick, onAddToRoute, isLaptop]);
 }

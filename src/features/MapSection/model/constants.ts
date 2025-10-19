@@ -6,7 +6,7 @@ export const OVERLAY_DEFAULTS = {
 
 export const OVERLAY_STYLES = {
   container:
-    'position: relative; background: var(--color-background-primary); border-radius: 8px; box-shadow: var(--shadow-card); border: 1px solid var(--color-border-primary); min-width: 300px; max-width: 400px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;',
+    'position: relative; background: var(--color-background-primary); border-radius: 8px; box-shadow: var(--shadow-card); border: 1px solid var(--color-border-primary); width: min(90vw, 400px); max-width: 400px; min-width: 280px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;',
   header:
     'display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-4); border-bottom: 1px solid var(--color-border-primary);',
   title:

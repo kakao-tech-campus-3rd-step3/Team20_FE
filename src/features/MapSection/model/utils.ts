@@ -67,7 +67,11 @@ export const createNumberedMarkerImage = (order: number) => {
   return new maps.MarkerImage(imageDataUrl, imageSize, imageOption);
 };
 
-export function generateOverlayHTML(place: Place | RoutePlace): string {
+export function generateOverlayHTML(
+  place: Place | RoutePlace,
+  isLaptop: boolean = true,
+  isInRoute: boolean = false,
+): string {
   const {
     name = OVERLAY_DEFAULTS.name,
     address = OVERLAY_DEFAULTS.address,
@@ -85,8 +89,40 @@ export function generateOverlayHTML(place: Place | RoutePlace): string {
       ? `<div style="${OVERLAY_STYLES.relatedContents}"><p style="${OVERLAY_STYLES.relatedContentsText}">${OVERLAY_MESSAGES.relatedContentsPrefix}${relatedContents.map((content) => content.title).join(', ')}</p></div>`
       : '';
 
+  // 모바일/태블릿에서만 동선 추가 버튼 표시
+  const addToRouteButtonHtml = !isLaptop
+    ? `<div style="margin-top: 12px;">
+         <button 
+           onclick="window.addToRoute && window.addToRoute()" 
+           style="width: 100%; display: flex; align-items: center; justify-content: center; gap: var(--spacing-2); padding: var(--spacing-3) var(--spacing-4); border-radius: 8px; font-size: 14px; font-weight: 500; transition: all 0.2s; box-shadow: var(--shadow-button); ${
+             isInRoute
+               ? 'background-color: var(--color-semantic-success)/10; color: var(--color-semantic-success); border: 1px solid var(--color-semantic-success)/20; cursor: default;'
+               : 'background-color: var(--color-brand-secondary); color: var(--color-text-inverse); border: none; cursor: pointer;'
+           }"
+           ${!isInRoute ? "onmouseover=\"this.style.backgroundColor='var(--color-brand-tertiary)'; this.style.boxShadow='var(--shadow-button-hover)'\"" : ''}
+           ${!isInRoute ? "onmouseout=\"this.style.backgroundColor='var(--color-brand-secondary)'; this.style.boxShadow='var(--shadow-button)'\"" : ''}
+         >
+           ${
+             isInRoute
+               ? `<svg style="width: 16px; height: 16px;" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              동선에 추가됨`
+               : `<svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+              동선에 추가하기`
+           }
+         </button>
+       </div>`
+    : '';
+
+  const responsiveContainerStyle = isLaptop
+    ? OVERLAY_STYLES.container
+    : OVERLAY_STYLES.container.replace('width: min(90vw, 400px);', 'width: min(85vw, 350px);');
+
   return `
-    <div style="${OVERLAY_STYLES.container}">
+    <div style="${responsiveContainerStyle}">
       <div style="${OVERLAY_STYLES.header}">
         <h3 style="${OVERLAY_STYLES.title}">${name}</h3>
         <button onclick="window.closeMapOverlay && window.closeMapOverlay()" style="${OVERLAY_STYLES.closeButton}" onmouseover="this.style.backgroundColor='var(--color-background-tertiary)'" onmouseout="this.style.backgroundColor='transparent'" aria-label="${OVERLAY_MESSAGES.closeButton}">
@@ -115,6 +151,7 @@ export function generateOverlayHTML(place: Place | RoutePlace): string {
               <p style="${OVERLAY_STYLES.sceneDescription}">${description}</p>
             </div>
             ${relatedContentsHtml}
+            ${addToRouteButtonHtml}
           </div>
         </div>
       </div>
@@ -127,11 +164,21 @@ export function createMapOverlay(
   place: Place | RoutePlace,
   position: LatLng,
   onClose: () => void,
+  isLaptop: boolean = true,
+  onAddToRoute?: (place: Place | RoutePlace) => void,
+  isInRoute: boolean = false,
 ): KakaoCustomOverlay {
   const maps = getKakaoMaps();
-  const content = generateOverlayHTML(place);
+  const content = generateOverlayHTML(place, isLaptop, isInRoute);
 
   (window as unknown as { closeMapOverlay?: () => void }).closeMapOverlay = onClose;
+
+  // 동선 추가 함수를 전역으로 등록 (모바일에서만)
+  if (!isLaptop && onAddToRoute) {
+    (window as unknown as { addToRoute?: () => void }).addToRoute = () => {
+      onAddToRoute(place);
+    };
+  }
 
   const overlay = new maps.CustomOverlay({
     content,
@@ -195,12 +242,22 @@ export function createAndShowOverlay(
   map: KakaoMap,
   place: Place | RoutePlace,
   isLaptop: boolean,
+  onAddToRoute?: (place: Place | RoutePlace) => void,
+  isInRoute: boolean = false,
 ): void {
   try {
     closeGlobalOverlay();
 
     const position = getOverlayPosition(map, place, isLaptop);
-    const overlay = createMapOverlay(map, place, position, closeGlobalOverlay);
+    const overlay = createMapOverlay(
+      map,
+      place,
+      position,
+      closeGlobalOverlay,
+      isLaptop,
+      onAddToRoute,
+      isInRoute,
+    );
     setGlobalOverlay(overlay);
   } catch (e) {
     console.error('Failed to show place overlay:', e);
