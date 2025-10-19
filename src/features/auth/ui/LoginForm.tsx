@@ -61,13 +61,14 @@ export const LoginForm = () => {
               values.email &&
               values.password;
 
-            const canSubmit = hasValues && isValid && !isSubmitting;
+            const isLoading = isSubmitting || loginMutation.isPending;
+            const canSubmit = hasValues && isValid && !isLoading;
 
             return (
               <FormButton
                 type="submit"
                 variant={canSubmit ? 'primary' : 'disabled'}
-                isLoading={isSubmitting as boolean}
+                isLoading={isLoading as boolean}
                 disabled={!canSubmit as boolean}
               >
                 {AUTH_MESSAGES.LOGIN_BUTTON}

@@ -26,7 +26,6 @@ function SignupSuccessPage() {
     <EmailSentSuccess
       email={email}
       title="이메일 발송 완료!"
-      description="인증 메일이 발송되었습니다.\n이메일을 확인하여 인증을 완료해주세요."
       onResend={handleResendEmail}
       showResendButton={true}
       resendButtonText="인증 메일 재전송"

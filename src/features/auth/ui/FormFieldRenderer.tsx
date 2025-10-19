@@ -1,6 +1,9 @@
 import { FormFieldWrapper } from '@/shared/ui';
 
-//TODO : any 타입 수정 
+/**
+ * 공식문서가 any타입 쓰라고 합니다.
+ * @see https://tanstack.com/form/latest/docs/reference/classes/fieldapi
+ */
 interface FormFieldRendererProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   field: any;

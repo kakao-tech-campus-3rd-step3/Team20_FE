@@ -16,9 +16,6 @@ export const PasswordResetRequestForm = () => {
       <form onSubmit={onSubmit} className="space-y-6">
         <div>
           <FormTitle>{AUTH_MESSAGES.PASSWORD_RESET_REQUEST_TITLE}</FormTitle>
-          <p className="mt-2 text-sm text-gray-600 text-center">
-            {AUTH_MESSAGES.PASSWORD_RESET_REQUEST_DESCRIPTION}
-          </p>
         </div>
 
         {resetRequestMutation.isSuccess && (
@@ -47,9 +44,9 @@ export const PasswordResetRequestForm = () => {
               field={field}
               touchedFields={validation.touchedFields}
               getErrorMessage={validation.getErrorMessage}
-              label="이메일"
+              label={AUTH_MESSAGES.FIELD_LABEL_EMAIL}
               type="email"
-              placeholder="이메일을 입력하세요"
+              placeholder={AUTH_MESSAGES.FIELD_PLACEHOLDER_EMAIL}
             />
           )}
         </form.Field>
@@ -62,13 +59,14 @@ export const PasswordResetRequestForm = () => {
               'email' in values &&
               values.email;
 
-            const canSubmit = hasValues && isValid && !isSubmitting;
+            const isLoading = isSubmitting || resetRequestMutation.isPending;
+            const canSubmit = hasValues && isValid && !isLoading;
 
             return (
               <FormButton
                 type="submit"
                 variant={canSubmit ? 'primary' : 'disabled'}
-                isLoading={isSubmitting as boolean}
+                isLoading={isLoading as boolean}
                 disabled={!canSubmit as boolean}
               >
                 {AUTH_MESSAGES.PASSWORD_RESET_REQUEST_BUTTON}

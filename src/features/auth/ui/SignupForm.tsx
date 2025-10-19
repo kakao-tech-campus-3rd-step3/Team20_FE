@@ -67,13 +67,14 @@ export const SignupForm = () => {
               values.confirmPassword &&
               values.nickname;
 
-            const canSubmit = hasValues && isValid && !isSubmitting;
+            const isLoading = isSubmitting || signupMutation.isPending;
+            const canSubmit = hasValues && isValid && !isLoading;
 
             return (
               <FormButton
                 type="submit"
                 variant={canSubmit ? 'primary' : 'disabled'}
-                isLoading={isSubmitting as boolean}
+                isLoading={isLoading as boolean}
                 disabled={!canSubmit as boolean}
               >
                 {AUTH_MESSAGES.SIGNUP_BUTTON}
