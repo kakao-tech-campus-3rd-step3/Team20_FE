@@ -4,7 +4,7 @@ import { verifyEmailApi } from '@/entities/auth';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import axios from 'axios';
 
-export const Route = createFileRoute('/verified-email')({
+export const Route = createFileRoute('/auth/verified-email')({
     component: VerifyEmailPage,
     validateSearch: (search: Record<string, unknown>) => {
         return {
@@ -20,12 +20,6 @@ function VerifyEmailPage() {
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        const currentPath = window.location.pathname;
-        if (currentPath.includes('/reset-password') && token) {
-            navigate({ to: '/auth/reset-password', search: { token } });
-            return;
-        }
-
         const verifyEmail = async () => {
             if (!token) {
                 setStatus('error');

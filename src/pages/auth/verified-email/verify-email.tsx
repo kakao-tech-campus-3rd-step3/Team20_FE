@@ -5,7 +5,7 @@ type VerifyEmailSearch = {
   token: string;
 };
 
-export const Route = createFileRoute('/verified-email/verify-email')({
+export const Route = createFileRoute('/auth/verified-email/verify-email')({
   component: RedirectToVerifiedEmail,
   validateSearch: (search: Record<string, unknown>): VerifyEmailSearch => {
     return {
@@ -20,7 +20,7 @@ function RedirectToVerifiedEmail() {
 
   useEffect(() => {
     navigate({
-      to: '/verified-email',
+      to: '/auth/verified-email',
       search: { token },
       replace: true,
     });
