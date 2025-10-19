@@ -17,6 +17,7 @@ import { Route as LocationIdRouteImport } from './pages/location.$id'
 import { Route as ContentIdRouteImport } from './pages/content.$id'
 import { Route as AuthSignupSuccessRouteImport } from './pages/auth/signup-success'
 import { Route as AuthSignupRouteImport } from './pages/auth/signup'
+import { Route as AuthResetPasswordSuccessRouteImport } from './pages/auth/reset-password-success'
 import { Route as AuthResetPasswordRouteImport } from './pages/auth/reset-password'
 import { Route as AuthLoginRouteImport } from './pages/auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './pages/auth/forgot-password'
@@ -63,6 +64,12 @@ const AuthSignupRoute = AuthSignupRouteImport.update({
   path: '/auth/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthResetPasswordSuccessRoute =
+  AuthResetPasswordSuccessRouteImport.update({
+    id: '/auth/reset-password-success',
+    path: '/auth/reset-password-success',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
   id: '/auth/reset-password',
   path: '/auth/reset-password',
@@ -91,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/auth/reset-password-success': typeof AuthResetPasswordSuccessRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
@@ -105,6 +113,7 @@ export interface FileRoutesByTo {
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/auth/reset-password-success': typeof AuthResetPasswordSuccessRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
@@ -120,6 +129,7 @@ export interface FileRoutesById {
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/auth/reset-password-success': typeof AuthResetPasswordSuccessRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/signup-success': typeof AuthSignupSuccessRoute
   '/content/$id': typeof ContentIdRoute
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/reset-password'
+    | '/auth/reset-password-success'
     | '/auth/signup'
     | '/auth/signup-success'
     | '/content/$id'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/reset-password'
+    | '/auth/reset-password-success'
     | '/auth/signup'
     | '/auth/signup-success'
     | '/content/$id'
@@ -164,6 +176,7 @@ export interface FileRouteTypes {
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/reset-password'
+    | '/auth/reset-password-success'
     | '/auth/signup'
     | '/auth/signup-success'
     | '/content/$id'
@@ -179,6 +192,7 @@ export interface RootRouteChildren {
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
+  AuthResetPasswordSuccessRoute: typeof AuthResetPasswordSuccessRoute
   AuthSignupRoute: typeof AuthSignupRoute
   AuthSignupSuccessRoute: typeof AuthSignupSuccessRoute
   ContentIdRoute: typeof ContentIdRoute
@@ -244,6 +258,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/reset-password-success': {
+      id: '/auth/reset-password-success'
+      path: '/auth/reset-password-success'
+      fullPath: '/auth/reset-password-success'
+      preLoaderRoute: typeof AuthResetPasswordSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/reset-password': {
       id: '/auth/reset-password'
       path: '/auth/reset-password'
@@ -294,6 +315,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
+  AuthResetPasswordSuccessRoute: AuthResetPasswordSuccessRoute,
   AuthSignupRoute: AuthSignupRoute,
   AuthSignupSuccessRoute: AuthSignupSuccessRoute,
   ContentIdRoute: ContentIdRoute,

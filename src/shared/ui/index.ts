@@ -8,3 +8,4 @@ export { Input } from './Input/Input';
 export { FormField, FormFieldWrapper } from './FormField/FormField';
 export { FormTitle } from './FormTitle/FormTitle';
 export { FormNavigation } from './FormNavigation/FormNavigation';
+export { EmailSentSuccess } from './EmailSentSuccess';

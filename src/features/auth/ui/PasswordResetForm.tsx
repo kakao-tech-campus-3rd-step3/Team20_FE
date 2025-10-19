@@ -20,6 +20,38 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
     validation.createConfirmPasswordValidator,
   );
 
+  // 성공 시 성공 메시지만 표시
+  if (resetMutation.isSuccess) {
+    return (
+      <div className="w-full max-w-2xl mx-auto text-center py-12">
+        <div className="mx-auto h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+          <svg
+            className="h-8 w-8 text-green-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          비밀번호 변경 완료!
+        </h2>
+        <p className="text-gray-600 mb-2">
+          비밀번호가 성공적으로 변경되었습니다.
+        </p>
+        <p className="text-sm text-gray-500">
+          잠시 후 로그인 페이지로 이동합니다...
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={onSubmit} className="space-y-6">
@@ -29,12 +61,6 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
             {AUTH_MESSAGES.PASSWORD_RESET_DESCRIPTION}
           </p>
         </div>
-
-        {resetMutation.isSuccess && (
-          <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
-            <p className="font-medium">{AUTH_MESSAGES.PASSWORD_RESET_SUCCESS}</p>
-          </div>
-        )}
 
         {resetMutation.isError && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
