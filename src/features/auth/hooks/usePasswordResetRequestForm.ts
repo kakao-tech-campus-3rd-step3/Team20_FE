@@ -30,7 +30,7 @@ export const usePasswordResetRequestForm = () => {
           email: value.email,
         });
       } catch (error) {
-        console.error('[usePasswordResetRequestForm] 에러:', error);
+        // 에러는 mutation의 onError에서 토스트로 처리됨
       }
     },
   });

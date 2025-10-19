@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
+import { toast } from 'react-toastify';
 import { useAuth } from '@/app/providers/AuthProvider';
 import type { LoginRequest, SignupRequest } from '@/entities/auth';
 
@@ -14,8 +15,8 @@ export const useLoginMutation = () => {
         onSuccess: () => {
             navigate({ to: '/' });
         },
-        onError: (error) => {
-            console.error('Login failed:', error);
+        onError: () => {
+            toast.error('로그인에 실패했습니다');
         },
     });
 };
@@ -35,8 +36,8 @@ export const useSignupMutation = () => {
                 search: { email }
             });
         },
-        onError: (error) => {
-            console.error('Signup failed:', error);
+        onError: () => {
+            toast.error('회원가입에 실패했습니다');
         },
     });
 };

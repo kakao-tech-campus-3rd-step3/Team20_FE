@@ -29,7 +29,7 @@ export const useLoginForm = () => {
           password: value.password,
         });
       } catch (error) {
-        console.error('Login submission error:', error);
+        // 에러는 mutation의 onError에서 토스트로 처리됨
       }
     },
   });

@@ -54,8 +54,6 @@ export const useEmailVerification = (token: string): UseEmailVerificationReturn 
                     message: response.message || AUTH_MESSAGES.EMAIL_VERIFICATION_SUCCESS_DEFAULT,
                 });
             } catch (error) {
-                console.error('Verification error:', error);
-
                 if (axios.isAxiosError(error)) {
                     const statusCode = error.response?.status;
                     const serverMessage = error.response?.data?.message;

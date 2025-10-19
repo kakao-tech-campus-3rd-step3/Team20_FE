@@ -29,7 +29,7 @@ export const usePasswordResetForm = (token: string) => {
           password: value.password,
         });
       } catch (error) {
-        console.error('[usePasswordResetForm] 에러:', error);
+        // 에러는 mutation의 onError에서 토스트로 처리됨
       }
     },
   });

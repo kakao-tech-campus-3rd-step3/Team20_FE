@@ -32,7 +32,7 @@ export const useSignupForm = () => {
           nickname: value.nickname,
         });
       } catch (error) {
-        console.error('Signup submission error:', error);
+        // 에러는 mutation의 onError에서 토스트로 처리됨
       }
     },
   });
