@@ -22,7 +22,6 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDe
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="">
       <div className="-m-6">
-        {/* Header */}
         <div className="px-8 pt-7 pb-6 border-b border-gray-100">
           <div className="text-[15px] text-gray-500 mb-3">{formatDate(itinerary.createdAt)}</div>
           <h1 className="text-3xl font-semibold text-gray-900 mb-3">{itinerary.title}</h1>
@@ -31,7 +30,6 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDe
           )}
         </div>
 
-        {/* Locations */}
         <div className="px-8 py-7">
           <div className="space-y-4">
             {itinerary.locations.map((location, index) => {
@@ -40,7 +38,6 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDe
 
               return (
                 <div key={location.locationId} className="flex gap-5">
-                  {/* Timeline */}
                   <div className="flex flex-col items-center pt-1.5">
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium shrink-0 ${isFirst
@@ -55,7 +52,6 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDe
                     {!isLast && <div className="w-[1.5px] h-full bg-gray-200 mt-2.5 mb-1"></div>}
                   </div>
 
-                  {/* Content */}
                   <div className="flex-1 pb-1 min-w-0">
                     <div className="flex items-baseline gap-2.5 mb-1.5">
                       <h3 className="font-semibold text-gray-900 text-lg">{location.name}</h3>
@@ -74,13 +70,15 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDe
           </div>
         </div>
 
-        {/* Actions */}
         <div className="px-8 pb-7 pt-2 flex gap-3">
           <button className="flex-1 h-12 bg-brand-secondary text-white text-base font-medium rounded-lg hover:bg-brand-secondary/90 transition-colors">
             지도에서 보기
           </button>
-          <button className="flex-1 h-12 bg-white border-2 border-brand-secondary text-brand-secondary text-base font-medium rounded-lg hover:bg-brand-primary/30 transition-colors">
-            동선 수정
+          <button
+            onClick={onClose}
+            className="flex-1 h-12 bg-white border-2 border-gray-300 text-gray-700 text-base font-medium rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            모달 닫기
           </button>
         </div>
       </div>
