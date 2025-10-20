@@ -11,7 +11,7 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
+        className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {title && (

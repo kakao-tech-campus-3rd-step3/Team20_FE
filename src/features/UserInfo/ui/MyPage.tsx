@@ -63,7 +63,6 @@ export const MyPage = () => {
       <main className="max-w-7xl mx-auto px-8 py-12">
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">나의 동선</h2>
-          <p className="text-gray-600">저장한 여행 동선을 확인하고 관리하세요</p>
         </div>
 
         <ItineraryList itineraries={data.list} onItineraryClick={handleItineraryClick} />
