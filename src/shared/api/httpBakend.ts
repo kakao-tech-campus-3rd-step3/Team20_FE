@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { tokenStorage } from './tokenStorage';
+import axios, { type InternalAxiosRequestConfig } from 'axios';
 
 export interface ApiResponse<T = unknown> {
   status: number;
@@ -19,6 +18,12 @@ export const httpBackend = axios.create({
   withCredentials: true,
 });
 
+// 재시도 여부를 추적하기 위한 커스텀 config 타입
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
+// 응답 데이터 변환 인터셉터 (먼저 등록 - 나중에 실행됨)
 httpBackend.interceptors.response.use(
   (response) => {
     if (response.data && 'data' in response.data) {
@@ -40,31 +45,41 @@ httpBackend.interceptors.response.use(
   },
 );
 
-const PUBLIC_API_PATHS = [
-  '/api/users/login',
-  '/api/users',
-  '/api/password-reset',
-  '/contents',
-  '/locations',
-];
+// 401 에러 처리 및 토큰 재발급 인터셉터 (나중에 등록 - 먼저 실행됨)
+httpBackend.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config as CustomAxiosRequestConfig;
 
-httpBackend.interceptors.request.use(
-  (config) => {
-    const url = config.url || '';
+    if (axios.isAxiosError(error) && error.response) {
+      console.log('[Interceptor] Error caught:', {
+        status: error.response.status,
+        url: originalRequest.url,
+        retry: originalRequest._retry,
+      });
 
-    const isPublicApi = PUBLIC_API_PATHS.some((path) => url.startsWith(path));
-    if (isPublicApi) {
-      return config;
+      // 401 에러이고, 재시도하지 않은 요청이며, refresh/status 엔드포인트가 아닌 경우
+      if (
+  error.response.status === 401 &&
+  !originalRequest._retry &&
+  originalRequest.url !== '/api/users/refresh' // /status 체크 제거
+) {
+        originalRequest._retry = true;
+
+        try {
+          console.log('[Token Refresh] Attempting to refresh token...');
+          // 토큰 재발급 시도
+          await httpBackend.post('/api/users/refresh');
+          console.log('[Token Refresh] Token refreshed successfully');
+          // 재발급 성공 시 원래 요청 재시도
+          return httpBackend(originalRequest);
+        } catch (refreshError) {
+          console.error('[Token Refresh Failed]', refreshError);
+          return Promise.reject(refreshError);
+        }
+      }
     }
 
-    const token = tokenStorage.getToken();
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return config;
-  },
-  (error) => {
     return Promise.reject(error);
   },
 );

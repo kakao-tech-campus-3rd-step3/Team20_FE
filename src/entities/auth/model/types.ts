@@ -8,7 +8,6 @@ export interface LoginResponse {
   userId: string;
   email: string;
   nickname: string;
-  accessToken: string;
 }
 
 export interface SignupRequest {
@@ -41,5 +40,13 @@ export interface EmailResendRequest {
 }
 
 export interface EmailResendResponse {
+  message: string;
+}
+
+export interface AuthStatusResponse {
+  isLoggedIn: boolean;
+}
+
+export interface RefreshTokenResponse {
   message: string;
 }

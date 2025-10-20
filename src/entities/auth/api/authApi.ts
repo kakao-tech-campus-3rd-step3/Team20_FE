@@ -7,6 +7,8 @@ import type {
   EmailVerificationResponse,
   EmailResendRequest,
   EmailResendResponse,
+  AuthStatusResponse,
+  RefreshTokenResponse,
 } from '../model/types';
 
 export const loginApi = async (credentials: LoginRequest): Promise<LoginResponse> => {
@@ -31,4 +33,12 @@ export const resendVerificationEmailApi = async (
     '/api/emails/request',
     data,
   );
+};
+
+export const checkAuthStatusApi = async (): Promise<AuthStatusResponse> => {
+  return await httpBackend.get<unknown, AuthStatusResponse>('/api/users/status');
+};
+
+export const refreshTokenApi = async (): Promise<RefreshTokenResponse> => {
+  return await httpBackend.post<unknown, RefreshTokenResponse>('/api/users/refresh');
 };

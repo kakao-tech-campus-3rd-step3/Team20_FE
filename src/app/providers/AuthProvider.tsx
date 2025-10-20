@@ -1,13 +1,11 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import axios from 'axios';
 import type { User, LoginRequest, SignupRequest } from '@/entities/auth';
-import { loginApi, signupApi } from '@/entities/auth/api/authApi';
-import { tokenStorage } from '@/shared/api/tokenStorage';
+import { loginApi, signupApi, checkAuthStatusApi } from '@/entities/auth/api/authApi';
 
 interface AuthContextType {
   user: User | null;
-  accessToken: string | null;
-  isAuthenticated: boolean;
+  isLoggedIn: boolean;
   isLoading: boolean;
   login: (credentials: LoginRequest) => Promise<void>;
   signup: (userData: SignupRequest) => Promise<void>;
@@ -21,10 +19,27 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 새로고침 및 새탭에서 로그인 상태 확인
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await checkAuthStatusApi();
+        setIsLoggedIn(response.isLoggedIn);
+      } catch (error) {
+        console.error('Auth status check failed:', error);
+        setIsLoggedIn(false);
+        setUser(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
 
   const login = async (credentials: LoginRequest) => {
     try {
@@ -36,11 +51,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         nickname: response.nickname,
       };
 
-      setAccessToken(response.accessToken);
       setUser(newUser);
-      setIsAuthenticated(true);
-
-      tokenStorage.setToken(response.accessToken);
+      setIsLoggedIn(true);
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
@@ -61,16 +73,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    setAccessToken(null);
     setUser(null);
-    setIsAuthenticated(false);
-    tokenStorage.removeToken();
+    setIsLoggedIn(false);
   };
 
   const value: AuthContextType = {
     user,
-    accessToken,
-    isAuthenticated,
+    isLoggedIn,
     isLoading,
     login,
     signup,
