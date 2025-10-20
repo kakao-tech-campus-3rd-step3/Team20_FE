@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import axios from 'axios';
 import type { User, LoginRequest, SignupRequest } from '@/entities/auth';
-import { loginApi, signupApi, checkAuthStatusApi } from '@/entities/auth/api/authApi';
+import { loginApi, signupApi, checkAuthStatusApi, logoutApi } from '@/entities/auth/api/authApi';
 
 interface AuthContextType {
   user: User | null;
@@ -9,7 +9,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (credentials: LoginRequest) => Promise<void>;
   signup: (userData: SignupRequest) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 새로고침 및 새탭에서 로그인 상태 확인
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
@@ -63,7 +62,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       await signupApi(userData);
     } catch (error) {
-      console.error('❌ Signup failed:', error);
+      console.error('Signup failed:', error);
       if (axios.isAxiosError(error)) {
         console.error('Response data:', error.response?.data);
         console.error('Response status:', error.response?.status);
@@ -72,9 +71,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    setIsLoggedIn(false);
+  const logout = async () => {
+    try {
+      await logoutApi();
+      setUser(null);
+      setIsLoggedIn(false);
+    } catch (error) { //실패해도 일단 초기화
+      setUser(null); 
+      setIsLoggedIn(false);
+    }
   };
 
   const value: AuthContextType = {

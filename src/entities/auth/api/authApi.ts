@@ -42,3 +42,7 @@ export const checkAuthStatusApi = async (): Promise<AuthStatusResponse> => {
 export const refreshTokenApi = async (): Promise<RefreshTokenResponse> => {
   return await httpBackend.post<unknown, RefreshTokenResponse>('/api/users/refresh');
 };
+
+export const logoutApi = async (): Promise<void> => {
+  await httpBackend.post('/api/users/logout');
+};

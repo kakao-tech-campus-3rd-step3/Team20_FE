@@ -7,9 +7,9 @@ export function ProfileButton() {
   const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (isLoggedIn) {
-      logout();
+      await logout();
       navigate({ to: '/' });
     } else {
       navigate({ to: '/auth/login' });
