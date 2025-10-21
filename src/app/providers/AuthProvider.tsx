@@ -1,18 +1,8 @@
-import { createContext, useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import axios from 'axios';
 import type { User, LoginRequest, SignupRequest } from '@/entities/auth';
 import { loginApi, signupApi, checkAuthStatusApi, logoutApi } from '@/entities/auth/api/authApi';
-
-export interface AuthContextType {
-  user: User | null;
-  isLoggedIn: boolean;
-  isLoading: boolean;
-  login: (credentials: LoginRequest) => Promise<void>;
-  signup: (userData: SignupRequest) => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { AuthContext, type AuthContextType } from '@/shared/lib/auth';
 
 interface AuthProviderProps {
   children: ReactNode;

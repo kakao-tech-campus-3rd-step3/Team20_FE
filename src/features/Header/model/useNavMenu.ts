@@ -2,7 +2,7 @@
 import { useMemo } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { LogOut } from 'lucide-react';
-import { useAuth } from '@/app/providers/useAuth';
+import { useAuth } from '@/shared/lib/auth';
 import { MENU } from './utils';
 import { navRouteMap } from './constants';
 import type { NavKey, MenuItem } from './types';
