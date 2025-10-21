@@ -1,8 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { PasswordResetForm } from '@/features/auth';
 
 export const Route = createFileRoute('/auth/reset-password')({
     component: ResetPasswordPage,
+    beforeLoad: async ({ context }) => {
+        if (context.auth.isLoggedIn) {
+            throw redirect({ to: '/mypage' });
+        }
+    },
     validateSearch: (search: Record<string, unknown>) => {
         return {
             token: (search.token as string) || '',

@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { resendVerificationEmailApi } from '@/entities/auth';
 import { EmailSentSuccess } from '@/shared/ui';
 
@@ -8,6 +8,11 @@ type SignupSuccessSearch = {
 
 export const Route = createFileRoute('/auth/signup-success')({
   component: SignupSuccessPage,
+  beforeLoad: async ({ context }) => {
+    if (context.auth.isLoggedIn) {
+      throw redirect({ to: '/mypage' });
+    }
+  },
   validateSearch: (search: Record<string, unknown>): SignupSuccessSearch => {
     return {
       email: (search.email as string) || '',
