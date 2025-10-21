@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './pages/__root'
 import { Route as TermsRouteImport } from './pages/terms'
 import { Route as PrivacyRouteImport } from './pages/privacy'
 import { Route as NotFoundRouteImport } from './pages/not-found'
+import { Route as MypageRouteImport } from './pages/mypage'
 import { Route as MapRouteImport } from './pages/map'
 import { Route as ContactRouteImport } from './pages/contact'
 import { Route as IndexRouteImport } from './pages/index'
@@ -41,6 +42,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const NotFoundRoute = NotFoundRouteImport.update({
   id: '/not-found',
   path: '/not-found',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MypageRoute = MypageRouteImport.update({
+  id: '/mypage',
+  path: '/mypage',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MapRoute = MapRouteImport.update({
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/map': typeof MapRoute
+  '/mypage': typeof MypageRoute
   '/not-found': typeof NotFoundRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/map': typeof MapRoute
+  '/mypage': typeof MypageRoute
   '/not-found': typeof NotFoundRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/map': typeof MapRoute
+  '/mypage': typeof MypageRoute
   '/not-found': typeof NotFoundRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/'
     | '/contact'
     | '/map'
+    | '/mypage'
     | '/not-found'
     | '/privacy'
     | '/terms'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/'
     | '/contact'
     | '/map'
+    | '/mypage'
     | '/not-found'
     | '/privacy'
     | '/terms'
@@ -229,6 +240,7 @@ export interface FileRouteTypes {
     | '/'
     | '/contact'
     | '/map'
+    | '/mypage'
     | '/not-found'
     | '/privacy'
     | '/terms'
@@ -250,6 +262,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
   MapRoute: typeof MapRoute
+  MypageRoute: typeof MypageRoute
   NotFoundRoute: typeof NotFoundRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
@@ -288,6 +301,13 @@ declare module '@tanstack/react-router' {
       path: '/not-found'
       fullPath: '/not-found'
       preLoaderRoute: typeof NotFoundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mypage': {
+      id: '/mypage'
+      path: '/mypage'
+      fullPath: '/mypage'
+      preLoaderRoute: typeof MypageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/map': {
@@ -402,6 +422,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
   MapRoute: MapRoute,
+  MypageRoute: MypageRoute,
   NotFoundRoute: NotFoundRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
