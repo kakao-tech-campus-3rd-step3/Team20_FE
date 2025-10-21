@@ -9,24 +9,24 @@ import type { NavKey, MenuItem } from './types';
 
 export function useNavMenu(onSelect?: (key: NavKey) => void) {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
 
   const menuItems = useMemo(() => {
     return MENU.map((item) => {
       if (item.key === 'auth') {
         return {
           ...item,
-          label: isAuthenticated ? '로그아웃' : '로그인',
-          Icon: isAuthenticated ? LogOut : item.Icon,
+          label: isLoggedIn ? '로그아웃' : '로그인',
+          Icon: isLoggedIn ? LogOut : item.Icon,
         };
       }
       return item;
     }) as ReadonlyArray<MenuItem>;
-  }, [isAuthenticated]);
+  }, [isLoggedIn]);
 
-  const handleNavClick = (key: NavKey) => {
-    if (key === 'auth' && isAuthenticated) {
-      logout();
+  const handleNavClick = async (key: NavKey) => {
+    if (key === 'auth' && isLoggedIn) {
+      await logout();
     } else {
       const routeOptions = navRouteMap[key];
       navigate(routeOptions);

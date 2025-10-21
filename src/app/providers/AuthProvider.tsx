@@ -76,8 +76,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await logoutApi();
       setUser(null);
       setIsLoggedIn(false);
-    } catch (error) { //실패해도 일단 초기화
-      setUser(null); 
+    } catch {
+      // 실패해도 일단 초기화
+      setUser(null);
       setIsLoggedIn(false);
     }
   };
