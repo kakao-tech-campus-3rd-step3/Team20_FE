@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocationImageCarousel } from '../../hooks/useLocationImageCarousel';
 import { useLocationData } from '../../hooks/useLocationData';
 import { LocationImageHeader } from '../LocationImageHeader/LocationImageHeader';
@@ -8,10 +9,17 @@ import type { LocationImageCarouselProps } from '../../model/types';
 
 export function LocationImageCarousel({ contentId }: LocationImageCarouselProps) {
   const { locations } = useLocationData(contentId);
+  const [showAllThumbnails, setShowAllThumbnails] = useState(false);
 
   const { scenes, currentIndex, nextSlide, prevSlide, goToSlide } = useLocationImageCarousel({
     locations,
   });
+
+  const handleToggleThumbnails = () => {
+    setShowAllThumbnails(!showAllThumbnails);
+  };
+
+  const displayScenes = showAllThumbnails ? scenes : scenes.slice(0, 4);
 
   if (scenes.length === 0) {
     return (
@@ -39,12 +47,14 @@ export function LocationImageCarousel({ contentId }: LocationImageCarouselProps)
         />
 
         <LocationImageThumbnails
-          scenes={scenes}
+          scenes={displayScenes}
           currentIndex={currentIndex}
           onGoToSlide={goToSlide}
         />
 
-        <LocationImageActionButton />
+        {scenes.length > 4 && (
+          <LocationImageActionButton onClick={handleToggleThumbnails} showAll={showAllThumbnails} />
+        )}
       </div>
     </section>
   );

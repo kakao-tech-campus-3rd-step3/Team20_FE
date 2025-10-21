@@ -1,9 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { ServiceMainHero } from '@/features/ServiceMainHero';
 import { CategorySection } from '@/features/CategorySection';
-import { PopularCarousel } from '@/features/PopularCarousel';
-import { SpotPreview } from '@/features/SpotPreview';
-import { PopularRoutes } from '@/features/PopularRoutes';
+import { PopularSection } from '@/features/PopularSection';
 
 export const Route = createFileRoute('/')({
   component: HomePage,
@@ -11,12 +9,10 @@ export const Route = createFileRoute('/')({
 
 function HomePage() {
   return (
-    <main className="mx-auto max-w-7xl px-4">
+    <main className="mx-auto max-w-screen-2xl px-[var(--spacing-container-padding)] md:px-[var(--spacing-container-padding-tablet)] lg:px-[var(--spacing-container-padding-desktop)]">
       <ServiceMainHero />
       <CategorySection />
-      <PopularCarousel />
-      <SpotPreview />
-      <PopularRoutes />
+      <PopularSection />
     </main>
   );
 }

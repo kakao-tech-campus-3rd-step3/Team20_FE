@@ -1,16 +1,31 @@
 import type { LocationImageThumbnailsProps } from '../../model/types';
+import { useNavigate } from '@tanstack/react-router';
 
 export function LocationImageThumbnails({
   scenes,
   currentIndex,
   onGoToSlide,
 }: LocationImageThumbnailsProps) {
+  const navigate = useNavigate();
+
+  const handleThumbnailClick = (sceneId: string, event: React.MouseEvent) => {
+    event.preventDefault();
+    navigate({ to: `/location/${sceneId}` });
+  };
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-(--spacing-4)">
       {scenes.map((scene, index) => (
         <div
           key={scene.id}
-          onClick={() => onGoToSlide(index)}
+          onClick={(event) => {
+            if (event.ctrlKey || event.metaKey) {
+              // Ctrl/Cmd + 클릭시 슬라이드 변경
+              onGoToSlide(index);
+            } else {
+              // 일반 클릭시 location 상세 페이지로 이동
+              handleThumbnailClick(scene.id.toString(), event);
+            }
+          }}
           className={`relative aspect-video rounded-(--radius-xl) overflow-hidden cursor-pointer transition-all duration-300 ${
             index === currentIndex
               ? 'ring-2 ring-(--color-brand-secondary) scale-105'

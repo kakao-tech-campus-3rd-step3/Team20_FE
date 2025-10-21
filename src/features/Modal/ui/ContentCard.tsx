@@ -8,34 +8,12 @@ export function ContentCard({ content }: ContentCardProps) {
     navigate({ to: '/content/$id', params: { id: String(content.contentId) } });
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'DRAMA':
-        return 'bg-blue-100 text-blue-800';
-      case 'MOVIE':
-        return 'bg-green-100 text-green-800';
-      case 'POP':
-        return 'bg-purple-100 text-purple-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
   return (
     <div
-      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer hover:-translate-y-1"
+      className="rounded-xl overflow-hidden cursor-pointer transition-all duration-200 bg-[var(--color-background-primary)] border border-[var(--color-border-primary)] shadow-[var(--shadow-card)] hover:shadow-[0_12px_28px_-12px_color-mix(in_oklab,var(--color-gray-950)_35%,transparent)] hover:-translate-y-1"
       onClick={handleClick}
     >
-      <div className="relative w-full h-48 overflow-hidden">
+      <div className="relative w-full aspect-[3/4] overflow-hidden">
         <img
           src={content.posterImageUrl}
           alt={content.title}
@@ -45,21 +23,6 @@ export function ContentCard({ content }: ContentCardProps) {
             target.src = '/placeholder-image.png';
           }}
         />
-      </div>
-      <div className="p-4">
-        {content.category && (
-          <span
-            className={`inline-block text-xs font-medium px-2 py-1 rounded-md mb-2 ${getCategoryColor(content.category)}`}
-          >
-            {content.category}
-          </span>
-        )}
-        <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight">
-          {content.title}
-        </h3>
-        {content.releaseDate && (
-          <p className="text-sm text-gray-500">{formatDate(content.releaseDate)}</p>
-        )}
       </div>
     </div>
   );

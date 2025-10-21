@@ -8,6 +8,8 @@
   --color-brand-primary: #eccbee;
   --color-brand-secondary: #a864a2;
   --color-brand-tertiary: #c480d4;
+  /* RGB 분해 값 (투명도 제어용) */
+  --color-brand-secondary-rgb: 168 100 162;
 
   /* 시맨틱 색상 */
   --color-semantic-success: #10b981;

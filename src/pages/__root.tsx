@@ -1,5 +1,6 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { GlobalLayout } from '@/app/layout/GlobalLayout';
+import { NotFoundPage } from './not-found';
 
 export const Route = createRootRoute({
   component: () => (
@@ -10,4 +11,5 @@ export const Route = createRootRoute({
       )}
     </GlobalLayout>
   ),
+  notFoundComponent: NotFoundPage,
 });

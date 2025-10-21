@@ -19,6 +19,5 @@ export interface ContentOverviewInfoProps {
 }
 
 export interface ContentOverviewActionButtonsProps {
-  onLocationViewClick?: () => void;
   onMapViewClick?: () => void;
 }
