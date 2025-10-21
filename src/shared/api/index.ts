@@ -1,2 +1,2 @@
 export * from './http';
-export { httpBackend } from './httpBakend';
+export { httpBackend } from './httpBackend';

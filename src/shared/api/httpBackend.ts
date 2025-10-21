@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { tokenStorage } from './tokenStorage';
+import axios, { type InternalAxiosRequestConfig } from 'axios';
 
 export interface ApiResponse<T = unknown> {
   status: number;
@@ -7,11 +6,7 @@ export interface ApiResponse<T = unknown> {
   data: T;
 }
 
-// FE api와 BE api연동간 기존 코드 호환성 문제때문에 별도의 axios 객체를 만들었습니다.
-// 일단 하드 코딩 해둘게요. 
-//추석연휴간 GET 함수를 구현할때는 토큰 사용하실 일 없으실거예요.
-
-const baseURL = 'https://k-spot.kro.kr';
+const baseURL = import.meta.env.DEV ? '' : import.meta.env.VITE_BACKEND_URL;
 
 export const httpBackend = axios.create({
   baseURL,
@@ -19,11 +14,21 @@ export const httpBackend = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
+// 재시도 여부를 추적하기 위한 커스텀 config 타입
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
+// 응답 데이터 변환 인터셉터 (먼저 등록 - 나중에 실행됨)
 httpBackend.interceptors.response.use(
   (response) => {
-    return response.data.data;
+    if (response.data && typeof response.data === 'object' && 'data' in response.data) {
+      return response.data.data;
+    }
+    return response.data;
   },
   (error) => {
     if (axios.isAxiosError(error)) {
@@ -39,25 +44,37 @@ httpBackend.interceptors.response.use(
   },
 );
 
-const PUBLIC_API_PATHS = ['/api/users/login', '/api/users', '/contents', '/locations'];
+// 401 에러 처리 및 토큰 재발급 인터셉터 (나중에 등록 - 먼저 실행됨)
+httpBackend.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config as CustomAxiosRequestConfig;
 
-httpBackend.interceptors.request.use(
-  (config) => {
-    const url = config.url || '';
+    if (axios.isAxiosError(error) && error.response) {
+      const url = originalRequest.url || '';
 
-    const isPublicApi = PUBLIC_API_PATHS.some((path) => url.startsWith(path));
-    if (isPublicApi) {
-      return config;
+      // 401 에러이고, 재시도하지 않은 요청이며, refresh 엔드포인트가 아닌 경우
+      if (
+        error.response.status === 401 &&
+        !originalRequest._retry &&
+        url !== '/api/users/refresh'
+      ) {
+        originalRequest._retry = true;
+
+        try {
+          console.log('[Token Refresh] Attempting to refresh token...');
+          // 토큰 재발급 시도
+          await httpBackend.post('/api/users/refresh');
+          console.log('[Token Refresh] Token refreshed successfully');
+          // 재발급 성공 시 원래 요청 재시도
+          return httpBackend(originalRequest);
+        } catch (refreshError) {
+          console.error('[Token Refresh Failed]', refreshError);
+          return Promise.reject(refreshError);
+        }
+      }
     }
 
-    const token = tokenStorage.getToken();
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return config;
-  },
-  (error) => {
     return Promise.reject(error);
   },
 );
