@@ -1,7 +1,7 @@
 import { User, LogOut } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
 import { IconButton } from '@/shared/ui';
-import { useAuth } from '@/app/providers/AuthProvider';
+import { useAuth } from '@/app/providers/useAuth';
 
 export function ProfileButton() {
   const { isLoggedIn, logout } = useAuth();

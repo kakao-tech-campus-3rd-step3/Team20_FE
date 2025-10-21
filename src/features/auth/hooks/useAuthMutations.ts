@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useAuth } from '@/app/providers/AuthProvider';
+import { useAuth } from '@/app/providers/useAuth';
 import type { LoginRequest, SignupRequest } from '@/entities/auth';
 
 const getErrorMessage = (error: unknown, defaultMessage: string): string => {

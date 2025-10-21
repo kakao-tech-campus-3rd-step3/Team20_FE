@@ -1,7 +1,7 @@
 //테스트용으로 만든거라 삭제될 예정입니다.
 import { useMemo } from 'react';
 import { LogOut } from 'lucide-react';
-import { useAuth } from '@/app/providers/AuthProvider';
+import { useAuth } from '@/app/providers/useAuth';
 import { useNavigate } from '@tanstack/react-router';
 import { MENU } from './utils';
 import { navRouteMap } from './constants';
