@@ -1,20 +1,7 @@
-import type { Itinerary } from '../model/types';
-
-interface ItineraryCardProps {
-  itinerary: Itinerary;
-  onClick: () => void;
-}
+import { messages } from '../model/messages';
+import type { ItineraryCardProps } from '../model/types';
 
 export const ItineraryCard = ({ itinerary, onClick }: ItineraryCardProps) => {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
-  };
-
   return (
     <div
       onClick={onClick}
@@ -25,7 +12,7 @@ export const ItineraryCard = ({ itinerary, onClick }: ItineraryCardProps) => {
       <div className="relative z-10 space-y-4">
         <div className="inline-flex items-center justify-center px-4 py-1.5 bg-white/80 backdrop-blur-sm rounded-full border border-brand-secondary/20 mb-2">
           <span className="text-sm font-semibold text-brand-secondary">
-            {itinerary.locations.length}개 장소
+            {messages.locationsCount(itinerary.locations.length)}
           </span>
         </div>
 

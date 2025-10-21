@@ -1,3 +1,4 @@
+//TODO 테스트용 api임으로 추후 entities로 이동예정
 import { httpBackend } from '@/shared/api/httpBackend';
 import { tokenStorage } from '@/shared/api/tokenStorage';
 import type { MyPageData } from '../model/types';

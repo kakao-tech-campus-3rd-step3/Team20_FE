@@ -1,11 +1,6 @@
 import { Modal } from '@/features/Modal/ui/Modal';
-import type { Itinerary } from '../model/types';
-
-interface ItineraryDetailModalProps {
-  itinerary: Itinerary | null;
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { messages } from '../model/messages';
+import type { ItineraryDetailModalProps } from '../model/types';
 
 export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDetailModalProps) => {
   if (!itinerary) return null;
@@ -56,10 +51,14 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDe
                     <div className="flex items-baseline gap-2.5 mb-1.5">
                       <h3 className="font-semibold text-gray-900 text-lg">{location.name}</h3>
                       {isFirst && (
-                        <span className="text-xs text-blue-600 font-medium whitespace-nowrap">출발</span>
+                        <span className="text-xs text-blue-600 font-medium whitespace-nowrap">
+                          {messages.startLabel}
+                        </span>
                       )}
                       {isLast && (
-                        <span className="text-xs text-gray-900 font-medium whitespace-nowrap">도착</span>
+                        <span className="text-xs text-gray-900 font-medium whitespace-nowrap">
+                          {messages.endLabel}
+                        </span>
                       )}
                     </div>
                     <p className="text-[15px] text-gray-500 leading-relaxed break-words">{location.address}</p>
@@ -72,13 +71,13 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDe
 
         <div className="px-8 pb-7 pt-2 flex gap-3">
           <button className="flex-1 h-12 bg-brand-secondary text-white text-base font-medium rounded-lg hover:bg-brand-secondary/90 transition-colors">
-            지도에서 보기
+            {messages.viewOnMap}
           </button>
           <button
             onClick={onClose}
             className="flex-1 h-12 bg-white border-2 border-gray-300 text-gray-700 text-base font-medium rounded-lg hover:bg-gray-50 transition-colors"
           >
-            모달 닫기
+            {messages.closeModal}
           </button>
         </div>
       </div>
