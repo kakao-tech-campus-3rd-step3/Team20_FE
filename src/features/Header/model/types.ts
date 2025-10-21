@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 import type { NavigateOptions, RegisteredRouter } from '@tanstack/react-router';
 
-export type NavKey = 'home' | 'map';
+export type NavKey = 'home' | 'map' | 'auth';
 
 export type MenuItem = {
   key: NavKey;
@@ -15,6 +15,7 @@ export type RouterNavigateOptions = NavigateOptions<RegisteredRouter>;
 export type NavRouteMap = {
   home: { to: '/' };
   map: { to: '/map' };
+  auth: { to: '/auth/login' };
 };
 
 export type NavMenuProps = {

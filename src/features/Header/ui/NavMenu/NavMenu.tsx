@@ -1,15 +1,16 @@
 import { IconButton } from '@/shared/ui';
-import { MENU } from '../../model/utils';
 import type { NavMenuProps } from '../../model/types';
-import { useResolvedActiveKey, useNavActions } from '../../model/hooks';
+import { useActiveNavKey } from '../../model/hooks';
+import { useNavMenu } from '../../model/useNavMenu';
 
 export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
-  const activeKey = useResolvedActiveKey(controlledActive);
-  const { onItemClick } = useNavActions(onSelect);
+  const autoActive = useActiveNavKey();
+  const activeKey = controlledActive ?? autoActive;
+  const { menuItems, handleNavClick } = useNavMenu(onSelect);
 
   return (
     <nav aria-label="주요 메뉴" className="hidden md:flex items-center gap-(--spacing-4)">
-      {MENU.map(({ key, label, Icon }) => (
+      {menuItems.map(({ key, label, Icon }) => (
         <IconButton
           key={key}
           Icon={Icon}
@@ -18,7 +19,7 @@ export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
           variant="soft"
           active={key === activeKey}
           aria-current={key === activeKey ? 'page' : undefined}
-          onClick={() => onItemClick(key)}
+          onClick={() => handleNavClick(key)}
         >
           {label}
         </IconButton>
