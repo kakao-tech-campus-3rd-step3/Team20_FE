@@ -1,8 +1,13 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router';
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { GlobalLayout } from '@/app/layout/GlobalLayout';
 import { NotFoundPage } from './not-found';
+import type { AuthContextType } from '@/shared/lib/auth/AuthContext';
 
-export const Route = createRootRoute({
+interface RouterContext {
+  auth: AuthContextType;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <GlobalLayout>
       <Outlet />
