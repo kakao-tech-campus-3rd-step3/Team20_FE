@@ -21,6 +21,8 @@ interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
 }
 
+let refreshTokenPromise: Promise<unknown> | null = null;
+
 httpBackend.interceptors.response.use(
   (response) => {
     if (response.data && typeof response.data === 'object' && 'data' in response.data) {
@@ -49,14 +51,22 @@ httpBackend.interceptors.response.use(
 
     if (axios.isAxiosError(error) && error.response) {
       const url = originalRequest.url || '';
+
       if (
         error.response.status === 401 &&
         !originalRequest._retry &&
         url !== '/api/users/refresh'
       ) {
         originalRequest._retry = true;
+
+        if (!refreshTokenPromise) {
+          refreshTokenPromise = httpBackend.post('/api/users/refresh').finally(() => {
+            refreshTokenPromise = null;
+          });
+        }
+
         try {
-          await httpBackend.post('/api/users/refresh');
+          await refreshTokenPromise;
           return httpBackend(originalRequest);
         } catch (refreshError) {
           return Promise.reject(refreshError);
