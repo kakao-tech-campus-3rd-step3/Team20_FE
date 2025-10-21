@@ -1,4 +1,4 @@
-import { httpBackend } from '@/shared/api/httpBakend';
+import { httpBackend } from '@/shared/api/httpBackend';
 import type {
   LoginRequest,
   LoginResponse,

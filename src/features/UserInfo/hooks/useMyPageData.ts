@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { myPageApi } from '../api/myPageApi';
+import { getMyPage } from '@/entities/user';
 
 export const useMyPageData = () => {
   return useQuery({
     queryKey: ['mypage'],
-    queryFn: myPageApi.getMyPage,
+    queryFn: getMyPage,
   });
 };

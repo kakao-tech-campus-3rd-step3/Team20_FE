@@ -23,8 +23,8 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      '/api': {
-        target: 'https://k-spot.kro.kr',
+      '^/(api|contents|locations|itineraries)': {
+        target: process.env.VITE_BACKEND_URL,
         changeOrigin: true,
         secure: false,
       },
