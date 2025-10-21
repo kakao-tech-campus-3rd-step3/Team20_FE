@@ -1,7 +1,4 @@
-interface UserProfileProps {
-  email: string;
-  nickname: string;
-}
+import type { UserProfileProps } from '../model/types';
 
 export const UserProfile = ({ email, nickname }: UserProfileProps) => {
   return (

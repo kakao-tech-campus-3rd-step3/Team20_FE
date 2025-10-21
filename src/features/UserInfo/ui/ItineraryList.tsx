@@ -1,10 +1,6 @@
-import type { Itinerary } from '../model/types';
+import { messages } from '../model/messages';
+import type { ItineraryListProps } from '../model/types';
 import { ItineraryCard } from './ItineraryCard';
-
-interface ItineraryListProps {
-  itineraries: Itinerary[];
-  onItineraryClick: (itinerary: Itinerary) => void;
-}
 
 export const ItineraryList = ({ itineraries, onItineraryClick }: ItineraryListProps) => {
   if (itineraries.length === 0) {
@@ -25,12 +21,10 @@ export const ItineraryList = ({ itineraries, onItineraryClick }: ItineraryListPr
             />
           </svg>
         </div>
-        <h3 className="text-2xl font-semibold text-gray-900 mb-3">아직 저장한 동선이 없어요</h3>
-        <p className="text-gray-500 text-lg mb-8 max-w-md mx-auto">
-          여행 계획을 세우고 나만의 동선을 만들어보세요. 완벽한 여행이 시작됩니다.
-        </p>
+        <h3 className="text-2xl font-semibold text-gray-900 mb-3">{messages.emptyTitle}</h3>
+        <p className="text-gray-500 text-lg mb-8 max-w-md mx-auto">{messages.emptyDescription}</p>
         <button className="bg-gradient-to-r from-brand-primary to-brand-tertiary text-brand-secondary px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-brand-primary/25 transition-all duration-300 transform hover:scale-105">
-          동선 만들기
+          {messages.createItinerary}
         </button>
       </div>
     );

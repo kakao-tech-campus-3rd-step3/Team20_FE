@@ -3,6 +3,7 @@ import { useMyPageData } from '../hooks/useMyPageData';
 import { UserProfile } from './UserProfile';
 import { ItineraryList } from './ItineraryList';
 import { ItineraryDetailModal } from './ItineraryDetailModal';
+import { messages } from '../model/messages';
 import type { Itinerary } from '../model/types';
 
 export const MyPage = () => {
@@ -25,7 +26,7 @@ export const MyPage = () => {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-brand-primary/30 border-t-brand-secondary rounded-full animate-spin mx-auto mb-4"></div>
-          <div className="text-gray-600 text-lg font-light">로딩 중...</div>
+          <div className="text-gray-600 text-lg font-light">{messages.loading}</div>
         </div>
       </div>
     );
@@ -50,7 +51,7 @@ export const MyPage = () => {
               />
             </svg>
           </div>
-          <div className="text-red-500 text-lg font-light">데이터를 불러오는데 실패했습니다.</div>
+          <div className="text-red-500 text-lg font-light">{messages.errorTitle}</div>
         </div>
       </div>
     );
@@ -62,7 +63,7 @@ export const MyPage = () => {
 
       <main className="max-w-7xl mx-auto px-8 py-12">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">나의 동선</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">{messages.myItineraries}</h2>
         </div>
 
         <ItineraryList itineraries={data.list} onItineraryClick={handleItineraryClick} />

@@ -24,3 +24,25 @@ export interface MyPageData {
   nickname: string;
   list: Itinerary[];
 }
+
+// Component Props Types
+export interface UserProfileProps {
+  email: string;
+  nickname: string;
+}
+
+export interface ItineraryListProps {
+  itineraries: Itinerary[];
+  onItineraryClick: (itinerary: Itinerary) => void;
+}
+
+export interface ItineraryCardProps {
+  itinerary: Itinerary;
+  onClick: () => void;
+}
+
+export interface ItineraryDetailModalProps {
+  itinerary: Itinerary | null;
+  isOpen: boolean;
+  onClose: () => void;
+}

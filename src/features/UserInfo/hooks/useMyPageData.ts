@@ -5,6 +5,5 @@ export const useMyPageData = () => {
   return useQuery({
     queryKey: ['mypage'],
     queryFn: myPageApi.getMyPage,
-    staleTime: 5 * 60 * 1000,
   });
 };
