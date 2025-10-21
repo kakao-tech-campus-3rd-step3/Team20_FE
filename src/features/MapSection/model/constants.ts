@@ -6,7 +6,7 @@ export const OVERLAY_DEFAULTS = {
 
 export const OVERLAY_STYLES = {
   container:
-    'position: relative; background: var(--color-background-primary); border-radius: 8px; box-shadow: var(--shadow-card); border: 1px solid var(--color-border-primary); min-width: 300px; max-width: 400px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;',
+    'position: relative; background: var(--color-background-primary); border-radius: 8px; box-shadow: var(--shadow-card); border: 1px solid var(--color-border-primary); width: min(90vw, 400px); max-width: 400px; min-width: 280px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;',
   header:
     'display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-4); border-bottom: 1px solid var(--color-border-primary);',
   title:
@@ -35,10 +35,19 @@ export const OVERLAY_STYLES = {
 } as const;
 
 export const MAP_DEFAULTS = {
-  center: { lat: 35.5, lng: 128.0 },
+  center: { lat: 36.0, lng: 127.5 },
   level: 13,
   draggable: false,
-  scrollwheel: true,
+  scrollwheel: false,
+  disableDoubleClickZoom: true,
+} as const;
+
+// 남한(대한민국) 지도 범위 (북위 33.2도~38.45도, 동경 124.1도~131.9도)
+export const KOREA_BOUNDS = {
+  north: 38.45, // 북위 38.45도
+  south: 33.2, // 북위 33.2도
+  east: 131.9, // 동경 131.9도
+  west: 124.1, // 동경 124.1도
 } as const;
 
 export const SDK_CONFIG = {
@@ -59,4 +68,36 @@ export const POLYLINE_CONFIG = {
   STROKE_COLOR: '#FF6B6B',
   STROKE_WEIGHT: 3,
   STROKE_OPACITY: 0.8,
+} as const;
+
+export const MOBILE_BUTTON_STYLES = {
+  CONTAINER:
+    'absolute bottom-(--spacing-4) right-(--spacing-4) z-(--z-elevated) flex gap-(--spacing-2)',
+  BUTTON_BASE:
+    'flex items-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-full shadow-(--shadow-card) transition-all duration-200',
+  ICON: 'w-(--spacing-5) h-(--spacing-5)',
+  TEXT: 'text-sm font-medium whitespace-nowrap',
+  BADGE:
+    'bg-(--color-semantic-error) text-(--color-text-inverse) text-xs rounded-full px-(--spacing-2) py-(--spacing-1) min-w-[20px] text-center',
+} as const;
+
+export const BUTTON_VARIANTS = {
+  ACTIVE:
+    'bg-(--color-brand-primary) text-(--color-text-inverse) hover:bg-(--color-brand-secondary)',
+  INACTIVE:
+    'bg-(--color-background-primary) text-(--color-text-primary) hover:bg-(--color-brand-primary) hover:text-(--color-text-inverse)',
+} as const;
+
+export const MOBILE_SIDEBAR_STYLES = {
+  CONTAINER:
+    'absolute bottom-0 left-0 right-0 z-20 bg-white border-t border-gray-200 shadow-lg h-[85vh] rounded-t-2xl',
+  HEADER: 'flex items-center justify-between p-4 border-b border-gray-200',
+  TITLE: 'text-lg font-semibold text-gray-900',
+  CONTENT: 'flex-1 overflow-y-auto h-[calc(85vh-80px)]',
+} as const;
+
+export const MOBILE_SEARCH_BAR_STYLES = {
+  CONTAINER:
+    'absolute top-0 left-0 right-0 z-10 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-2 py-1 shadow-sm',
+  WRAPPER: 'scale-90 origin-top',
 } as const;

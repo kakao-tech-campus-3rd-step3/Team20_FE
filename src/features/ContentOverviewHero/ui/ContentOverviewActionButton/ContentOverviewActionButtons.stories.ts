@@ -17,10 +17,6 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    onLocationViewClick: {
-      action: 'location view clicked',
-      description: '촬영지 보기 버튼 클릭 핸들러',
-    },
     onMapViewClick: {
       action: 'map view clicked',
       description: '지도 보기 버튼 클릭 핸들러',
@@ -34,7 +30,6 @@ type Story = StoryObj<typeof meta>;
 // 기본 스토리
 export const Default: Story = {
   args: {
-    onLocationViewClick: fn(),
     onMapViewClick: fn(),
   },
 };

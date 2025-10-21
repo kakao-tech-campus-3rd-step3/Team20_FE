@@ -14,13 +14,22 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // 기본 액션 버튼
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    onClick: () => console.log('Button clicked'),
+    showAll: false,
+  },
+};
 
 // 다크 배경에서의 모습
 export const OnDarkBackground: Story = {
-  render: () => (
+  args: {
+    onClick: () => console.log('Button clicked'),
+    showAll: false,
+  },
+  render: (args) => (
     <div className="bg-gray-900 p-8">
-      <LocationImageActionButton />
+      <LocationImageActionButton {...args} />
     </div>
   ),
   parameters: {

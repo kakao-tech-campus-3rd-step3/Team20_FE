@@ -5,7 +5,7 @@ import { contentQueryKeys } from './queryKeys';
 import { getCategoryContents } from './contentApi';
 // 인기 콘텐츠 목록 조회
 export const usePopularContents = () => {
-  return useSuspenseQuery<PopularContent[]>({
+  return useSuspenseQuery<PopularContent[], Error>({
     queryKey: contentQueryKeys.popular(),
     queryFn: getPopularContents,
   });

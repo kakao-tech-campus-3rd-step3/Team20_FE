@@ -25,14 +25,10 @@ export type PlaceListProps = {
   selectedPlace?: Place | null;
 };
 
-export type SidebarProps = {
-  className?: string;
+export type SidebarProps = PlaceListProps & {
   contentId?: string;
   onSearchPlacesChange?: (places: Place[]) => void;
-  onPlaceClick?: (place: Place) => void;
-  onAddToRoute?: (place: Place) => void;
-  routePlaces?: Place[];
-  selectedPlace?: Place | null;
+  searchPlaces?: Place[];
 };
 
 export type SidebarSearchProps = {
@@ -43,56 +39,7 @@ export type SidebarSearchProps = {
 
 export type ThumbnailProps = Pick<PlaceCardProps, 'locationImage' | 'name' | 'badgeNumber'>;
 
-export type KakaoPlace = {
-  id: string;
-  place_name: string;
-  category_name: string;
-  category_group_code: string;
-  phone: string;
-  address_name: string;
-  road_address_name: string;
-  x: string;
-  y: string;
-  place_url: string;
-  distance: string;
-};
-
-export type UseKakaoPlaceSearchOptions = {
+export type UseContentSearchOptions = {
   debounceMs?: number;
-  enabled?: boolean;
   onPlacesChange?: (places: Place[]) => void;
-};
-
-export type KakaoMapsServices = {
-  Places: {
-    new (): {
-      keywordSearch: (
-        query: string,
-        callback: (data: KakaoPlace[], status: unknown) => void,
-      ) => void;
-    };
-  };
-  Status: {
-    OK: unknown;
-    ZERO_RESULT: unknown;
-  };
-};
-
-export type KakaoMaps = {
-  services: KakaoMapsServices;
-};
-
-export type WindowWithKakao = {
-  kakao?: {
-    maps: KakaoMaps;
-  };
-};
-
-export type SidebarSearchResultsProps = {
-  searchQuery: string;
-  places: Place[];
-  onPlaceClick?: (place: Place) => void;
-  onAddToRoute?: (place: Place) => void;
-  routePlaces?: Place[];
-  selectedPlace?: Place | null;
 };
