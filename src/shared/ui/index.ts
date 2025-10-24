@@ -3,3 +3,9 @@
 // 무조건 shared컴포넌트를 재사용해주셔야 해요! import경로도 앞으로@/shared/ui/로 해주세요!
 export { IconButton } from './IconButton/IconButton';
 export { Button } from './Button/Button';
+export { FormButton } from './FormButton/FormButton';
+export { Input } from './Input/Input';
+export { FormField, FormFieldWrapper } from './FormField/FormField';
+export { FormTitle } from './FormTitle/FormTitle';
+export { FormNavigation } from './FormNavigation/FormNavigation';
+export { EmailSentSuccess } from './EmailSentSuccess';

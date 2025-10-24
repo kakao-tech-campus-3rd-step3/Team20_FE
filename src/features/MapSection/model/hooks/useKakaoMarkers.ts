@@ -1,14 +1,16 @@
 import { useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 import type { KakaoMap, KakaoMarker } from '../types';
 import type { Place } from '@/features/Sidebar/model/types';
 import type { RoutePlace } from '@/features/RoutePlanning/model/types';
 import {
   createLatLng,
   clearMarkers,
-  createMapOverlay,
   closeGlobalOverlay,
-  setGlobalOverlay,
+  createAndShowOverlay,
+  getKakaoMaps,
 } from '../utils';
+import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 
 /**
  * 검색 결과 마커를 표시하는 훅 (동선에 추가된 장소 제외)
@@ -18,7 +20,9 @@ export function useKakaoMarkers(
   mapRef: React.MutableRefObject<KakaoMap | null>,
   routePlaces: RoutePlace[] = [],
   onPlaceClick?: (place: Place) => void,
+  onAddToRoute?: (place: Place) => void,
 ) {
+  const { isLaptop } = useBreakpoints();
   const markersRef = useRef<KakaoMarker[]>([]);
 
   useEffect(() => {
@@ -38,8 +42,7 @@ export function useKakaoMarkers(
 
       if (validPlaces.length === 0) return;
 
-      const maps = window.kakao?.maps;
-      if (!maps) return;
+      const maps = getKakaoMaps();
 
       const newMarkers = validPlaces.map((place) => {
         const position = createLatLng(place.latitude, place.longitude);
@@ -48,12 +51,8 @@ export function useKakaoMarkers(
 
         // 마커 클릭 이벤트 추가
         maps.event.addListener(marker, 'click', () => {
-          onPlaceClick?.(place);
-
-          closeGlobalOverlay();
-
-          const overlay = createMapOverlay(map, place, position, closeGlobalOverlay);
-          setGlobalOverlay(overlay);
+          const isInRoute = routePlaceIds.has(place.locationId);
+          createAndShowOverlay(map, place, isLaptop, onAddToRoute, isInRoute);
         });
 
         return marker;
@@ -62,11 +61,12 @@ export function useKakaoMarkers(
       markersRef.current = newMarkers;
     } catch (e) {
       console.error('Failed to update markers:', e);
+      toast.error('마커 표시 실패');
     }
 
     return () => {
       markersRef.current = clearMarkers(markersRef.current);
       closeGlobalOverlay();
     };
-  }, [places, mapRef, routePlaces, onPlaceClick]);
+  }, [places, mapRef, routePlaces, onPlaceClick, onAddToRoute, isLaptop]);
 }

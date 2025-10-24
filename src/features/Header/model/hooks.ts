@@ -41,6 +41,9 @@ export function useNavActions(onSelect?: (key: NavKey) => void, onAfterNavigate?
     navigate(routeOptions);
     onSelect?.(key);
     onAfterNavigate?.();
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   return { onItemClick };

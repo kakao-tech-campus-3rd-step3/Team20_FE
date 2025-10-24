@@ -15,6 +15,7 @@ build/
 # IDE and editor files
 .cursor/
 .vscode/
+.kiro/
 .idea/
 *.swp
 *.swo

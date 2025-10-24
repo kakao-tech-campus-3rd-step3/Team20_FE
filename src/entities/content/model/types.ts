@@ -1,10 +1,19 @@
 // 콘텐츠 관련 타입 정의
 export type PopularContent = {
   contentId: number;
+  category: 'DRAMA' | 'MOVIE' | 'POP';
   title: string;
   posterImageUrl: string;
 };
 
+export type PopularResponse = {
+  items: PopularContent[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+  };
+};
 export type ContentLocation = {
   location_id: number;
   name: string;
