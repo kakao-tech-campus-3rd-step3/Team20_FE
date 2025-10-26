@@ -1,5 +1,6 @@
 import type { PopularContent } from '@/entities/content/model/types';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type PosterCardProps = PopularContent;
 
@@ -8,10 +9,11 @@ export function PosterCard({ contentId, title, posterImageUrl }: PosterCardProps
     <article className="group border border-[var(--color-border-primary)] overflow-hidden bg-[var(--color-background-primary)] shadow-lg hover:shadow-2xl transition-all duration-300 will-change-transform relative hover:-translate-y-2 rounded-2xl">
       <Link href={`/content/${contentId}`} className="block">
         <div className="aspect-[3/4] overflow-hidden relative bg-gradient-to-br from-[var(--color-gray-100)] to-[var(--color-gray-200)]">
-          <img
+          <Image
             src={posterImageUrl}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+            fill
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
           />
           <div className="pointer-events-none absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
