@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kspot-nextjs
+  labels:
+    app: kspot-nextjs
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kspot-nextjs
+  template:
+    metadata:
+      labels:
+        app: kspot-nextjs
+    spec:
+      containers:
+      - name: kspot-nextjs
+        image: asia-northeast3-docker.pkg.dev/kspot-2025/kspot-repo/kspot-nextjs:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: NEXT_PUBLIC_KAKAO_MAP_API_KEY
+          value: "974fe15b1f8a516653cb6536ae41b53e"
+        - name: NEXT_PUBLIC_API_BASE_URL
+          value: "https://d2d0fud3w2c5j6.cloudfront.net"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3

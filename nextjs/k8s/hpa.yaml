@@ -1,0 +1,42 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: kspot-nextjs-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kspot-nextjs
+  minReplicas: 2  # 최소 복제본 2개
+  maxReplicas: 3  # 최대 복제본 3개
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70  # CPU 사용률이 70%를 넘으면 스케일 아웃
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80  # 메모리 사용률이 80%를 넘으면 스케일 아웃
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60  # 스케일 업 전 60초 대기
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+      - type: Pods
+        value: 1
+        periodSeconds: 60
+      selectPolicy: Max
+    scaleDown:
+      stabilizationWindowSeconds: 300  # 스케일 다운 전 5분 대기
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+      selectPolicy: Min

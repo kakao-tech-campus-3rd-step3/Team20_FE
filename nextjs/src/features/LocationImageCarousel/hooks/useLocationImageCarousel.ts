@@ -1,0 +1,39 @@
+'use client';
+
+import { useState } from 'react';
+import type { UseLocationImageCarouselProps } from '../model/types';
+
+export function useLocationImageCarousel({ locations }: UseLocationImageCarouselProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // LocationDetail을 carousel scenes 형태로 변환
+  const scenes = locations.map((location, index) => ({
+    id: location.locationId,
+    title: location.name,
+    description: location.description || '설명이 없습니다.',
+    image: location.locationImage || '/placeholder-image.jpg',
+    address: location.address,
+    episode: `${index + 1}번째 장소`,
+    timestamp: '', // 장소에는 timestamp가 없으므로 빈 문자열
+  }));
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % scenes.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + scenes.length) % scenes.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  return {
+    scenes,
+    currentIndex,
+    nextSlide,
+    prevSlide,
+    goToSlide,
+  };
+}

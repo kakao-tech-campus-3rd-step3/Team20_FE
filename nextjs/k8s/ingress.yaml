@@ -1,0 +1,34 @@
+# Ingress를 사용하여 HTTPS 및 도메인 설정 (선택사항)
+# LoadBalancer 대신 Ingress를 사용하려면 service.yaml의 type을 NodePort로 변경하세요
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kspot-nextjs-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    # HTTPS 리다이렉트 (선택사항)
+    # kubernetes.io/ingress.allow-http: "false"
+    # 인증서 자동 발급 (Google Managed Certificate 사용시)
+    # networking.gke.io/managed-certificates: "kspot-cert"
+spec:
+  rules:
+  - host: your-domain.com  # 실제 도메인으로 변경
+    http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: kspot-nextjs-service
+            port:
+              number: 80
+---
+# Google Managed Certificate (선택사항)
+# apiVersion: networking.gke.io/v1
+# kind: ManagedCertificate
+# metadata:
+#   name: kspot-cert
+# spec:
+#   domains:
+#     - your-domain.com

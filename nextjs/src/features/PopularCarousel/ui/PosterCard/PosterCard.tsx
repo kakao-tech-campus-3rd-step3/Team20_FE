@@ -1,0 +1,34 @@
+import type { PopularContent } from '@/entities/content/model/types';
+import Link from 'next/link';
+import Image from 'next/image';
+
+interface PosterCardProps extends PopularContent {
+  rank: number;
+}
+
+export function PosterCard({ contentId, title, posterImageUrl, rank }: PosterCardProps) {
+  return (
+    <article className="min-w-[220px] snap-start rounded-xl border border-[var(--color-border-primary)] p-[var(--spacing-4)] bg-[var(--color-background-primary)] hover:shadow-[var(--shadow-card)] transition duration-200 relative">
+      <Link href={`/content/${contentId}`} className="block">
+        <div className="relative aspect-[3/4] rounded-lg bg-gradient-to-br from-[var(--color-gray-100)] to-[var(--color-gray-200)] grid place-items-center text-[var(--color-text-secondary)] text-sm">
+          <span className="absolute top-2 left-2 z-10 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[var(--color-background-primary)]/80 backdrop-blur text-[var(--color-text-primary)] text-sm font-semibold border border-[var(--color-border-primary)]">
+            {rank}
+          </span>
+          <Image
+            src={posterImageUrl}
+            alt={title}
+            fill
+            className="rounded-lg object-cover"
+            sizes="220px"
+          />
+        </div>
+        <h3
+          className="mt-[var(--spacing-4)] font-medium line-clamp-2 text-[var(--color-text-primary)]"
+          title={title}
+        >
+          {title}
+        </h3>
+      </Link>
+    </article>
+  );
+}

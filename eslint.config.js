@@ -27,6 +27,7 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      '@typescript-eslint/prefer-nullish-coalescing': 'off', // Disable this rule to avoid type info requirement
     },
   },
   {
