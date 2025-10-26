@@ -4,6 +4,7 @@ metadata:
   name: kspot-nextjs
   labels:
     app: kspot-nextjs
+    environment: production
 spec:
   replicas: 2
   selector:
@@ -13,6 +14,7 @@ spec:
     metadata:
       labels:
         app: kspot-nextjs
+        environment: production
     spec:
       containers:
       - name: kspot-nextjs
@@ -26,6 +28,8 @@ spec:
           value: "974fe15b1f8a516653cb6536ae41b53e"
         - name: NEXT_PUBLIC_API_BASE_URL
           value: "https://d2d0fud3w2c5j6.cloudfront.net"
+        - name: NEXT_PUBLIC_BACKEND_URL
+          value: "https://k-spot.kro.kr"
         resources:
           requests:
             memory: "256Mi"

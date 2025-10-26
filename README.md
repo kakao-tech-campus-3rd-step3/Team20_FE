@@ -22,12 +22,22 @@
 
 ![CI/CD Architecture](./public/1-CI-CD.png)
 
+**이중 배포 파이프라인 구조**
+
+- **Vite 애플리케이션**: AWS S3 + CloudFront 정적 배포
+- **NextJS 애플리케이션**: GCP Kubernetes Engine 컨테이너 배포
+
+**공통 품질 관리**
 - **GitHub Actions** 기반 완전 자동화된 배포 파이프라인
-- **Amazon CloudFront** 정적 사이트 배포로 글로벌 CDN 활용
+- **보안 강화**: Workload Identity Federation (WIF) 사용
 - **PR 단위 품질 관리**
   - ESLint/Prettier 사전 검증
   - **Gemini AI 자동 코드 리뷰** 시스템 도입
   - 테스트 자동 실행으로 배포 전 품질 보장
+
+**배포 트리거 분리**
+- Vite: 루트 디렉토리 변경 시 AWS 배포 (`main`, `develop` 브랜치)
+- NextJS: `nextjs/` 폴더 변경 시 GCP 배포 (`next` 브랜치)
 
 ### 3. 📐 Feature-Sliced Design (FSD) 아키텍처
 
@@ -129,6 +139,31 @@ src/shared/ui/
 - `develop`: 개발 통합 브랜치
 - `release`: 안정화 브랜치
 - `feature/*`: 기능 개발 브랜치
+
+---
+
+## 🐳 NextJS 배포 아키텍처
+
+### GCP Kubernetes Engine 배포
+
+- **컨테이너 레지스트리**: Google Artifact Registry
+- **오케스트레이션**: Google Kubernetes Engine (GKE)
+- **배포 브랜치**: `next` 브랜치에서 Production 배포
+- **자동 배포**: `nextjs/` 폴더 변경 시 트리거
+
+### 배포 명령어
+
+```bash
+# 수동 빌드 및 배포
+cd nextjs
+.\scripts\build-and-push.ps1
+.\scripts\deploy.ps1
+
+# 배포 상태 확인
+.\scripts\status.ps1
+```
+
+자세한 내용은 [NextJS 배포 가이드](./nextjs/README-DEPLOYMENT.md)를 참조하세요.
 
 ---
 

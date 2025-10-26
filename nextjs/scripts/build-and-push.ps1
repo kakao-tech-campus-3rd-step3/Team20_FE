@@ -1,9 +1,18 @@
+# Parameters
+param(
+    [Parameter(Mandatory=$false)]
+    [string]$ImageTag = "latest"
+)
+
 # GCP 프로젝트 ID 설정
 $PROJECT_ID = "kspot-2025"
 $REGION = "asia-northeast3"
 $REPOSITORY = "kspot-repo"
 $IMAGE_NAME = "kspot-nextjs"
-$IMAGE_TAG = "latest"
+$IMAGE_TAG = $ImageTag
+
+Write-Host "=== Build Configuration ===" -ForegroundColor Blue
+Write-Host "Image Tag: $IMAGE_TAG" -ForegroundColor Cyan
 
 Write-Host "=== Artifact Registry check ===" -ForegroundColor Blue
 

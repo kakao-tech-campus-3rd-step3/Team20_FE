@@ -1,0 +1,177 @@
+name: Deploy NextJS to GCP Kubernetes
+
+on:
+  push:
+    branches: [next]
+    paths:
+      - 'nextjs/**'
+      - '.github/workflows/deploy-nextjs.yml'
+  pull_request:
+    branches: [next]
+    paths:
+      - 'nextjs/**'
+      - '.github/workflows/deploy-nextjs.yml'
+
+env:
+  GCP_PROJECT_ID: kspot-2025
+  GCP_REGION: asia-northeast3
+  GKE_CLUSTER: kspot-cluster
+  GKE_ZONE: asia-northeast3-a
+  REPOSITORY: kspot-repo
+  IMAGE_NAME: kspot-nextjs
+  NODE_VERSION: 22
+
+jobs:
+  test-nextjs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./nextjs
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: nextjs/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run type check
+        run: npm run type-check
+
+      - name: Run build test
+        run: npm run build
+        env:
+          NEXT_PUBLIC_KAKAO_MAP_API_KEY: ${{ secrets.KAKAO_MAP_API_KEY }}
+          NEXT_PUBLIC_API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          NEXT_PUBLIC_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+
+  build-and-deploy:
+    needs: test-nextjs
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/next' && github.event_name == 'push'
+    
+    environment:
+      name: nextjs-production
+    
+    defaults:
+      run:
+        working-directory: ./nextjs
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker ${{ env.GCP_REGION }}-docker.pkg.dev
+
+      - name: Create Artifact Registry repository if not exists
+        run: |
+          if ! gcloud artifacts repositories describe ${{ env.REPOSITORY }} \
+            --location=${{ env.GCP_REGION }} \
+            --project=${{ env.GCP_PROJECT_ID }} 2>/dev/null; then
+            echo "Creating Artifact Registry repository..."
+            gcloud artifacts repositories create ${{ env.REPOSITORY }} \
+              --repository-format=docker \
+              --location=${{ env.GCP_REGION }} \
+              --description="KSpot Next.js application repository" \
+              --project=${{ env.GCP_PROJECT_ID }}
+          else
+            echo "Repository already exists"
+          fi
+
+      - name: Build and push Docker image
+        run: |
+          IMAGE_TAG="latest"
+          IMAGE_FULL_PATH="${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG}"
+          
+          echo "Building image: ${IMAGE_FULL_PATH}"
+          
+          docker build \
+            --build-arg NEXT_PUBLIC_KAKAO_MAP_API_KEY="${{ secrets.KAKAO_MAP_API_KEY }}" \
+            --build-arg NEXT_PUBLIC_API_BASE_URL="${{ secrets.API_BASE_URL }}" \
+            --build-arg NEXT_PUBLIC_BACKEND_URL="${{ secrets.BACKEND_URL }}" \
+            --build-arg NODE_ENV="production" \
+            -t ${IMAGE_FULL_PATH} .
+          
+          echo "Pushing image to Artifact Registry..."
+          docker push ${IMAGE_FULL_PATH}
+          
+          echo "IMAGE_FULL_PATH=${IMAGE_FULL_PATH}" >> $GITHUB_ENV
+
+      - name: Get GKE credentials
+        run: |
+          gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} \
+            --zone ${{ env.GKE_ZONE }} \
+            --project ${{ env.GCP_PROJECT_ID }}
+
+      - name: Update Kubernetes deployment
+        run: |
+          DEPLOYMENT_NAME="kspot-nextjs"
+          
+          # Update deployment image
+          kubectl set image deployment/${DEPLOYMENT_NAME} \
+            kspot-nextjs=${{ env.IMAGE_FULL_PATH }} \
+            --record
+          
+          # Wait for rollout to complete
+          kubectl rollout status deployment/${DEPLOYMENT_NAME} --timeout=300s
+          
+          # Verify deployment
+          kubectl get pods -l app=${DEPLOYMENT_NAME}
+
+      - name: Apply Kubernetes configurations
+        run: |
+          # Apply production configurations
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+
+      - name: Get service information
+        run: |
+          DEPLOYMENT_NAME="kspot-nextjs"
+          SERVICE_NAME="kspot-nextjs-service"
+          
+          echo "=== Deployment Status ==="
+          kubectl get deployment ${DEPLOYMENT_NAME}
+          
+          echo "=== Service Information ==="
+          kubectl get service ${SERVICE_NAME}
+          
+          echo "=== Pod Status ==="
+          kubectl get pods -l app=${DEPLOYMENT_NAME}
+          
+          # Get external IP if available
+          EXTERNAL_IP=$(kubectl get service ${SERVICE_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "Pending")
+          echo "External IP: ${EXTERNAL_IP}"
+          
+          if [ "$EXTERNAL_IP" != "Pending" ] && [ "$EXTERNAL_IP" != "" ]; then
+            echo "Application URL: http://${EXTERNAL_IP}"
+          else
+            echo "External IP is still being assigned. Check later with: kubectl get service ${SERVICE_NAME}"
+          fi
