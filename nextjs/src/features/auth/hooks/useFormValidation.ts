@@ -4,10 +4,12 @@ import { useState } from 'react';
 import { z } from 'zod';
 import { loginSchema, signupSchema } from '../model/schemas';
 
-type ValidatorConfig = {
-  onChange: (value: string) => string | undefined;
-  onBlur: (value: string) => string | undefined;
-};
+interface ValidatorConfig {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onBlur: (params: { value: string; fieldApi?: any }) => string | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange: (params: { value: string; fieldApi?: any }) => string | undefined;
+}
 
 export interface ValidationHelpers {
   touchedFields: Set<string>;
@@ -29,7 +31,7 @@ export const useFormValidation = () => {
   const validateField = (schema: z.ZodSchema, value: string) => {
     try {
       schema.parse(value);
-      return undefined; // 유효한 경우
+      return undefined;
     } catch (error) {
       if (error instanceof z.ZodError) {
         return error.issues[0]?.message || '입력값을 확인해주세요';
@@ -39,41 +41,59 @@ export const useFormValidation = () => {
   };
 
   const createEmailValidator = (): ValidatorConfig => ({
-    onBlur: (value) => {
+    onBlur: ({ value }) => {
       markFieldAsTouched('email');
       return validateField(loginSchema.shape.email, value);
     },
-    onChange: (value) => {
+    onChange: ({ value }) => {
       return validateField(loginSchema.shape.email, value);
     },
   });
 
   const createPasswordValidator = (): ValidatorConfig => ({
-    onBlur: (value) => {
+    onBlur: ({ value }) => {
       markFieldAsTouched('password');
       return validateField(loginSchema.shape.password, value);
     },
-    onChange: (value) => {
+    onChange: ({ value }) => {
       return validateField(loginSchema.shape.password, value);
     },
   });
 
   const createConfirmPasswordValidator = (): ValidatorConfig => ({
-    onBlur: (value) => {
+    onBlur: ({ value, fieldApi }) => {
       markFieldAsTouched('confirmPassword');
-      return validateField(signupSchema.shape.confirmPassword, value);
+      const password = fieldApi?.form?.getFieldValue?.('password') || '';
+
+      const basicValidation = validateField(signupSchema.shape.confirmPassword, value);
+      if (basicValidation) return basicValidation;
+
+      if (value !== password) {
+        return '비밀번호가 일치하지 않습니다';
+      }
+
+      return undefined;
     },
-    onChange: (value) => {
-      return validateField(signupSchema.shape.confirmPassword, value);
+    onChange: ({ value, fieldApi }) => {
+      const password = fieldApi?.form?.getFieldValue?.('password') || '';
+
+      const basicValidation = validateField(signupSchema.shape.confirmPassword, value);
+      if (basicValidation) return basicValidation;
+
+      if (value !== password) {
+        return '비밀번호가 일치하지 않습니다';
+      }
+
+      return undefined;
     },
   });
 
   const createNicknameValidator = (): ValidatorConfig => ({
-    onBlur: (value) => {
+    onBlur: ({ value }) => {
       markFieldAsTouched('nickname');
       return validateField(signupSchema.shape.nickname, value);
     },
-    onChange: (value) => {
+    onChange: ({ value }) => {
       return validateField(signupSchema.shape.nickname, value);
     },
   });

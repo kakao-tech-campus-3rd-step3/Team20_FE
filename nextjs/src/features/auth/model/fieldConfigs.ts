@@ -24,10 +24,6 @@ export interface SignupFieldConfig extends FieldConfig {
   name: 'email' | 'password' | 'confirmPassword' | 'nickname';
 }
 
-export interface PasswordResetFieldConfig extends FieldConfig {
-  name: 'password' | 'confirmPassword';
-}
-
 export const createLoginFields = (
   createEmailValidator: () => ValidatorConfig,
   createPasswordValidator: () => ValidatorConfig,
@@ -47,6 +43,10 @@ export const createLoginFields = (
       validator: createPasswordValidator(),
     },
   ];
+
+export interface PasswordResetFieldConfig extends FieldConfig {
+  name: 'password' | 'confirmPassword';
+}
 
 export const createSignupFields = (
   createEmailValidator: () => ValidatorConfig,

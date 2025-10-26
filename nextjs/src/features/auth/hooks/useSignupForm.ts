@@ -1,11 +1,13 @@
 'use client';
 
 import { useForm } from '@tanstack/react-form';
-import { type SignupFormData } from '../model';
+import { type SignupFormData, signupSchema } from '../model';
 import { useFormValidation } from './useFormValidation';
+import { useSignupMutation } from './useAuthMutations';
 
 export const useSignupForm = () => {
   const validation = useFormValidation();
+  const signupMutation = useSignupMutation();
 
   const form = useForm({
     defaultValues: {
@@ -14,10 +16,22 @@ export const useSignupForm = () => {
       confirmPassword: '',
       nickname: '',
     } as SignupFormData,
-    onSubmit: async ({ value }) => {
-      // TODO: 실제 회원가입 API 호출
-      console.log('Signup form submitted:', value);
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // 임시 지연
+    validators: {
+      onChange: ({ value }) => {
+        try {
+          signupSchema.parse(value);
+          return undefined;
+        } catch {
+          return '입력값을 확인해주세요';
+        }
+      },
+    },
+    onSubmit: ({ value }) => {
+      signupMutation.mutate({
+        email: value.email,
+        password: value.password,
+        nickname: value.nickname,
+      });
     },
   });
 
@@ -25,5 +39,6 @@ export const useSignupForm = () => {
     form,
     handleSubmit: form.handleSubmit,
     validation,
+    signupMutation,
   };
 };

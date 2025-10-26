@@ -1,21 +1,34 @@
 'use client';
 
 import { useForm } from '@tanstack/react-form';
-import { type LoginFormData } from '../model';
+import { type LoginFormData, loginSchema } from '../model';
 import { useFormValidation } from './useFormValidation';
+import { useLoginMutation } from './useAuthMutations';
 
 export const useLoginForm = () => {
   const validation = useFormValidation();
+  const loginMutation = useLoginMutation();
 
   const form = useForm({
     defaultValues: {
       email: '',
       password: '',
     } as LoginFormData,
-    onSubmit: async ({ value }) => {
-      // TODO: 실제 로그인 API 호출
-      console.log('Login form submitted:', value);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    validators: {
+      onChange: ({ value }) => {
+        try {
+          loginSchema.parse(value);
+          return undefined;
+        } catch {
+          return '입력값을 확인해주세요';
+        }
+      },
+    },
+    onSubmit: ({ value }) => {
+      loginMutation.mutate({
+        email: value.email,
+        password: value.password,
+      });
     },
   });
 
@@ -23,5 +36,6 @@ export const useLoginForm = () => {
     form,
     handleSubmit: form.handleSubmit,
     validation,
+    loginMutation,
   };
 };

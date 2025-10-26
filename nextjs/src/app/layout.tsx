@@ -4,6 +4,7 @@ import "./globals.css";
 import { QueryProvider } from "./_providers/QueryProvider";
 import { GlobalLayout } from "@/features/Header/ui/GlobalLayout";
 import { KakaoScript } from "./_components/KakaoScript";
+import { AuthProvider } from "@/shared/lib/auth";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -33,9 +34,11 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <KakaoScript />
         <QueryProvider>
-          <GlobalLayout>
-            {children}
-          </GlobalLayout>
+          <AuthProvider>
+            <GlobalLayout>
+              {children}
+            </GlobalLayout>
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

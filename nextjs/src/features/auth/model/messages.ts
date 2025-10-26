@@ -14,7 +14,7 @@ export const AUTH_MESSAGES = {
   // 에러 메시지
   LOGIN_ERROR_TITLE: '로그인에 실패했습니다',
   LOGIN_ERROR_DEFAULT: '이메일 또는 비밀번호를 확인해주세요.',
-
+  
   SIGNUP_ERROR_TITLE: '회원가입에 실패했습니다',
   SIGNUP_ERROR_DEFAULT: '이미 사용 중인 이메일이거나 입력 정보를 확인해주세요.',
 
@@ -46,7 +46,7 @@ export const AUTH_MESSAGES = {
   EMAIL_VERIFICATION_SUCCESS_TITLE: '인증 완료!',
   EMAIL_VERIFICATION_SUCCESS_DEFAULT: '이메일 인증이 완료되었습니다.',
   EMAIL_VERIFICATION_ERROR_TITLE: '인증 실패',
-
+  
   // 이메일 인증 에러 메시지
   EMAIL_VERIFICATION_ERROR_INVALID_TOKEN: '유효하지 않은 인증 링크입니다.',
   EMAIL_VERIFICATION_ERROR_NOT_FOUND: '인증 정보를 찾을 수 없습니다. 인증 메일을 다시 요청해주세요.',

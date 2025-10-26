@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// 로그인 폼 스키마
 export const loginSchema = z.object({
   email: z.string().min(1, '이메일을 입력해주세요').email('올바른 이메일 형식을 입력해주세요'),
   password: z
@@ -9,7 +8,6 @@ export const loginSchema = z.object({
     .min(8, '비밀번호는 8자리 이상이어야 합니다'),
 });
 
-// 회원가입 폼 스키마
 export const signupSchema = z
   .object({
     email: z.string().min(1, '이메일을 입력해주세요').email('올바른 이메일 형식을 입력해주세요'),
@@ -29,6 +27,5 @@ export const signupSchema = z
     path: ['confirmPassword'],
   });
 
-// 타입 정의
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type SignupFormData = z.infer<typeof signupSchema>;

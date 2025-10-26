@@ -32,11 +32,24 @@ httpBackend.interceptors.response.use(
   },
   (error) => {
     if (axios.isAxiosError(error)) {
-      console.error(
-        '[Backend API Error]',
-        error.response?.status,
-        error.response?.data?.message || error.message,
-      );
+      // 401 오류는 인증 관련 정상적인 응답이므로 로그 레벨을 낮춤
+      if (error.response?.status === 401) {
+        // 개발 환경에서만 401 로그 출력
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(
+            '[Auth Error]',
+            error.response?.status,
+            error.response?.data?.message || error.message,
+          );
+        }
+      } else {
+        // 다른 오류들은 여전히 에러로 처리
+        console.error(
+          '[Backend API Error]',
+          error.response?.status,
+          error.response?.data?.message || error.message,
+        );
+      }
     } else {
       console.error('[Unexpected Error]', error);
     }

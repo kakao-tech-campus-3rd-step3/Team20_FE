@@ -1,89 +1,57 @@
 'use client';
 
 import { useLoginForm } from '../hooks/useLoginForm';
-import { FormTitle, FormButton, FormNavigation } from '../../../shared/ui';
+import { FormTitle, FormButton, FormNavigation } from '@/shared/ui';
 import { FormFieldRenderer } from './FormFieldRenderer';
+import { createLoginFields, AUTH_MESSAGES } from '../model';
 
 export const LoginForm = () => {
-  const { form, handleSubmit, validation } = useLoginForm();
+  const { form, handleSubmit, validation, loginMutation } = useLoginForm();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await handleSubmit();
   };
 
+  const fields = createLoginFields(
+    validation.createEmailValidator,
+    validation.createPasswordValidator,
+  );
+
   return (
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={onSubmit} className="space-y-6">
-        <FormTitle>로그인</FormTitle>
+        <FormTitle>{AUTH_MESSAGES.LOGIN_TITLE}</FormTitle>
 
-        <form.Field
-          name="email"
-          validators={{
-            onChange: ({ value }) => {
-              try {
-                if (!value) return '이메일을 입력해주세요';
-                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return '올바른 이메일 형식을 입력해주세요';
-                return undefined;
-              } catch {
-                return '이메일을 확인해주세요';
-              }
-            },
-            onBlur: ({ value }) => {
-              try {
-                if (!value) return '이메일을 입력해주세요';
-                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return '올바른 이메일 형식을 입력해주세요';
-                return undefined;
-              } catch {
-                return '이메일을 확인해주세요';
-              }
-            }
-          }}
-        >
-          {(field) => (
-            <FormFieldRenderer
-              field={field}
-              touchedFields={validation.touchedFields}
-              getErrorMessage={validation.getErrorMessage}
-              label="이메일"
-              type="email"
-              placeholder="이메일을 입력하세요"
-            />
-          )}
-        </form.Field>
+        {loginMutation.isError && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+            <p className="font-medium">{AUTH_MESSAGES.LOGIN_ERROR_TITLE}</p>
+            <p className="mt-1">
+              {loginMutation.error instanceof Error 
+                ? loginMutation.error.message 
+                : AUTH_MESSAGES.LOGIN_ERROR_DEFAULT}
+            </p>
+          </div>
+        )}
 
-        <form.Field
-          name="password"
-          validators={{
-            onChange: ({ value }) => {
-              try {
-                if (!value) return '비밀번호를 입력해주세요';
-                return undefined;
-              } catch {
-                return '비밀번호를 확인해주세요';
-              }
-            },
-            onBlur: ({ value }) => {
-              try {
-                if (!value) return '비밀번호를 입력해주세요';
-                return undefined;
-              } catch {
-                return '비밀번호를 확인해주세요';
-              }
-            }
-          }}
-        >
-          {(field) => (
-            <FormFieldRenderer
-              field={field}
-              touchedFields={validation.touchedFields}
-              getErrorMessage={validation.getErrorMessage}
-              label="비밀번호"
-              type="password"
-              placeholder="비밀번호를 입력하세요"
-            />
-          )}
-        </form.Field>
+        {fields.map((fieldConfig) => (
+          <form.Field
+            key={fieldConfig.name}
+            name={fieldConfig.name}
+            validators={fieldConfig.validator}
+          >
+            {(field) => (
+              <FormFieldRenderer
+                field={field}
+                touchedFields={validation.touchedFields}
+                getErrorMessage={validation.getErrorMessage}
+                label={fieldConfig.label}
+                type={fieldConfig.type}
+                placeholder={fieldConfig.placeholder}
+              />
+            )}
+          </form.Field>
+        ))}
 
         <form.Subscribe selector={(state) => [state.isValid, state.isSubmitting, state.values]}>
           {([isValid, isSubmitting, values]) => {
@@ -95,25 +63,26 @@ export const LoginForm = () => {
               values.email &&
               values.password;
 
-            const canSubmit = hasValues && isValid && !isSubmitting;
+            const isLoading = isSubmitting || loginMutation.isPending;
+            const canSubmit = hasValues && isValid && !isLoading;
 
             return (
               <FormButton
                 type="submit"
                 variant={canSubmit ? 'primary' : 'disabled'}
-                isLoading={isSubmitting as boolean}
+                isLoading={isLoading as boolean}
                 disabled={!canSubmit as boolean}
               >
-                로그인
+                {AUTH_MESSAGES.LOGIN_BUTTON}
               </FormButton>
             );
           }}
         </form.Subscribe>
 
         <FormNavigation
-          leftLink={{ href: '/forgot-password', text: '비밀번호 재설정하기' }}
-          rightText="계정이 없으신가요?"
-          rightLink={{ href: '/signup', text: '회원가입하기' }}
+          leftLink={{ href: '/forgot-password', text: AUTH_MESSAGES.FORGOT_PASSWORD_LINK }}
+          rightText={AUTH_MESSAGES.NO_ACCOUNT_TEXT}
+          rightLink={{ href: '/signup', text: AUTH_MESSAGES.SIGNUP_LINK }}
         />
       </form>
     </div>
