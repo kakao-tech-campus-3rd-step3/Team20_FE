@@ -5,7 +5,7 @@ type ResetPasswordSearch = {
   token: string;
 };
 
-export const Route = createFileRoute('/verified-email/reset-password')({
+export const Route = createFileRoute('/reset-password')({
   component: RedirectToResetPassword,
   validateSearch: (search: Record<string, unknown>): ResetPasswordSearch => {
     return {
@@ -20,7 +20,7 @@ function RedirectToResetPassword() {
 
   useEffect(() => {
     navigate({
-      to: '/auth/reset-password', // 리다이렉트 실행(파일 이름 같게함)
+      to: '/auth/reset-password',
       search: { token },
       replace: true,
     });
@@ -29,7 +29,7 @@ function RedirectToResetPassword() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
       <div className="text-center">
-        <p className="text-gray-600">리다이렉트 중...</p>
+        <p className="text-gray-600">비밀번호 재설정 중...</p>
       </div>
     </div>
   );

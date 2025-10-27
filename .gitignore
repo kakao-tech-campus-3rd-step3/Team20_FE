@@ -58,3 +58,6 @@ storybook-static
 
 # cert
 .cert/
+
+# NextJS folder - remove this line in 'next' branch
+nextjs/
