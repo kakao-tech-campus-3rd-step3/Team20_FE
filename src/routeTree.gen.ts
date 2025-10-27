@@ -9,15 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
+import { Route as VerifyEmailRouteImport } from './pages/verify-email'
 import { Route as TermsRouteImport } from './pages/terms'
+import { Route as ResetPasswordRouteImport } from './pages/reset-password'
 import { Route as PrivacyRouteImport } from './pages/privacy'
 import { Route as NotFoundRouteImport } from './pages/not-found'
 import { Route as MypageRouteImport } from './pages/mypage'
 import { Route as MapRouteImport } from './pages/map'
 import { Route as ContactRouteImport } from './pages/contact'
 import { Route as IndexRouteImport } from './pages/index'
-import { Route as VerifiedEmailVerifyEmailRouteImport } from './pages/verified-email/verify-email'
-import { Route as VerifiedEmailResetPasswordRouteImport } from './pages/verified-email/reset-password'
 import { Route as LocationIdRouteImport } from './pages/location.$id'
 import { Route as ContentIdRouteImport } from './pages/content.$id'
 import { Route as AuthVerifiedEmailRouteImport } from './pages/auth/verified-email'
@@ -29,9 +29,19 @@ import { Route as AuthLoginRouteImport } from './pages/auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './pages/auth/forgot-password'
 import { Route as ContentContentIdMapRouteImport } from './pages/content.$contentId.map'
 
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -64,18 +74,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VerifiedEmailVerifyEmailRoute =
-  VerifiedEmailVerifyEmailRouteImport.update({
-    id: '/verified-email/verify-email',
-    path: '/verified-email/verify-email',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const VerifiedEmailResetPasswordRoute =
-  VerifiedEmailResetPasswordRouteImport.update({
-    id: '/verified-email/reset-password',
-    path: '/verified-email/reset-password',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const LocationIdRoute = LocationIdRouteImport.update({
   id: '/location/$id',
   path: '/location/$id',
@@ -135,7 +133,9 @@ export interface FileRoutesByFullPath {
   '/mypage': typeof MypageRoute
   '/not-found': typeof NotFoundRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
@@ -145,8 +145,6 @@ export interface FileRoutesByFullPath {
   '/auth/verified-email': typeof AuthVerifiedEmailRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
-  '/verified-email/reset-password': typeof VerifiedEmailResetPasswordRoute
-  '/verified-email/verify-email': typeof VerifiedEmailVerifyEmailRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
 }
 export interface FileRoutesByTo {
@@ -156,7 +154,9 @@ export interface FileRoutesByTo {
   '/mypage': typeof MypageRoute
   '/not-found': typeof NotFoundRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
@@ -166,8 +166,6 @@ export interface FileRoutesByTo {
   '/auth/verified-email': typeof AuthVerifiedEmailRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
-  '/verified-email/reset-password': typeof VerifiedEmailResetPasswordRoute
-  '/verified-email/verify-email': typeof VerifiedEmailVerifyEmailRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
 }
 export interface FileRoutesById {
@@ -178,7 +176,9 @@ export interface FileRoutesById {
   '/mypage': typeof MypageRoute
   '/not-found': typeof NotFoundRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
@@ -188,8 +188,6 @@ export interface FileRoutesById {
   '/auth/verified-email': typeof AuthVerifiedEmailRoute
   '/content/$id': typeof ContentIdRoute
   '/location/$id': typeof LocationIdRoute
-  '/verified-email/reset-password': typeof VerifiedEmailResetPasswordRoute
-  '/verified-email/verify-email': typeof VerifiedEmailVerifyEmailRoute
   '/content/$contentId/map': typeof ContentContentIdMapRoute
 }
 export interface FileRouteTypes {
@@ -201,7 +199,9 @@ export interface FileRouteTypes {
     | '/mypage'
     | '/not-found'
     | '/privacy'
+    | '/reset-password'
     | '/terms'
+    | '/verify-email'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/reset-password'
@@ -211,8 +211,6 @@ export interface FileRouteTypes {
     | '/auth/verified-email'
     | '/content/$id'
     | '/location/$id'
-    | '/verified-email/reset-password'
-    | '/verified-email/verify-email'
     | '/content/$contentId/map'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -222,7 +220,9 @@ export interface FileRouteTypes {
     | '/mypage'
     | '/not-found'
     | '/privacy'
+    | '/reset-password'
     | '/terms'
+    | '/verify-email'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/reset-password'
@@ -232,8 +232,6 @@ export interface FileRouteTypes {
     | '/auth/verified-email'
     | '/content/$id'
     | '/location/$id'
-    | '/verified-email/reset-password'
-    | '/verified-email/verify-email'
     | '/content/$contentId/map'
   id:
     | '__root__'
@@ -243,7 +241,9 @@ export interface FileRouteTypes {
     | '/mypage'
     | '/not-found'
     | '/privacy'
+    | '/reset-password'
     | '/terms'
+    | '/verify-email'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/reset-password'
@@ -253,8 +253,6 @@ export interface FileRouteTypes {
     | '/auth/verified-email'
     | '/content/$id'
     | '/location/$id'
-    | '/verified-email/reset-password'
-    | '/verified-email/verify-email'
     | '/content/$contentId/map'
   fileRoutesById: FileRoutesById
 }
@@ -265,7 +263,9 @@ export interface RootRouteChildren {
   MypageRoute: typeof MypageRoute
   NotFoundRoute: typeof NotFoundRoute
   PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
@@ -275,18 +275,30 @@ export interface RootRouteChildren {
   AuthVerifiedEmailRoute: typeof AuthVerifiedEmailRoute
   ContentIdRoute: typeof ContentIdRoute
   LocationIdRoute: typeof LocationIdRoute
-  VerifiedEmailResetPasswordRoute: typeof VerifiedEmailResetPasswordRoute
-  VerifiedEmailVerifyEmailRoute: typeof VerifiedEmailVerifyEmailRoute
   ContentContentIdMapRoute: typeof ContentContentIdMapRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -329,20 +341,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/verified-email/verify-email': {
-      id: '/verified-email/verify-email'
-      path: '/verified-email/verify-email'
-      fullPath: '/verified-email/verify-email'
-      preLoaderRoute: typeof VerifiedEmailVerifyEmailRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/verified-email/reset-password': {
-      id: '/verified-email/reset-password'
-      path: '/verified-email/reset-password'
-      fullPath: '/verified-email/reset-password'
-      preLoaderRoute: typeof VerifiedEmailResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/location/$id': {
@@ -425,7 +423,9 @@ const rootRouteChildren: RootRouteChildren = {
   MypageRoute: MypageRoute,
   NotFoundRoute: NotFoundRoute,
   PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
@@ -435,8 +435,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthVerifiedEmailRoute: AuthVerifiedEmailRoute,
   ContentIdRoute: ContentIdRoute,
   LocationIdRoute: LocationIdRoute,
-  VerifiedEmailResetPasswordRoute: VerifiedEmailResetPasswordRoute,
-  VerifiedEmailVerifyEmailRoute: VerifiedEmailVerifyEmailRoute,
   ContentContentIdMapRoute: ContentContentIdMapRoute,
 }
 export const routeTree = rootRouteImport
