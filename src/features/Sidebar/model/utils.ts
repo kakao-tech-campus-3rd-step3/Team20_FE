@@ -27,7 +27,10 @@ export const convertLocationsToPlaces = async (locations: ContentLocation[]): Pr
     locations.map(async (location: ContentLocation) => {
       try {
         const locationDetail = await getLocationDetail(location.locationId.toString());
-        return locationDetail as Place;
+        return {
+          ...locationDetail,
+          description: location.sceneDescription || locationDetail.description,
+        } as Place;
       } catch {
         return convertContentLocationToPlace(location);
       }
