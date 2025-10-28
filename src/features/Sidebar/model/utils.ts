@@ -38,7 +38,9 @@ export const convertLocationsToPlaces = async (locations: ContentLocation[]): Pr
   );
 };
 
-export const getPlacesFromContents = async (contents: ContentDetail[]): Promise<Place[]> => {
+export const getPlacesFromContents = async (
+  contents: ContentDetail[] | Array<{ contentId: number }>,
+): Promise<Place[]> => {
   const allPlaces: Place[] = [];
 
   for (const content of contents) {
