@@ -1,7 +1,11 @@
-import { useState, useEffect, type ReactNode } from 'react';
-import axios from 'axios';
+import { type ReactNode } from 'react';
 import type { User, LoginRequest, SignupRequest } from '@/entities/auth';
-import { loginApi, signupApi, checkAuthStatusApi, logoutApi } from '@/entities/auth/api/authApi';
+import { 
+  useAuthStatusQuery, 
+  useLoginMutation, 
+  useSignupMutation, 
+  useLogoutMutation 
+} from '@/entities/auth';
 import { AuthContext, type AuthContextType } from '@/shared/lib/auth';
 
 interface AuthProviderProps {
@@ -9,39 +13,24 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { 
+    data: authStatus, 
+    isLoading 
+  } = useAuthStatusQuery();
+  const loginMutation = useLoginMutation();
+  const signupMutation = useSignupMutation();
+  const logoutMutation = useLogoutMutation();
 
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await checkAuthStatusApi();
-        setIsLoggedIn(response.isLoggedIn);
-      } catch (error) {
-        console.error('Auth status check failed:', error);
-        setIsLoggedIn(false);
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuthStatus();
-  }, []);
+  const isLoggedIn = authStatus?.isLoggedIn ?? false;
+  const user: User | null = isLoggedIn && authStatus ? {
+    userId: authStatus.userId!,
+    email: authStatus.email!,
+    nickname: authStatus.nickname!,
+  } : null;
 
   const login = async (credentials: LoginRequest) => {
     try {
-      const response = await loginApi(credentials);
-
-      const newUser: User = {
-        userId: response.userId,
-        email: response.email,
-        nickname: response.nickname,
-      };
-
-      setUser(newUser);
-      setIsLoggedIn(true);
+      await loginMutation.mutateAsync(credentials);
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
@@ -50,33 +39,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signup = async (userData: SignupRequest) => {
     try {
-      await signupApi(userData);
+      await signupMutation.mutateAsync(userData);
     } catch (error) {
       console.error('Signup failed:', error);
-      if (axios.isAxiosError(error)) {
-        console.error('Response data:', error.response?.data);
-        console.error('Response status:', error.response?.status);
-      }
       throw error;
     }
   };
 
   const logout = async () => {
     try {
-      await logoutApi();
-      setUser(null);
-      setIsLoggedIn(false);
-    } catch {
-      // 실패해도 일단 초기화
-      setUser(null);
-      setIsLoggedIn(false);
+      await logoutMutation.mutateAsync();
+    } catch (error) {
+      console.error('Logout failed:', error);
     }
   };
 
   const value: AuthContextType = {
     user,
     isLoggedIn,
-    isLoading,
+    isLoading: isLoading || loginMutation.isPending || signupMutation.isPending || logoutMutation.isPending,
     login,
     signup,
     logout,
