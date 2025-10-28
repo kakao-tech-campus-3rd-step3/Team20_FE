@@ -7,24 +7,24 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: kspot-nextjs
-  minReplicas: 2  # 최소 복제본 2개
-  maxReplicas: 3  # 최대 복제본 3개
+  minReplicas: 2 
+  maxReplicas: 3
   metrics:
   - type: Resource
     resource:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 70  # CPU 사용률이 70%를 넘으면 스케일 아웃
+        averageUtilization: 70 
   - type: Resource
     resource:
       name: memory
       target:
         type: Utilization
-        averageUtilization: 80  # 메모리 사용률이 80%를 넘으면 스케일 아웃
+        averageUtilization: 80 
   behavior:
     scaleUp:
-      stabilizationWindowSeconds: 60  # 스케일 업 전 60초 대기
+      stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 50
@@ -34,7 +34,7 @@ spec:
         periodSeconds: 60
       selectPolicy: Max
     scaleDown:
-      stabilizationWindowSeconds: 300  # 스케일 다운 전 5분 대기
+      stabilizationWindowSeconds: 300
       policies:
       - type: Percent
         value: 50
