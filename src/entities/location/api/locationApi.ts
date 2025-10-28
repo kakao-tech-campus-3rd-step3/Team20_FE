@@ -4,7 +4,7 @@ import type { LocationDetail } from '../model/types';
 // 장소 상세 정보 조회
 export const getLocationDetail = async (locationId: string): Promise<LocationDetail> => {
   try {
-    const response = await httpBackend.get(`/locations/${locationId}`);
+    const response = await httpBackend.get(`/api/locations/${locationId}`);
 
     if (!response) {
       console.warn('Location API returned undefined, using default values');
@@ -34,3 +34,5 @@ export const getLocationDetail = async (locationId: string): Promise<LocationDet
     };
   }
 };
+
+// 리뷰 API는 location-review 엔티티로 이동

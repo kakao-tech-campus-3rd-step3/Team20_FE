@@ -13,19 +13,21 @@ export const getPopularContents = async (): Promise<PopularContent[]> => {
   const data = await httpBackend.get<
     PopularResponse | PopularContent[],
     PopularResponse | PopularContent[]
-  >('/contents/popular');
+  >('/api/contents/popular');
   if (Array.isArray(data)) return data;
   return data?.items ?? [];
 };
 
 // 콘텐츠 상세 정보 조회
 export const getContentDetail = async (contentId: string): Promise<ContentDetail> => {
-  return httpBackend.get(`/contents/${contentId}`);
+  return httpBackend.get(`/api/contents/${contentId}`);
 };
 
 // 콘텐츠 관련 장소 조회
 export const getContentLocations = async (contentId: string): Promise<ContentLocation[]> => {
-  return httpBackend.get(`/contents/${contentId}/related-locations`);
+  return httpBackend.get<ContentLocation[], ContentLocation[]>(
+    `/api/contents/${contentId}/related-location`,
+  );
 };
 
 // 카테고리별 콘텐츠 목록 조회
@@ -35,7 +37,7 @@ export const getCategoryContents = async (category: string): Promise<CategoryCon
   const data = await httpBackend.get<
     CategoryContent[] | { items: CategoryContent[] },
     CategoryContent[] | { items: CategoryContent[] }
-  >(`/contents/popular?category=${category}`);
+  >(`/api/contents/popular?category=${category}`);
 
   // 어떤 형태로 와도 배열만 리턴
   return Array.isArray(data) ? data : (data?.items ?? []);
