@@ -15,11 +15,9 @@ export type PopularResponse = {
   };
 };
 export type ContentLocation = {
-  location_id: number;
-  name: string;
-  scene_description: string;
-  location_image_url: string;
+  locationId: number;
   contentId: number;
+  sceneDescription: string;
 };
 
 export type Artist = {

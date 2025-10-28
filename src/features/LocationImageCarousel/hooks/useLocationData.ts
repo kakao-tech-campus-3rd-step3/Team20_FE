@@ -12,15 +12,15 @@ export function useLocationData(contentId: string) {
     queryFn: () => getContentLocations(contentId),
   });
 
-  // 각 location_id로 장소 상세 정보 병렬 조회
+  // 각 locationId로 장소 상세 정보 병렬 조회
   const { data: locations = [] } = useSuspenseQuery({
-    queryKey: ['locations', contentLocations?.map((loc) => loc.location_id) || []],
+    queryKey: ['locations', contentLocations?.map((loc) => loc.locationId) || []],
     queryFn: async () => {
       if (!contentLocations || contentLocations.length === 0) {
         return [];
       }
       const locationPromises = contentLocations.map((location) =>
-        getLocationDetail(location.location_id.toString()),
+        getLocationDetail(location.locationId.toString()),
       );
       return Promise.all(locationPromises);
     },

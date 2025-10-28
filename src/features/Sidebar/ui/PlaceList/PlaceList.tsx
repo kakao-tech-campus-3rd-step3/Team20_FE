@@ -18,9 +18,10 @@ export function PlaceList({
           (routePlace) => routePlace.locationId === place.locationId,
         );
         const isSelected = selectedPlace?.locationId === place.locationId;
+        const uniqueKey = place.locationId || `place-${index}`;
 
         return (
-          <div key={place.locationId}>
+          <div key={uniqueKey}>
             <PlaceCard
               name={place.name}
               address={place.address}

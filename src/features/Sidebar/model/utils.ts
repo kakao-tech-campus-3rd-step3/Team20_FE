@@ -12,11 +12,11 @@ export const hasAddress = (
 };
 
 export const convertContentLocationToPlace = (location: ContentLocation): Place => ({
-  locationId: location.location_id,
-  name: location.name,
+  locationId: location.locationId,
+  name: '장소 정보 없음',
   address: '주소 정보 없음',
-  description: location.scene_description,
-  locationImage: location.location_image_url,
+  description: location.sceneDescription,
+  locationImage: '',
   latitude: 0,
   longitude: 0,
   relatedContents: [],
@@ -26,7 +26,7 @@ export const convertLocationsToPlaces = async (locations: ContentLocation[]): Pr
   return Promise.all(
     locations.map(async (location: ContentLocation) => {
       try {
-        const locationDetail = await getLocationDetail(location.location_id.toString());
+        const locationDetail = await getLocationDetail(location.locationId.toString());
         return locationDetail as Place;
       } catch {
         return convertContentLocationToPlace(location);
