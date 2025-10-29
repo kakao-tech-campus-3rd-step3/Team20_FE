@@ -4,13 +4,6 @@ import { PasswordResetForm } from '@/features/auth';
 import { useAuth } from '@/shared/lib/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, Suspense } from 'react';
-import type { Metadata } from 'next';
-
-// 메타데이터는 별도 파일로 분리하거나 generateMetadata 사용 필요
-// export const metadata: Metadata = {
-//   title: '비밀번호 재설정 - K-SPOT',
-//   description: 'K-SPOT 계정의 비밀번호를 재설정하세요',
-// };
 
 function ResetPasswordContent() {
   const { isLoggedIn, isLoading } = useAuth();
@@ -19,13 +12,11 @@ function ResetPasswordContent() {
   const token = searchParams.get('token') || '';
 
   useEffect(() => {
-    // 로그인한 사용자는 마이페이지로 리다이렉트
     if (!isLoading && isLoggedIn) {
       router.replace('/mypage');
     }
   }, [isLoggedIn, isLoading, router]);
 
-  // 로딩 중
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
@@ -37,9 +28,8 @@ function ResetPasswordContent() {
     );
   }
 
-  // 이미 로그인한 사용자
   if (isLoggedIn) {
-    return null; // 리다이렉트 중이므로 아무것도 렌더링하지 않음
+    return null;
   }
 
   if (!token) {
