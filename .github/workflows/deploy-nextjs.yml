@@ -149,6 +149,8 @@ jobs:
           kubectl apply -f k8s/configmap.yaml
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/certificate.yaml
+          kubectl apply -f k8s/ingress.yaml
 
       - name: Update Kubernetes deployment
         run: |
@@ -168,22 +170,34 @@ jobs:
         run: |
           DEPLOYMENT_NAME="kspot-nextjs"
           SERVICE_NAME="kspot-nextjs-service"
+          INGRESS_NAME="kspot-nextjs-ingress"
           
           echo "=== Deployment Status ==="
           kubectl get deployment ${DEPLOYMENT_NAME}
           
           echo "=== Service Information ==="
           kubectl get service ${SERVICE_NAME}
+
+          echo "=== Ingress Information ==="
+          kubectl get ingress ${INGRESS_NAME}
           
           echo "=== Pod Status ==="
           kubectl get pods -l app=${DEPLOYMENT_NAME}
+
+          echo "=== SSL Certificate Status ==="
+          kubectl get managedcertificate kspot-ssl-cert
+
+          echo "Checking Ingress IP..."
           
-          # Get external IP if available
-          EXTERNAL_IP=$(kubectl get service ${SERVICE_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "Pending")
+          # Ingress에서 IP를 가져오기 (Service는 NodePort이므로 외부 IP 없음)
+          EXTERNAL_IP=$(kubectl get ingress ${INGRESS_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "Pending")
           echo "External IP: ${EXTERNAL_IP}"
           
           if [ "$EXTERNAL_IP" != "Pending" ] && [ "$EXTERNAL_IP" != "" ]; then
-            echo "Application URL: http://${EXTERNAL_IP}"
+            echo "Application URLs:"
+            echo "  - https://kspot.site"
+            echo "  - https://www.kspot.site"
+            echo "Note: SSL certificate may take 10-20 minutes to be issued"
           else
-            echo "External IP is still being assigned. Check later with: kubectl get service ${SERVICE_NAME}"
+            echo "Ingress IP is still being assigned. Check later with: kubectl get ingress ${INGRESS_NAME}"
           fi
