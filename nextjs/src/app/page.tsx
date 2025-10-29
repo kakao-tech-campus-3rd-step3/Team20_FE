@@ -1,8 +1,19 @@
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { ServiceMainHero } from '@/features/ServiceMainHero';
-import { CategorySection } from '@/features/CategorySection';
-import { PopularSection } from '@/features/PopularSection';
 import type { Metadata } from 'next';
+
+// 지연 로딩으로 Critical CSS 최적화
+const CategorySection = lazy(() => 
+  import('@/features/CategorySection').then(module => ({ 
+    default: module.CategorySection 
+  }))
+);
+
+const PopularSection = lazy(() => 
+  import('@/features/PopularSection').then(module => ({ 
+    default: module.PopularSection 
+  }))
+);
 
 export const metadata: Metadata = {
   title: 'K-SPOT - K-콘텐츠 여행의 모든 것',

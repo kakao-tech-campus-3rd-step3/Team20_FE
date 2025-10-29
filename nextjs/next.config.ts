@@ -2,6 +2,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'standalone', // Docker 배포를 위한 standalone 출력
+  
+  // 성능 최적화 설정
+  compress: true,
+  poweredByHeader: false,
+  
+  // 실험적 기능들
+  experimental: {
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-slot'],
+  },
+  
   turbopack: {
     root: __dirname,
     rules: {

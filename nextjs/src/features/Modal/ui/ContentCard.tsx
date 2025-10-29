@@ -11,56 +11,36 @@ export function ContentCard({ content }: ContentCardProps) {
     router.push(`/content/${content.contentId}`);
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'DRAMA':
-        return 'bg-blue-100 text-blue-800';
-      case 'MOVIE':
-        return 'bg-green-100 text-green-800';
-      case 'POP':
-        return 'bg-purple-100 text-purple-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   return (
     <div
-      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer hover:-translate-y-1"
+      className="group relative rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:-translate-y-2 bg-white"
       onClick={handleClick}
     >
-      <div className="relative w-full h-48 overflow-hidden">
+      <div className="relative w-full aspect-[3/4] image-container-stable">
         <Image
           src={content.posterImageUrl}
           alt={content.title}
           fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 400px"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
+          priority={false}
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
         />
-      </div>
-      <div className="p-4">
-        {content.category && (
-          <span
-            className={`inline-block text-xs font-medium px-2 py-1 rounded-md mb-2 ${getCategoryColor(content.category)}`}
-          >
-            {content.category}
-          </span>
-        )}
-        <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight">
-          {content.title}
-        </h3>
-        {content.releaseDate && (
-          <p className="text-sm text-gray-500">{formatDate(content.releaseDate)}</p>
-        )}
+        
+        {/* 호버 시 오버레이 효과 */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        {/* 호버 시 재생 버튼 */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
+            <svg className="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
   );
