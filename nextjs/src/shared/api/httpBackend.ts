@@ -68,12 +68,12 @@ httpBackend.interceptors.response.use(
       if (
         error.response.status === 401 &&
         !originalRequest._retry &&
-        url !== '/api/users/refresh'
+        url !== '/users/refresh'
       ) {
         originalRequest._retry = true;
 
         if (!refreshTokenPromise) {
-          refreshTokenPromise = httpBackend.post('/api/users/refresh').finally(() => {
+          refreshTokenPromise = httpBackend.post('/users/refresh').finally(() => {
             refreshTokenPromise = null;
           });
         }
