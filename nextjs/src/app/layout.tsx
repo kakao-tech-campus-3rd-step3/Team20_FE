@@ -4,7 +4,7 @@ import "./globals.css";
 import { QueryProvider } from "./_providers/QueryProvider";
 import { GlobalLayout } from "@/features/Header/ui/GlobalLayout";
 import { KakaoScript } from "./_components/KakaoScript";
-import { AuthProvider } from "@/shared/lib/auth";
+import { AuthProvider } from "./_providers/AuthProvider";
 
 const inter = Inter({
   variable: "--font-inter",

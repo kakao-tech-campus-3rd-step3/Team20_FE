@@ -4,7 +4,7 @@ import { useState, useEffect, type ReactNode } from 'react';
 import axios from 'axios';
 import type { User, LoginRequest, SignupRequest } from '@/entities/auth';
 import { loginApi, signupApi, checkAuthStatusApi, logoutApi } from '@/entities/auth/api/authApi';
-import { AuthContext, type AuthContextType } from './AuthContext';
+import { AuthContext, type AuthContextType } from '@/shared/lib/auth';
 
 interface AuthProviderProps {
   children: ReactNode;
