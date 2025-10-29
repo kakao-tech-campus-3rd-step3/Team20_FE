@@ -65,9 +65,10 @@ export function RouteSidebar({
 
   return (
     <aside
-      className={['w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full', className ?? ''].join(
-        ' ',
-      )}
+      className={[
+        'overflow-hidden h-full',
+        className ?? 'w-full max-w-sm sm:max-w-md lg:w-96 lg:flex-shrink-0',
+      ].join(' ')}
     >
       <div className="bg-(--color-background-primary) shadow-(--shadow-card) rounded-l-2xl flex flex-col border-l border-(--color-border-primary) overflow-hidden h-full">
         {isLaptop && (
