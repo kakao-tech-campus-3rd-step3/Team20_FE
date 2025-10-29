@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: false,
+    contentDispositionType: 'attachment',
     remotePatterns: [
       // 1. [신규] TMDB 이미지 서버
       {
@@ -30,6 +35,11 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'github.com',
+      },
+      // 4. CloudFront CDN
+      {
+        protocol: 'https',
+        hostname: 'd2d0fud3w2c5j6.cloudfront.net',
       },
       // 참고: 깃헙 아바타는 'avatars.githubusercontent.com'
       // 참고: 깃헙 raw 파일은 'raw.githubusercontent.com'

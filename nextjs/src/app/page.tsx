@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <main className="mx-auto max-w-screen-2xl px-[var(--spacing-container-padding)] md:px-[var(--spacing-container-padding-tablet)] lg:px-[var(--spacing-container-padding-desktop)]">
+    <main className="mx-auto max-w-screen-2xl container-padding-stable">
       <ServiceMainHero />
       <Suspense fallback={
         <section className="grid gap-6 md:grid-cols-3 px-[var(--spacing-container-padding)] md:px-[var(--spacing-container-padding-tablet)] lg:px-[var(--spacing-container-padding-desktop)]">

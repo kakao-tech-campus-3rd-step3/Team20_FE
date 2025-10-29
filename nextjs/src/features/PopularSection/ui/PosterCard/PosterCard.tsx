@@ -8,12 +8,16 @@ export function PosterCard({ contentId, title, posterImageUrl }: PosterCardProps
   return (
     <article className="group border border-[var(--color-border-primary)] overflow-hidden bg-[var(--color-background-primary)] shadow-lg hover:shadow-2xl transition-all duration-300 will-change-transform relative hover:-translate-y-2 rounded-2xl">
       <Link href={`/content/${contentId}`} className="block">
-        <div className="aspect-[3/4] overflow-hidden relative bg-gradient-to-br from-[var(--color-gray-100)] to-[var(--color-gray-200)]">
+        <div className="aspect-[3/4] image-container-stable">
           <Image
             src={posterImageUrl}
             alt={title}
             fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
+            priority={false}
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
           />
           <div className="pointer-events-none absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 

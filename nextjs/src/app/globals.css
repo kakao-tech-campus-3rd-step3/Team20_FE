@@ -9,6 +9,7 @@
 
 @import './_styles/utilities/_typography.css';
 @import './_styles/utilities/_safearea.css';
+@import './_styles/utilities/_layout-stability.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -123,6 +124,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  /* 폴백 값들을 추가하여 CSS 변수 로딩 실패 시에도 안정적인 렌더링 보장 */
+  --spacing-container-padding: 1rem;
+  --spacing-container-padding-tablet: 1.5rem;
+  --spacing-container-padding-desktop: 2rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
 }
 
 * {

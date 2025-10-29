@@ -29,8 +29,12 @@ ENV NEXT_PUBLIC_KAKAO_MAP_API_KEY=$NEXT_PUBLIC_KAKAO_MAP_API_KEY
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
 
-# Build the application
-RUN npm run build
+# Build the application with optimizations
+RUN npm run build && \
+    # 빌드 후 불필요한 파일들 정리
+    rm -rf .next/cache/webpack && \
+    # 이미지 최적화 캐시 디렉토리 생성
+    mkdir -p .next/cache/images
 
 # Production image, copy all the files and run next
 FROM base AS runner
