@@ -29,7 +29,7 @@ spec:
         - name: NEXT_PUBLIC_API_BASE_URL
           value: "https://d2d0fud3w2c5j6.cloudfront.net"
         - name: NEXT_PUBLIC_BACKEND_URL
-          value: "https://k-spot.kro.kr"
+          value: "https://k-spot.kro.kr/api"
         resources:
           requests:
             memory: "256Mi"
