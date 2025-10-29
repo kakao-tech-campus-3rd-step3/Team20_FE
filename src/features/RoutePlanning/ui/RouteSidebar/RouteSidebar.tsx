@@ -114,13 +114,9 @@ export function RouteSidebar({
           <div className="p-(--spacing-4) bg-(--color-background-secondary) border-t border-(--color-border-primary)">
             <div className="space-y-(--spacing-3)">
               <div className="text-center">
-                <p className="text-caption text-(--color-text-secondary) mb-(--spacing-2)">
-                  {ROUTE_SIDEBAR_TITLES.FOOTER_TITLE}
+                <p className="text-caption text-(--color-text-tertiary)">
+                  {formatLocations(places.length)}
                 </p>
-                <div className="flex items-center justify-center gap-(--spacing-4) text-caption text-(--color-text-tertiary)">
-                  <span>{formatLocations(places.length)}</span>
-                  <span>{ROUTE_SIDEBAR_ICONS.ESTIMATED_TIME}</span>
-                </div>
               </div>
 
               <button onClick={openModal} className={ROUTE_SIDEBAR_STYLES.SAVE_BUTTON}>

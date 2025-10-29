@@ -8,7 +8,6 @@ export const ROUTE_SIDEBAR_TITLES = {
   SUBTITLE: '추가된 장소를 확인하고 순서를 조정하세요',
   EMPTY_TITLE: '동선에 장소를 추가해보세요',
   EMPTY_DESCRIPTION: '좌측에서 장소를 선택하고 "동선에 추가하기" 버튼을 눌러보세요.',
-  FOOTER_TITLE: '🗺️ 나만의 동선 만들기',
 } as const;
 
 export const ROUTE_SIDEBAR_BUTTONS = {
@@ -25,7 +24,6 @@ export const ROUTE_SIDEBAR_STYLES = {
 export const ROUTE_SIDEBAR_ICONS = {
   MAP: '🗺️',
   SAVE: '💾',
-  ESTIMATED_TIME: '⏱️ 예상 소요시간',
   SAVE_ICON_PATH:
     'M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12',
 } as const;
