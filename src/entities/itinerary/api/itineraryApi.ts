@@ -1,4 +1,4 @@
-import { http } from '@/shared/api';
+import { httpBackend } from '@/shared/api/httpBackend';
 import type {
   CreateItineraryRequest,
   CreateItineraryResponse,
@@ -9,13 +9,13 @@ import type {
 export const createItinerary = async (
   data: CreateItineraryRequest,
 ): Promise<CreateItineraryResponse> => {
-  return (await http.post('/itineraries', data)) as CreateItineraryResponse;
+  return (await httpBackend.post('/itineraries', data)) as CreateItineraryResponse;
 };
 
 export const getItineraries = async (): Promise<ItinerariesListResponse> => {
-  return (await http.get('/itineraries')) as ItinerariesListResponse;
+  return (await httpBackend.get('/itineraries')) as ItinerariesListResponse;
 };
 
 export const getItineraryDetail = async (itineraryId: string): Promise<ItineraryDetailResponse> => {
-  return (await http.get(`/itineraries/${itineraryId}`)) as ItineraryDetailResponse;
+  return (await httpBackend.get(`/itineraries/${itineraryId}`)) as ItineraryDetailResponse;
 };
