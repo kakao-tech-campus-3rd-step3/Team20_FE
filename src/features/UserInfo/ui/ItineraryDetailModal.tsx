@@ -3,9 +3,17 @@ import { X } from 'lucide-react';
 import { IconButton } from '@/shared/ui';
 import { messages } from '../model/messages';
 import type { ItineraryDetailModalProps } from '../model/types';
+import { useNavigate } from '@tanstack/react-router';
 
-export const ItineraryDetailModal = ({ itinerary, isOpen, onClose, onDelete }: ItineraryDetailModalProps) => {
+export const ItineraryDetailModal = ({
+  itinerary,
+  isOpen,
+  onClose,
+  onDelete,
+}: ItineraryDetailModalProps) => {
   if (!itinerary) return null;
+
+  const navigate = useNavigate();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -13,6 +21,13 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose, onDelete }: I
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
+    });
+  };
+
+  const handleViewOnMap = () => {
+    navigate({
+      to: '/map',
+      search: { itineraryId: itinerary.itineraryId.toString() },
     });
   };
 
@@ -52,12 +67,13 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose, onDelete }: I
                 <div key={location.locationId} className="flex gap-5">
                   <div className="flex flex-col items-center pt-1.5">
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium shrink-0 ${isFirst
-                        ? 'bg-blue-600 text-white'
-                        : isLast
-                          ? 'bg-gray-900 text-white'
-                          : 'bg-gray-100 text-gray-600 border border-gray-200'
-                        }`}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium shrink-0 ${
+                        isFirst
+                          ? 'bg-blue-600 text-white'
+                          : isLast
+                            ? 'bg-gray-900 text-white'
+                            : 'bg-gray-100 text-gray-600 border border-gray-200'
+                      }`}
                     >
                       {index + 1}
                     </div>
@@ -78,7 +94,9 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose, onDelete }: I
                         </span>
                       )}
                     </div>
-                    <p className="text-[15px] text-gray-500 leading-relaxed break-words">{location.address}</p>
+                    <p className="text-[15px] text-gray-500 leading-relaxed break-words">
+                      {location.address}
+                    </p>
                   </div>
                 </div>
               );
@@ -87,7 +105,10 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose, onDelete }: I
         </div>
 
         <div className="px-8 pb-7 pt-2 flex gap-3">
-          <button className="flex-1 h-12 bg-brand-primary text-white text-base font-medium rounded-lg hover:bg-brand-secondary/90 transition-colors">
+          <button
+            onClick={handleViewOnMap}
+            className="flex-1 h-12 bg-brand-primary text-white text-base font-medium rounded-lg hover:bg-brand-secondary/90 transition-colors"
+          >
             {messages.viewOnMap}
           </button>
           <button

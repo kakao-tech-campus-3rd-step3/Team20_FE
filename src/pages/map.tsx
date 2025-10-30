@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState, useEffect } from 'react';
-import { Sidebar } from '@/features/Sidebar';
+import { Sidebar, convertItineraryLocationsToRoutePlaces } from '@/features/Sidebar';
 import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch/SidebarSearch';
 import { CloseButton } from '@/features/Sidebar/ui/CloseButton/CloseButton';
 import { RouteSidebar } from '@/features/RoutePlanning';
@@ -24,12 +24,19 @@ import { DRAG_STYLES } from '@/features/RoutePlanning/model/constants';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks/useRoutePlanning';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 import type { Place } from '@/features/Sidebar/model/types';
+import { useItineraryDetail } from '@/entities/itinerary/api/queryfn';
 
 export const Route = createFileRoute('/map')({
   component: MapPage,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      itineraryId: (search.itineraryId as string) || undefined,
+    };
+  },
 });
 
 function MapPage() {
+  const { itineraryId } = Route.useSearch();
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const [mobileBottomSection, setMobileBottomSection] = useState<MobileBottomSection>(null);
   const [hasUserToggledBottom, setHasUserToggledBottom] = useState(false);
@@ -46,6 +53,24 @@ function MapPage() {
   const { selectedPlace, handlePlaceSelect } = usePlaceSelection({
     onPlaceClick: handlePlaceClick,
   });
+  const { data: itineraryDetail } = useItineraryDetail(itineraryId || '');
+
+  // 저장된 동선 로드
+  useEffect(() => {
+    if (itineraryDetail?.data?.locations && routePlaces.length === 0) {
+      const loadItinerary = async () => {
+        try {
+          const routePlacesData = await convertItineraryLocationsToRoutePlaces(
+            itineraryDetail.data.locations,
+          );
+          routePlacesData.forEach((place) => addPlace(place));
+        } catch (error) {
+          console.error('동선 로드 실패:', error);
+        }
+      };
+      loadItinerary();
+    }
+  }, [itineraryDetail, routePlaces.length, addPlace]);
 
   // 모바일에서는 최초 1회만 기본으로 검색 결과 패널을 오픈
   useEffect(() => {
