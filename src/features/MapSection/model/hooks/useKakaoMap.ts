@@ -60,7 +60,7 @@ export function useKakaoMap(options?: MapOptions) {
         const map = new maps.Map(containerEl, {
           center: centerLatLng,
           level,
-          draggable: !isLaptop,
+          draggable: true,
           scrollwheel: scrollwheel,
           disableDoubleClickZoom: disableDoubleClickZoom,
         });
@@ -104,7 +104,7 @@ export function useKakaoMap(options?: MapOptions) {
 
     try {
       map.setLevel(level);
-      map.setDraggable(!isLaptop);
+      map.setDraggable(true);
       map.setZoomable(scrollwheel);
     } catch (error) {
       console.error('카카오맵 옵션 업데이트 실패:', error);
