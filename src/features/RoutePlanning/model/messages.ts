@@ -59,4 +59,9 @@ export const SAVE_ROUTE_MODAL = {
     TITLE_MAX_LENGTH: 50,
     DESCRIPTION_MAX_LENGTH: 200,
   },
+  SUCCESS: {
+    TITLE: '동선 저장 완료',
+    MESSAGE: '성공적으로 동선을 저장하였습니다. 동선은 마이페이지에서 확인할 수 있습니다.',
+    GO_MYPAGE: '마이페이지 바로 가기',
+  },
 } as const;

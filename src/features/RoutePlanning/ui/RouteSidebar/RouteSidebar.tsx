@@ -18,6 +18,7 @@ import { useAuth } from '@/shared/lib/auth';
 import { useState, useCallback } from 'react';
 import { LoginRequiredModal } from '@/features/auth/ui/LoginRequiredModal';
 import { useNavigate } from '@tanstack/react-router';
+import { SaveSuccessModal } from '../SaveSuccessModal/SaveSuccessModal';
 import {
   DndContext,
   closestCenter,
@@ -49,6 +50,7 @@ export function RouteSidebar({
   const { lockScroll, unlockScroll } = useDragScrollLock();
   const { isLoggedIn } = useAuth();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleOpenSave = useCallback(() => {
@@ -156,6 +158,9 @@ export function RouteSidebar({
         onClose={closeModal}
         places={places}
         onSave={handleSave}
+        onSuccess={() => {
+          setIsSuccessModalOpen(true);
+        }}
       />
       <LoginRequiredModal
         isOpen={isLoginModalOpen}
@@ -163,6 +168,14 @@ export function RouteSidebar({
         onConfirm={() => {
           setIsLoginModalOpen(false);
           navigate({ to: '/auth/login' });
+        }}
+      />
+      <SaveSuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        onConfirm={() => {
+          setIsSuccessModalOpen(false);
+          navigate({ to: '/mypage' });
         }}
       />
     </aside>

@@ -31,9 +31,17 @@ export type SaveRouteModalProps = WithPlaces & {
   isOpen: boolean;
   onClose: () => void;
   onSave?: SaveRouteHandler;
+  onSuccess?: () => void;
 };
 
 export type UseSaveRouteFormOptions = {
   onSave?: SaveRouteHandler;
   onClose?: () => void;
+  onSuccess?: () => void;
 };
+
+export interface SaveSuccessModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+}
