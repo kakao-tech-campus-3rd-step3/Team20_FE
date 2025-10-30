@@ -13,10 +13,10 @@ export const hasAddress = (
 
 export const convertContentLocationToPlace = (location: ContentLocation): Place => ({
   locationId: location.locationId,
-  name: '장소 정보 없음',
+  name: '', // ContentLocation에 name 없음
   address: '주소 정보 없음',
   description: location.sceneDescription,
-  locationImage: '',
+  locationImage: '', // ContentLocation에 locationImageUrl 없음
   latitude: 0,
   longitude: 0,
   relatedContents: [],

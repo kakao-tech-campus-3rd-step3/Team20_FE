@@ -25,6 +25,9 @@ export const getContentDetail = async (contentId: string): Promise<ContentDetail
 
 // 콘텐츠 관련 장소 조회
 export const getContentLocations = async (contentId: string): Promise<ContentLocation[]> => {
+  return httpBackend.get<ContentLocation[], ContentLocation[]>(
+    `/contents/${contentId}/related-location`,
+  );
   return httpBackend.get(`/contents/${contentId}/related-location`);
 };
 
