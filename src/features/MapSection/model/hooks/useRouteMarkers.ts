@@ -27,6 +27,11 @@ export function useRouteMarkers(
   const { isLaptop } = useBreakpoints();
   const routeMarkersRef = useRef<KakaoMarker[]>([]);
   const routePolylinesRef = useRef<KakaoPolyline[]>([]);
+  const onPlaceClickRef = useRef<typeof onPlaceClick | undefined>(onPlaceClick);
+  const onAddToRouteRef = useRef<typeof onAddToRoute | undefined>(onAddToRoute);
+
+  onPlaceClickRef.current = onPlaceClick;
+  onAddToRouteRef.current = onAddToRoute;
 
   useEffect(() => {
     const map = mapRef.current;
@@ -56,7 +61,8 @@ export function useRouteMarkers(
 
         // 동선 마커 클릭 이벤트 추가
         maps.event.addListener(marker, 'click', () => {
-          createAndShowOverlay(map, place, isLaptop, onAddToRoute, true); // 동선 마커는 항상 동선에 추가된 상태
+          onPlaceClickRef.current?.(place);
+          createAndShowOverlay(map, place, isLaptop, onAddToRouteRef.current, true); // 동선 마커는 항상 동선에 추가된 상태
         });
 
         return marker;
@@ -88,5 +94,5 @@ export function useRouteMarkers(
       routePolylinesRef.current = clearPolylines(routePolylinesRef.current);
       closeGlobalOverlay();
     };
-  }, [routePlaces, mapRef, onPlaceClick, onAddToRoute, isLaptop]);
+  }, [routePlaces, mapRef, isLaptop]);
 }

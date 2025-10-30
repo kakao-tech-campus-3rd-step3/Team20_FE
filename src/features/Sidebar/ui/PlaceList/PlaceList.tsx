@@ -1,4 +1,5 @@
 import { PlaceCard } from '../PlaceCard/PlaceCard';
+import { usePlaceListScroll } from '../../model/hooks/usePlaceListScroll';
 import type { PlaceListProps } from '../../model/types';
 import { ROUTE_BUTTON_TEXT } from '@/features/RoutePlanning/model/messages';
 import { cn } from '@/shared/lib';
@@ -11,6 +12,7 @@ export function PlaceList({
   routePlaces = [],
   selectedPlace,
 }: PlaceListProps) {
+  const { setItemRef } = usePlaceListScroll(selectedPlace, places);
   return (
     <div className={cn('divide-y divide-(--color-border-primary)', className)}>
       {places.map((place, index) => {
@@ -18,10 +20,10 @@ export function PlaceList({
           (routePlace) => routePlace.locationId === place.locationId,
         );
         const isSelected = selectedPlace?.locationId === place.locationId;
-        const uniqueKey = place.locationId || `place-${index}`;
+        const uniqueKey = String(place.locationId ?? `place-${index}`);
 
         return (
-          <div key={uniqueKey}>
+          <div key={uniqueKey} ref={setItemRef(uniqueKey)}>
             <PlaceCard
               name={place.name}
               address={place.address}
