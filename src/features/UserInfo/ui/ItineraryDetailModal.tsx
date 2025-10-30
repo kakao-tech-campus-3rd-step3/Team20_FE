@@ -11,9 +11,9 @@ export const ItineraryDetailModal = ({
   onClose,
   onDelete,
 }: ItineraryDetailModalProps) => {
-  if (!itinerary) return null;
-
   const navigate = useNavigate();
+
+  if (!itinerary) return null;
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
