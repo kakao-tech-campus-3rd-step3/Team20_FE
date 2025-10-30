@@ -37,6 +37,7 @@ export const Route = createFileRoute('/map')({
 
 function MapPage() {
   const { itineraryId } = Route.useSearch();
+  console.log('🔍 MapPage - itineraryId:', itineraryId);
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const [mobileBottomSection, setMobileBottomSection] = useState<MobileBottomSection>(null);
   const [hasUserToggledBottom, setHasUserToggledBottom] = useState(false);
@@ -53,24 +54,33 @@ function MapPage() {
   const { selectedPlace, handlePlaceSelect } = usePlaceSelection({
     onPlaceClick: handlePlaceClick,
   });
-  const { data: itineraryDetail } = useItineraryDetail(itineraryId || '');
+  const { data: itineraryDetail, isSuccess } = useItineraryDetail(itineraryId || '');
+  console.log('📦 itineraryDetail:', itineraryDetail, 'isSuccess:', isSuccess);
+  const [isItineraryLoaded, setIsItineraryLoaded] = useState(false);
 
   // 저장된 동선 로드
   useEffect(() => {
-    if (itineraryDetail?.data?.locations && routePlaces.length === 0) {
+    if (isSuccess && itineraryDetail?.locations && !isItineraryLoaded) {
+      console.log('✅ 동선 로드 시작:', itineraryDetail);
       const loadItinerary = async () => {
         try {
           const routePlacesData = await convertItineraryLocationsToRoutePlaces(
-            itineraryDetail.data.locations,
+            itineraryDetail.locations,
           );
-          routePlacesData.forEach((place) => addPlace(place));
+          console.log('✅ 변환된 동선 데이터:', routePlacesData);
+          routePlacesData.forEach((place) => {
+            console.log('✅ 장소 추가:', place);
+            addPlace(place);
+          });
+          setIsItineraryLoaded(true);
+          console.log('✅ 동선 로드 완료!');
         } catch (error) {
-          console.error('동선 로드 실패:', error);
+          console.error('❌ 동선 로드 실패:', error);
         }
       };
       loadItinerary();
     }
-  }, [itineraryDetail, routePlaces.length, addPlace]);
+  }, [isSuccess, itineraryDetail, isItineraryLoaded, addPlace]);
 
   // 모바일에서는 최초 1회만 기본으로 검색 결과 패널을 오픈
   useEffect(() => {

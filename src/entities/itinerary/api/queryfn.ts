@@ -16,7 +16,7 @@ export const useItineraryDetail = (itineraryId: string) => {
   return useQuery({
     queryKey: itineraryKeys.detail(itineraryId),
     queryFn: () => getItineraryDetail(itineraryId),
-    enabled: !!itineraryId,
+    enabled: !!itineraryId && itineraryId.length > 0,
   });
 };
 
