@@ -1,6 +1,6 @@
 import type { LocationReview } from '@/entities/location-review/model/types';
 import { useState } from 'react';
-import { useCreateLocationReview } from '@/entities/location-review';
+import { useCreateLocationReview, useDeleteLocationReview } from '@/entities/location-review';
 import type { LocationReviewsProps } from '../model/types';
 import { useAuth } from '@/shared/lib/auth';
 
@@ -41,11 +41,12 @@ export const LocationReviews = ({
   isLoading,
   locationId,
 }: LocationReviewsProps & { locationId: string }) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const [title, setTitle] = useState('');
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState('');
   const { mutate: createReview, isPending } = useCreateLocationReview(locationId);
+  const { mutate: deleteReview, isPending: isDeleting } = useDeleteLocationReview(locationId);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -158,9 +159,29 @@ export const LocationReviews = ({
         </div>
       )}
       <div className="grid gap-4 sm:gap-6">
-        {reviews.map((review) => (
-          <ReviewCard key={review.reviewId} review={review} />
-        ))}
+        {reviews.map((review) => {
+          const isOwner = user && String(review.userId) === user.userId;
+          console.log('user', user, review.userId, isOwner);
+          return (
+            <div key={review.reviewId} className="relative">
+              <ReviewCard review={review} />
+              {isOwner && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (confirm('이 리뷰를 삭제하시겠습니까?')) {
+                      deleteReview(review.reviewId);
+                    }
+                  }}
+                  disabled={isDeleting}
+                  className="absolute top-2 right-2 text-xs sm:text-sm text-red-600 hover:underline disabled:opacity-60"
+                >
+                  {isDeleting ? '삭제 중...' : '삭제'}
+                </button>
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   );

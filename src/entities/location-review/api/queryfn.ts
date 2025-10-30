@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryResult } from '@tanstack/react-query';
-import { createLocationReview, deleteLocationReview, getLocationReviews } from './locationReviewApi';
+import {
+  createLocationReview,
+  deleteLocationReview,
+  getLocationReviews,
+} from './locationReviewApi';
 import { locationReviewQueryKeys } from './queryKeys';
 import type {
   CreateLocationReviewRequest,
