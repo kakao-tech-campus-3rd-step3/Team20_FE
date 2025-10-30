@@ -19,6 +19,8 @@ import { useState, useCallback } from 'react';
 import { LoginRequiredModal } from '@/features/auth/ui/LoginRequiredModal';
 import { useNavigate } from '@tanstack/react-router';
 import { SaveSuccessModal } from '../SaveSuccessModal/SaveSuccessModal';
+import { useQueryClient } from '@tanstack/react-query';
+import { itineraryKeys } from '@/entities/itinerary/api/queryKeys';
 import {
   DndContext,
   closestCenter,
@@ -53,6 +55,7 @@ export function RouteSidebar({
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const handleOpenSave = useCallback(() => {
     if (isLoggedIn) {
@@ -61,6 +64,16 @@ export function RouteSidebar({
       setIsLoginModalOpen(true);
     }
   }, [isLoggedIn, openModal]);
+
+  const handleSuccessConfirm = useCallback(async () => {
+    // 캐시 무효화를 먼저 실행
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: itineraryKeys.lists() }),
+      queryClient.invalidateQueries({ queryKey: ['mypage'] }), // 마이페이지 캐시도 무효화
+    ]);
+    setIsSuccessModalOpen(false);
+    navigate({ to: '/mypage' });
+  }, [queryClient, navigate]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -175,10 +188,7 @@ export function RouteSidebar({
       <SaveSuccessModal
         isOpen={isSuccessModalOpen}
         onClose={() => setIsSuccessModalOpen(false)}
-        onConfirm={() => {
-          setIsSuccessModalOpen(false);
-          navigate({ to: '/mypage' });
-        }}
+        onConfirm={handleSuccessConfirm}
       />
     </aside>
   );

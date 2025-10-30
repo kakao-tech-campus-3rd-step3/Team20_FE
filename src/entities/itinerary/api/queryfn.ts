@@ -34,6 +34,8 @@ export const useCreateItinerary = () => {
     onSuccess: () => {
       // 여행 계획 목록 캐시 무효화
       queryClient.invalidateQueries({ queryKey: itineraryKeys.lists() });
+      // 마이페이지 캐시 무효화
+      queryClient.invalidateQueries({ queryKey: ['mypage'] });
     },
   });
 };
@@ -50,6 +52,8 @@ export const useUpdateItinerary = () => {
       queryClient.invalidateQueries({ queryKey: itineraryKeys.lists() });
       // 해당 여행 계획 상세 캐시 무효화
       queryClient.invalidateQueries({ queryKey: itineraryKeys.detail(variables.itineraryId) });
+      // 마이페이지 캐시 무효화
+      queryClient.invalidateQueries({ queryKey: ['mypage'] });
     },
   });
 };

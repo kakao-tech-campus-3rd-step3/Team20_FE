@@ -37,7 +37,6 @@ export const Route = createFileRoute('/map')({
 
 function MapPage() {
   const { itineraryId } = Route.useSearch();
-  console.log('🔍 MapPage - itineraryId:', itineraryId);
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const [mobileBottomSection, setMobileBottomSection] = useState<MobileBottomSection>(null);
   const [hasUserToggledBottom, setHasUserToggledBottom] = useState(false);
@@ -56,27 +55,22 @@ function MapPage() {
     onPlaceClick: handlePlaceClick,
   });
   const { data: itineraryDetail, isSuccess } = useItineraryDetail(itineraryId || '');
-  console.log('📦 itineraryDetail:', itineraryDetail, 'isSuccess:', isSuccess);
   const [isItineraryLoaded, setIsItineraryLoaded] = useState(false);
 
   // 저장된 동선 로드
   useEffect(() => {
     if (isSuccess && itineraryDetail?.locations && !isItineraryLoaded) {
-      console.log('✅ 동선 로드 시작:', itineraryDetail);
       const loadItinerary = async () => {
         try {
           const routePlacesData = await convertItineraryLocationsToRoutePlaces(
             itineraryDetail.locations,
           );
-          console.log('✅ 변환된 동선 데이터:', routePlacesData);
           routePlacesData.forEach((place) => {
-            console.log('✅ 장소 추가:', place);
             addPlace(place);
           });
           setIsItineraryLoaded(true);
-          console.log('✅ 동선 로드 완료!');
         } catch (error) {
-          console.error('❌ 동선 로드 실패:', error);
+          console.error('동선 로드 실패:', error);
         }
       };
       loadItinerary();
