@@ -22,8 +22,8 @@ export function useMapResize({ mapRef, containerRef, isLaptop }: UseMapResizePro
       center: new window.kakao.maps.LatLng(35.8, 127.5),
       level: 13,
       draggable: true,
-      scrollwheel: false,
-      disableDoubleClickZoom: true,
+      scrollwheel: true,
+      disableDoubleClickZoom: false,
     });
 
     mapRef.current = newMap;
