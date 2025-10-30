@@ -14,6 +14,10 @@ import { DRAG_STYLES } from '../../model/constants';
 import { useSaveRouteModal } from '../../model/hooks/useSaveRouteModal';
 import { useDragScrollLock } from '../../model/hooks/useDragScrollLock';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
+import { useAuth } from '@/shared/lib/auth';
+import { useState, useCallback } from 'react';
+import { LoginRequiredModal } from '@/features/auth/ui/LoginRequiredModal';
+import { useNavigate } from '@tanstack/react-router';
 import {
   DndContext,
   closestCenter,
@@ -43,6 +47,17 @@ export function RouteSidebar({
     onSaveRoute,
   });
   const { lockScroll, unlockScroll } = useDragScrollLock();
+  const { isLoggedIn } = useAuth();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleOpenSave = useCallback(() => {
+    if (isLoggedIn) {
+      openModal();
+    } else {
+      setIsLoginModalOpen(true);
+    }
+  }, [isLoggedIn, openModal]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -120,7 +135,7 @@ export function RouteSidebar({
                 </p>
               </div>
 
-              <button onClick={openModal} className={ROUTE_SIDEBAR_STYLES.SAVE_BUTTON}>
+              <button onClick={handleOpenSave} className={ROUTE_SIDEBAR_STYLES.SAVE_BUTTON}>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -141,6 +156,14 @@ export function RouteSidebar({
         onClose={closeModal}
         places={places}
         onSave={handleSave}
+      />
+      <LoginRequiredModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onConfirm={() => {
+          setIsLoginModalOpen(false);
+          navigate({ to: '/auth/login' });
+        }}
       />
     </aside>
   );
