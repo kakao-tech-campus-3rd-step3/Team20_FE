@@ -3,12 +3,15 @@ import {
   createLocationReview,
   deleteLocationReview,
   getLocationReviews,
+  updateLocationReview,
 } from './locationReviewApi';
 import { locationReviewQueryKeys } from './queryKeys';
 import type {
   CreateLocationReviewRequest,
   CreateLocationReviewResponse,
   LocationReviewsResponse,
+  UpdateLocationReviewRequest,
+  UpdateLocationReviewResponse,
 } from '../model/types';
 
 export const useLocationReviews = (
@@ -41,6 +44,20 @@ export const useDeleteLocationReview = (locationId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (locationReviewId: number | string) => deleteLocationReview(locationReviewId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: locationReviewQueryKeys.byLocation(locationId) });
+    },
+  });
+};
+
+export const useUpdateLocationReview = (locationId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    UpdateLocationReviewResponse,
+    Error,
+    { locationReviewId: number | string; data: UpdateLocationReviewRequest }
+  >({
+    mutationFn: ({ locationReviewId, data }) => updateLocationReview(locationReviewId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: locationReviewQueryKeys.byLocation(locationId) });
     },

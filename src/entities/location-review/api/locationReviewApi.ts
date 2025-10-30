@@ -4,6 +4,8 @@ import type {
   CreateLocationReviewRequest,
   CreateLocationReviewResponse,
   DeleteLocationReviewResponse,
+  UpdateLocationReviewRequest,
+  UpdateLocationReviewResponse,
 } from '../model/types';
 
 export const getLocationReviews = async (locationId: string): Promise<LocationReviewsResponse> => {
@@ -62,6 +64,30 @@ export const deleteLocationReview = async (
     };
     const msg = err?.response?.data?.message || err?.message || 'Unknown error';
     console.error('Delete Location Review API error:', msg);
+    throw new Error(msg);
+  }
+};
+
+export const updateLocationReview = async (
+  locationReviewId: string | number,
+  payload: UpdateLocationReviewRequest,
+): Promise<UpdateLocationReviewResponse> => {
+  try {
+    const body = {
+      locationId: Number(payload.locationId),
+      title: payload.title,
+      detail: payload.detail ?? '',
+      rating: payload.rating,
+    };
+    const response = await httpBackend.put(`/location_review/${locationReviewId}`, body);
+    return response as unknown as UpdateLocationReviewResponse;
+  } catch (error) {
+    const err = error as unknown as {
+      response?: { data?: { message?: string } };
+      message?: string;
+    };
+    const msg = err?.response?.data?.message || err?.message || 'Unknown error';
+    console.error('Update Location Review API error:', msg);
     throw new Error(msg);
   }
 };

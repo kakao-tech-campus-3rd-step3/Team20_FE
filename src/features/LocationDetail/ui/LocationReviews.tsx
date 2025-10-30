@@ -1,8 +1,13 @@
 import type { LocationReview } from '@/entities/location-review/model/types';
 import { useState } from 'react';
-import { useCreateLocationReview, useDeleteLocationReview } from '@/entities/location-review';
+import {
+  useCreateLocationReview,
+  useDeleteLocationReview,
+  useUpdateLocationReview,
+} from '@/entities/location-review';
 import type { LocationReviewsProps } from '../model/types';
 import { useAuth } from '@/shared/lib/auth';
+import { Button } from '@/shared/ui';
 
 const StarRating = ({ rating }: { rating: number }) => {
   return (
@@ -29,9 +34,11 @@ const ReviewCard = ({ review }: { review: LocationReview }) => {
         </h3>
         <StarRating rating={review.rating} />
       </div>
-      <div className="text-xs sm:text-sm text-gray-500">
-        리뷰 ID: {review.reviewId} | 사용자 ID: {review.userId}
-      </div>
+      {review.detail && (
+        <p className="text-sm text-gray-700 whitespace-pre-wrap break-words mb-2">
+          {review.detail}
+        </p>
+      )}
     </div>
   );
 };
@@ -47,12 +54,18 @@ export const LocationReviews = ({
   const [content, setContent] = useState('');
   const { mutate: createReview, isPending } = useCreateLocationReview(locationId);
   const { mutate: deleteReview, isPending: isDeleting } = useDeleteLocationReview(locationId);
+  const { mutate: updateReview, isPending: isUpdating } = useUpdateLocationReview(locationId);
+
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editRating, setEditRating] = useState(5);
+  const [editContent, setEditContent] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
     createReview(
-      { title: title.trim(), rating, detail: content.trim() || undefined },
+      { title: title.trim(), rating, detail: content.trim() || '' },
       {
         onSuccess: () => {
           setTitle('');
@@ -160,24 +173,113 @@ export const LocationReviews = ({
       )}
       <div className="grid gap-4 sm:gap-6">
         {reviews.map((review) => {
-          const isOwner = user && String(review.userId) === user.userId;
-          console.log('user', user, review.userId, isOwner);
+          const myUserId = user?.userId;
+          const isOwner = myUserId != null && String(review.userId) === String(myUserId);
+          console.log(String(myUserId), String(review.userId), isOwner);
           return (
             <div key={review.reviewId} className="relative">
-              <ReviewCard review={review} />
-              {isOwner && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (confirm('이 리뷰를 삭제하시겠습니까?')) {
-                      deleteReview(review.reviewId);
-                    }
-                  }}
-                  disabled={isDeleting}
-                  className="absolute top-2 right-2 text-xs sm:text-sm text-red-600 hover:underline disabled:opacity-60"
-                >
-                  {isDeleting ? '삭제 중...' : '삭제'}
-                </button>
+              {editingId === review.reviewId ? (
+                <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="text"
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      placeholder="리뷰 제목"
+                      className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <select
+                      value={editRating}
+                      onChange={(e) => setEditRating(Number(e.target.value))}
+                      className="border border-gray-300 rounded-md px-2 py-2 text-sm"
+                    >
+                      {[5, 4, 3, 2, 1].map((r) => (
+                        <option key={r} value={r}>
+                          {r}점
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <textarea
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    placeholder="리뷰 내용을 입력하세요"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    rows={3}
+                  />
+                  <div className="flex gap-2 justify-end">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setEditingId(null);
+                      }}
+                    >
+                      취소
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      onClick={() => {
+                        updateReview(
+                          {
+                            locationReviewId: review.reviewId,
+                            data: {
+                              locationId: Number(locationId),
+                              title: editTitle.trim(),
+                              detail: editContent.trim() || '',
+                              rating: editRating,
+                            },
+                          },
+                          {
+                            onSuccess: () => {
+                              setEditingId(null);
+                            },
+                          },
+                        );
+                      }}
+                      disabled={isUpdating}
+                    >
+                      {isUpdating ? '수정 중...' : '저장'}
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <ReviewCard review={review} />
+                  {isOwner && (
+                    <div className="mt-2 flex gap-2 justify-end">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEditingId(review.reviewId);
+                          setEditTitle(review.title);
+                          setEditRating(review.rating);
+                          setEditContent(review.detail ?? '');
+                        }}
+                      >
+                        수정
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className=" focus-visible:ring-1 focus-visible:ring-blue-100"
+                        onClick={() => {
+                          if (confirm('이 리뷰를 삭제하시겠습니까?')) {
+                            deleteReview(review.reviewId);
+                          }
+                        }}
+                        disabled={isDeleting}
+                      >
+                        {isDeleting ? '삭제 중...' : '삭제'}
+                      </Button>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           );
