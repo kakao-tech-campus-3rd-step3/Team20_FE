@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryResult } from '@tanstack/react-query';
-import { createLocationReview, getLocationReviews } from './locationReviewApi';
+import { createLocationReview, deleteLocationReview, getLocationReviews } from './locationReviewApi';
 import { locationReviewQueryKeys } from './queryKeys';
 import type {
   CreateLocationReviewRequest,
@@ -28,6 +28,16 @@ export const useCreateLocationReview = (locationId: string) => {
       }),
     onSuccess: () => {
       // 작성 후 목록을 신선하게 갱신
+      queryClient.invalidateQueries({ queryKey: locationReviewQueryKeys.byLocation(locationId) });
+    },
+  });
+};
+
+export const useDeleteLocationReview = (locationId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (locationReviewId: number | string) => deleteLocationReview(locationReviewId),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: locationReviewQueryKeys.byLocation(locationId) });
     },
   });

@@ -50,11 +50,7 @@ httpBackend.interceptors.response.use(
     if (axios.isAxiosError(error) && error.response) {
       const url = originalRequest.url || '';
 
-      if (
-        error.response.status === 401 &&
-        !originalRequest._retry &&
-        url !== '/users/refresh'
-      ) {
+      if (error.response.status === 401 && !originalRequest._retry && url !== '/users/refresh') {
         originalRequest._retry = true;
 
         if (!refreshTokenPromise) {
