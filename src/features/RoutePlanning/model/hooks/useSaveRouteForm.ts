@@ -3,7 +3,7 @@ import type { RoutePlace, UseSaveRouteFormOptions } from '../types';
 import { SAVE_ROUTE_MODAL } from '../messages';
 
 export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
-  const { onSave, onClose } = options;
+  const { onSave, onClose, onSuccess } = options;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -39,6 +39,7 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
         await onSave?.(title.trim(), description.trim(), places);
         onClose?.();
         resetForm();
+        onSuccess?.();
       } catch (err) {
         setError(SAVE_ROUTE_MODAL.VALIDATION.SAVE_FAILED);
         console.error('Failed to save route:', err);
@@ -46,7 +47,7 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
         setIsLoading(false);
       }
     },
-    [title, description, onSave, onClose],
+    [title, description, onSave, onClose, onSuccess],
   );
 
   // handleClose 함수가 매 렌더링마다 새로 생성되는 것을 방지하여

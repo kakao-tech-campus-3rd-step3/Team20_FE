@@ -37,6 +37,11 @@ export type SidebarSearchProps = {
   onSearchStateChange?: (isSearching: boolean, query: string) => void;
 };
 
+export type PopularContentsSuggestProps = {
+  onPlacesChange?: (places: Place[]) => void;
+  onSearchStateChange?: (isSearching: boolean, query: string) => void;
+};
+
 export type ThumbnailProps = Pick<PlaceCardProps, 'locationImage' | 'name' | 'badgeNumber'>;
 
 export type UseContentSearchOptions = {

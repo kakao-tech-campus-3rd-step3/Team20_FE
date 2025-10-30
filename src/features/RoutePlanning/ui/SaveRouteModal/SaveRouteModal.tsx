@@ -3,7 +3,13 @@ import type { SaveRouteModalProps } from '../../model/types';
 import { useSaveRouteForm } from '../../model/hooks/useSaveRouteForm';
 import { SAVE_ROUTE_MODAL } from '../../model/messages';
 
-export function SaveRouteModal({ isOpen, onClose, places, onSave }: SaveRouteModalProps) {
+export function SaveRouteModal({
+  isOpen,
+  onClose,
+  places,
+  onSave,
+  onSuccess,
+}: SaveRouteModalProps) {
   const {
     title,
     description,
@@ -16,6 +22,7 @@ export function SaveRouteModal({ isOpen, onClose, places, onSave }: SaveRouteMod
   } = useSaveRouteForm({
     onSave: (title, description) => onSave?.(title, description, places),
     onClose,
+    onSuccess,
   });
 
   if (!isOpen) return null;
