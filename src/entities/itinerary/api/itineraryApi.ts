@@ -20,6 +20,13 @@ export const getItineraryDetail = async (itineraryId: string): Promise<Itinerary
   return (await httpBackend.get(`/itineraries/${itineraryId}`)) as ItineraryDetail;
 };
 
+export const updateItinerary = async (
+  itineraryId: string,
+  data: CreateItineraryRequest,
+): Promise<ItineraryDetail> => {
+  return (await httpBackend.put(`/itineraries/${itineraryId}`, data)) as ItineraryDetail;
+};
+
 export const deleteItinerary = async (itineraryId: string): Promise<void> => {
   await httpBackend.delete(`/itineraries/${itineraryId}`);
 };

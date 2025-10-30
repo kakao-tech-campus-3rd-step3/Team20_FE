@@ -53,7 +53,8 @@ function ContentPlaceMapPage() {
     removePlace,
     reorderPlaces,
     saveRoute,
-  } = useRoutePlanning();
+    isUpdating,
+  } = useRoutePlanning(itineraryId);
   const { data: itineraryDetail, isSuccess } = useItineraryDetail(itineraryId || '');
   console.log('📦 itineraryDetail:', itineraryDetail, 'isSuccess:', isSuccess);
   const [isItineraryLoaded, setIsItineraryLoaded] = useState(false);
@@ -145,6 +146,7 @@ function ContentPlaceMapPage() {
               onSaveRoute={saveRoute}
               onRemovePlace={removePlace}
               onReorderPlaces={reorderPlaces}
+              isUpdating={isUpdating}
             />
           </>
         ) : (
@@ -204,6 +206,7 @@ function ContentPlaceMapPage() {
                     onSaveRoute={saveRoute}
                     onRemovePlace={removePlace}
                     onReorderPlaces={reorderPlaces}
+                    isUpdating={isUpdating}
                   />
                 </div>
               </div>

@@ -41,6 +41,7 @@ export function RouteSidebar({
   onSaveRoute,
   onRemovePlace,
   onReorderPlaces,
+  isUpdating = false,
 }: RouteSidebarProps) {
   const { isLaptop } = useBreakpoints();
   const isEmpty = places.length === 0;
@@ -161,6 +162,7 @@ export function RouteSidebar({
         onSuccess={() => {
           setIsSuccessModalOpen(true);
         }}
+        isUpdating={isUpdating}
       />
       <LoginRequiredModal
         isOpen={isLoginModalOpen}

@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createItinerary, getItineraries, getItineraryDetail } from './itineraryApi';
+import {
+  createItinerary,
+  getItineraries,
+  getItineraryDetail,
+  updateItinerary,
+} from './itineraryApi';
 import { itineraryKeys } from './queryKeys';
 import type { CreateItineraryRequest } from '../model/types';
 
@@ -29,6 +34,22 @@ export const useCreateItinerary = () => {
     onSuccess: () => {
       // 여행 계획 목록 캐시 무효화
       queryClient.invalidateQueries({ queryKey: itineraryKeys.lists() });
+    },
+  });
+};
+
+// 여행 계획 수정
+export const useUpdateItinerary = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ itineraryId, data }: { itineraryId: string; data: CreateItineraryRequest }) =>
+      updateItinerary(itineraryId, data),
+    onSuccess: (_, variables) => {
+      // 여행 계획 목록 캐시 무효화
+      queryClient.invalidateQueries({ queryKey: itineraryKeys.lists() });
+      // 해당 여행 계획 상세 캐시 무효화
+      queryClient.invalidateQueries({ queryKey: itineraryKeys.detail(variables.itineraryId) });
     },
   });
 };

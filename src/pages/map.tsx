@@ -50,7 +50,8 @@ function MapPage() {
     removePlace,
     reorderPlaces,
     saveRoute,
-  } = useRoutePlanning();
+    isUpdating,
+  } = useRoutePlanning(itineraryId);
   const { selectedPlace, handlePlaceSelect } = usePlaceSelection({
     onPlaceClick: handlePlaceClick,
   });
@@ -133,6 +134,7 @@ function MapPage() {
               onSaveRoute={saveRoute}
               onRemovePlace={removePlace}
               onReorderPlaces={reorderPlaces}
+              isUpdating={isUpdating}
             />
           </>
         ) : (
@@ -191,6 +193,7 @@ function MapPage() {
                     onSaveRoute={saveRoute}
                     onRemovePlace={removePlace}
                     onReorderPlaces={reorderPlaces}
+                    isUpdating={isUpdating}
                   />
                 </div>
               </div>
