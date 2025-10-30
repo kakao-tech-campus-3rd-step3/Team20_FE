@@ -1,8 +1,10 @@
 import { Modal } from '@/features/Modal/ui/Modal';
+import { X } from 'lucide-react';
+import { IconButton } from '@/shared/ui';
 import { messages } from '../model/messages';
 import type { ItineraryDetailModalProps } from '../model/types';
 
-export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDetailModalProps) => {
+export const ItineraryDetailModal = ({ itinerary, isOpen, onClose, onDelete }: ItineraryDetailModalProps) => {
   if (!itinerary) return null;
 
   const formatDate = (dateString: string) => {
@@ -14,10 +16,25 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDe
     });
   };
 
+  const handleDelete = () => {
+    if (window.confirm(messages.deleteConfirm)) {
+      onDelete(itinerary.itineraryId);
+      onClose();
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="">
       <div className="-m-6">
-        <div className="px-8 pt-7 pb-6 border-b border-gray-100">
+        <div className="px-8 pt-7 pb-6 border-b border-gray-100 relative">
+          <IconButton
+            Icon={X}
+            onClick={onClose}
+            variant="ghost"
+            size="md"
+            aria-label="모달 닫기"
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+          />
           <div className="text-[15px] text-gray-500 mb-3">{formatDate(itinerary.createdAt)}</div>
           <h1 className="text-3xl font-semibold text-gray-900 mb-3">{itinerary.title}</h1>
           {itinerary.description && (
@@ -70,14 +87,14 @@ export const ItineraryDetailModal = ({ itinerary, isOpen, onClose }: ItineraryDe
         </div>
 
         <div className="px-8 pb-7 pt-2 flex gap-3">
-          <button className="flex-1 h-12 bg-brand-secondary text-white text-base font-medium rounded-lg hover:bg-brand-secondary/90 transition-colors">
+          <button className="flex-1 h-12 bg-brand-primary text-white text-base font-medium rounded-lg hover:bg-brand-secondary/90 transition-colors">
             {messages.viewOnMap}
           </button>
           <button
-            onClick={onClose}
-            className="flex-1 h-12 bg-white border-2 border-gray-300 text-gray-700 text-base font-medium rounded-lg hover:bg-gray-50 transition-colors"
+            onClick={handleDelete}
+            className="flex-1 h-12 bg-brand-secondary text-white text-base font-medium rounded-lg hover:bg-red-600 transition-colors"
           >
-            {messages.closeModal}
+            {messages.deleteItinerary}
           </button>
         </div>
       </div>
