@@ -92,7 +92,10 @@ export function Sidebar({
           ) : isLoading ? (
             <SidebarLoadingState />
           ) : error ? (
-            <SidebarErrorState />
+            <SidebarErrorState
+              onPlacesChange={handleSearchPlacesChange}
+              onSearchStateChange={handleSearchStateChange}
+            />
           ) : (
             <PlaceList
               places={displayPlaces}

@@ -17,6 +17,8 @@ export type PopularResponse = {
 export type ContentLocation = {
   contentId: number;
   locationId: number;
+  locationId: number;
+  contentId: number;
   sceneDescription: string;
 };
 

@@ -17,6 +17,10 @@ export const convertContentLocationToPlace = (location: ContentLocation): Place 
   address: '주소 정보 없음',
   description: location.sceneDescription,
   locationImage: '', // ContentLocation에 locationImageUrl 없음
+  name: '장소 정보 없음',
+  address: '주소 정보 없음',
+  description: location.sceneDescription,
+  locationImage: '',
   latitude: 0,
   longitude: 0,
   relatedContents: [],
@@ -28,6 +32,10 @@ export const convertLocationsToPlaces = async (locations: ContentLocation[]): Pr
       try {
         const locationDetail = await getLocationDetail(location.locationId.toString());
         return locationDetail as Place;
+        return {
+          ...locationDetail,
+          description: location.sceneDescription || locationDetail.description,
+        } as Place;
       } catch {
         return convertContentLocationToPlace(location);
       }
@@ -35,7 +43,9 @@ export const convertLocationsToPlaces = async (locations: ContentLocation[]): Pr
   );
 };
 
-export const getPlacesFromContents = async (contents: ContentDetail[]): Promise<Place[]> => {
+export const getPlacesFromContents = async (
+  contents: ContentDetail[] | Array<{ contentId: number }>,
+): Promise<Place[]> => {
   const allPlaces: Place[] = [];
 
   for (const content of contents) {

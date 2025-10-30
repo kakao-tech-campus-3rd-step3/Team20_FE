@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Sidebar } from '@/features/Sidebar';
 import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch/SidebarSearch';
 import { CloseButton } from '@/features/Sidebar/ui/CloseButton/CloseButton';
@@ -34,8 +34,9 @@ function ContentPlaceMapPage() {
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [mobileBottomSection, setMobileBottomSection] = useState<MobileBottomSection>(null);
+  const [hasUserToggledBottom, setHasUserToggledBottom] = useState(false);
   const { isLaptop } = useBreakpoints();
-  const { places: contentPlaces } = useSidebarData(contentId);
+  const { places: contentPlaces, error: sidebarError } = useSidebarData(contentId);
   const mapHook = useKakaoMap();
   const { handlePlaceClick, closeOverlay } = usePlaceClick(mapHook.mapRef);
   const {
@@ -63,6 +64,18 @@ function ContentPlaceMapPage() {
     isLaptop,
   });
   useMapCenterAdjust({ mapRef: mapHook.mapRef });
+
+  // 모바일에서 장소 로딩 에러 시 자동으로 검색 결과 패널 1회 열기
+  useEffect(() => {
+    if (!isLaptop && sidebarError && !hasUserToggledBottom && mobileBottomSection !== 'search') {
+      setMobileBottomSection('search');
+    }
+  }, [isLaptop, sidebarError, hasUserToggledBottom, mobileBottomSection]);
+
+  const handleMobileSectionChange = (section: MobileBottomSection) => {
+    setHasUserToggledBottom(true);
+    setMobileBottomSection(section);
+  };
 
   const handleAddToRoute = (place: Place) => {
     addPlace(place);
@@ -114,7 +127,7 @@ function ContentPlaceMapPage() {
 
             <MobileBottomButtons
               activeSection={mobileBottomSection}
-              onSectionChange={setMobileBottomSection}
+              onSectionChange={handleMobileSectionChange}
               routePlacesCount={routePlaces.length}
             />
 
@@ -123,7 +136,7 @@ function ContentPlaceMapPage() {
               <div className={MOBILE_SIDEBAR_STYLES.CONTAINER}>
                 <div className={MOBILE_SIDEBAR_STYLES.HEADER}>
                   <h3 className={MOBILE_SIDEBAR_STYLES.TITLE}>검색 결과</h3>
-                  <CloseButton onClick={() => setMobileBottomSection(null)} />
+                  <CloseButton onClick={() => handleMobileSectionChange(null)} />
                 </div>
 
                 <div className={MOBILE_SIDEBAR_STYLES.CONTENT}>
@@ -146,7 +159,7 @@ function ContentPlaceMapPage() {
               <div className={MOBILE_SIDEBAR_STYLES.CONTAINER}>
                 <div className={MOBILE_SIDEBAR_STYLES.HEADER}>
                   <h3 className={MOBILE_SIDEBAR_STYLES.TITLE}>동선 관리</h3>
-                  <CloseButton onClick={() => setMobileBottomSection(null)} />
+                  <CloseButton onClick={() => handleMobileSectionChange(null)} />
                 </div>
 
                 <div className={MOBILE_SIDEBAR_STYLES.CONTENT} style={DRAG_STYLES.CONTAINER}>
