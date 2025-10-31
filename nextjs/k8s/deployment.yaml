@@ -25,11 +25,20 @@ spec:
         - name: NODE_ENV
           value: "production"
         - name: NEXT_PUBLIC_KAKAO_MAP_API_KEY
-          value: "974fe15b1f8a516653cb6536ae41b53e"
+          valueFrom:
+            secretKeyRef:
+              name: kspot-nextjs-secrets
+              key: kakao-map-api-key
         - name: NEXT_PUBLIC_API_BASE_URL
-          value: "https://d2d0fud3w2c5j6.cloudfront.net"
+          valueFrom:
+            secretKeyRef:
+              name: kspot-nextjs-secrets
+              key: api-base-url
         - name: NEXT_PUBLIC_BACKEND_URL
-          value: "https://k-spot.kro.kr/api"
+          valueFrom:
+            secretKeyRef:
+              name: kspot-nextjs-secrets
+              key: backend-url
         resources:
           requests:
             memory: "256Mi"
