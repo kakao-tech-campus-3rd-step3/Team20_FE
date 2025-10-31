@@ -12,7 +12,7 @@ export const SIDEBAR_TITLES = {
 
 export const SIDEBAR_STATUS_TEXT = {
   LOADING: '로딩 중...',
-  ERROR: '오류가 발생했습니다.',
+  ERROR: '연관된 장소가 없습니다. 다른 컨텐츠를 검색해보세요.',
 } as const;
 
 export const SIDEBAR_SEARCH_TEXT = {

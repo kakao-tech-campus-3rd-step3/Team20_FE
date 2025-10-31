@@ -6,10 +6,8 @@ export interface ApiResponse<T = unknown> {
   data: T;
 }
 
-const baseURL = import.meta.env.DEV ? '' : import.meta.env.VITE_BACKEND_URL;
-
 export const httpBackend = axios.create({
-  baseURL,
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -32,11 +30,11 @@ httpBackend.interceptors.response.use(
   },
   (error) => {
     if (axios.isAxiosError(error)) {
-      console.error(
-        '[Backend API Error]',
-        error.response?.status,
-        error.response?.data?.message || error.message,
-      );
+      const status = error.response?.status;
+      const url = error.config?.url || '';
+      if (status === 401 && url !== '/users/refresh') {
+        return Promise.reject(error);
+      }
     } else {
       console.error('[Unexpected Error]', error);
     }
@@ -52,15 +50,11 @@ httpBackend.interceptors.response.use(
     if (axios.isAxiosError(error) && error.response) {
       const url = originalRequest.url || '';
 
-      if (
-        error.response.status === 401 &&
-        !originalRequest._retry &&
-        url !== '/api/users/refresh'
-      ) {
+      if (error.response.status === 401 && !originalRequest._retry && url !== '/users/refresh') {
         originalRequest._retry = true;
 
         if (!refreshTokenPromise) {
-          refreshTokenPromise = httpBackend.post('/api/users/refresh').finally(() => {
+          refreshTokenPromise = httpBackend.post('/users/refresh').finally(() => {
             refreshTokenPromise = null;
           });
         }

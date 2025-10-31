@@ -1,12 +1,11 @@
-import { Home, MapPin, Heart, User } from 'lucide-react';
+import { Home, MapPin, User } from 'lucide-react';
 import type { FooterLink, NavLink } from './types';
 import { LABELS } from './messages';
 
 export const FOOTER_QUICK_LINKS: readonly NavLink[] = [
   { label: LABELS.NAV.HOME, to: '/', Icon: Home },
   { label: LABELS.NAV.MAP, to: '/map', Icon: MapPin },
-  { label: LABELS.NAV.SAVED, to: '/saved', Icon: Heart },
-  { label: LABELS.NAV.PROFILE, to: '/profile', Icon: User },
+  { label: LABELS.NAV.PROFILE, to: '/mypage', Icon: User },
 ];
 
 export const FOOTER_CATEGORIES: readonly Omit<NavLink, 'Icon'>[] = [

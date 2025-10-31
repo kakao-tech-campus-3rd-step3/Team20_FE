@@ -24,6 +24,12 @@ export function useKakaoMarkers(
 ) {
   const { isLaptop } = useBreakpoints();
   const markersRef = useRef<KakaoMarker[]>([]);
+  const onPlaceClickRef = useRef<typeof onPlaceClick | undefined>(onPlaceClick);
+  const onAddToRouteRef = useRef<typeof onAddToRoute | undefined>(onAddToRoute);
+
+  // 최신 콜백을 ref에 보관해 이벤트 핸들러가 의존성으로 인해 재바인딩되지 않도록 한다
+  onPlaceClickRef.current = onPlaceClick;
+  onAddToRouteRef.current = onAddToRoute;
 
   useEffect(() => {
     const map = mapRef.current;
@@ -51,8 +57,9 @@ export function useKakaoMarkers(
 
         // 마커 클릭 이벤트 추가
         maps.event.addListener(marker, 'click', () => {
+          onPlaceClickRef.current?.(place);
           const isInRoute = routePlaceIds.has(place.locationId);
-          createAndShowOverlay(map, place, isLaptop, onAddToRoute, isInRoute);
+          createAndShowOverlay(map, place, isLaptop, onAddToRouteRef.current, isInRoute);
         });
 
         return marker;
@@ -68,5 +75,5 @@ export function useKakaoMarkers(
       markersRef.current = clearMarkers(markersRef.current);
       closeGlobalOverlay();
     };
-  }, [places, mapRef, routePlaces, onPlaceClick, onAddToRoute, isLaptop]);
+  }, [places, mapRef, routePlaces, isLaptop]);
 }

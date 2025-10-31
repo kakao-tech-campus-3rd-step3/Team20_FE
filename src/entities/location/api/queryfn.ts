@@ -10,3 +10,5 @@ export const useLocationDetail = (locationId: string): UseQueryResult<LocationDe
     enabled: !!locationId,
   });
 };
+
+// 리뷰 훅은 location-review 엔티티로 이동

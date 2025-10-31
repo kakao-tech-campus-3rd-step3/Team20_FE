@@ -34,3 +34,5 @@ export const getLocationDetail = async (locationId: string): Promise<LocationDet
     };
   }
 };
+
+// 리뷰 API는 location-review 엔티티로 이동

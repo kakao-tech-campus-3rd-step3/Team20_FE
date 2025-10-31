@@ -28,11 +28,11 @@ export function ContentOverviewHero({
     <section className="bg-gradient-to-t from-(--color-gray-800) to-(--color-gray-900)">
       <div className="mx-auto max-w-7xl px-[--spacing-4] sm:px-[--spacing-6] lg:px-[--spacing-8]">
         {/* 이미지 */}
-        <div className="relative h-[32rem] md:h-[48rem] rounded-2xl overflow-hidden">
+        <div className="relative h-[40rem] md:h-[56rem] lg:h-[64rem] rounded-2xl overflow-hidden">
           <img
             src={data.posterImageUrl}
             alt={data.title}
-            className="absolute inset-0 w-full h-full object-cover object-center rounded-2xl"
+            className="absolute inset-0 w-full h-full object-contain rounded-2xl"
           />
         </div>
 

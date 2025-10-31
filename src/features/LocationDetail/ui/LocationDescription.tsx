@@ -1,31 +1,10 @@
 import type { LocationDescriptionProps } from '../model/types';
 
-export function LocationDescription({ description, quickFacts }: LocationDescriptionProps) {
+export function LocationDescription({ description }: LocationDescriptionProps) {
   return (
     <section className="max-w-6xl mx-auto">
       <article className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-xl border border-white/20">
-        {/* Quick Facts Section */}
-        {quickFacts?.length ? (
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-              <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full mr-3"></div>
-              기본 정보
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {quickFacts.map((fact) => (
-                <div
-                  key={fact.label}
-                  className="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl border border-gray-100 hover:shadow-md transition-all duration-200"
-                >
-                  <div className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2">
-                    {fact.label}
-                  </div>
-                  <div className="text-gray-800 font-medium leading-relaxed">{fact.value}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null}
+        {/* 기본정보 섹션 제거: 운영시간/전화번호/이메일 비표시 */}
 
         {/* Description Section */}
         <div>

@@ -16,7 +16,6 @@ export const LABELS = {
   NAV: {
     HOME: '홈',
     MAP: '촬영지 지도',
-    SAVED: '저장된 장소',
     PROFILE: '프로필',
   },
   CATEGORY: {

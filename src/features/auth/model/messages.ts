@@ -14,7 +14,7 @@ export const AUTH_MESSAGES = {
   // 에러 메시지
   LOGIN_ERROR_TITLE: '로그인에 실패했습니다',
   LOGIN_ERROR_DEFAULT: '이메일 또는 비밀번호를 확인해주세요.',
-  
+
   SIGNUP_ERROR_TITLE: '회원가입에 실패했습니다',
   SIGNUP_ERROR_DEFAULT: '이미 사용 중인 이메일이거나 입력 정보를 확인해주세요.',
 
@@ -46,11 +46,13 @@ export const AUTH_MESSAGES = {
   EMAIL_VERIFICATION_SUCCESS_TITLE: '인증 완료!',
   EMAIL_VERIFICATION_SUCCESS_DEFAULT: '이메일 인증이 완료되었습니다.',
   EMAIL_VERIFICATION_ERROR_TITLE: '인증 실패',
-  
+
   // 이메일 인증 에러 메시지
   EMAIL_VERIFICATION_ERROR_INVALID_TOKEN: '유효하지 않은 인증 링크입니다.',
-  EMAIL_VERIFICATION_ERROR_NOT_FOUND: '인증 정보를 찾을 수 없습니다. 인증 메일을 다시 요청해주세요.',
-  EMAIL_VERIFICATION_ERROR_ALREADY_VERIFIED: '이미 인증이 완료된 계정입니다. 바로 로그인하실 수 있습니다.',
+  EMAIL_VERIFICATION_ERROR_NOT_FOUND:
+    '인증 정보를 찾을 수 없습니다. 인증 메일을 다시 요청해주세요.',
+  EMAIL_VERIFICATION_ERROR_ALREADY_VERIFIED:
+    '이미 인증이 완료된 계정입니다. 바로 로그인하실 수 있습니다.',
   EMAIL_VERIFICATION_ERROR_EXPIRED: '인증 링크가 만료되었습니다. 인증 메일을 다시 요청해주세요.',
   EMAIL_VERIFICATION_ERROR_DEFAULT: '이메일 인증에 실패했습니다. 잠시 후 다시 시도해주세요.',
 
@@ -72,4 +74,13 @@ export const AUTH_MESSAGES = {
   FIELD_PLACEHOLDER_CONFIRM_PASSWORD: '비밀번호를 다시 입력하세요',
   FIELD_PLACEHOLDER_NICKNAME: '닉네임을 입력하세요 (2-20자)',
   FIELD_PLACEHOLDER_NEW_PASSWORD: '새 비밀번호를 입력하세요 (8자리 이상)',
+} as const;
+
+export const LOGIN_REQUIRED_MODAL = {
+  TITLE: '로그인이 필요합니다',
+  DESCRIPTION: '동선을 저장하기 위해선 로그인이 필요합니다. 로그인 페이지로 이동하시겠어요?',
+  BUTTONS: {
+    CANCEL: '취소',
+    GO_LOGIN: '로그인 페이지로 이동',
+  },
 } as const;

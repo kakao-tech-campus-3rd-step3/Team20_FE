@@ -72,10 +72,10 @@ export const POLYLINE_CONFIG = {
 
 export const MOBILE_BUTTON_STYLES = {
   CONTAINER:
-    'absolute bottom-(--spacing-4) right-(--spacing-4) z-(--z-elevated) flex gap-(--spacing-2)',
+    'absolute top-[96px] right-(--spacing-4) z-(--z-elevated) flex flex-col items-end gap-(--spacing-2)',
   BUTTON_BASE:
-    'flex items-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-full shadow-(--shadow-card) transition-all duration-200',
-  ICON: 'w-(--spacing-5) h-(--spacing-5)',
+    'flex items-center gap-(--spacing-2) px-(--spacing-3) py-(--spacing-2) rounded-full shadow-(--shadow-card) transition-all duration-200',
+  ICON: 'w-(--spacing-4) h-(--spacing-4)',
   TEXT: 'text-sm font-medium whitespace-nowrap',
   BADGE:
     'bg-(--color-semantic-error) text-(--color-text-inverse) text-xs rounded-full px-(--spacing-2) py-(--spacing-1) min-w-[20px] text-center',

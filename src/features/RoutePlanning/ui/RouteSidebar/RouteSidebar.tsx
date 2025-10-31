@@ -14,6 +14,13 @@ import { DRAG_STYLES } from '../../model/constants';
 import { useSaveRouteModal } from '../../model/hooks/useSaveRouteModal';
 import { useDragScrollLock } from '../../model/hooks/useDragScrollLock';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
+import { useAuth } from '@/shared/lib/auth';
+import { useState, useCallback } from 'react';
+import { LoginRequiredModal } from '@/features/auth/ui/LoginRequiredModal';
+import { useNavigate } from '@tanstack/react-router';
+import { SaveSuccessModal } from '../SaveSuccessModal/SaveSuccessModal';
+import { useQueryClient } from '@tanstack/react-query';
+import { itineraryKeys } from '@/entities/itinerary/api/queryKeys';
 import {
   DndContext,
   closestCenter,
@@ -36,6 +43,7 @@ export function RouteSidebar({
   onSaveRoute,
   onRemovePlace,
   onReorderPlaces,
+  isUpdating = false,
 }: RouteSidebarProps) {
   const { isLaptop } = useBreakpoints();
   const isEmpty = places.length === 0;
@@ -43,6 +51,29 @@ export function RouteSidebar({
     onSaveRoute,
   });
   const { lockScroll, unlockScroll } = useDragScrollLock();
+  const { isLoggedIn } = useAuth();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const handleOpenSave = useCallback(() => {
+    if (isLoggedIn) {
+      openModal();
+    } else {
+      setIsLoginModalOpen(true);
+    }
+  }, [isLoggedIn, openModal]);
+
+  const handleSuccessConfirm = useCallback(async () => {
+    // 캐시 무효화를 먼저 실행
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: itineraryKeys.lists() }),
+      queryClient.invalidateQueries({ queryKey: ['mypage'] }), // 마이페이지 캐시도 무효화
+    ]);
+    setIsSuccessModalOpen(false);
+    navigate({ to: '/mypage' });
+  }, [queryClient, navigate]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -65,9 +96,10 @@ export function RouteSidebar({
 
   return (
     <aside
-      className={['w-full lg:w-96 lg:flex-shrink-0 overflow-hidden h-full', className ?? ''].join(
-        ' ',
-      )}
+      className={[
+        'overflow-hidden h-full',
+        className ?? 'w-full max-w-sm sm:max-w-md lg:w-96 lg:flex-shrink-0',
+      ].join(' ')}
     >
       <div className="bg-(--color-background-primary) shadow-(--shadow-card) rounded-l-2xl flex flex-col border-l border-(--color-border-primary) overflow-hidden h-full">
         {isLaptop && (
@@ -114,16 +146,12 @@ export function RouteSidebar({
           <div className="p-(--spacing-4) bg-(--color-background-secondary) border-t border-(--color-border-primary)">
             <div className="space-y-(--spacing-3)">
               <div className="text-center">
-                <p className="text-caption text-(--color-text-secondary) mb-(--spacing-2)">
-                  {ROUTE_SIDEBAR_TITLES.FOOTER_TITLE}
+                <p className="text-caption text-(--color-text-tertiary)">
+                  {formatLocations(places.length)}
                 </p>
-                <div className="flex items-center justify-center gap-(--spacing-4) text-caption text-(--color-text-tertiary)">
-                  <span>{formatLocations(places.length)}</span>
-                  <span>{ROUTE_SIDEBAR_ICONS.ESTIMATED_TIME}</span>
-                </div>
               </div>
 
-              <button onClick={openModal} className={ROUTE_SIDEBAR_STYLES.SAVE_BUTTON}>
+              <button onClick={handleOpenSave} className={ROUTE_SIDEBAR_STYLES.SAVE_BUTTON}>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -144,6 +172,23 @@ export function RouteSidebar({
         onClose={closeModal}
         places={places}
         onSave={handleSave}
+        onSuccess={() => {
+          setIsSuccessModalOpen(true);
+        }}
+        isUpdating={isUpdating}
+      />
+      <LoginRequiredModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onConfirm={() => {
+          setIsLoginModalOpen(false);
+          navigate({ to: '/auth/login' });
+        }}
+      />
+      <SaveSuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        onConfirm={handleSuccessConfirm}
       />
     </aside>
   );

@@ -25,6 +25,7 @@ export function SpotCard() {
             </Link>
             <Link
               to="/map"
+              search={{ itineraryId: undefined }}
               className="px-[var(--spacing-button-padding-x)] py-[var(--spacing-button-padding-y)] rounded-lg border border-[var(--color-border-primary)] text-button text-[var(--color-text-primary)] bg-[var(--color-background-primary)] hover:bg-[var(--color-background-secondary)] transition duration-200"
             >
               {messages.directions}

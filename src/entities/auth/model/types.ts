@@ -45,6 +45,9 @@ export interface EmailResendResponse {
 
 export interface AuthStatusResponse {
   isLoggedIn: boolean;
+  userId?: string;
+  email?: string;
+  nickname?: string;
 }
 
 export interface RefreshTokenResponse {

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
-import { Sidebar } from '@/features/Sidebar';
+import { useState, useEffect } from 'react';
+import { Sidebar, convertItineraryLocationsToRoutePlaces } from '@/features/Sidebar';
 import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch/SidebarSearch';
 import { CloseButton } from '@/features/Sidebar/ui/CloseButton/CloseButton';
 import { RouteSidebar } from '@/features/RoutePlanning';
@@ -24,14 +24,22 @@ import { DRAG_STYLES } from '@/features/RoutePlanning/model/constants';
 import { useRoutePlanning } from '@/features/RoutePlanning/model/hooks/useRoutePlanning';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 import type { Place } from '@/features/Sidebar/model/types';
+import { useItineraryDetail } from '@/entities/itinerary/api/queryfn';
 
 export const Route = createFileRoute('/map')({
   component: MapPage,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      itineraryId: (search.itineraryId as string) || undefined,
+    };
+  },
 });
 
 function MapPage() {
+  const { itineraryId } = Route.useSearch();
   const [searchPlaces, setSearchPlaces] = useState<Place[]>([]);
   const [mobileBottomSection, setMobileBottomSection] = useState<MobileBottomSection>(null);
+  const [hasUserToggledBottom, setHasUserToggledBottom] = useState(false);
   const { isLaptop } = useBreakpoints();
   const mapHook = useKakaoMap();
   const { handlePlaceClick, closeOverlay } = usePlaceClick(mapHook.mapRef);
@@ -41,10 +49,45 @@ function MapPage() {
     removePlace,
     reorderPlaces,
     saveRoute,
-  } = useRoutePlanning();
+    isUpdating,
+  } = useRoutePlanning(itineraryId);
   const { selectedPlace, handlePlaceSelect } = usePlaceSelection({
     onPlaceClick: handlePlaceClick,
   });
+  const { data: itineraryDetail, isSuccess } = useItineraryDetail(itineraryId || '');
+  const [isItineraryLoaded, setIsItineraryLoaded] = useState(false);
+
+  // 저장된 동선 로드
+  useEffect(() => {
+    if (isSuccess && itineraryDetail?.locations && !isItineraryLoaded) {
+      const loadItinerary = async () => {
+        try {
+          const routePlacesData = await convertItineraryLocationsToRoutePlaces(
+            itineraryDetail.locations,
+          );
+          routePlacesData.forEach((place) => {
+            addPlace(place);
+          });
+          setIsItineraryLoaded(true);
+        } catch (error) {
+          console.error('동선 로드 실패:', error);
+        }
+      };
+      loadItinerary();
+    }
+  }, [isSuccess, itineraryDetail, isItineraryLoaded, addPlace]);
+
+  // 모바일에서는 최초 1회만 기본으로 검색 결과 패널을 오픈
+  useEffect(() => {
+    if (!isLaptop && mobileBottomSection === null && !hasUserToggledBottom) {
+      setMobileBottomSection('search');
+    }
+  }, [isLaptop, mobileBottomSection, hasUserToggledBottom]);
+
+  const handleMobileSectionChange = (section: MobileBottomSection) => {
+    setHasUserToggledBottom(true);
+    setMobileBottomSection(section);
+  };
 
   useMapResize({
     mapRef: mapHook.mapRef,
@@ -85,6 +128,7 @@ function MapPage() {
               onSaveRoute={saveRoute}
               onRemovePlace={removePlace}
               onReorderPlaces={reorderPlaces}
+              isUpdating={isUpdating}
             />
           </>
         ) : (
@@ -102,7 +146,7 @@ function MapPage() {
 
             <MobileBottomButtons
               activeSection={mobileBottomSection}
-              onSectionChange={setMobileBottomSection}
+              onSectionChange={handleMobileSectionChange}
               routePlacesCount={routePlaces.length}
             />
 
@@ -111,7 +155,7 @@ function MapPage() {
               <div className={MOBILE_SIDEBAR_STYLES.CONTAINER}>
                 <div className={MOBILE_SIDEBAR_STYLES.HEADER}>
                   <h3 className={MOBILE_SIDEBAR_STYLES.TITLE}>검색 결과</h3>
-                  <CloseButton onClick={() => setMobileBottomSection(null)} />
+                  <CloseButton onClick={() => handleMobileSectionChange(null)} />
                 </div>
 
                 <div className={MOBILE_SIDEBAR_STYLES.CONTENT}>
@@ -133,7 +177,7 @@ function MapPage() {
               <div className={MOBILE_SIDEBAR_STYLES.CONTAINER}>
                 <div className={MOBILE_SIDEBAR_STYLES.HEADER}>
                   <h3 className={MOBILE_SIDEBAR_STYLES.TITLE}>동선 관리</h3>
-                  <CloseButton onClick={() => setMobileBottomSection(null)} />
+                  <CloseButton onClick={() => handleMobileSectionChange(null)} />
                 </div>
 
                 <div className={MOBILE_SIDEBAR_STYLES.CONTENT} style={DRAG_STYLES.CONTAINER}>
@@ -143,6 +187,7 @@ function MapPage() {
                     onSaveRoute={saveRoute}
                     onRemovePlace={removePlace}
                     onReorderPlaces={reorderPlaces}
+                    isUpdating={isUpdating}
                   />
                 </div>
               </div>
