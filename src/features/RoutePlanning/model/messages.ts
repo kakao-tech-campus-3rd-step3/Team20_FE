@@ -34,6 +34,7 @@ export const formatLocations = (n: number) => `📍 ${n}개 장소`;
 // 저장 모달 관련 상수
 export const SAVE_ROUTE_MODAL = {
   TITLE: '동선 저장하기',
+  UPDATE_TITLE: '동선 수정하기',
   FORM_LABELS: {
     TITLE: '제목 *',
     DESCRIPTION: '설명 (선택사항)',
@@ -46,14 +47,18 @@ export const SAVE_ROUTE_MODAL = {
     CANCEL: '취소',
     SAVE: '저장하기',
     SAVING: '저장 중...',
+    UPDATE: '수정하기',
+    UPDATING: '수정 중...',
   },
   MESSAGES: {
     PLACES_COUNT: (count: number) => `총 ${count}개의 장소가 저장됩니다.`,
+    UPDATE_PLACES_COUNT: (count: number) => `총 ${count}개의 장소로 수정됩니다.`,
   },
   VALIDATION: {
     TITLE_REQUIRED: '제목을 입력해주세요.',
     NO_PLACES: '저장할 장소가 없습니다.',
     SAVE_FAILED: '동선 저장에 실패했습니다. 다시 시도해주세요.',
+    UPDATE_FAILED: '동선 수정에 실패했습니다. 다시 시도해주세요.',
   },
   LIMITS: {
     TITLE_MAX_LENGTH: 50,
@@ -63,5 +68,7 @@ export const SAVE_ROUTE_MODAL = {
     TITLE: '동선 저장 완료',
     MESSAGE: '성공적으로 동선을 저장하였습니다. 동선은 마이페이지에서 확인할 수 있습니다.',
     GO_MYPAGE: '마이페이지 바로 가기',
+    UPDATE_TITLE: '동선 수정 완료',
+    UPDATE_MESSAGE: '성공적으로 동선을 수정하였습니다.',
   },
 } as const;

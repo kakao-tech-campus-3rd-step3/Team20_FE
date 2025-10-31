@@ -9,6 +9,7 @@ export function SaveRouteModal({
   places,
   onSave,
   onSuccess,
+  isUpdating = false,
 }: SaveRouteModalProps) {
   const {
     title,
@@ -27,11 +28,13 @@ export function SaveRouteModal({
 
   if (!isOpen) return null;
 
+  const modalTitle = isUpdating ? SAVE_ROUTE_MODAL.UPDATE_TITLE : SAVE_ROUTE_MODAL.TITLE;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="w-full max-w-md mx-4 bg-(--color-background-primary) rounded-xl shadow-(--shadow-modal)">
         <div className="flex items-center justify-between p-(--spacing-6) border-b border-(--color-border-primary)">
-          <h2 className="text-heading-5 text-(--color-text-primary)">{SAVE_ROUTE_MODAL.TITLE}</h2>
+          <h2 className="text-heading-5 text-(--color-text-primary)">{modalTitle}</h2>
           <button
             onClick={handleClose}
             disabled={isLoading}
@@ -82,7 +85,11 @@ export function SaveRouteModal({
             </div>
 
             <div className="text-caption text-(--color-text-secondary)">
-              <p>{SAVE_ROUTE_MODAL.MESSAGES.PLACES_COUNT(places.length)}</p>
+              <p>
+                {isUpdating
+                  ? SAVE_ROUTE_MODAL.MESSAGES.UPDATE_PLACES_COUNT(places.length)
+                  : SAVE_ROUTE_MODAL.MESSAGES.PLACES_COUNT(places.length)}
+              </p>
             </div>
 
             {error && (
@@ -110,7 +117,13 @@ export function SaveRouteModal({
                   : 'bg-(--color-brand-secondary) hover:bg-(--color-brand-tertiary)'
               }`}
             >
-              {isLoading ? SAVE_ROUTE_MODAL.BUTTONS.SAVING : SAVE_ROUTE_MODAL.BUTTONS.SAVE}
+              {isLoading
+                ? isUpdating
+                  ? SAVE_ROUTE_MODAL.BUTTONS.UPDATING
+                  : SAVE_ROUTE_MODAL.BUTTONS.SAVING
+                : isUpdating
+                  ? SAVE_ROUTE_MODAL.BUTTONS.UPDATE
+                  : SAVE_ROUTE_MODAL.BUTTONS.SAVE}
             </button>
           </div>
         </form>

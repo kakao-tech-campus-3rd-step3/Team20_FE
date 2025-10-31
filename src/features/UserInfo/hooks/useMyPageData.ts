@@ -2,8 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import { getMyPage } from '@/entities/user';
 
 export const useMyPageData = () => {
-  return useQuery({
+  const query = useQuery({
     queryKey: ['mypage'],
     queryFn: getMyPage,
   });
+
+  return {
+    ...query,
+    refetch: query.refetch,
+  };
 };

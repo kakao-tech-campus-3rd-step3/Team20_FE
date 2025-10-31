@@ -3,7 +3,7 @@ import type {
   CreateItineraryRequest,
   CreateItineraryResponse,
   ItinerariesListResponse,
-  ItineraryDetailResponse,
+  ItineraryDetail,
 } from '../model/types';
 
 export const createItinerary = async (
@@ -16,6 +16,17 @@ export const getItineraries = async (): Promise<ItinerariesListResponse> => {
   return (await httpBackend.get('/itineraries')) as ItinerariesListResponse;
 };
 
-export const getItineraryDetail = async (itineraryId: string): Promise<ItineraryDetailResponse> => {
-  return (await httpBackend.get(`/itineraries/${itineraryId}`)) as ItineraryDetailResponse;
+export const getItineraryDetail = async (itineraryId: string): Promise<ItineraryDetail> => {
+  return (await httpBackend.get(`/itineraries/${itineraryId}`)) as ItineraryDetail;
+};
+
+export const updateItinerary = async (
+  itineraryId: string,
+  data: CreateItineraryRequest,
+): Promise<ItineraryDetail> => {
+  return (await httpBackend.put(`/itineraries/${itineraryId}`, data)) as ItineraryDetail;
+};
+
+export const deleteItinerary = async (itineraryId: string): Promise<void> => {
+  await httpBackend.delete(`/itineraries/${itineraryId}`);
 };
