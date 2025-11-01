@@ -1,7 +1,6 @@
 import { messages } from '../../model/messages';
 import { PosterCard } from '../PosterCard/PosterCard';
 import { getPopularContents } from '@/entities/content/api/contentApi';
-import type { PopularContent } from '@/entities/content/model/types';
 
 export async function PopularSection() {
   const data = await getPopularContents();
