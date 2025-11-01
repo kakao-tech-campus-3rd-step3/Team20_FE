@@ -87,7 +87,7 @@ export const SignupForm = () => {
 
         <FormNavigation
           rightText={AUTH_MESSAGES.HAVE_ACCOUNT_TEXT}
-          rightLink={{ href: '/login', text: AUTH_MESSAGES.LOGIN_LINK }}
+          rightLink={{ href: '/auth/login', text: AUTH_MESSAGES.LOGIN_LINK }}
         />
       </form>
     </div>

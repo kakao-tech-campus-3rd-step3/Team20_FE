@@ -3,7 +3,7 @@
 import { usePasswordResetForm } from '../hooks/usePasswordResetForm';
 import { FormTitle, FormButton, FormNavigation } from '@/shared/ui';
 import { FormFieldRenderer } from './FormFieldRenderer';
-import { AUTH_MESSAGES } from '../model';
+import { createPasswordResetFields, AUTH_MESSAGES } from '../model';
 
 interface PasswordResetFormProps {
   token: string;
@@ -16,6 +16,11 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
     e.preventDefault();
     await handleSubmit();
   };
+
+  const fields = createPasswordResetFields(
+    validation.createPasswordValidator,
+    validation.createConfirmPasswordValidator,
+  );
 
   // 성공 시 성공 메시지만 표시
   if (resetMutation.isSuccess) {
@@ -67,79 +72,24 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
           </div>
         )}
 
-        <form.Field
-          name="password"
-          validators={{
-            onChange: ({ value }) => {
-              try {
-                if (!value) return '비밀번호를 입력해주세요';
-                if (value.length < 8) return '비밀번호는 8자리 이상이어야 합니다';
-                return undefined;
-              } catch {
-                return '비밀번호를 확인해주세요';
-              }
-            },
-            onBlur: ({ value }) => {
-              try {
-                if (!value) return '비밀번호를 입력해주세요';
-                if (value.length < 8) return '비밀번호는 8자리 이상이어야 합니다';
-                return undefined;
-              } catch {
-                return '비밀번호를 확인해주세요';
-              }
-            }
-          }}
-        >
-          {(field) => (
-            <FormFieldRenderer
-              field={field}
-              touchedFields={validation.touchedFields}
-              getErrorMessage={validation.getErrorMessage}
-              label={AUTH_MESSAGES.FIELD_LABEL_NEW_PASSWORD}
-              type="password"
-              placeholder={AUTH_MESSAGES.FIELD_PLACEHOLDER_NEW_PASSWORD}
-            />
-          )}
-        </form.Field>
-
-        <form.Field
-          name="confirmPassword"
-          validators={{
-            onChange: ({ value, fieldApi }) => {
-              try {
-                if (!value) return '비밀번호 확인을 입력해주세요';
-                const formApi = fieldApi.form;
-                const password = formApi.getFieldValue('password');
-                if (password && value !== password) return '비밀번호가 일치하지 않습니다';
-                return undefined;
-              } catch {
-                return '비밀번호 확인을 확인해주세요';
-              }
-            },
-            onBlur: ({ value, fieldApi }) => {
-              try {
-                if (!value) return '비밀번호 확인을 입력해주세요';
-                const formApi = fieldApi.form;
-                const password = formApi.getFieldValue('password');
-                if (password && value !== password) return '비밀번호가 일치하지 않습니다';
-                return undefined;
-              } catch {
-                return '비밀번호 확인을 확인해주세요';
-              }
-            }
-          }}
-        >
-          {(field) => (
-            <FormFieldRenderer
-              field={field}
-              touchedFields={validation.touchedFields}
-              getErrorMessage={validation.getErrorMessage}
-              label={AUTH_MESSAGES.FIELD_LABEL_CONFIRM_PASSWORD}
-              type="password"
-              placeholder={AUTH_MESSAGES.FIELD_PLACEHOLDER_CONFIRM_PASSWORD}
-            />
-          )}
-        </form.Field>
+        {fields.map((fieldConfig) => (
+          <form.Field
+            key={fieldConfig.name}
+            name={fieldConfig.name}
+            validators={fieldConfig.validator}
+          >
+            {(field) => (
+              <FormFieldRenderer
+                field={field}
+                touchedFields={validation.touchedFields}
+                getErrorMessage={validation.getErrorMessage}
+                label={fieldConfig.label}
+                type={fieldConfig.type}
+                placeholder={fieldConfig.placeholder}
+              />
+            )}
+          </form.Field>
+        ))}
 
         <form.Subscribe selector={(state) => [state.isValid, state.isSubmitting, state.values]}>
           {([isValid, isSubmitting, values]) => {

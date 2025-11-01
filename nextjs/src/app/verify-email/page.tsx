@@ -9,7 +9,7 @@ function RedirectContent() {
   const token = searchParams.get('token') || '';
 
   useEffect(() => {
-    const targetUrl = token ? `/verified-email?token=${token}` : '/verified-email';
+    const targetUrl = token ? `/auth/verified-email?token=${token}` : '/auth/verified-email';
     router.replace(targetUrl);
   }, [router, token]);
 

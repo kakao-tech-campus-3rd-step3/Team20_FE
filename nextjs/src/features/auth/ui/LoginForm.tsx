@@ -80,9 +80,9 @@ export const LoginForm = () => {
         </form.Subscribe>
 
         <FormNavigation
-          leftLink={{ href: '/forgot-password', text: AUTH_MESSAGES.FORGOT_PASSWORD_LINK }}
+          leftLink={{ href: '/auth/forgot-password', text: AUTH_MESSAGES.FORGOT_PASSWORD_LINK }}
           rightText={AUTH_MESSAGES.NO_ACCOUNT_TEXT}
-          rightLink={{ href: '/signup', text: AUTH_MESSAGES.SIGNUP_LINK }}
+          rightLink={{ href: '/auth/signup', text: AUTH_MESSAGES.SIGNUP_LINK }}
         />
       </form>
     </div>
