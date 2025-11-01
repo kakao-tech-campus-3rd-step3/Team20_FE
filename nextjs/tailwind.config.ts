@@ -10,14 +10,10 @@ const config: Config = {
     './src/shared/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    screens: {
-      xs: '390px',
-      md: '768px',
-      lg: '1080px',
-      xl: '1320px',
-    },
     extend: {
-      // 색상, 폰트, 애니메이션은 app/_styles에서 CSS 변수로 정의
+      screens: {
+        xs: '390px',
+      },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         display: ['var(--font-cal-sans)', 'system-ui', 'sans-serif'],
