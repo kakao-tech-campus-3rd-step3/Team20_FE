@@ -1,6 +1,4 @@
-'use client';
-
-import { Button } from '../Button/Button';
+import Link from 'next/link';
 import { messages } from '../../model/messages';
 import { PATHS } from '../../model/path';
 
@@ -13,13 +11,12 @@ export function ServiceMainHero() {
         </h1>
         <p className="text-heading-4 text-[--color-text-secondary]">{messages.heroSub}</p>
         <div className="flex gap-[var(--spacing-4)]">
-          <Button
+          <Link
             href={PATHS.MAP}
-            variant="primary"
-            className="[--spacing-button-padding-x:var(--spacing-12)] [--spacing-button-padding-y:var(--spacing-4)]"
+            className="px-[var(--spacing-12)] py-[var(--spacing-4)] rounded-xl text-button bg-[var(--color-brand-secondary)] text-[var(--color-text-inverse)] shadow-[var(--shadow-button)] hover:shadow-[var(--shadow-button-hover)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--color-border-focus]"
           >
             {messages.Browse}
-          </Button>
+          </Link>
         </div>
       </div>
     </section>
