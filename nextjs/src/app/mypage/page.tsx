@@ -12,7 +12,7 @@ export default function MyPagePage() {
   useEffect(() => {
     // 로딩이 완료되고 로그인되지 않은 상태라면 로그인 페이지로 리다이렉트
     if (!isLoading && !isLoggedIn) {
-      router.push('/login');
+      router.push('/auth/login');
     }
   }, [isLoggedIn, isLoading, router]);
 

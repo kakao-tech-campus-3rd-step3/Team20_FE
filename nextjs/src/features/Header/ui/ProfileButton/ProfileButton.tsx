@@ -16,7 +16,7 @@ export function ProfileButton() {
     if (isLoggedIn) {
       router.push('/mypage');
     } else {
-      router.push('/login');
+      router.push('/auth/login');
     }
   };
 

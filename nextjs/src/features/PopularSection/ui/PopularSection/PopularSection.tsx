@@ -107,11 +107,11 @@ export function PopularSection() {
         )}
 
         {!isLoading && !isError && data.length > 0 && (
-          <div className="grid-stable">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {data.map((content, index) => (
               <div
                 key={content.contentId}
-                className="animation-stable animate-fadeInUp"
+                className="animate-fadeInUp"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <PosterCard {...content} />
