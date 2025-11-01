@@ -58,6 +58,7 @@ export type KakaoMarkerImage = {
 };
 
 export type KakaoMapsNS = {
+  load(callback: () => void): void;
   Map: new (
     container: HTMLElement,
     options: {

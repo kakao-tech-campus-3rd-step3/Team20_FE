@@ -1,39 +1,30 @@
 'use client';
 
-import { useState } from 'react';
 import { Search, X } from 'lucide-react';
 import type { SidebarSearchProps } from '../../model/types';
 import { SIDEBAR_SEARCH_TEXT } from '../../model/messages';
-import { useKakaoPlaceSearch } from '../../model/hooks';
+import { useSearchInput } from '../../model/hooks/useSearchInput';
+import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
+import { SIDEBAR_SEARCH_CLASSES, SIDEBAR_SEARCH_CONDITIONAL_CLASSES } from '../../model/constants';
+import { cn } from '@/shared/lib';
 
 export function SidebarSearch({
   className,
   onPlacesChange,
   onSearchStateChange,
 }: SidebarSearchProps) {
-  const [inputValue, setInputValue] = useState('');
-
-  const { handleSearch, clearSearch } = useKakaoPlaceSearch({
+  const { isLaptop } = useBreakpoints();
+  const { inputValue, searchQuery, handleInputChange, handleClearSearch } = useSearchInput(
     onPlacesChange,
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
-    handleSearch(value);
-    onSearchStateChange?.(value.trim().length > 0, value);
-  };
-
-  const handleClearSearch = () => {
-    setInputValue('');
-    clearSearch();
-    onSearchStateChange?.(false, '');
-  };
+    onSearchStateChange,
+  );
 
   return (
     <div
-      className={['p-(--spacing-4) border-b border-(--color-border-primary)', className ?? ''].join(
-        ' ',
+      className={cn(
+        SIDEBAR_SEARCH_CLASSES.CONTAINER,
+        isLaptop && SIDEBAR_SEARCH_CONDITIONAL_CLASSES.DESKTOP_ONLY.BORDER_BOTTOM,
+        className,
       )}
     >
       <div className="relative">
@@ -42,30 +33,27 @@ export function SidebarSearch({
           value={inputValue}
           onChange={handleInputChange}
           placeholder={SIDEBAR_SEARCH_TEXT.PLACEHOLDER}
-          className="
-            w-full pl-10 pr-10 py-(--spacing-3)
-            border border-(--color-border-primary) rounded-xl
-            bg-(--color-background-primary)
-            text-body text-(--color-text-primary)
-            placeholder:text-(--color-text-tertiary)
-            focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-border-focus) focus:border-transparent
-            shadow-(--shadow-inset)
-          "
+          className={SIDEBAR_SEARCH_CLASSES.INPUT}
         />
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-(--color-text-tertiary)" />
+        <Search className={SIDEBAR_SEARCH_CLASSES.SEARCH_ICON} />
         {inputValue && (
-          <button
-            onClick={handleClearSearch}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-(--color-text-tertiary) hover:text-(--color-text-secondary)"
-          >
-            <X className="w-4 h-4" />
+          <button onClick={handleClearSearch} className={SIDEBAR_SEARCH_CLASSES.CLEAR_BUTTON}>
+            <X className={SIDEBAR_SEARCH_CLASSES.CLEAR_ICON} />
           </button>
         )}
       </div>
 
-      <p className="mt-(--spacing-2) text-caption text-(--color-text-secondary)">
-        {SIDEBAR_SEARCH_TEXT.TIP}
-      </p>
+      {isLaptop && (
+        <div className={SIDEBAR_SEARCH_CLASSES.BOTTOM_SECTION}>
+          {searchQuery ? (
+            <p className={SIDEBAR_SEARCH_CLASSES.QUERY_TEXT}>
+              &quot;{searchQuery}&quot; {SIDEBAR_SEARCH_TEXT.COMPLETED}
+            </p>
+          ) : (
+            <p>{SIDEBAR_SEARCH_TEXT.TIP}</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

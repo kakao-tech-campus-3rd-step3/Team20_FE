@@ -9,20 +9,20 @@ function RedirectContent() {
   const token = searchParams.get('token') || '';
 
   useEffect(() => {
-    const targetUrl = token ? `/auth/reset-password?token=${token}` : '/auth/reset-password';
+    const targetUrl = token ? `/verified-email?token=${token}` : '/verified-email';
     router.replace(targetUrl);
   }, [router, token]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
       <div className="text-center">
-        <p className="text-gray-600">비밀번호 재설정 중...</p>
+        <p className="text-gray-600">이메일 인증 중...</p>
       </div>
     </div>
   );
 }
 
-export default function RedirectToResetPassword() {
+export default function RedirectToVerifiedEmail() {
   return (
     <Suspense
       fallback={
@@ -37,4 +37,3 @@ export default function RedirectToResetPassword() {
     </Suspense>
   );
 }
-

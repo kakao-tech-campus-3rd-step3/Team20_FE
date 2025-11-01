@@ -1,6 +1,10 @@
 import { SIDEBAR_EMPTY_STATE } from '../../model/messages';
+import type { PopularContentsSuggestProps } from '../../model/types';
+import { PopularContentsSuggest } from '../PopularContentsSuggest/PopularContentsSuggest';
 
-export function SidebarEmptyState() {
+type SidebarEmptyStateProps = PopularContentsSuggestProps;
+
+export function SidebarEmptyState({ onPlacesChange, onSearchStateChange }: SidebarEmptyStateProps) {
   return (
     <div className="p-(--spacing-6) text-center">
       <div className="mb-(--spacing-4)">
@@ -13,20 +17,10 @@ export function SidebarEmptyState() {
         <p className="text-body text-(--color-text-secondary) mb-(--spacing-4)">
           {SIDEBAR_EMPTY_STATE.DESCRIPTION}
         </p>
-        <div className="space-y-2 text-left">
-          <div className="flex items-center gap-2 text-caption text-(--color-text-tertiary)">
-            <span className="w-2 h-2 bg-(--color-brand-primary) rounded-full"></span>
-            <span>{SIDEBAR_EMPTY_STATE.SEARCH_TIPS.DRAMA}</span>
-          </div>
-          <div className="flex items-center gap-2 text-caption text-(--color-text-tertiary)">
-            <span className="w-2 h-2 bg-(--color-brand-primary) rounded-full"></span>
-            <span>{SIDEBAR_EMPTY_STATE.SEARCH_TIPS.PLACE}</span>
-          </div>
-          <div className="flex items-center gap-2 text-caption text-(--color-text-tertiary)">
-            <span className="w-2 h-2 bg-(--color-brand-primary) rounded-full"></span>
-            <span>{SIDEBAR_EMPTY_STATE.SEARCH_TIPS.REGION}</span>
-          </div>
-        </div>
+        <PopularContentsSuggest
+          onPlacesChange={onPlacesChange}
+          onSearchStateChange={onSearchStateChange}
+        />
       </div>
     </div>
   );

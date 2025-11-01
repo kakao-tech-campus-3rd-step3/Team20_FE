@@ -6,10 +6,8 @@ export interface ApiResponse<T = unknown> {
   data: T;
 }
 
-const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
 export const httpBackend = axios.create({
-  baseURL,
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -32,23 +30,10 @@ httpBackend.interceptors.response.use(
   },
   (error) => {
     if (axios.isAxiosError(error)) {
-      // 401 오류는 인증 관련 정상적인 응답이므로 로그 레벨을 낮춤
-      if (error.response?.status === 401) {
-        // 개발 환경에서만 401 로그 출력
-        if (process.env.NODE_ENV === 'development') {
-          console.warn(
-            '[Auth Error]',
-            error.response?.status,
-            error.response?.data?.message || error.message,
-          );
-        }
-      } else {
-        // 다른 오류들은 여전히 에러로 처리
-        console.error(
-          '[Backend API Error]',
-          error.response?.status,
-          error.response?.data?.message || error.message,
-        );
+      const status = error.response?.status;
+      const url = error.config?.url || '';
+      if (status === 401 && url !== '/users/refresh') {
+        return Promise.reject(error);
       }
     } else {
       console.error('[Unexpected Error]', error);
@@ -65,11 +50,7 @@ httpBackend.interceptors.response.use(
     if (axios.isAxiosError(error) && error.response) {
       const url = originalRequest.url || '';
 
-      if (
-        error.response.status === 401 &&
-        !originalRequest._retry &&
-        url !== '/users/refresh'
-      ) {
+      if (error.response.status === 401 && !originalRequest._retry && url !== '/users/refresh') {
         originalRequest._retry = true;
 
         if (!refreshTokenPromise) {

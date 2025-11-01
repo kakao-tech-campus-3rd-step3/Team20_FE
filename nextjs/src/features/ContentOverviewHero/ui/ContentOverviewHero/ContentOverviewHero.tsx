@@ -31,6 +31,7 @@ export function ContentOverviewHero({
       <div className="mx-auto max-w-7xl px-[--spacing-4] sm:px-[--spacing-6] lg:px-[--spacing-8]">
         {/* 이미지 */}
         <div className="relative h-[40rem] md:h-[56rem] lg:h-[64rem] rounded-2xl overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={data.posterImageUrl}
             alt={data.title}

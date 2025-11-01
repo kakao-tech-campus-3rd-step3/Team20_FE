@@ -1,68 +1,51 @@
 'use client';
 
 import { GripVertical, Trash2 } from 'lucide-react';
-import { useState, useCallback } from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import type { RoutePlaceCardProps } from '../../model/types';
-import { ROUTE_SIDEBAR_BUTTONS } from '@/features/Sidebar/model/messages';
-import { ROUTE_CARD_STYLES } from '@/features/Sidebar/model/constants';
+import { ROUTE_SIDEBAR_BUTTONS } from '../../model/messages';
 import { PlaceThumbnail } from '@/features/Sidebar/ui/PlaceThumbnail/PlaceThumbnail';
 import { PlaceAddress } from '@/features/Sidebar/ui/PlaceAddress/PlaceAddress';
 
-export function RoutePlaceCard({
-  place,
-  className,
-  onRemove,
-  onDragStart,
-  onDragOver,
-  onDragLeave,
-  onDrop,
-}: RoutePlaceCardProps) {
-  const [isDragOver, setIsDragOver] = useState(false);
+export function RoutePlaceCard({ place, className, onRemove }: RoutePlaceCardProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: place.locationId,
+  });
 
-  const handleDragOver = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      setIsDragOver(true);
-      onDragOver?.(e);
-    },
-    [onDragOver],
-  );
-
-  const handleDragLeave = useCallback(() => {
-    setIsDragOver(false);
-    onDragLeave?.();
-  }, [onDragLeave]);
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setIsDragOver(false);
-      onDrop?.(e);
-    },
-    [onDrop],
-  );
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   return (
     <div
-      draggable
-      onDragStart={onDragStart}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
+      ref={setNodeRef}
+      style={{
+        ...style,
+        touchAction: 'none',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+      }}
       className={[
         'p-(--spacing-4) border border-(--color-border-primary) rounded-lg bg-(--color-background-primary)',
         'hover:bg-(--color-background-secondary) transition-colors cursor-move',
-        isDragOver && 'border-(--color-brand-primary) bg-(--color-brand-primary)/5',
+        isDragging && 'opacity-50 scale-105 shadow-lg z-50',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
+      {...attributes}
     >
       <div className="flex items-start gap-(--spacing-3)">
         <div className="flex items-center gap-(--spacing-2) mt-1">
-          <GripVertical className={ROUTE_CARD_STYLES.DRAG_HANDLE} />
-          <span className={ROUTE_CARD_STYLES.ORDER_BADGE}>{place.order}</span>
+          <div {...listeners} className="p-2 -m-2 cursor-grab active:cursor-grabbing">
+            <GripVertical className="w-4 h-4 text-(--color-text-tertiary)" />
+          </div>
+          <span className="text-caption-bold text-(--color-text-inverse) bg-(--color-brand-primary) rounded-full w-5 h-5 flex items-center justify-center">
+            {place.order}
+          </span>
         </div>
 
         <div className="flex-1 min-w-0">
@@ -72,7 +55,7 @@ export function RoutePlaceCard({
             </div>
 
             <div className="flex-1 min-w-0">
-              <h4 className="text-sm font-medium text-(--color-text-primary) mb-1 truncate">
+              <h4 className="text-body-small font-medium text-(--color-text-primary) mb-1 truncate">
                 {place.name}
               </h4>
               <PlaceAddress address={place.address} />
@@ -82,7 +65,7 @@ export function RoutePlaceCard({
 
         <button
           onClick={onRemove}
-          className={ROUTE_CARD_STYLES.REMOVE_BUTTON}
+          className="p-(--spacing-1) text-(--color-text-tertiary) hover:text-(--color-semantic-error) transition-colors"
           title={ROUTE_SIDEBAR_BUTTONS.REMOVE}
         >
           <Trash2 className="w-4 h-4" />

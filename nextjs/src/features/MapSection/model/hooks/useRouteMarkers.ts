@@ -1,18 +1,21 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 import type { KakaoMap, KakaoMarker, KakaoPolyline } from '../types';
 import type { RoutePlace } from '@/features/RoutePlanning/model/types';
+import type { Place } from '@/features/Sidebar/model/types';
 import {
   createLatLng,
   clearMarkers,
   createNumberedMarkerImage,
   clearPolylines,
-  createMapOverlay,
   closeGlobalOverlay,
-  setGlobalOverlay,
+  createAndShowOverlay,
+  getKakaoMaps,
 } from '../utils';
 import { POLYLINE_CONFIG } from '../constants';
+import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 
 /**
  * 동선 마커를 순서와 함께 표시하고 마커 간 연결선을 그리는 훅
@@ -21,9 +24,16 @@ export function useRouteMarkers(
   routePlaces: RoutePlace[],
   mapRef: React.MutableRefObject<KakaoMap | null>,
   onPlaceClick?: (place: RoutePlace) => void,
+  onAddToRoute?: (place: Place | RoutePlace) => void,
 ) {
+  const { isLaptop } = useBreakpoints();
   const routeMarkersRef = useRef<KakaoMarker[]>([]);
   const routePolylinesRef = useRef<KakaoPolyline[]>([]);
+  const onPlaceClickRef = useRef<typeof onPlaceClick | undefined>(onPlaceClick);
+  const onAddToRouteRef = useRef<typeof onAddToRoute | undefined>(onAddToRoute);
+
+  onPlaceClickRef.current = onPlaceClick;
+  onAddToRouteRef.current = onAddToRoute;
 
   useEffect(() => {
     const map = mapRef.current;
@@ -35,10 +45,9 @@ export function useRouteMarkers(
 
       if (routePlaces.length === 0) return;
 
-      const maps = window.kakao?.maps;
-      if (!maps) return;
+      const maps = getKakaoMaps();
 
-      const sortedPlaces = [...routePlaces].sort((a, b) => a.order - b.order);
+      const sortedPlaces = routePlaces.slice().sort((a, b) => a.order - b.order);
 
       // 마커 생성
       const newRouteMarkers = sortedPlaces.map((place) => {
@@ -54,12 +63,8 @@ export function useRouteMarkers(
 
         // 동선 마커 클릭 이벤트 추가
         maps.event.addListener(marker, 'click', () => {
-          onPlaceClick?.(place);
-
-          closeGlobalOverlay();
-
-          const overlay = createMapOverlay(map, place, position, closeGlobalOverlay);
-          setGlobalOverlay(overlay);
+          onPlaceClickRef.current?.(place);
+          createAndShowOverlay(map, place, isLaptop, onAddToRouteRef.current, true); // 동선 마커는 항상 동선에 추가된 상태
         });
 
         return marker;
@@ -83,6 +88,7 @@ export function useRouteMarkers(
       }
     } catch (e) {
       console.error('Failed to update route markers:', e);
+      toast.error('동선 마커 표시 실패');
     }
 
     return () => {
@@ -90,5 +96,5 @@ export function useRouteMarkers(
       routePolylinesRef.current = clearPolylines(routePolylinesRef.current);
       closeGlobalOverlay();
     };
-  }, [routePlaces, mapRef, onPlaceClick]);
+  }, [routePlaces, mapRef, isLaptop]);
 }

@@ -11,7 +11,9 @@ interface ResetPasswordSuccessPageProps {
   searchParams: Promise<{ email?: string }>;
 }
 
-export default async function ResetPasswordSuccessPage({ searchParams }: ResetPasswordSuccessPageProps) {
+export default async function ResetPasswordSuccessPage({
+  searchParams,
+}: ResetPasswordSuccessPageProps) {
   const { email = '' } = await searchParams;
 
   const handleResendEmail = async (email: string) => {
@@ -29,3 +31,4 @@ export default async function ResetPasswordSuccessPage({ searchParams }: ResetPa
     />
   );
 }
+

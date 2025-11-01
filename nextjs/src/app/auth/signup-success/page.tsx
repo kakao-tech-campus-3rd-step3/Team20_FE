@@ -29,3 +29,4 @@ export default async function SignupSuccessPage({ searchParams }: SignupSuccessP
     />
   );
 }
+
