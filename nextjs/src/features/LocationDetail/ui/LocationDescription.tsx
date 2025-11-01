@@ -1,50 +1,21 @@
-'use client';
+import type { LocationDescriptionProps } from '../model/types';
 
-import { useLocationDetail } from '@/entities/location/api/queryfn';
-
-interface LocationDescriptionProps {
-  locationId: string;
-}
-
-export function LocationDescription({ locationId }: LocationDescriptionProps) {
-  const { data: location, isLoading, isError } = useLocationDetail(locationId);
-
-  if (isLoading) {
-    return (
-      <section>
-        <article className="mx-auto max-w-[800px] p-8 rounded-16 shadow-custom-light">
-          <div className="text-[var(--color-text-secondary)]">로딩 중...</div>
-        </article>
-      </section>
-    );
-  }
-
-  if (isError || !location) {
-    return (
-      <section>
-        <article className="mx-auto max-w-[800px] p-8 rounded-16 shadow-custom-light">
-          <div className="text-[var(--color-text-secondary)]">위치 정보를 불러올 수 없습니다.</div>
-        </article>
-      </section>
-    );
-  }
-
-  const description = location.description || '설명이 없습니다.';
-  const quickFacts = location.quickFacts || [];
+export function LocationDescription({ description }: LocationDescriptionProps) {
   return (
-    <section>
-      <article className="mx-auto max-w-[800px] p-8 rounded-16 shadow-custom-light">
-        {quickFacts?.length ? (
-          <div className="grid grid-cols-1 md:grid-rows-3 gap-4 mb-16">
-            {quickFacts.map((fact) => (
-              <p key={fact.label} className="font-semibold text-body-small text-text-secondary">
-                {fact.label}: {fact.value}
-              </p>
-            ))}
+    <section className="max-w-6xl mx-auto">
+      <article className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-xl border border-white/20">
+        {/* 기본정보 섹션 제거: 운영시간/전화번호/이메일 비표시 */}
+
+        {/* Description Section */}
+        <div>
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+            <div className="w-1 h-8 bg-gradient-to-b from-green-500 to-blue-600 rounded-full mr-4"></div>
+            장소 소개
+          </h2>
+          <div className="prose prose-lg max-w-none">
+            <p className="whitespace-pre-line">{description}</p>
           </div>
-        ) : null}
-        <h1 className="text-heading-1 font-bold">장소 설명</h1>
-        <p className="text-body leading-26 text-text-primary whitespace-pre-line">{description}</p>
+        </div>
       </article>
     </section>
   );

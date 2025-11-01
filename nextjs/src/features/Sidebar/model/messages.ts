@@ -21,6 +21,7 @@ export const SIDEBAR_STATUS_TEXT = {
 export const SIDEBAR_SEARCH_TEXT = {
   PLACEHOLDER: '촬영지 검색... (예: 오징어게임, 대한봉진학교)',
   TIP: '💡 팁: "오징어게임"으로 검색하면 모든 촬영지가 표시됩니다',
+  COMPLETED: '검색 완료',
 };
 
 export const PLACE_LABELS = {

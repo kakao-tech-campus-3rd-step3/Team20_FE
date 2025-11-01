@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Sidebar, convertItineraryLocationsToRoutePlaces } from '@/features/Sidebar';
 import { SidebarSearch } from '@/features/Sidebar/ui/SidebarSearch/SidebarSearch';
@@ -28,7 +28,7 @@ import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 import type { Place } from '@/features/Sidebar/model/types';
 import { useItineraryDetail } from '@/entities/itinerary/api/queryfn';
 
-export default function MapPage() {
+function MapPageContent() {
   const searchParams = useSearchParams();
   const itineraryId = searchParams.get('itineraryId') || undefined;
   
@@ -104,6 +104,7 @@ export default function MapPage() {
       <div className="flex flex-1 overflow-hidden">
         {isLaptop ? (
           <>
+            {/* Desktop Sidebar - 검색 기능 포함 */}
             <Sidebar
               className="w-96 shrink-0 h-full min-h-0"
               onSearchPlacesChange={setSearchPlaces}
@@ -117,6 +118,7 @@ export default function MapPage() {
               containerRef={mapHook.containerRef}
               className="flex-1 h-full min-h-0"
             />
+            {/* Desktop RouteSidebar */}
             <RouteSidebar
               className="w-96 shrink-0 h-full min-h-0"
               places={routePlaces}
@@ -191,5 +193,13 @@ export default function MapPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function MapPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MapPageContent />
+    </Suspense>
   );
 }

@@ -8,8 +8,8 @@ export function useMobileNavMenu(onSelect?: (key: NavKey) => void, onClose?: () 
 
   const handleItemClick = (key: NavKey) => {
     const route = navRouteMap[key];
-    // Next.js의 router.push는 문자열 경로만 받으므로 to 속성 사용
-    router.push(route.to);
+    // Next.js의 router.push는 문자열 경로만 받으므로 href 속성 사용
+    router.push(route.href);
     onSelect?.(key);
     onClose?.();
   };
@@ -19,4 +19,3 @@ export function useMobileNavMenu(onSelect?: (key: NavKey) => void, onClose?: () 
     handleItemClick,
   };
 }
-

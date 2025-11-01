@@ -91,4 +91,3 @@ export const updateLocationReview = async (
     throw new Error(msg);
   }
 };
-

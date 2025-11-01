@@ -19,6 +19,8 @@ export default function LocationDetailPage({ params }: LocationDetailPageProps) 
   const unwrappedParams = React.use(params);
   const { id } = unwrappedParams;
   
+  console.log('[LocationDetailPage] locationId:', id, 'type:', typeof id);
+  
   const { data, isLoading } = useLocationDetail(id);
   const { data: reviewsData, isLoading: reviewsLoading } = useLocationReviews(id);
 

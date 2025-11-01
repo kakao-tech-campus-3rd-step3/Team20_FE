@@ -1,11 +1,12 @@
 import type { ComponentType } from 'react';
 import type { LocationDetail } from '@/entities/location/model/types';
+import type { ContentLocation } from '@/entities/content/model/types';
 // ===== 도메인 타입 =====
 export interface ContentScene {
   id: number;
   title: string;
-  description: string;
-  image: string;
+  description?: string;
+  image?: string;
   episode: string;
   timestamp: string;
 }
@@ -52,6 +53,7 @@ export interface LocationImageThumbnailsProps extends Pick<BaseNavigationProps, 
 
 export interface UseLocationImageCarouselProps {
   locations: LocationDetail[];
+  contentLocations: ContentLocation[];
 }
 
 export interface LocationImageCarouselProps {
