@@ -1,17 +1,15 @@
 import { messages } from '../../model/messages';
 import { PosterCard } from '../PosterCard/PosterCard';
-import { getPopularContents } from '@/entities/content/api/contentApi';
+import { getPopularContentsCached } from '@/entities/content/api/contentApi';
 
 export async function PopularSection() {
-  const data = await getPopularContents();
+  const data = await getPopularContentsCached();
 
   return (
     <section className="relative py-[var(--spacing-20)] px-[var(--spacing-container-padding)] md:px-[var(--spacing-container-padding-tablet)] lg:px-[var(--spacing-container-padding-desktop)] pb-[var(--spacing-20)] overflow-hidden">
-      {/* 배경 효과 */}
       <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-brand-primary)]/3 via-transparent to-[var(--color-brand-secondary)]/5 pointer-events-none" />
 
       <div className="relative">
-        {/* 섹션 헤더 */}
         <div className="text-center mb-[var(--spacing-16)]">
           <div className="flex items-center justify-center gap-3 mb-[var(--spacing-4)]">
             <div className="w-3 h-3 bg-[var(--color-brand-secondary)] rounded-full animate-pulse" />

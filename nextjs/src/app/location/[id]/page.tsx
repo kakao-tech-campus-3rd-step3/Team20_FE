@@ -1,8 +1,3 @@
-'use client';
-
-import React from 'react';
-import { useLocationDetail } from '@/entities/location/api/queryfn';
-import { useLocationReviews } from '@/entities/location-review';
 import {
   LocationHero,
   LocationDescription,
@@ -10,35 +5,79 @@ import {
   LocationReviews,
 } from '@/features/LocationDetail';
 import { quickFacts } from '@/features/LocationDetail/model/constants';
+import { getLocationDetail } from '@/entities/location/api/locationApi';
+import { getLocationReviews } from '@/entities/location-review/api/locationReviewApi';
+import { getPopularContents, getContentLocations } from '@/entities/content/api/contentApi';
+import type { Metadata } from 'next';
 
 interface LocationDetailPageProps {
   params: Promise<{ id: string }>;
 }
+export const revalidate = false;
 
-export default function LocationDetailPage({ params }: LocationDetailPageProps) {
-  const unwrappedParams = React.use(params);
-  const { id } = unwrappedParams;
-  
-  console.log('[LocationDetailPage] locationId:', id, 'type:', typeof id);
-  
-  const { data, isLoading } = useLocationDetail(id);
-  const { data: reviewsData, isLoading: reviewsLoading } = useLocationReviews(id);
+export async function generateMetadata({ params }: LocationDetailPageProps): Promise<Metadata> {
+  try {
+    const { id } = await params;
+    const data = await getLocationDetail(id);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-          <div className="animate-pulse">
-            <div className="h-48 sm:h-64 md:h-80 lg:h-[28rem] bg-gray-200 rounded-2xl mb-6 sm:mb-8"></div>
-            <div className="space-y-3 sm:space-y-4">
-              <div className="h-4 bg-gray-200 rounded w-5/6 sm:w-3/4 lg:w-2/3"></div>
-              <div className="h-4 bg-gray-200 rounded w-3/5 sm:w-1/2 lg:w-2/5"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return {
+      title: `${data.name} - K-SPOT`,
+      description: data.description || `${data.name}의 상세 정보를 확인하세요.`,
+      openGraph: {
+        title: `${data.name} - K-SPOT`,
+        description: data.description || `${data.name}의 상세 정보를 확인하세요.`,
+        images: data.locationImage ? [data.locationImage] : [],
+      },
+    };
+  } catch (error) {
+    console.error('Failed to generate metadata:', error);
+    return {
+      title: 'K-SPOT',
+      description: 'K-콘텐츠 촬영지를 탐험해보세요.',
+    };
   }
+}
+export const dynamicParams = true; 
+
+export async function generateStaticParams() {
+  try {
+    const contents = await getPopularContents();
+    const locationIds = new Set<string>();
+
+    const topContents = contents.slice(0, 10);
+    console.log(`[SSG] Fetching locations from ${topContents.length} contents...`);
+
+    for (const content of topContents) {
+      try {
+        const locations = await getContentLocations(String(content.contentId));
+        if (Array.isArray(locations)) {
+          locations.forEach((loc) => locationIds.add(String(loc.locationId)));
+        }
+        await new Promise(resolve => setTimeout(resolve, 50));
+      } catch {
+        console.error(`Failed to fetch locations for content ${content.contentId}`);
+      }
+    }
+
+    const locationArray = Array.from(locationIds);
+    console.log(`[SSG] Generating ${locationArray.length} location pages`);
+    
+    return locationArray.map((id) => ({ id }));
+  } catch (error) {
+    console.error('Failed to generate static params for locations:', error);
+    return [];
+  }
+}
+
+export default async function LocationDetailPage({ params }: LocationDetailPageProps) {
+  const { id } = await params;
+
+  console.log('[LocationDetailPage] locationId:', id, 'type:', typeof id);
+
+  const [data, reviewsData] = await Promise.all([
+    getLocationDetail(id),
+    getLocationReviews(id),
+  ]);
 
   if (!data) {
     return (
@@ -70,7 +109,7 @@ export default function LocationDetailPage({ params }: LocationDetailPageProps) 
         <section className="relative z-10">
           <LocationReviews
             reviews={reviewsData?.locationReviews ?? []}
-            isLoading={reviewsLoading}
+            isLoading={false}
             locationId={id}
           />
         </section>

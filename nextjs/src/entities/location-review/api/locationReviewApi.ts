@@ -18,8 +18,12 @@ export const getLocationReviews = async (locationId: string): Promise<LocationRe
       };
     }
     return response as unknown as LocationReviewsResponse;
-  } catch (error) {
-    console.error('Location Reviews API error:', error);
+  } catch (error: unknown) {
+    // 404는 정상 상황 (리뷰가 없는 장소) - 빌드 시 로그 최소화
+    const err = error as { status?: number; response?: { status?: number } };
+    if (err?.status !== 404 && err?.response?.status !== 404) {
+      console.error('Location Reviews API error:', error);
+    }
     return {
       locationReviews: [],
       pagination: { currentPage: 0, itemPerPage: 10, totalItems: 0, totalPages: 0 },

@@ -17,8 +17,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = 'force-dynamic';
-
 function PopularSectionSkeleton() {
   return (
     <section className="relative py-[var(--spacing-20)] px-[var(--spacing-container-padding)] md:px-[var(--spacing-container-padding-tablet)] lg:px-[var(--spacing-container-padding-desktop)] pb-[var(--spacing-20)] overflow-hidden">
@@ -49,6 +47,8 @@ function PopularSectionSkeleton() {
     </section>
   );
 }
+
+export const revalidate = 86400;
 
 export default function HomePage() {
   return (
