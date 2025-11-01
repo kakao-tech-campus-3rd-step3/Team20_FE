@@ -38,8 +38,6 @@ export async function generateStaticParams() {
   try {
     const contents = await getPopularContents();
     const topContents = contents.slice(0, 20);
-    console.log(`[SSG] Generating ${topContents.length} content pages`);
-
     return topContents.map((content) => ({
       id: String(content.contentId),
     }));

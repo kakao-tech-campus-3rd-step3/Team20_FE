@@ -60,8 +60,6 @@ export async function generateStaticParams() {
     }
 
     const locationArray = Array.from(locationIds);
-    console.log(`[SSG] Generating ${locationArray.length} location pages`);
-    
     return locationArray.map((id) => ({ id }));
   } catch (error) {
     console.error('Failed to generate static params for locations:', error);
@@ -71,9 +69,6 @@ export async function generateStaticParams() {
 
 export default async function LocationDetailPage({ params }: LocationDetailPageProps) {
   const { id } = await params;
-
-  console.log('[LocationDetailPage] locationId:', id, 'type:', typeof id);
-
   const [data, reviewsData] = await Promise.all([
     getLocationDetail(id),
     getLocationReviews(id),
