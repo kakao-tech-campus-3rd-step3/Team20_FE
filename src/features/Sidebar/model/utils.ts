@@ -4,6 +4,8 @@ import type { Place } from '../model/types';
 import type { ContentLocation } from '@/entities/content/model/types';
 import type { LocationDetail } from '@/entities/location/model/types';
 import type { ContentDetail } from '@/entities/content/model/types';
+import type { ItineraryLocation } from '@/entities/itinerary/model/types';
+import type { RoutePlace } from '@/features/RoutePlanning/model/types';
 
 export const hasAddress = (
   location: ContentLocation | LocationDetail,
@@ -12,11 +14,11 @@ export const hasAddress = (
 };
 
 export const convertContentLocationToPlace = (location: ContentLocation): Place => ({
-  locationId: location.location_id,
-  name: location.name,
+  locationId: location.locationId,
+  name: '', // ContentLocation에 name 없음
   address: '주소 정보 없음',
-  description: location.scene_description,
-  locationImage: location.location_image_url,
+  description: location.sceneDescription,
+  locationImage: '', // ContentLocation에 locationImageUrl 없음
   latitude: 0,
   longitude: 0,
   relatedContents: [],
@@ -26,8 +28,11 @@ export const convertLocationsToPlaces = async (locations: ContentLocation[]): Pr
   return Promise.all(
     locations.map(async (location: ContentLocation) => {
       try {
-        const locationDetail = await getLocationDetail(location.location_id.toString());
-        return locationDetail as Place;
+        const locationDetail = await getLocationDetail(location.locationId.toString());
+        return {
+          ...locationDetail,
+          description: location.sceneDescription || locationDetail.description,
+        } as Place;
       } catch {
         return convertContentLocationToPlace(location);
       }
@@ -35,7 +40,9 @@ export const convertLocationsToPlaces = async (locations: ContentLocation[]): Pr
   );
 };
 
-export const getPlacesFromContents = async (contents: ContentDetail[]): Promise<Place[]> => {
+export const getPlacesFromContents = async (
+  contents: ContentDetail[] | Array<{ contentId: number }>,
+): Promise<Place[]> => {
   const allPlaces: Place[] = [];
 
   for (const content of contents) {
@@ -49,4 +56,34 @@ export const getPlacesFromContents = async (contents: ContentDetail[]): Promise<
   }
 
   return allPlaces;
+};
+
+export const convertItineraryLocationsToRoutePlaces = async (
+  locations: ItineraryLocation[],
+): Promise<RoutePlace[]> => {
+  return Promise.all(
+    locations.map(async (location: ItineraryLocation) => {
+      try {
+        const locationDetail = await getLocationDetail(location.locationId.toString());
+        return {
+          ...locationDetail,
+          order: location.visitOrder,
+        } as RoutePlace;
+      } catch (error) {
+        console.warn(`장소 정보를 가져오는데 실패했습니다. ${location.locationId}:`, error);
+        // 실패 시 기본 정보만 사용
+        return {
+          locationId: location.locationId,
+          name: location.name,
+          address: location.address,
+          description: '',
+          locationImage: '',
+          latitude: 0,
+          longitude: 0,
+          relatedContents: [],
+          order: location.visitOrder,
+        } as RoutePlace;
+      }
+    }),
+  );
 };

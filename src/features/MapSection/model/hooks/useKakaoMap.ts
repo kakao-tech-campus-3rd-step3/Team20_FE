@@ -16,7 +16,6 @@ export function useKakaoMap(options?: MapOptions) {
     center = MAP_DEFAULTS.center,
     level = MAP_DEFAULTS.level,
     scrollwheel = MAP_DEFAULTS.scrollwheel,
-    disableDoubleClickZoom = MAP_DEFAULTS.disableDoubleClickZoom,
   } = options ?? {};
 
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -60,9 +59,9 @@ export function useKakaoMap(options?: MapOptions) {
         const map = new maps.Map(containerEl, {
           center: centerLatLng,
           level,
-          draggable: !isLaptop,
-          scrollwheel: scrollwheel,
-          disableDoubleClickZoom: disableDoubleClickZoom,
+          draggable: true,
+          scrollwheel: true,
+          disableDoubleClickZoom: false,
         });
 
         const mapContainer = map.getNode();
@@ -104,8 +103,8 @@ export function useKakaoMap(options?: MapOptions) {
 
     try {
       map.setLevel(level);
-      map.setDraggable(!isLaptop);
-      map.setZoomable(scrollwheel);
+      map.setDraggable(true);
+      map.setZoomable(true);
     } catch (error) {
       console.error('카카오맵 옵션 업데이트 실패:', error);
       toast.error('지도 설정 업데이트 실패');

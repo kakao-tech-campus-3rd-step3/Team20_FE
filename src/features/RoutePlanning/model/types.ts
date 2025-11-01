@@ -19,6 +19,7 @@ export type RouteSidebarProps = WithPlaces & {
   onSaveRoute: SaveRouteHandler;
   onRemovePlace?: (placeId: number) => void;
   onReorderPlaces?: (places: RoutePlace[]) => void;
+  isUpdating?: boolean;
 };
 
 export type RoutePlaceCardProps = {
@@ -31,9 +32,18 @@ export type SaveRouteModalProps = WithPlaces & {
   isOpen: boolean;
   onClose: () => void;
   onSave?: SaveRouteHandler;
+  onSuccess?: () => void;
+  isUpdating?: boolean;
 };
 
 export type UseSaveRouteFormOptions = {
   onSave?: SaveRouteHandler;
   onClose?: () => void;
+  onSuccess?: () => void;
 };
+
+export interface SaveSuccessModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+}
