@@ -23,13 +23,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       
       try {
         const response = await checkAuthStatusApi();
+        if (process.env.NODE_ENV === 'development') {
+          console.log('[AuthProvider] Response:', response);
+        }
         if (response && response.isLoggedIn) {
           setIsLoggedIn(true);
-          // 사용자 정보가 있다면 설정
-          if (response.user) {
-            setUser(response.user);
+          // 사용자 정보가 있다면 설정 (userId만 있어도 설정)
+          if (response.userId) {
+            const user: User = {
+              userId: response.userId,
+              email: response.email || '',
+              nickname: response.nickname || '',
+            };
+            setUser(user);
             if (process.env.NODE_ENV === 'development') {
-              console.log('[AuthProvider] User authenticated:', response.user.email);
+              console.log('[AuthProvider] User authenticated:', user.userId);
             }
           }
         } else {
