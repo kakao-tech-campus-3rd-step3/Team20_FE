@@ -8,6 +8,8 @@ export const messages = {
   locationsCount: (count: number) => `${count}개 장소`,
   viewOnMap: '지도에서 보기',
   closeModal: '모달 닫기',
+  deleteItinerary: '동선 삭제',
+  deleteConfirm: '정말로 이 동선을 삭제하시겠습니까?',
   startLabel: '출발',
   endLabel: '도착',
 };

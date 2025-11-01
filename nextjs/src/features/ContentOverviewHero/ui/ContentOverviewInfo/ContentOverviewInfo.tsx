@@ -1,5 +1,3 @@
-'use client';
-
 import type { ContentOverviewInfoProps } from '../../model/types';
 import { messages } from '../../model/messages';
 
@@ -10,14 +8,17 @@ export function ContentOverviewInfo({
   countOfLocations,
 }: ContentOverviewInfoProps) {
   return (
-    <div className="absolute bottom-32 left-0 right-0 z-[--z-elevated] px-[--spacing-6]">
+    <div className="px-[--spacing-16] py-[--spacing-8]">
       <div className="max-w-4xl mx-auto text-center">
-        <div className="mb-[--spacing-6] flex items-center justify-center gap-[--spacing-4]">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white/90 mb-12 leading-tight ">
+          {title}
+        </h1>
+        <div className="mb-8 flex items-center justify-center gap-6">
           <span
             className="
               px-[--spacing-6] py-[--spacing-3] 
               bg-gradient-to-r from-[--color-brand-secondary] to-[--color-brand-tertiary] 
-              text-white text-sm font-semibold rounded-full
+              text-white text-2xl font-semibold rounded-full
               shadow-[--shadow-brand-sm]
           "
           >
@@ -33,18 +34,14 @@ export function ContentOverviewInfo({
               "
             >
               <div className="w-2 h-2 bg-white rounded-full"></div>
-              <span className="text-white/90 text-sm font-medium">
+              <span className="text-white/90 text-2xl font-medium">
                 {messages.locationCount.replace('{count}', countOfLocations.toString())}
               </span>
             </div>
           )}
         </div>
 
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-[--spacing-6] leading-tight">
-          {title}
-        </h1>
-
-        <p className="text-white/80 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+        <p className="text-white/90 text-xl md:text-2xl leading-relaxed max-w-2xl mx-auto mb-8">
           {description}
         </p>
       </div>
