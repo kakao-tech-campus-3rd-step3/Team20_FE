@@ -1,51 +1,58 @@
+'use client';
+
 import { contentHero } from '@/__mocks__/contentHero';
-import { ContentOverviewIconGroup } from '../ContentOverviewIconGroup/ContentOverviewIconGroup';
 import { ContentOverviewInfo } from '../ContentOverviewInfo/ContentOverviewInfo';
 import { ContentOverviewActionButtons } from '../ContentOverviewActionButton/ContentOverviewActionButtons';
-import type { ContentDetail, ContentLocation } from '@/entities/content/model/types';
-import Image from 'next/image';
-
-interface ContentOverviewHeroProps {
-  contentDetail: ContentDetail;
-  contentLocations: ContentLocation[];
-  description?: string;
-  isLiked?: boolean;
-}
+import type { ContentOverviewHeroProps } from '../../model/types';
+import { useContentDetail } from '@/entities/content/api/queryfn';
+import { getContentLocations } from '@/entities/content/api/contentApi';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 export function ContentOverviewHero({
-  contentDetail,
-  contentLocations,
+  contentId,
   description = contentHero.description,
-  isLiked = false,
 }: ContentOverviewHeroProps) {
+  const { data } = useContentDetail(contentId);
+
+  const { data: contentLocations = [] } = useSuspenseQuery({
+    queryKey: ['content-locations', contentId],
+    queryFn: () => getContentLocations(contentId),
+  });
+
+  const router = useRouter();
+
+  const handleMapViewClick = () => {
+    router.push(`/content/${contentId}/map`);
+  };
+
   return (
-    <div className="relative h-screen-safe w-full overflow-hidden">
-      {/* 배경 이미지 */}
-      <div className="absolute inset-0">
-        <Image 
-          src={contentDetail.posterImageUrl} 
-          alt={contentDetail.title} 
-          fill
-          className="object-cover" 
-          priority
-        />
-        {/* 그라데이션 오버레이 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-gray-0)] to-[var(--color-gray-800)]" />
+    <section className="bg-gradient-to-t from-(--color-gray-800) to-(--color-gray-900)">
+      <div className="mx-auto max-w-7xl px-[--spacing-4] sm:px-[--spacing-6] lg:px-[--spacing-8]">
+        {/* 이미지 */}
+        <div className="relative h-[40rem] md:h-[56rem] lg:h-[64rem] rounded-2xl overflow-hidden">
+          <img
+            src={data.posterImageUrl}
+            alt={data.title}
+            className="absolute inset-0 w-full h-full object-contain rounded-2xl"
+          />
+        </div>
+
+        {/* 콘텐츠 정보 */}
+        <div className="text-gray-900 ">
+          <ContentOverviewInfo
+            title={data.title}
+            category={data.category}
+            description={description}
+            countOfLocations={contentLocations.length}
+          />
+        </div>
+
+        {/* 하단 액션 버튼들 */}
+        <div>
+          <ContentOverviewActionButtons onMapViewClick={handleMapViewClick} />
+        </div>
       </div>
-
-      {/* 상단 아이콘 그룹 */}
-      <ContentOverviewIconGroup isLiked={isLiked} />
-
-      {/* 콘텐츠 정보 */}
-      <ContentOverviewInfo
-        title={contentDetail.title}
-        category={contentDetail.category}
-        description={description}
-        countOfLocations={contentLocations.length}
-      />
-
-      {/* 하단 액션 버튼들 */}
-      <ContentOverviewActionButtons />
-    </div>
+    </section>
   );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '../Button/Button';
 import { messages } from '../../model/messages';
 import { PATHS } from '../../model/path';

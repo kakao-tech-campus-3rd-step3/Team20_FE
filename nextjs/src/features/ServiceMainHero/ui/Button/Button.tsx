@@ -1,3 +1,5 @@
+'use client';
+
 import type { ButtonProps } from '../../model/types';
 import Link from 'next/link';
 

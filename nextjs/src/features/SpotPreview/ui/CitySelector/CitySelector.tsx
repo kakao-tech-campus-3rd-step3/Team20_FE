@@ -1,3 +1,5 @@
+'use client';
+
 import type { CitySelectorProps } from '../../model/types';
 
 export function CitySelector({ cities, selected, onSelect }: CitySelectorProps) {

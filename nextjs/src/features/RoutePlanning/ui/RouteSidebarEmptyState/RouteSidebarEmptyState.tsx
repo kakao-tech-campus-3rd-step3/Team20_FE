@@ -1,3 +1,5 @@
+'use client';
+
 import { ROUTE_SIDEBAR_TITLES, ROUTE_SIDEBAR_ICONS } from '@/features/Sidebar/model/messages';
 import { SIDEBAR_DIMENSIONS } from '@/features/Sidebar/model/constants';
 

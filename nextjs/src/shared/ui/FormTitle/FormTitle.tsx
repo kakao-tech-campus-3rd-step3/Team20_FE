@@ -1,3 +1,5 @@
+'use client';
+
 interface FormTitleProps {
   children: React.ReactNode;
   className?: string;

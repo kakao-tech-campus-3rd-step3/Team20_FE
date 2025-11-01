@@ -10,6 +10,17 @@ export {
   resetPasswordApi,
 } from './api/passwordResetApi';
 
+// Query Hooks
+export {
+  authKeys,
+  useAuthStatusQuery,
+  useLoginMutation,
+  useSignupMutation,
+  useLogoutMutation,
+  useEmailVerificationQuery,
+  useResendEmailMutation,
+} from './api/authQueries';
+
 // Types
 export type {
   LoginRequest,

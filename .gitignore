@@ -60,4 +60,4 @@ storybook-static
 .cert/
 
 # NextJS folder - remove this line in 'next' branch
-nextjs/
+# nextjs/  # ✅ 마이그레이션 완료 후 주석 처리

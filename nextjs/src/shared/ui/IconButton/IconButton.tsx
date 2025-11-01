@@ -1,3 +1,5 @@
+'use client';
+
 import { forwardRef } from 'react';
 import type { IconButtonProps } from '../../model/types';
 import { cn } from '../../model/utils';

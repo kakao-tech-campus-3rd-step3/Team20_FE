@@ -1,3 +1,5 @@
+'use client';
+
 import { RoutePlaceCard } from '../RoutePlaceCard/RoutePlaceCard';
 import { RouteSidebarEmptyState } from '../RouteSidebarEmptyState/RouteSidebarEmptyState';
 import type { RouteSidebarProps } from '../../model/types';
