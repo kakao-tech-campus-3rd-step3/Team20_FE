@@ -43,6 +43,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'd2d0fud3w2c5j6.cloudfront.net',
       },
+      { 
+        protocol: 'https', 
+        hostname: 'k-spot.kro.kr', 
+      },
     ],
   },
 
