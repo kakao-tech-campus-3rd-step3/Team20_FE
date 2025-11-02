@@ -48,14 +48,3 @@ export default function () {
 
   sleep(Math.random() * 2 + 1);
 }
-
-export function setup() {
-  console.log('Starting load test for kspot.site');
-  console.log('Test duration: ~25 minutes');
-  console.log('Max VUs: 100');
-}
-
-export function teardown(data) {
-  console.log('Load test completed');
-  console.log('Check VPA recommendations with: kubectl describe vpa kspot-nextjs-vpa');
-}
