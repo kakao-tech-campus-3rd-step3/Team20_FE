@@ -150,10 +150,11 @@ jobs:
 
       - name: Apply Kubernetes configurations
         run: |
-          # Apply production configurations
           kubectl apply -f k8s/configmap.yaml
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/hpa.yaml
+          kubectl apply -f k8s/vpa.yaml
           kubectl apply -f k8s/certificate.yaml
           kubectl apply -f k8s/ingress.yaml
 
@@ -191,6 +192,8 @@ jobs:
           DEPLOYMENT_NAME="kspot-nextjs"
           SERVICE_NAME="kspot-nextjs-service"
           INGRESS_NAME="kspot-nextjs-ingress"
+          HPA_NAME="kspot-nextjs-hpa"
+          VPA_NAME="kspot-nextjs-vpa"
           
           echo "=== Deployment Status ==="
           kubectl get deployment ${DEPLOYMENT_NAME}
@@ -203,6 +206,12 @@ jobs:
           
           echo "=== Pod Status ==="
           kubectl get pods -l app=${DEPLOYMENT_NAME}
+
+          echo "=== HPA Status ==="
+          kubectl get hpa ${HPA_NAME}
+          
+          echo "=== VPA Status ==="
+          kubectl get vpa ${VPA_NAME}
 
           echo "=== SSL Certificate Status ==="
           kubectl get managedcertificate kspot-ssl-cert
@@ -221,3 +230,11 @@ jobs:
           else
             echo "Ingress IP is still being assigned. Check later with: kubectl get ingress ${INGRESS_NAME}"
           fi
+          
+          echo ""
+          echo "=== Autoscaling Configuration ==="
+          echo "HPA: Enabled (min: 2, max: 4 replicas)"
+          echo "VPA: Monitoring mode (recommendations only)"
+          echo ""
+          echo "To view VPA recommendations:"
+          echo "  kubectl describe vpa ${VPA_NAME}"
