@@ -13,6 +13,7 @@ export function PlaceThumbnail({ locationImage, name, badgeNumber }: ThumbnailPr
             fill
             className="object-cover"
             sizes="64px"
+            unoptimized
           />
         ) : (
           <div className="w-full h-full grid place-items-center text-(--color-text-tertiary)">

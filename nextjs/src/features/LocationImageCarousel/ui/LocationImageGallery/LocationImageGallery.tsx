@@ -29,6 +29,7 @@ export function LocationImageGallery({
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 800px"
           priority
+          unoptimized
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-(--color-gray-900)/80 via-transparent to-transparent" />
