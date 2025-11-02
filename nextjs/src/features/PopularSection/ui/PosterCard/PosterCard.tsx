@@ -1,13 +1,25 @@
+'use client';
+
 import type { PopularContent } from '@/entities/content/model/types';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 type PosterCardProps = PopularContent;
 
 export function PosterCard({ contentId, title, posterImageUrl }: PosterCardProps) {
+  const router = useRouter();
+
+  const handleMouseEnter = () => {
+    router.prefetch(`/content/${contentId}`);
+  };
+
   return (
-    <article className="group border border-[var(--color-border-primary)] overflow-hidden bg-[var(--color-background-primary)] shadow-lg hover:shadow-2xl transition-all duration-300 will-change-transform relative hover:-translate-y-2 rounded-2xl">
-      <Link href={`/content/${contentId}`} className="block">
+    <article 
+      className="group border border-[var(--color-border-primary)] overflow-hidden bg-[var(--color-background-primary)] shadow-lg hover:shadow-2xl transition-all duration-300 will-change-transform relative hover:-translate-y-2 rounded-2xl"
+      onMouseEnter={handleMouseEnter}
+    >
+      <Link href={`/content/${contentId}`} className="block" prefetch={false}>
         <div className="aspect-[3/4] image-container-stable">
           <Image
             src={posterImageUrl}
