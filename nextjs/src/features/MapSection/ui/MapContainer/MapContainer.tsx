@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import type { MapContainerUiProps } from '../../model/types';
 
@@ -10,7 +10,7 @@ export function MapContainer({
   return (
     <div
       className={[
-        'relative w-full h-full min-h-[600px] bg-(--color-background-tertiary) overflow-hidden',
+        'relative w-full h-full min-h-[600px] bg-[var(--color-background-tertiary)] overflow-hidden',
         className ?? '',
       ].join(' ')}
     >

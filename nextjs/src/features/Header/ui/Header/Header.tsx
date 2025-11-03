@@ -20,12 +20,12 @@ export function Header({ active, onSelect }: NavMenuProps) {
   };
 
   return (
-    <header className="relative bg-(--color-background)/90 backdrop-blur-md shadow-(--shadow-brand-md) border-b border-(--color-border) sticky top-0 z-(--z-sticky)">
-      <div className="max-w-7xl mx-auto px-container-padding sm:px-container-padding-tablet lg:px-container-padding-desktop lg:px-(--spacing-8)">
-        <div className="flex justify-between items-center h-(--spacing-20)">
+    <header className="relative bg-[var(--color-background)]/90 backdrop-blur-md shadow-[var(--shadow-brand-md)] border-b border-[var(--color-border)] sticky top-0 z-[var(--z-sticky)]">
+      <div className="max-w-7xl mx-auto px-container-padding sm:px-container-padding-tablet lg:px-container-padding-desktop lg:px-[var(--spacing-8)]">
+        <div className="flex justify-between items-center h-[var(--spacing-20)]">
           <Brand />
           <NavMenu active={active} onSelect={onSelect} />
-          <div className="flex items-center gap-(--spacing-2) md:hidden">
+          <div className="flex items-center gap-[var(--spacing-2)] md:hidden">
             <HamburgerMenu
               isOpen={isMobileMenuOpen}
               onToggle={handleMobileMenuToggle}

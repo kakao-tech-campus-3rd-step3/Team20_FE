@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { PlaceList } from '../PlaceList/PlaceList';
 import { SidebarSearch } from '../SidebarSearch/SidebarSearch';
@@ -52,19 +52,19 @@ export function Sidebar({
     >
       <div
         className={cn(
-          'w-full bg-(--color-background-primary) shadow-(--shadow-card) rounded-r-2xl overflow-hidden h-full flex flex-col',
-          isLaptop && 'lg:w-96 border-r border-(--color-border-primary)',
+          'w-full bg-[var(--color-background-primary)] shadow-[var(--shadow-card)] rounded-r-2xl overflow-hidden h-full flex flex-col',
+          isLaptop && 'lg:w-96 border-r border-[var(--color-border-primary)]',
         )}
       >
         {isLaptop && (
           <>
-            <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
-              <h2 className="text-heading-4 mb-(--spacing-2)">
+            <div className="p-[var(--spacing-6)] bg-gradient-to-r from-[var(--color-brand-secondary)] to-[var(--color-brand-tertiary)] text-[var(--color-text-inverse)]">
+              <h2 className="text-heading-4 mb-[var(--spacing-2)]">
                 {contentDetail?.title
                   ? `${contentDetail.title} 촬영지`
                   : SIDEBAR_TITLES.HEADER_TITLE}
               </h2>
-              <p className="text-body-small text-(--color-gray-100)">
+              <p className="text-body-small text-[var(--color-gray-100)]">
                 {finalIsEmpty
                   ? SIDEBAR_TITLES.SEARCH_SUBTITLE
                   : formatFoundCount(displayPlaces.length)}

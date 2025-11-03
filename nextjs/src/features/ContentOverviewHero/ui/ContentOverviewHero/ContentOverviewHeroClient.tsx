@@ -23,8 +23,8 @@ export function ContentOverviewHeroClient({
   };
 
   return (
-    <section className="bg-gradient-to-t from-(--color-gray-800) to-(--color-gray-900)">
-      <div className="mx-auto max-w-7xl px-[--spacing-4] sm:px-[--spacing-6] lg:px-[--spacing-8]">
+    <section className="bg-gradient-to-t from-[var(--color-gray-800)] to-[var(--color-gray-900)]">
+      <div className="mx-auto max-w-7xl px-[var(--spacing-4)] sm:px-[var(--spacing-6)] lg:px-[var(--spacing-8)]">
         <div className="relative h-[40rem] md:h-[56rem] lg:h-[64rem] rounded-2xl overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { IconButton } from '@/shared/ui';
 import type { NavMenuProps } from '../../model/types';
@@ -11,7 +11,7 @@ export function NavMenu({ active: controlledActive, onSelect }: NavMenuProps) {
   const { menuItems, handleNavClick } = useNavMenu(onSelect);
 
   return (
-    <nav aria-label="주요 메뉴" className="hidden md:flex items-center gap-(--spacing-4)">
+    <nav aria-label="주요 메뉴" className="hidden md:flex items-center gap-[var(--spacing-4)]">
       {menuItems.map(({ key, label, Icon }) => (
         <IconButton
           key={key}

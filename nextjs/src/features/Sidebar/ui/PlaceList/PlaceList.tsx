@@ -1,4 +1,4 @@
-import { PlaceCard } from '../PlaceCard/PlaceCard';
+﻿import { PlaceCard } from '../PlaceCard/PlaceCard';
 import type { PlaceListProps } from '../../model/types';
 import { ROUTE_BUTTON_TEXT } from '../../model/messages';
 
@@ -12,7 +12,7 @@ export function PlaceList({
 }: PlaceListProps) {
   return (
     <div
-      className={['divide-y divide-(--color-border-primary)', className].filter(Boolean).join(' ')}
+      className={['divide-y divide-[var(--color-border-primary)]', className].filter(Boolean).join(' ')}
     >
       {places.map((place, index) => {
         const isInRoute = routePlaces.some(
@@ -35,17 +35,17 @@ export function PlaceList({
               isInRoute={isInRoute}
             />
             {isSelected && onAddToRoute && (
-              <div className="p-(--spacing-4) bg-(--color-background-secondary) border-b border-(--color-border-primary)">
+              <div className="p-[var(--spacing-4)] bg-[var(--color-background-secondary)] border-b border-[var(--color-border-primary)]">
                 <button
                   onClick={() => onAddToRoute(place)}
                   className={[
-                    'w-full flex items-center justify-center gap-(--spacing-2)',
-                    'px-(--spacing-4) py-(--spacing-3) rounded-lg text-sm font-medium',
-                    'transition-all duration-200 shadow-(--shadow-button)',
-                    'hover:shadow-(--shadow-button-hover)',
+                    'w-full flex items-center justify-center gap-[var(--spacing-2)]',
+                    'px-[var(--spacing-4)] py-[var(--spacing-3)] rounded-lg text-sm font-medium',
+                    'transition-all duration-200 shadow-[var(--shadow-button)]',
+                    'hover:shadow-[var(--shadow-button-hover)]',
                     isInRoute
-                      ? 'bg-(--color-semantic-success)/10 text-(--color-semantic-success) border border-(--color-semantic-success)/20'
-                      : 'bg-(--color-brand-secondary) text-(--color-text-inverse) hover:bg-(--color-brand-tertiary)',
+                      ? 'bg-[var(--color-semantic-success)]/10 text-[var(--color-semantic-success)] border border-[var(--color-semantic-success)]/20'
+                      : 'bg-[var(--color-brand-secondary)] text-[var(--color-text-inverse)] hover:bg-[var(--color-brand-tertiary)]',
                   ].join(' ')}
                 >
                   {isInRoute ? (

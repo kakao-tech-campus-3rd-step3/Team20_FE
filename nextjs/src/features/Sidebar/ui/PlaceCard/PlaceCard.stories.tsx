@@ -20,7 +20,7 @@ export const Default: Story = {
 
 export const OnDarkBackground: Story = {
   render: () => (
-    <div className="bg-(--color-background-dark) p-(--spacing-8)">
+    <div className="bg-[var(--color-background-dark)] p-[var(--spacing-8)]">
       <PlaceCard {...MOCK_PLACES[1]} badgeNumber={2} />
     </div>
   ),

@@ -18,7 +18,7 @@ export const ROUTE_SIDEBAR_BUTTONS = {
 
 export const ROUTE_SIDEBAR_STYLES = {
   SAVE_BUTTON:
-    'w-full flex items-center justify-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-lg text-button font-medium transition-all duration-200 shadow-(--shadow-button) hover:shadow-(--shadow-button-hover) bg-(--color-brand-primary) text-(--color-text-inverse) hover:bg-(--color-brand-secondary)',
+    'w-full flex items-center justify-center gap-[var(--spacing-2)] px-[var(--spacing-4)] py-[var(--spacing-3)] rounded-lg text-button font-medium transition-all duration-200 shadow-[var(--shadow-button)] hover:shadow-[var(--shadow-button-hover)] bg-[var(--color-brand-primary)] text-[var(--color-text-inverse)] hover:bg-[var(--color-brand-secondary)]',
 } as const;
 
 export const ROUTE_SIDEBAR_ICONS = {

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { RoutePlaceCard } from '../RoutePlaceCard/RoutePlaceCard';
 import { RouteSidebarEmptyState } from '../RouteSidebarEmptyState/RouteSidebarEmptyState';
@@ -103,11 +103,11 @@ export function RouteSidebar({
         className ?? 'w-full max-w-sm sm:max-w-md lg:w-96 lg:flex-shrink-0',
       ].join(' ')}
     >
-      <div className="bg-(--color-background-primary) shadow-(--shadow-card) rounded-l-2xl flex flex-col border-l border-(--color-border-primary) overflow-hidden h-full">
+      <div className="bg-[var(--color-background-primary)] shadow-[var(--shadow-card)] rounded-l-2xl flex flex-col border-l border-[var(--color-border-primary)] overflow-hidden h-full">
         {isLaptop && (
-          <div className="p-(--spacing-6) bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)">
-            <h2 className="text-heading-4 mb-(--spacing-2)">{ROUTE_SIDEBAR_TITLES.HEADER_TITLE}</h2>
-            <p className="text-body-small text-(--color-gray-100)">
+          <div className="p-[var(--spacing-6)] bg-gradient-to-r from-[var(--color-brand-secondary)] to-[var(--color-brand-tertiary)] text-[var(--color-text-inverse)]">
+            <h2 className="text-heading-4 mb-[var(--spacing-2)]">{ROUTE_SIDEBAR_TITLES.HEADER_TITLE}</h2>
+            <p className="text-body-small text-[var(--color-gray-100)]">
               {isEmpty ? ROUTE_SIDEBAR_TITLES.SUBTITLE : formatRouteCount(places.length)}
             </p>
           </div>
@@ -130,7 +130,7 @@ export function RouteSidebar({
                 items={places.map((place) => place.locationId)}
                 strategy={verticalListSortingStrategy}
               >
-                <div className="p-(--spacing-4) space-y-(--spacing-3)">
+                <div className="p-[var(--spacing-4)] space-y-[var(--spacing-3)]">
                   {places.map((place) => (
                     <RoutePlaceCard
                       key={place.locationId}
@@ -145,10 +145,10 @@ export function RouteSidebar({
         </div>
 
         {!isEmpty && (
-          <div className="p-(--spacing-4) bg-(--color-background-secondary) border-t border-(--color-border-primary)">
-            <div className="space-y-(--spacing-3)">
+          <div className="p-[var(--spacing-4)] bg-[var(--color-background-secondary)] border-t border-[var(--color-border-primary)]">
+            <div className="space-y-[var(--spacing-3)]">
               <div className="text-center">
-                <p className="text-caption text-(--color-text-tertiary)">
+                <p className="text-caption text-[var(--color-text-tertiary)]">
                   {formatLocations(places.length)}
                 </p>
               </div>

@@ -1,4 +1,4 @@
-import Image from 'next/image';
+﻿import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { LocationImageGalleryProps } from '../../model/types';
 import { LocationImageNavButton } from '../LocationImageNavButton/LocationImageNavButton';
@@ -20,8 +20,8 @@ export function LocationImageGallery({
   const hasMultipleScenes = scenes.length > 1;
 
   return (
-    <div className="relative mb-(--spacing-12)">
-      <div className="relative h-96 md:h-128 rounded-(--radius-3xl) overflow-hidden shadow-(--shadow-2xl)">
+    <div className="relative mb-[var(--spacing-12)]">
+      <div className="relative h-96 md:h-128 rounded-[var(--radius-3xl)] overflow-hidden shadow-[var(--shadow-2xl)]">
         <Image
           src={currentScene.image || '/placeholder-image.jpg'}
           alt={currentScene.title}
@@ -32,7 +32,7 @@ export function LocationImageGallery({
           unoptimized
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-(--color-gray-900)/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-gray-900)]/80 via-transparent to-transparent" />
 
         <LocationImageContent scene={currentScene} />
 

@@ -12,43 +12,43 @@ export const SIDEBAR_DIMENSIONS = {
 
 export const ROUTE_CARD_STYLES = {
   ORDER_BADGE:
-    'text-sm font-medium text-(--color-brand-primary) bg-(--color-brand-primary)/10 px-2 py-1 rounded-full',
-  DRAG_HANDLE: 'w-4 h-4 text-(--color-text-tertiary) cursor-grab',
+    'text-sm font-medium text-[var(--color-brand-primary)] bg-[var(--color-brand-primary)]/10 px-2 py-1 rounded-full',
+  DRAG_HANDLE: 'w-4 h-4 text-[var(--color-text-tertiary)] cursor-grab',
   REMOVE_BUTTON:
-    'p-1 text-(--color-text-tertiary) hover:text-(--color-semantic-error) hover:bg-(--color-semantic-error)/10 rounded transition-colors',
+    'p-1 text-[var(--color-text-tertiary)] hover:text-[var(--color-semantic-error)] hover:bg-[var(--color-semantic-error)]/10 rounded transition-colors',
 } as const;
 
 export const ROUTE_SIDEBAR_STYLES = {
   CONTAINER:
-    'bg-(--color-background-primary) shadow-(--shadow-card) rounded-l-2xl overflow-hidden h-full flex flex-col border-l border-(--color-border-primary)',
+    'bg-[var(--color-background-primary)] shadow-[var(--shadow-card)] rounded-l-2xl overflow-hidden h-full flex flex-col border-l border-[var(--color-border-primary)]',
   HEADER_GRADIENT:
-    'bg-gradient-to-r from-(--color-brand-secondary) to-(--color-brand-tertiary) text-(--color-text-inverse)',
-  FOOTER_CONTAINER: 'bg-(--color-background-secondary) border-t border-(--color-border-primary)',
+    'bg-gradient-to-r from-[var(--color-brand-secondary)] to-[var(--color-brand-tertiary)] text-[var(--color-text-inverse)]',
+  FOOTER_CONTAINER: 'bg-[var(--color-background-secondary)] border-t border-[var(--color-border-primary)]',
   SAVE_BUTTON:
-    'w-full flex items-center justify-center gap-(--spacing-2) px-(--spacing-4) py-(--spacing-3) rounded-lg text-sm font-medium bg-(--color-brand-primary) text-(--color-text-inverse) hover:bg-(--color-brand-secondary) transition-colors shadow-(--shadow-button) hover:shadow-(--shadow-button-hover)',
+    'w-full flex items-center justify-center gap-[var(--spacing-2)] px-[var(--spacing-4)] py-[var(--spacing-3)] rounded-lg text-sm font-medium bg-[var(--color-brand-primary)] text-[var(--color-text-inverse)] hover:bg-[var(--color-brand-secondary)] transition-colors shadow-[var(--shadow-button)] hover:shadow-[var(--shadow-button-hover)]',
 } as const;
 
 export const SIDEBAR_SEARCH_CLASSES = {
-  CONTAINER: 'p-(--spacing-4)',
-  BORDER_BOTTOM: 'border-b border-(--color-border-primary)',
+  CONTAINER: 'p-[var(--spacing-4)]',
+  BORDER_BOTTOM: 'border-b border-[var(--color-border-primary)]',
 
   INPUT: [
-    'w-full pl-10 pr-10 py-(--spacing-3)',
-    'border border-(--color-border-primary) rounded-xl',
-    'bg-(--color-background-primary)',
-    'text-body text-(--color-text-primary)',
-    'placeholder:text-(--color-text-tertiary)',
-    'focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-border-focus) focus:border-transparent',
-    'shadow-(--shadow-inset)',
+    'w-full pl-10 pr-10 py-[var(--spacing-3)]',
+    'border border-[var(--color-border-primary)] rounded-xl',
+    'bg-[var(--color-background-primary)]',
+    'text-body text-[var(--color-text-primary)]',
+    'placeholder:text-[var(--color-text-tertiary)]',
+    'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus:border-transparent',
+    'shadow-[var(--shadow-inset)]',
   ].join(' '),
 
-  SEARCH_ICON: 'absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-(--color-text-tertiary)',
+  SEARCH_ICON: 'absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text-tertiary)]',
   CLEAR_BUTTON:
-    'absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-(--color-text-tertiary) hover:text-(--color-text-secondary)',
+    'absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)]',
   CLEAR_ICON: 'w-4 h-4',
 
-  BOTTOM_SECTION: 'mt-(--spacing-2) text-caption text-(--color-text-secondary)',
-  QUERY_TEXT: 'text-(--color-text-primary)',
+  BOTTOM_SECTION: 'mt-[var(--spacing-2)] text-caption text-[var(--color-text-secondary)]',
+  QUERY_TEXT: 'text-[var(--color-text-primary)]',
 } as const;
 
 export const SIDEBAR_SEARCH_CONDITIONAL_CLASSES = {
