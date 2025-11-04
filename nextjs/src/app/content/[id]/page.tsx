@@ -1,12 +1,11 @@
 import { ContentOverviewHero } from '@/features/ContentOverviewHero';
 import { LocationImageCarousel } from '@/features/LocationImageCarousel';
-import { getPopularContents, getContentDetail } from '@/entities/content/api/contentApi';
+import { getContentDetail } from '@/entities/content/api/contentApi';
 import type { Metadata } from 'next';
 
 interface ContentDetailPageProps {
   params: Promise<{ id: string }>;
 }
-
 export const revalidate = false;
 
 export async function generateMetadata({ params }: ContentDetailPageProps): Promise<Metadata> {
@@ -35,16 +34,7 @@ export async function generateMetadata({ params }: ContentDetailPageProps): Prom
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  try {
-    const contents = await getPopularContents();
-    const topContents = contents.slice(0, 20);
-    return topContents.map((content) => ({
-      id: String(content.contentId),
-    }));
-  } catch (error) {
-    console.error('Failed to generate static params for content:', error);
-    return [];
-  }
+  return [];
 }
 
 export default async function ContentDetailPage({ params }: ContentDetailPageProps) {

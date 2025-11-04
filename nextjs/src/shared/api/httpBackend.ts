@@ -12,7 +12,7 @@ export const httpBackend = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true,
+  withCredentials: false, 
 });
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -54,9 +54,11 @@ httpBackend.interceptors.response.use(
         originalRequest._retry = true;
 
         if (!refreshTokenPromise) {
-          refreshTokenPromise = httpBackend.post('/users/refresh').finally(() => {
-            refreshTokenPromise = null;
-          });
+          refreshTokenPromise = httpBackend
+            .post('/users/refresh', undefined, { withCredentials: true })
+            .finally(() => {
+              refreshTokenPromise = null;
+            });
         }
 
         try {

@@ -7,13 +7,13 @@ import {
 import { quickFacts } from '@/features/LocationDetail/model/constants';
 import { getLocationDetail } from '@/entities/location/api/locationApi';
 import { getLocationReviews } from '@/entities/location-review/api/locationReviewApi';
-import { getPopularContents, getContentLocations } from '@/entities/content/api/contentApi';
 import type { Metadata } from 'next';
 
 interface LocationDetailPageProps {
   params: Promise<{ id: string }>;
 }
-export const revalidate = false;
+// 리뷰가 실시간으로 변경되므로 SSR 사용
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: LocationDetailPageProps): Promise<Metadata> {
   try {
@@ -37,35 +37,7 @@ export async function generateMetadata({ params }: LocationDetailPageProps): Pro
     };
   }
 }
-export const dynamicParams = true; 
-
-export async function generateStaticParams() {
-  try {
-    const contents = await getPopularContents();
-    const locationIds = new Set<string>();
-
-    const topContents = contents.slice(0, 10);
-    console.log(`[SSG] Fetching locations from ${topContents.length} contents...`);
-
-    for (const content of topContents) {
-      try {
-        const locations = await getContentLocations(String(content.contentId));
-        if (Array.isArray(locations)) {
-          locations.forEach((loc) => locationIds.add(String(loc.locationId)));
-        }
-        await new Promise(resolve => setTimeout(resolve, 50));
-      } catch {
-        console.error(`Failed to fetch locations for content ${content.contentId}`);
-      }
-    }
-
-    const locationArray = Array.from(locationIds);
-    return locationArray.map((id) => ({ id }));
-  } catch (error) {
-    console.error('Failed to generate static params for locations:', error);
-    return [];
-  }
-}
+// SSR로 변경했으므로 generateStaticParams 제거
 
 export default async function LocationDetailPage({ params }: LocationDetailPageProps) {
   const { id } = await params;

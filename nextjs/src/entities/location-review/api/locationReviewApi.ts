@@ -42,7 +42,7 @@ export const createLocationReview = async (
       rating: payload.rating,
       detail: payload.detail,
     };
-    const response = await httpBackend.post(`/location_review`, body);
+    const response = await httpBackend.post(`/location_review`, body, { withCredentials: true });
     return response as unknown as CreateLocationReviewResponse;
   } catch (error) {
     const err = error as unknown as {
@@ -59,7 +59,9 @@ export const deleteLocationReview = async (
   locationReviewId: string | number,
 ): Promise<DeleteLocationReviewResponse> => {
   try {
-    const response = await httpBackend.delete(`/location_review/${locationReviewId}`);
+    const response = await httpBackend.delete(`/location_review/${locationReviewId}`, {
+      withCredentials: true,
+    });
     return response as unknown as DeleteLocationReviewResponse;
   } catch (error) {
     const err = error as unknown as {
@@ -83,7 +85,9 @@ export const updateLocationReview = async (
       detail: payload.detail ?? '',
       rating: payload.rating,
     };
-    const response = await httpBackend.put(`/location_review/${locationReviewId}`, body);
+    const response = await httpBackend.put(`/location_review/${locationReviewId}`, body, {
+      withCredentials: true,
+    });
     return response as unknown as UpdateLocationReviewResponse;
   } catch (error) {
     const err = error as unknown as {

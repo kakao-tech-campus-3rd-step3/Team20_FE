@@ -19,8 +19,9 @@ const eslintConfig = [
       "build/**",
       "scripts/**",
       "next-env.d.ts",
-      "public/mockServiceWorker.js",
-      "k6-load-test.js"
+      "public/**",
+      "k6-tests/**",
+      "docs/**"
     ],
   },
 ];

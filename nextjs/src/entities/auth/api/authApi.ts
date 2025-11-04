@@ -12,7 +12,9 @@ import type {
 } from '../model/types';
 
 export const loginApi = async (credentials: LoginRequest): Promise<LoginResponse> => {
-  return await httpBackend.post<unknown, LoginResponse>('/users/login', credentials);
+  return await httpBackend.post<unknown, LoginResponse>('/users/login', credentials, {
+    withCredentials: true,
+  });
 };
 
 export const signupApi = async (userData: SignupRequest): Promise<SignupResponse> => {
@@ -36,13 +38,17 @@ export const resendVerificationEmailApi = async (
 };
 
 export const checkAuthStatusApi = async (): Promise<AuthStatusResponse> => {
-  return await httpBackend.get<unknown, AuthStatusResponse>('/users/status');
+  return await httpBackend.get<unknown, AuthStatusResponse>('/users/status', {
+    withCredentials: true,
+  });
 };
 
 export const refreshTokenApi = async (): Promise<RefreshTokenResponse> => {
-  return await httpBackend.post<unknown, RefreshTokenResponse>('/users/refresh');
+  return await httpBackend.post<unknown, RefreshTokenResponse>('/users/refresh', undefined, {
+    withCredentials: true,
+  });
 };
 
 export const logoutApi = async (): Promise<void> => {
-  await httpBackend.post('/users/logout');
+  await httpBackend.post('/users/logout', undefined, { withCredentials: true });
 };
