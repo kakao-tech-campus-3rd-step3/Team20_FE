@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: LocationDetailPageProps): Pro
       openGraph: {
         title: `${data.name} - K-SPOT`,
         description: data.description || `${data.name}의 상세 정보를 확인하세요.`,
-        images: data.locationImage ? [data.locationImage] : [],
+        images: data.imageUrl && data.imageUrl.length > 0 ? data.imageUrl : (data.locationImage ? [data.locationImage] : []),
       },
     };
   } catch (error) {

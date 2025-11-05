@@ -51,7 +51,10 @@ export function RoutePlaceCard({ place, className, onRemove }: RoutePlaceCardPro
         <div className="flex-1 min-w-0">
           <div className="flex items-start gap-[var(--spacing-3)]">
             <div className="flex-shrink-0">
-              <PlaceThumbnail locationImage={place.locationImage} name={place.name} />
+              <PlaceThumbnail 
+                locationImage={place.imageUrl && place.imageUrl.length > 0 ? place.imageUrl[0] : place.locationImage} 
+                name={place.name} 
+              />
             </div>
 
             <div className="flex-1 min-w-0">

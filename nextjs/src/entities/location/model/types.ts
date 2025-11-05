@@ -19,6 +19,7 @@ export interface LocationDetail {
   longitude: number;
   description?: string;
   locationImage?: string;
+  imageUrl?: string[];
   relatedContents?: RelatedContent[];
   quickFacts?: QuickFact[];
 }

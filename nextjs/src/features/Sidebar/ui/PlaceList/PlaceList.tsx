@@ -26,7 +26,7 @@ export function PlaceList({
               name={place.name}
               address={place.address}
               description={place.description}
-              locationImage={place.locationImage}
+              locationImage={place.imageUrl && place.imageUrl.length > 0 ? place.imageUrl[0] : place.locationImage}
               latitude={place.latitude}
               longitude={place.longitude}
               relatedContents={place.relatedContents}
