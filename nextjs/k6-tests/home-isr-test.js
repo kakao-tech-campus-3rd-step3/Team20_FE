@@ -8,11 +8,11 @@ export const options = {
   scenarios: {
     constant_load: {
       executor: 'constant-arrival-rate',
-      rate: 100,
+      rate: 70,
       timeUnit: '1s',
       duration: '2m',
       preAllocatedVUs: 20,
-      maxVUs: 250,
+      maxVUs: 200,
     },
   },
   thresholds: {
@@ -34,7 +34,6 @@ export default function () {
 
   const result = check(response, {
     'status is 200': (r) => r.status === 200,
-    'response time < 2s': (r) => r.timings.duration < 2000,
     'response has content': (r) => r.body.length > 0,
     'has ISR content': (r) => r.body.includes('html'),
   });

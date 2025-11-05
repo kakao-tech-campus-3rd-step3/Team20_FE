@@ -1,0 +1,99 @@
+# Cloud Function Configuration
+# This file documents the deployment configuration for the AI Itinerary Generator
+# Use this as reference when deploying via gcloud CLI or GCP Console
+
+# Function Metadata
+name: generate-itinerary
+description: AI-powered K-content filming location travel itinerary generator
+runtime: python311
+entry_point: generate_itinerary
+
+# Deployment Settings
+region: asia-northeast3  # Seoul region for low latency to Korean users
+generation: 2  # Use Cloud Functions 2nd generation
+
+# Trigger Configuration
+trigger:
+  type: http
+  authentication: allow-unauthenticated  # Public API (add auth for production)
+
+# Resource Allocation
+resources:
+  memory: 512MB  # Sufficient for AI API calls and data processing
+  cpu: 1  # Default CPU allocation
+  timeout: 300s  # Maximum execution time (5분으로 증가 - Gemini API 처리 시간 고려)
+
+# Scaling Configuration
+scaling:
+  min_instances: 0  # Scale to zero when idle (no minimum cost)
+  max_instances: 10  # Limit concurrent executions to control costs
+  max_concurrent_requests: 1  # One request per instance (default)
+
+# Network Configuration
+network:
+  vpc_connector: itinerary-connector  # Required for Cloud NAT
+  vpc_egress: all-traffic  # Route all traffic through VPC (for static IP)
+  ingress: all  # Allow all inbound traffic
+
+# Environment Variables
+# Note: Actual values stored in .env.yaml (not committed to git)
+environment_variables:
+  GEMINI_API_KEY: "from .env.yaml"
+  DB_HOST: "from .env.yaml"
+  DB_PORT: "from .env.yaml"
+  DB_USER: "from .env.yaml"
+  DB_PASSWORD: "from .env.yaml"
+  DB_NAME: "from .env.yaml"
+
+# Security Configuration
+security:
+  service_account: default  # Use default compute service account
+  secrets: []  # Consider using Secret Manager for production
+
+# Monitoring and Logging
+monitoring:
+  log_level: INFO
+  metrics_enabled: true
+  tracing_enabled: false  # Enable for detailed performance analysis
+
+# CORS Configuration
+cors:
+  allow_origins: ["*"]  # Allow all origins (restrict for production)
+  allow_methods: ["POST", "OPTIONS"]
+  allow_headers: ["Content-Type"]
+
+# Dependencies
+# Defined in requirements.txt:
+# - functions-framework==3.*
+# - PyMySQL==1.1.*
+# - google-generativeai==0.3.*
+
+# Cost Estimates (asia-northeast3)
+# Based on 10,000 requests/month, 5s avg execution, 512MB memory:
+# - Invocations: $0.004
+# - Compute time: $0.06
+# - VPC Connector: ~$26/month (2 e2-micro instances)
+# - Cloud NAT: ~$3/month + data processing
+# - Gemini API: ~$10/month (varies by usage)
+# Total: ~$40/month
+
+# Performance Targets
+# - Response time: < 10 seconds for 90% of requests
+# - Error rate: < 5%
+# - Availability: > 99.5%
+
+# Deployment Command
+# gcloud functions deploy generate-itinerary \
+#   --gen2 \
+#   --runtime=python311 \
+#   --region=asia-northeast3 \
+#   --source=. \
+#   --entry-point=generate_itinerary \
+#   --trigger-http \
+#   --allow-unauthenticated \
+#   --memory=512MB \
+#   --timeout=60s \
+#   --max-instances=10 \
+#   --min-instances=0 \
+#   --vpc-connector=itinerary-connector \
+#   --env-vars-file=.env.yaml

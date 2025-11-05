@@ -1,0 +1,174 @@
+{
+  "airports": [
+    {
+      "id": "ICN",
+      "name": "인천국제공항",
+      "latitude": 37.4602,
+      "longitude": 126.4407,
+      "address": "인천광역시 중구 공항로 272"
+    },
+    {
+      "id": "GMP",
+      "name": "김포국제공항",
+      "latitude": 37.5583,
+      "longitude": 126.7906,
+      "address": "서울특별시 강서구 하늘길 38"
+    },
+    {
+      "id": "PUS",
+      "name": "김해국제공항",
+      "latitude": 35.1795,
+      "longitude": 128.9382,
+      "address": "부산광역시 강서구 공항진입로 108"
+    },
+    {
+      "id": "CJU",
+      "name": "제주국제공항",
+      "latitude": 33.5113,
+      "longitude": 126.4930,
+      "address": "제주특별자치도 제주시 공항로 2"
+    },
+    {
+      "id": "TAE",
+      "name": "대구국제공항",
+      "latitude": 35.8941,
+      "longitude": 128.6589,
+      "address": "대구광역시 동구 공항로 221"
+    },
+    {
+      "id": "CJJ",
+      "name": "청주국제공항",
+      "latitude": 36.7166,
+      "longitude": 127.4991,
+      "address": "충청북도 청주시 청원구 내수읍 오창대로 980"
+    },
+    {
+      "id": "RSU",
+      "name": "여수공항",
+      "latitude": 34.8423,
+      "longitude": 127.6169,
+      "address": "전라남도 여수시 율촌면 공항로 197"
+    },
+    {
+      "id": "KWJ",
+      "name": "광주공항",
+      "latitude": 35.1264,
+      "longitude": 126.8086,
+      "address": "광주광역시 광산구 상무대로 420"
+    }
+  ],
+  "stations": [
+    {
+      "id": "SEOUL",
+      "name": "서울역",
+      "latitude": 37.5547,
+      "longitude": 126.9707,
+      "address": "서울특별시 용산구 한강대로 405"
+    },
+    {
+      "id": "BUSAN",
+      "name": "부산역",
+      "latitude": 35.1151,
+      "longitude": 129.0416,
+      "address": "부산광역시 동구 중앙대로 206"
+    },
+    {
+      "id": "GANGNEUNG",
+      "name": "강릉역",
+      "latitude": 37.7644,
+      "longitude": 128.8989,
+      "address": "강원도 강릉시 경강로 2366"
+    },
+    {
+      "id": "DAEGU",
+      "name": "동대구역",
+      "latitude": 35.8789,
+      "longitude": 128.6286,
+      "address": "대구광역시 동구 동부로 149"
+    },
+    {
+      "id": "DAEJEON",
+      "name": "대전역",
+      "latitude": 36.3315,
+      "longitude": 127.4349,
+      "address": "대전광역시 동구 중앙로 215"
+    },
+    {
+      "id": "GWANGJU",
+      "name": "광주송정역",
+      "latitude": 35.1397,
+      "longitude": 126.7897,
+      "address": "광주광역시 광산구 송정로8번길 16"
+    },
+    {
+      "id": "MOKPO",
+      "name": "목포역",
+      "latitude": 34.7914,
+      "longitude": 126.3914,
+      "address": "전라남도 목포시 영산로 197"
+    },
+    {
+      "id": "JEONJU",
+      "name": "전주역",
+      "latitude": 35.8453,
+      "longitude": 127.1267,
+      "address": "전라북도 전주시 덕진구 동부대로 680"
+    },
+    {
+      "id": "SUWON",
+      "name": "수원역",
+      "latitude": 37.2663,
+      "longitude": 127.0011,
+      "address": "경기도 수원시 팔달구 덕영대로 924"
+    },
+    {
+      "id": "INCHEON",
+      "name": "인천역",
+      "latitude": 37.4765,
+      "longitude": 126.6162,
+      "address": "인천광역시 중구 제물량로 269"
+    },
+    {
+      "id": "ULSAN",
+      "name": "울산역",
+      "latitude": 35.5814,
+      "longitude": 129.2681,
+      "address": "울산광역시 북구 산업로 1012"
+    },
+    {
+      "id": "POHANG",
+      "name": "포항역",
+      "latitude": 36.0410,
+      "longitude": 129.3650,
+      "address": "경상북도 포항시 북구 중앙로 310"
+    },
+    {
+      "id": "GYEONGJU",
+      "name": "경주역",
+      "latitude": 35.8395,
+      "longitude": 129.2145,
+      "address": "경상북도 경주시 건천읍 신평리 1-1"
+    },
+    {
+      "id": "SOKCHO",
+      "name": "속초시외버스터미널",
+      "latitude": 38.2070,
+      "longitude": 128.5918,
+      "address": "강원도 속초시 중앙로 147"
+    },
+    {
+      "id": "CHUNCHEON",
+      "name": "춘천역",
+      "latitude": 37.8853,
+      "longitude": 127.7181,
+      "address": "강원도 춘천시 평화로 2346"
+    },
+    {
+      "id": "ANDONG",
+      "name": "안동역",
+      "latitude": 36.6321,
+      "longitude": 128.7456,
+      "address": "경상북도 안동시 경동로 1667"
+    }
+  ]
+}
