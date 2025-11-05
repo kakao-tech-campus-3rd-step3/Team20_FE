@@ -18,7 +18,7 @@ export const convertContentLocationToPlace = (location: ContentLocation): Place 
   name: '', // ContentLocation에 name 없음
   address: '주소 정보 없음',
   description: location.sceneDescription,
-  locationImage: '', // ContentLocation에 locationImageUrl 없음
+  imageUrl: [], // ContentLocation에 locationImageUrl 없음
   latitude: 0,
   longitude: 0,
   relatedContents: [],
@@ -77,7 +77,7 @@ export const convertItineraryLocationsToRoutePlaces = async (
           name: location.name,
           address: location.address,
           description: '',
-          locationImage: '',
+          imageUrl: [],
           latitude: 0,
           longitude: 0,
           relatedContents: [],

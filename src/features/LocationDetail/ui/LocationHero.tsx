@@ -27,7 +27,7 @@ export function LocationHero({ location }: LocationHeroProps) {
       <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
         <div className="aspect-[16/9] relative overflow-hidden">
           <img
-            src={location.locationImage}
+            src={location.imageUrl[0]}
             alt={location.name}
             className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
           />
