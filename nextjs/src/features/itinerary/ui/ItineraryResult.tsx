@@ -9,7 +9,6 @@ interface ItineraryResultProps {
 
 export function ItineraryResult({ result, onReset }: ItineraryResultProps) {
   if (!result.success || !result.data) {
-    // 에러 메시지에 따라 다른 이모지와 제목 표시
     const getErrorDisplay = (errorMessage: string) => {
       if (errorMessage.includes('연관된 장소를 찾을 수 없어요')) {
         return {
@@ -63,8 +62,6 @@ export function ItineraryResult({ result, onReset }: ItineraryResultProps) {
           <p className="text-gray-600 mb-6">
             {result.error || '알 수 없는 오류가 발생했습니다.'}
           </p>
-          
-          {/* 해결 방법 제안 */}
           <div className="bg-blue-50 rounded-lg p-4 mb-6">
             <h3 className="text-sm font-semibold text-blue-900 mb-2">💡 해결 방법</h3>
             <ul className="text-sm text-blue-800 space-y-1">
@@ -97,7 +94,6 @@ export function ItineraryResult({ result, onReset }: ItineraryResultProps) {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      {/* 헤더 */}
       <div className="bg-white rounded-xl shadow-lg p-8">
         <div className="flex justify-between items-start mb-6">
           <div>
@@ -116,7 +112,6 @@ export function ItineraryResult({ result, onReset }: ItineraryResultProps) {
           </button>
         </div>
 
-        {/* 요약 정보 */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
             <div className="text-2xl font-bold text-blue-600">{summary.total_locations}</div>

@@ -38,7 +38,6 @@ export function ItineraryForm({ onSubmit, isLoading }: ItineraryFormProps) {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* 출발지 선택 */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             출발지
@@ -67,8 +66,6 @@ export function ItineraryForm({ onSubmit, isLoading }: ItineraryFormProps) {
             </optgroup>
           </select>
         </div>
-
-        {/* 도착지 선택 */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             도착지
@@ -97,8 +94,6 @@ export function ItineraryForm({ onSubmit, isLoading }: ItineraryFormProps) {
             </optgroup>
           </select>
         </div>
-
-        {/* 여행 기간 선택 */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             여행 기간
@@ -121,8 +116,6 @@ export function ItineraryForm({ onSubmit, isLoading }: ItineraryFormProps) {
             ))}
           </div>
         </div>
-
-        {/* 테마 선택 */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             콘텐츠 테마
@@ -146,8 +139,6 @@ export function ItineraryForm({ onSubmit, isLoading }: ItineraryFormProps) {
             ))}
           </div>
         </div>
-
-        {/* 제출 버튼 */}
         <button
           type="submit"
           disabled={isLoading || !formData.departure_hub || !formData.arrival_hub}

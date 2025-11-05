@@ -2,10 +2,17 @@
 
 import { ItineraryRequest, ItineraryResponse } from '../model/types';
 
-const API_ENDPOINT = 'https://generate-itinerary-fdikd3j6pa-du.a.run.app';
+const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export class ItineraryAPI {
   static async generateItinerary(request: ItineraryRequest): Promise<ItineraryResponse> {
+    if (!API_ENDPOINT) {
+      return {
+        success: false,
+        error: 'API 엔드포인트가 설정되지 않았습니다. 환경 변수를 확인해주세요.',
+      };
+    }
+
     try {
       const response = await fetch(API_ENDPOINT, {
         method: 'POST',
@@ -16,43 +23,34 @@ export class ItineraryAPI {
       });
 
       if (!response.ok) {
-        // 400 에러: 잘못된 요청 (데이터 없음, 유효하지 않은 입력 등)
         if (response.status === 400) {
           return {
             success: false,
             error: '연관된 장소를 찾을 수 없어요! 다른 일정으로 검색해주세요!',
           };
         }
-        
-        // 500 에러: 서버 내부 오류
         if (response.status === 500) {
           return {
             success: false,
             error: '서버에 일시적인 문제가 발생했어요. 잠시 후 다시 시도해주세요!',
           };
         }
-        
-        // 기타 HTTP 에러
+
         return {
           success: false,
           error: '서비스에 접속할 수 없어요. 네트워크 연결을 확인해주세요!',
         };
       }
-
       const data: ItineraryResponse = await response.json();
       return data;
     } catch (error) {
       console.error('API 호출 실패:', error);
-      
-      // 네트워크 에러 (fetch 실패)
       if (error instanceof TypeError && error.message.includes('fetch')) {
         return {
           success: false,
           error: '인터넷 연결을 확인해주세요. 네트워크에 문제가 있는 것 같아요!',
         };
       }
-      
-      // 기타 에러
       return {
         success: false,
         error: '예상치 못한 문제가 발생했어요. 다시 시도해주세요!',
@@ -61,7 +59,6 @@ export class ItineraryAPI {
   }
 }
 
-// 교통 허브 데이터 (실제로는 API에서 가져올 수 있음)
 export const TRANSPORT_HUBS = {
   airports: [
     { id: 'ICN', name: '인천국제공항', region: '인천' },

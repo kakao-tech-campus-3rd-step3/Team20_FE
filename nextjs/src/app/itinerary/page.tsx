@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ItineraryForm } from '@/features/itinerary/components/ItineraryForm';
-import { LoadingProgress } from '@/features/itinerary/components/LoadingProgress';
-import { ItineraryResult } from '@/features/itinerary/components/ItineraryResult';
+import { ItineraryForm } from '@/features/itinerary/ui/ItineraryForm';
+import { LoadingProgress } from '@/features/itinerary/ui/LoadingProgress';
+import { ItineraryResult } from '@/features/itinerary/ui/ItineraryResult';
 import { ItineraryAPI } from '@/entities/ai-itinerary/api/api';
 import { ItineraryRequest, ItineraryResponse } from '@/entities/ai-itinerary/model/types';
 
