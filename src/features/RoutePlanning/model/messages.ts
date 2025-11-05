@@ -31,7 +31,6 @@ export const ROUTE_SIDEBAR_ICONS = {
 export const formatRouteCount = (n: number) => `${n}개 장소 추가됨`;
 export const formatLocations = (n: number) => `📍 ${n}개 장소`;
 
-// 저장 모달 관련 상수
 export const SAVE_ROUTE_MODAL = {
   TITLE: '동선 저장하기',
   UPDATE_TITLE: '동선 수정하기',

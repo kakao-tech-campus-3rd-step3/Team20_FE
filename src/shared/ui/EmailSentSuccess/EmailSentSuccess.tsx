@@ -57,7 +57,7 @@ export const EmailSentSuccess = ({
           <div className="text-center">
             <Mail className="mx-auto h-16 w-16 text-purple-600" />
             <h2 className="mt-6 text-2xl font-bold text-gray-900">{title}</h2>
-        
+
             {email && (
               <div className="mt-4 p-3 bg-purple-50 rounded-lg">
                 <p className="text-sm font-medium text-purple-900">{email}</p>

@@ -6,9 +6,6 @@ import { MAP_DEFAULTS, SDK_CONFIG } from '../constants';
 import { ERROR_MESSAGES } from '../messages';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 
-/**
- * Kakao 지도의 생성/옵션 반영/정리를 담당하는 훅
- */
 export function useKakaoMap(options?: MapOptions) {
   const { isLaptop } = useBreakpoints();
 
@@ -85,7 +82,6 @@ export function useKakaoMap(options?: MapOptions) {
       cancelled = true;
       if (createdContainer) {
         createdContainer.innerHTML = '';
-        // 이벤트 리스너 정리
         const mapContainer = mapRef.current?.getNode();
         if (mapContainer && wheelHandlerRef.current) {
           mapContainer.removeEventListener('wheel', wheelHandlerRef.current);
@@ -95,7 +91,7 @@ export function useKakaoMap(options?: MapOptions) {
       wheelHandlerRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // 마운트 시에만 실행 - props 변경 시에는 두 번째 useEffect에서 처리
+  }, []);
 
   useEffect(() => {
     const map = mapRef.current;

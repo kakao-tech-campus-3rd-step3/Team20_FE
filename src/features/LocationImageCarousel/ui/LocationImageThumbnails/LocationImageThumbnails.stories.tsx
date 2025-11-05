@@ -14,7 +14,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 기본 썸네일 (첫 번째 활성화)
 export const Default: Story = {
   args: {
     scenes: contentScenes,
@@ -29,7 +28,6 @@ export const Default: Story = {
   ),
 };
 
-// 인터랙티브 썸네일
 export const InteractiveThumbnails: Story = {
   args: {
     scenes: contentScenes,
@@ -46,7 +44,6 @@ export const InteractiveThumbnails: Story = {
   ),
 };
 
-// 반응형 그리드 테스트
 export const ResponsiveGrid: Story = {
   name: '반응형 그리드',
   args: {

@@ -13,7 +13,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 기본 카운터
 export const Default: Story = {
   args: {
     current: 1,

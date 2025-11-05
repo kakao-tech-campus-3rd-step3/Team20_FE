@@ -13,7 +13,6 @@ const meta = {
           '지도와 스팟 정보를 미리보기로 보여주는 컴포넌트입니다. 도시 선택기, 지도 미리보기, 스팟 카드를 포함합니다.',
       },
     },
-    // TanStack Router와 MSW 설정
     api: API_SCENARIOS.DEFAULT,
     controls: { disable: true },
   },

@@ -12,9 +12,6 @@ import {
 } from '../utils';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 
-/**
- * 검색 결과 마커를 표시하는 훅 (동선에 추가된 장소 제외)
- */
 export function useKakaoMarkers(
   places: Place[],
   mapRef: React.MutableRefObject<KakaoMap | null>,
@@ -27,7 +24,6 @@ export function useKakaoMarkers(
   const onPlaceClickRef = useRef<typeof onPlaceClick | undefined>(onPlaceClick);
   const onAddToRouteRef = useRef<typeof onAddToRoute | undefined>(onAddToRoute);
 
-  // 최신 콜백을 ref에 보관해 이벤트 핸들러가 의존성으로 인해 재바인딩되지 않도록 한다
   onPlaceClickRef.current = onPlaceClick;
   onAddToRouteRef.current = onAddToRoute;
 
@@ -55,7 +51,6 @@ export function useKakaoMarkers(
         const marker = new maps.Marker({ position });
         marker.setMap(map);
 
-        // 마커 클릭 이벤트 추가
         maps.event.addListener(marker, 'click', () => {
           onPlaceClickRef.current?.(place);
           const isInRoute = routePlaceIds.has(place.locationId);

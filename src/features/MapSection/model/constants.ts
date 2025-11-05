@@ -42,12 +42,11 @@ export const MAP_DEFAULTS = {
   disableDoubleClickZoom: true,
 } as const;
 
-// 남한(대한민국) 지도 범위 (북위 33.2도~38.45도, 동경 124.1도~131.9도)
 export const KOREA_BOUNDS = {
-  north: 38.45, // 북위 38.45도
-  south: 33.2, // 북위 33.2도
-  east: 131.9, // 동경 131.9도
-  west: 124.1, // 동경 124.1도
+  north: 38.45,
+  south: 33.2,
+  east: 131.9,
+  west: 124.1,
 } as const;
 
 export const SDK_CONFIG = {
@@ -102,12 +101,9 @@ export const MOBILE_SEARCH_BAR_STYLES = {
   WRAPPER: 'scale-90 origin-top',
 } as const;
 
-// 이미지 fallback SVG 아이콘
 export const IMAGE_FALLBACK_SVG =
   '<svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>';
 
-// 이미지 fallback HTML (숨김 상태)
 export const IMAGE_FALLBACK_HIDDEN = `<div class="overlay-fallback" style="width: 100%; height: 100%; display: none; align-items: center; justify-content: center; color: var(--color-text-tertiary);">${IMAGE_FALLBACK_SVG}</div>`;
 
-// 이미지 fallback HTML (표시 상태)
 export const IMAGE_FALLBACK_VISIBLE = `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary);">${IMAGE_FALLBACK_SVG}</div>`;

@@ -13,7 +13,6 @@ const meta = {
           '선택된 스팟의 정보와 액션 버튼들을 보여주는 카드 컴포넌트입니다. TanStack Router Link를 사용합니다.',
       },
     },
-    // TanStack Router와 MSW 설정
     api: API_SCENARIOS.DEFAULT,
     controls: { disable: true },
   },

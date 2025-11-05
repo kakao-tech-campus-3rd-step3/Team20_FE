@@ -7,7 +7,6 @@ import {
   LocationRelatedContents,
   LocationReviews,
 } from '@/features/LocationDetail';
-import { quickFacts } from '@/features/LocationDetail/model/constants';
 
 export const Route = createFileRoute('/location/$id')({
   component: LocationDetailPage,
@@ -56,7 +55,7 @@ function LocationDetailPage() {
       </div>
       <main className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12 space-y-8 sm:space-y-10 lg:space-y-12">
         <section className="transform -mt-6 sm:-mt-10 lg:-mt-12 relative z-10">
-          <LocationDescription description={data.description ?? ''} quickFacts={quickFacts} />
+          <LocationDescription description={data.description ?? ''} />
         </section>
         <section className="relative z-10">
           <LocationRelatedContents relatedContents={data.relatedContents ?? []} />

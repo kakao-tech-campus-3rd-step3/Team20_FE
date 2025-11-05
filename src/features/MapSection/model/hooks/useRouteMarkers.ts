@@ -15,9 +15,6 @@ import {
 import { POLYLINE_CONFIG } from '../constants';
 import { useBreakpoints } from '@/shared/hooks/useMediaQuery';
 
-/**
- * 동선 마커를 순서와 함께 표시하고 마커 간 연결선을 그리는 훅
- */
 export function useRouteMarkers(
   routePlaces: RoutePlace[],
   mapRef: React.MutableRefObject<KakaoMap | null>,
@@ -47,7 +44,6 @@ export function useRouteMarkers(
 
       const sortedPlaces = routePlaces.slice().sort((a, b) => a.order - b.order);
 
-      // 마커 생성
       const newRouteMarkers = sortedPlaces.map((place) => {
         const position = createLatLng(place.latitude, place.longitude);
         const markerImage = createNumberedMarkerImage(place.order);
@@ -59,10 +55,9 @@ export function useRouteMarkers(
 
         marker.setMap(map);
 
-        // 동선 마커 클릭 이벤트 추가
         maps.event.addListener(marker, 'click', () => {
           onPlaceClickRef.current?.(place);
-          createAndShowOverlay(map, place, isLaptop, onAddToRouteRef.current, true); // 동선 마커는 항상 동선에 추가된 상태
+          createAndShowOverlay(map, place, isLaptop, onAddToRouteRef.current, true);
         });
 
         return marker;
@@ -70,7 +65,6 @@ export function useRouteMarkers(
 
       routeMarkersRef.current = newRouteMarkers;
 
-      // 연결선 그리기 (2개 이상의 장소가 있을 때)
       if (sortedPlaces.length >= 2) {
         const path = sortedPlaces.map((place) => createLatLng(place.latitude, place.longitude));
 

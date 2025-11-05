@@ -97,7 +97,6 @@ export function generateOverlayHTML(
       ? `<div style="${OVERLAY_STYLES.relatedContents}"><p style="${OVERLAY_STYLES.relatedContentsText}">${OVERLAY_MESSAGES.relatedContentsPrefix}${relatedContents.map((content) => content.title).join(', ')}</p></div>`
       : '';
 
-  // 모바일/태블릿에서만 동선 추가 버튼 표시
   const addToRouteButtonHtml = !isLaptop
     ? `<div style="margin-top: 12px;">
          <button 
@@ -181,7 +180,6 @@ export function createMapOverlay(
 
   (window as unknown as { closeMapOverlay?: () => void }).closeMapOverlay = onClose;
 
-  // 동선 추가 함수를 전역으로 등록 (모바일에서만)
   if (!isLaptop && onAddToRoute) {
     (window as unknown as { addToRoute?: () => void }).addToRoute = () => {
       onAddToRoute(place);
@@ -197,9 +195,6 @@ export function createMapOverlay(
   return overlay as KakaoCustomOverlay;
 }
 
-/**
- * 오버레이 위치를 결정하는 헬퍼 함수
- */
 export function getOverlayPosition(
   map: KakaoMap,
   place: Place | RoutePlace,
@@ -211,20 +206,15 @@ export function getOverlayPosition(
     : createLatLng(place.latitude, place.longitude);
 }
 
-// 전역 오버레이 관리
 declare global {
   var globalOverlayRef: KakaoCustomOverlay | null;
 }
 
-// 전역 변수 초기화
 if (typeof globalThis !== 'undefined') {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).globalOverlayRef = null;
 }
 
-/**
- * 전역 오버레이를 닫는 공통 함수
- */
 export function closeGlobalOverlay(): void {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((globalThis as any).globalOverlayRef) {
@@ -235,17 +225,11 @@ export function closeGlobalOverlay(): void {
   }
 }
 
-/**
- * 전역 오버레이를 설정하는 공통 함수
- */
 export function setGlobalOverlay(overlay: KakaoCustomOverlay): void {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).globalOverlayRef = overlay;
 }
 
-/**
- * 마커 클릭 시 오버레이를 생성하고 표시하는 공통 함수
- */
 export function createAndShowOverlay(
   map: KakaoMap,
   place: Place | RoutePlace,

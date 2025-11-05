@@ -5,9 +5,6 @@ interface UsePlaceSelectionProps {
   onPlaceClick: (place: Place) => void;
 }
 
-/**
- * 장소 선택 관련 상태와 핸들러를 관리하는 훅
- */
 export function usePlaceSelection({ onPlaceClick }: UsePlaceSelectionProps) {
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
