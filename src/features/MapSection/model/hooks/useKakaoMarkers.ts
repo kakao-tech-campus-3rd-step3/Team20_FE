@@ -61,8 +61,7 @@ export function useKakaoMarkers(
       });
 
       markersRef.current = newMarkers;
-    } catch (e) {
-      console.error('Failed to update markers:', e);
+    } catch {
       toast.error('마커 표시 실패');
     }
 

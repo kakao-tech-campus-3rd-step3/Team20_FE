@@ -251,8 +251,7 @@ export function createAndShowOverlay(
       isInRoute,
     );
     setGlobalOverlay(overlay);
-  } catch (e) {
-    console.error('Failed to show place overlay:', e);
+  } catch {
     toast.error('장소 정보 표시 실패');
   }
 }

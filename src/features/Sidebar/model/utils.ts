@@ -55,19 +55,14 @@ export const convertLocationsToPlaces = async (locations: ContentLocation[]): Pr
 export const getPlacesFromContents = async (
   contents: ContentDetail[] | Array<{ contentId: number }>,
 ): Promise<Place[]> => {
-  const allPlaces: Place[] = [];
-
-  for (const content of contents) {
-    try {
+  const results = await Promise.allSettled(
+    contents.map(async (content) => {
       const locations = await getContentLocations(content.contentId.toString());
-      const places = await convertLocationsToPlaces(locations);
-      allPlaces.push(...places);
-    } catch (error) {
-      console.warn(`장소를 찾는 것에 실패했습니다. ${content.contentId}:`, error);
-    }
-  }
+      return await convertLocationsToPlaces(locations);
+    }),
+  );
 
-  return allPlaces;
+  return results.flatMap((result) => (result.status === 'fulfilled' ? result.value : []));
 };
 
 export const convertItineraryLocationsToRoutePlaces = async (
@@ -81,8 +76,7 @@ export const convertItineraryLocationsToRoutePlaces = async (
           ...locationDetail,
           order: location.visitOrder,
         } as RoutePlace;
-      } catch (error) {
-        console.warn(`장소 정보를 가져오는데 실패했습니다. ${location.locationId}:`, error);
+      } catch {
         return createDefaultRoutePlace(location, location.visitOrder);
       }
     }),

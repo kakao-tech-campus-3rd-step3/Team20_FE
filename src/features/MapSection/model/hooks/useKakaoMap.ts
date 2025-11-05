@@ -72,8 +72,7 @@ export function useKakaoMap(options?: MapOptions) {
         mapContainer.addEventListener('wheel', handleWheel, { passive: false });
 
         mapRef.current = map;
-      } catch (error) {
-        console.error('카카오맵 초기화 실패:', error);
+      } catch {
         toast.error('카카오맵 로딩 실패, 페이지 새로고침 해보세요');
       }
     })();
@@ -101,8 +100,7 @@ export function useKakaoMap(options?: MapOptions) {
       map.setLevel(level);
       map.setDraggable(true);
       map.setZoomable(true);
-    } catch (error) {
-      console.error('카카오맵 옵션 업데이트 실패:', error);
+    } catch {
       toast.error('지도 설정 업데이트 실패');
     }
   }, [level, isLaptop, scrollwheel]);

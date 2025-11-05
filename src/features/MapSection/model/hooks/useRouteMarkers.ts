@@ -78,8 +78,7 @@ export function useRouteMarkers(
         polyline.setMap(map);
         routePolylinesRef.current = [polyline];
       }
-    } catch (e) {
-      console.error('Failed to update route markers:', e);
+    } catch {
       toast.error('동선 마커 표시 실패');
     }
 

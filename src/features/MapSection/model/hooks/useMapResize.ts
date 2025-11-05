@@ -41,8 +41,7 @@ export function useMapResize({ mapRef, containerRef, isLaptop }: UseMapResizePro
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window.kakao!.maps!.event as any).trigger(map, 'resize');
         map.setCenter(center);
-      } catch (error) {
-        console.error('지도 리사이즈 실패:', error);
+      } catch {
         toast.error('지도 크기 조정 실패');
       }
     });

@@ -28,24 +28,19 @@ export function useMapCenterAdjust({ mapRef }: UseMapCenterAdjustProps) {
     };
 
     const checkBounds = () => {
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const center = (map as any).getCenter();
-        const lat = center.getLat();
-        const lng = center.getLng();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const center = (map as any).getCenter();
+      const lat = center.getLat();
+      const lng = center.getLng();
 
-        if (
-          lat < KOREA_BOUNDS.south ||
-          lat > KOREA_BOUNDS.north ||
-          lng < KOREA_BOUNDS.west ||
-          lng > KOREA_BOUNDS.east
-        ) {
-          const centerLatLng = createLatLng(KOREA_CENTER.lat, KOREA_CENTER.lng);
-          map.setCenter(centerLatLng);
-          console.log('드래그 범위 초과, 중심으로 되돌림');
-        }
-      } catch (error) {
-        console.error('드래그 범위 체크 실패:', error);
+      if (
+        lat < KOREA_BOUNDS.south ||
+        lat > KOREA_BOUNDS.north ||
+        lng < KOREA_BOUNDS.west ||
+        lng > KOREA_BOUNDS.east
+      ) {
+        const centerLatLng = createLatLng(KOREA_CENTER.lat, KOREA_CENTER.lng);
+        map.setCenter(centerLatLng);
       }
     };
 

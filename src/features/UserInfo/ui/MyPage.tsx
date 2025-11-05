@@ -4,13 +4,14 @@ import { UserProfile } from './UserProfile';
 import { ItineraryList } from './ItineraryList';
 import { ItineraryDetailModal } from './ItineraryDetailModal';
 import { messages } from '../model/messages';
-import { deleteItinerary } from '@/entities/itinerary/api/itineraryApi';
+import { useDeleteItinerary } from '@/entities/itinerary/api/queryfn';
 import type { Itinerary } from '../model/types';
 
 export const MyPage = () => {
   const { data, isLoading, isError, refetch } = useMyPageData();
   const [selectedItinerary, setSelectedItinerary] = useState<Itinerary | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const deleteItineraryMutation = useDeleteItinerary();
 
   const handleItineraryClick = (itinerary: Itinerary) => {
     setSelectedItinerary(itinerary);
@@ -22,14 +23,12 @@ export const MyPage = () => {
     setTimeout(() => setSelectedItinerary(null), 300);
   };
 
-  const handleDeleteItinerary = async (itineraryId: number) => {
-    try {
-      await deleteItinerary(itineraryId.toString());
-      refetch(); // 데이터 새로고침
-    } catch (error) {
-      console.error('동선 삭제 실패:', error);
-      alert('동선 삭제에 실패했습니다. 다시 시도해주세요.');
-    }
+  const handleDeleteItinerary = (itineraryId: number) => {
+    deleteItineraryMutation.mutate(itineraryId.toString(), {
+      onSuccess: () => {
+        refetch();
+      },
+    });
   };
 
   if (isLoading) {

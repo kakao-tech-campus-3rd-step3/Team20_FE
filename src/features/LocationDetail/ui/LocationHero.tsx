@@ -16,8 +16,7 @@ export function LocationHero({ location }: LocationHeroProps) {
     try {
       await navigator.clipboard.writeText(location.address);
       toast.success('주소를 복사했어요.');
-    } catch (error) {
-      console.error('[LocationHero] 주소 복사 실패', error);
+    } catch {
       toast.error('주소 복사에 실패했어요. 다시 시도해 주세요.');
     }
   };
