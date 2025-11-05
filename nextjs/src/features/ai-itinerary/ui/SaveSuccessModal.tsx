@@ -20,7 +20,6 @@ export function SaveSuccessModal({
       {/* 배경 오버레이 */}
       <div 
         className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-        onClick={onClose}
       >
         {/* 모달 컨텐츠 */}
         <div 
@@ -69,13 +68,6 @@ export function SaveSuccessModal({
                 className="w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-200 transition-colors font-medium"
               >
                 🚀 새로운 일정 만들기
-              </button>
-              
-              <button
-                onClick={onClose}
-                className="w-full text-gray-500 py-2 px-4 rounded-lg hover:text-gray-700 transition-colors text-sm"
-              >
-                닫기
               </button>
             </div>
           </div>

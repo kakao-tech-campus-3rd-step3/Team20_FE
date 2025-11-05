@@ -1,6 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 
-export type NavKey = 'home' | 'map' | 'itinerary' | 'saved-itinerary';
+export type NavKey = 'home' | 'map' | 'itinerary';
 
 export type MenuItem = {
   key: NavKey;
@@ -13,7 +13,6 @@ export type NavRouteMap = {
   home: { href: '/' };
   map: { href: '/map' };
   itinerary: { href: '/itinerary' };
-  'saved-itinerary': { href: '/ai-itinerary' };
 };
 
 export type NavMenuProps = {

@@ -23,12 +23,20 @@ export const UserProfile = ({ email, nickname }: UserProfileProps) => {
             </h1>
             <p className="text-base text-gray-600">{email}</p>
           </div>
-          <button
-            onClick={handleLogout}
-            className="group flex items-center gap-2.5 px-6 py-4 text-sm font-semibold text-white bg-gradient-to-r from-[#a864a2] to-[#c480d4] rounded-xl hover:from-[#a864a2]/90 hover:to-[#c480d4]/90 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
-          >
-            로그아웃
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => router.push('/ai-itinerary')}
+              className="group flex items-center gap-2.5 px-6 py-4 text-sm font-semibold text-[#a864a2] bg-white border-2 border-[#a864a2] rounded-xl hover:bg-[#a864a2] hover:text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+            >
+              🤖 AI 일정
+            </button>
+            <button
+              onClick={handleLogout}
+              className="group flex items-center gap-2.5 px-6 py-4 text-sm font-semibold text-white bg-gradient-to-r from-[#a864a2] to-[#c480d4] rounded-xl hover:from-[#a864a2]/90 hover:to-[#c480d4]/90 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+            >
+              로그아웃
+            </button>
+          </div>
         </div>
       </div>
     </div>

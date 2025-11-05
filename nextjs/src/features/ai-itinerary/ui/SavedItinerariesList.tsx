@@ -3,24 +3,42 @@
 import { useUserAiItineraries, useDeleteAiItinerary } from '@/entities/ai-itinerary/api/backend-queryfn';
 import { AiItinerarySummary } from '@/entities/ai-itinerary/model/backend-types';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { DeleteConfirmModal } from './DeleteConfirmModal';
 
 export function SavedItinerariesList() {
   const { data: itinerariesResponse, isLoading, error } = useUserAiItineraries();
   const deleteItineraryMutation = useDeleteAiItinerary();
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedItineraryId, setSelectedItineraryId] = useState<number | null>(null);
 
-  const handleDelete = async (itineraryId: number) => {
-    if (!confirm('정말로 이 여행 일정을 삭제하시겠습니까?')) return;
+  const handleDeleteClick = (itineraryId: number) => {
+    setSelectedItineraryId(itineraryId);
+    setShowDeleteModal(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!selectedItineraryId) return;
     
-    setDeletingId(itineraryId);
+    setDeletingId(selectedItineraryId);
+    setShowDeleteModal(false);
+    
     try {
-      await deleteItineraryMutation.mutateAsync(itineraryId);
+      await deleteItineraryMutation.mutateAsync(selectedItineraryId);
+      toast.success('여행 일정이 삭제되었습니다.');
     } catch (error) {
       console.error('삭제 실패:', error);
-      alert('삭제에 실패했습니다. 다시 시도해주세요.');
+      toast.error('삭제에 실패했습니다. 다시 시도해주세요.');
     } finally {
       setDeletingId(null);
+      setSelectedItineraryId(null);
     }
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false);
+    setSelectedItineraryId(null);
   };
 
   const getThemeLabel = (theme: string) => {
@@ -145,7 +163,7 @@ export function SavedItinerariesList() {
                     상세보기
                   </a>
                   <button
-                    onClick={() => handleDelete(itinerary.itineraryId)}
+                    onClick={() => handleDeleteClick(itinerary.itineraryId)}
                     disabled={deletingId === itinerary.itineraryId}
                     className="bg-red-100 text-red-700 px-3 py-2 rounded hover:bg-red-200 transition-colors text-sm disabled:opacity-50"
                   >
@@ -156,6 +174,13 @@ export function SavedItinerariesList() {
             </div>
           ))}
         </div>
+
+        {/* 삭제 확인 모달 */}
+        <DeleteConfirmModal
+          isOpen={showDeleteModal}
+          onConfirm={handleDeleteConfirm}
+          onCancel={handleDeleteCancel}
+        />
       </div>
     </div>
   );

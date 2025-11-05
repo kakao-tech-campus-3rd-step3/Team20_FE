@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAiItinerary, useDeleteAiItinerary } from '@/entities/ai-itinerary/api/backend-queryfn';
 import { ItineraryResult } from '@/features/itinerary/ui/ItineraryResult';
+import { toast } from 'react-toastify';
+import { DeleteConfirmModal } from './DeleteConfirmModal';
 
 interface SavedItineraryDetailProps {
   itineraryId: number;
@@ -13,6 +15,7 @@ export function SavedItineraryDetail({ itineraryId }: SavedItineraryDetailProps)
   const { data: response, isLoading, error } = useAiItinerary(itineraryId);
   const deleteItineraryMutation = useDeleteAiItinerary();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const router = useRouter();
 
   if (isLoading) {
@@ -79,19 +82,28 @@ export function SavedItineraryDetail({ itineraryId }: SavedItineraryDetailProps)
     router.push('/ai-itinerary');
   };
 
-  const handleDelete = async () => {
-    if (!confirm('정말로 이 여행 일정을 삭제하시겠습니까?')) return;
-    
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    setShowDeleteModal(false);
     setIsDeleting(true);
+    
     try {
       await deleteItineraryMutation.mutateAsync(itineraryId);
+      toast.success('여행 일정이 삭제되었습니다.');
       router.push('/ai-itinerary');
     } catch (error) {
       console.error('삭제 실패:', error);
-      alert('삭제에 실패했습니다. 다시 시도해주세요.');
+      toast.error('삭제에 실패했습니다. 다시 시도해주세요.');
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false);
   };
 
   return (
@@ -106,7 +118,7 @@ export function SavedItineraryDetail({ itineraryId }: SavedItineraryDetailProps)
           </button>
           
           <button
-            onClick={handleDelete}
+            onClick={handleDeleteClick}
             disabled={isDeleting}
             className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:bg-red-400"
           >
@@ -119,6 +131,13 @@ export function SavedItineraryDetail({ itineraryId }: SavedItineraryDetailProps)
           onReset={handleReset}
           formData={formData}
           showSaveButton={false}
+        />
+
+        {/* 삭제 확인 모달 */}
+        <DeleteConfirmModal
+          isOpen={showDeleteModal}
+          onConfirm={handleDeleteConfirm}
+          onCancel={handleDeleteCancel}
         />
       </div>
     </div>
