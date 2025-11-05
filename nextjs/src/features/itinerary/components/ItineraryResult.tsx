@@ -9,22 +9,85 @@ interface ItineraryResultProps {
 
 export function ItineraryResult({ result, onReset }: ItineraryResultProps) {
   if (!result.success || !result.data) {
+    // 에러 메시지에 따라 다른 이모지와 제목 표시
+    const getErrorDisplay = (errorMessage: string) => {
+      if (errorMessage.includes('연관된 장소를 찾을 수 없어요')) {
+        return {
+          emoji: '🔍',
+          title: '촬영지를 찾을 수 없어요',
+          suggestions: [
+            '다른 도착지를 선택해보세요',
+            '다른 콘텐츠 테마를 시도해보세요',
+            '여행 기간을 조정해보세요'
+          ]
+        };
+      } else if (errorMessage.includes('서버에 일시적인 문제')) {
+        return {
+          emoji: '⚠️',
+          title: '서버 문제가 발생했어요',
+          suggestions: [
+            '잠시 후 다시 시도해주세요',
+            '문제가 지속되면 새로고침해보세요'
+          ]
+        };
+      } else if (errorMessage.includes('네트워크') || errorMessage.includes('인터넷')) {
+        return {
+          emoji: '📶',
+          title: '네트워크 연결 문제',
+          suggestions: [
+            '인터넷 연결을 확인해주세요',
+            'Wi-Fi 또는 데이터 연결을 다시 시도해보세요'
+          ]
+        };
+      } else {
+        return {
+          emoji: '😞',
+          title: '일정 생성에 실패했어요',
+          suggestions: [
+            '다시 시도해보세요',
+            '문제가 계속되면 새로고침해주세요'
+          ]
+        };
+      }
+    };
+
+    const errorDisplay = getErrorDisplay(result.error || '');
+
     return (
       <div className="bg-white rounded-xl shadow-lg p-8 max-w-4xl mx-auto">
         <div className="text-center">
-          <div className="text-red-500 text-6xl mb-4">😞</div>
+          <div className="text-6xl mb-4">{errorDisplay.emoji}</div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            일정 생성에 실패했습니다
+            {errorDisplay.title}
           </h2>
           <p className="text-gray-600 mb-6">
             {result.error || '알 수 없는 오류가 발생했습니다.'}
           </p>
-          <button
-            onClick={onReset}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            다시 시도하기
-          </button>
+          
+          {/* 해결 방법 제안 */}
+          <div className="bg-blue-50 rounded-lg p-4 mb-6">
+            <h3 className="text-sm font-semibold text-blue-900 mb-2">💡 해결 방법</h3>
+            <ul className="text-sm text-blue-800 space-y-1">
+              {errorDisplay.suggestions.map((suggestion, index) => (
+                <li key={index}>• {suggestion}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={onReset}
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              🔄 다시 시도하기
+            </button>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              🔄 새로고침
+            </button>
+          </div>
         </div>
       </div>
     );

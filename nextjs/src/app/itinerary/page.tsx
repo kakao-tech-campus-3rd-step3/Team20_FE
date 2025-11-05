@@ -19,9 +19,10 @@ export default function ItineraryPage() {
       const response = await ItineraryAPI.generateItinerary(request);
       setResult(response);
     } catch (error) {
+      console.error('일정 생성 실패:', error);
       setResult({
         success: false,
-        error: '네트워크 오류가 발생했습니다. 다시 시도해주세요.',
+        error: '예상치 못한 문제가 발생했어요. 인터넷 연결을 확인하고 다시 시도해주세요!',
       });
     } finally {
       setIsLoading(false);

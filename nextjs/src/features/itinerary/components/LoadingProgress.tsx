@@ -168,6 +168,15 @@ export function LoadingProgress({ isVisible }: LoadingProgressProps) {
             💡 <strong>알고 계셨나요?</strong> AI가 {steps.find(s => s.id === 'database')?.completed ? '362개' : '수백 개'}의 촬영지 데이터를 분석해서 최적의 일정을 만들어드리고 있어요!
           </p>
         </div>
+
+        {/* 문제 발생 시 안내 */}
+        {elapsedTime > 30 && (
+          <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <p className="text-sm text-blue-800">
+              ⏰ <strong>시간이 오래 걸리고 있나요?</strong> 선택하신 지역에 촬영지가 많아서 더 정확한 일정을 만들고 있어요. 조금만 더 기다려주세요!
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
