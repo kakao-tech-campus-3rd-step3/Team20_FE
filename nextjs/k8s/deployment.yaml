@@ -39,12 +39,17 @@ spec:
             secretKeyRef:
               name: kspot-nextjs-secrets
               key: backend-url
+        - name: NEXT_PUBLIC_AI_API_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: kspot-nextjs-secrets
+              key: ai-api-endpoint
         resources:
           requests:
-            memory: "350Mi"
+            memory: "512Mi"
             cpu: "200m"
           limits:
-            memory: "512Mi"
+            memory: "1024Mi"
             cpu: "350m"
         livenessProbe:
           httpGet:

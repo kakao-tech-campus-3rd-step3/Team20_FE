@@ -59,6 +59,7 @@ jobs:
           NEXT_PUBLIC_KAKAO_MAP_API_KEY: ${{ secrets.KAKAO_MAP_API_KEY }}
           NEXT_PUBLIC_API_BASE_URL: ${{ secrets.API_BASE_URL }}
           NEXT_PUBLIC_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          NEXT_PUBLIC_AI_API_ENDPOINT: ${{ secrets.AI_API_ENDPOINT }}
 
   build-and-deploy:
     needs: test-nextjs
@@ -131,6 +132,7 @@ jobs:
             --build-arg NEXT_PUBLIC_KAKAO_MAP_API_KEY="${{ secrets.KAKAO_MAP_API_KEY }}" \
             --build-arg NEXT_PUBLIC_API_BASE_URL="${{ secrets.API_BASE_URL }}" \
             --build-arg NEXT_PUBLIC_BACKEND_URL="${{ secrets.BACKEND_URL }}" \
+            --build-arg NEXT_PUBLIC_AI_API_ENDPOINT="${{ secrets.AI_API_ENDPOINT }}" \
             --build-arg NODE_ENV="production" \
             -t ${IMAGE_FULL_PATH} \
             -t ${IMAGE_LATEST} .
@@ -165,6 +167,7 @@ jobs:
             --from-literal=kakao-map-api-key="${{ secrets.KAKAO_MAP_API_KEY }}" \
             --from-literal=api-base-url="${{ secrets.API_BASE_URL }}" \
             --from-literal=backend-url="${{ secrets.BACKEND_URL }}" \
+            --from-literal=ai-api-endpoint="${{ secrets.AI_API_ENDPOINT }}" \
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Update Kubernetes deployment

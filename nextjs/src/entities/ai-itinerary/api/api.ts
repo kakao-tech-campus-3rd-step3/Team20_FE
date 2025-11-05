@@ -1,8 +1,6 @@
-// 여행 일정 API 호출 함수
-
 import { ItineraryRequest, ItineraryResponse } from '../model/types';
 
-const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+const API_ENDPOINT = process.env.NEXT_PUBLIC_AI_API_ENDPOINT;
 
 export class ItineraryAPI {
   static async generateItinerary(request: ItineraryRequest): Promise<ItineraryResponse> {
