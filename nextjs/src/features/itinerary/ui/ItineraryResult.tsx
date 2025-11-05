@@ -1,13 +1,64 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ItineraryResponse } from '@/entities/ai-itinerary';
+import { useSaveAiItinerary } from '@/entities/ai-itinerary/api/backend-queryfn';
+import { SaveAiItineraryRequest } from '@/entities/ai-itinerary/model/backend-types';
+import { SaveSuccessModal } from '@/features/ai-itinerary/ui/SaveSuccessModal';
 
 interface ItineraryResultProps {
   result: ItineraryResponse;
   onReset: () => void;
+  formData?: {
+    departure_hub: string;
+    arrival_hub: string;
+    duration: string;
+    theme: string;
+  };
+  showSaveButton?: boolean; // 저장 버튼 표시 여부
 }
 
-export function ItineraryResult({ result, onReset }: ItineraryResultProps) {
+export function ItineraryResult({ result, onReset, formData, showSaveButton = true }: ItineraryResultProps) {
+  const [isSaving, setIsSaving] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const saveAiItineraryMutation = useSaveAiItinerary();
+  const router = useRouter();
+
+  const handleSaveItinerary = async () => {
+    if (!result.data || !formData) return;
+
+    setIsSaving(true);
+    try {
+      const saveRequest: SaveAiItineraryRequest = {
+        data: result.data,
+        startPoint: formData.departure_hub,
+        endPoint: formData.arrival_hub,
+        duration: formData.duration,
+        theme: formData.theme,
+      };
+
+      await saveAiItineraryMutation.mutateAsync(saveRequest);
+      setShowSuccessModal(true);
+    } catch (error) {
+      console.error('AI 동선 저장 실패:', error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleViewSaved = () => {
+    router.push('/ai-itinerary');
+  };
+
+  const handleCreateNew = () => {
+    setShowSuccessModal(false);
+    onReset();
+  };
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+  };
   if (!result.success || !result.data) {
     const getErrorDisplay = (errorMessage: string) => {
       if (errorMessage.includes('연관된 장소를 찾을 수 없어요')) {
@@ -104,12 +155,27 @@ export function ItineraryResult({ result, onReset }: ItineraryResultProps) {
               {metadata.departure.name} → {metadata.arrival.name} | {metadata.duration}
             </p>
           </div>
-          <button
-            onClick={onReset}
-            className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            새로 만들기
-          </button>
+          <div className="flex gap-2">
+            {showSaveButton && (
+              <button
+                onClick={handleSaveItinerary}
+                disabled={isSaving}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  isSaving
+                    ? 'bg-gray-100 text-gray-500'
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
+                {isSaving ? '저장 중...' : '💾 일정 저장'}
+              </button>
+            )}
+            <button
+              onClick={onReset}
+              className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              {showSaveButton ? '새로 만들기' : '목록으로 돌아가기'}
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -241,6 +307,14 @@ export function ItineraryResult({ result, onReset }: ItineraryResultProps) {
           </div>
         </div>
       </div>
+
+      {/* 저장 성공 모달 */}
+      <SaveSuccessModal
+        isOpen={showSuccessModal}
+        onClose={handleCloseModal}
+        onViewSaved={handleViewSaved}
+        onCreateNew={handleCreateNew}
+      />
     </div>
   );
 }

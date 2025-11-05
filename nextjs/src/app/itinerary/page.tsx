@@ -10,8 +10,10 @@ import { ItineraryRequest, ItineraryResponse } from '@/entities/ai-itinerary/mod
 export default function ItineraryPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ItineraryResponse | null>(null);
+  const [formData, setFormData] = useState<ItineraryRequest | null>(null);
 
   const handleSubmit = async (request: ItineraryRequest) => {
+    setFormData(request);
     setIsLoading(true);
     setResult(null);
 
@@ -31,6 +33,7 @@ export default function ItineraryPage() {
 
   const handleReset = () => {
     setResult(null);
+    setFormData(null);
     setIsLoading(false);
   };
 
@@ -40,7 +43,7 @@ export default function ItineraryPage() {
         {!result ? (
           <ItineraryForm onSubmit={handleSubmit} isLoading={isLoading} />
         ) : (
-          <ItineraryResult result={result} onReset={handleReset} />
+          <ItineraryResult result={result} onReset={handleReset} formData={formData || undefined} />
         )}
       </div>
 
