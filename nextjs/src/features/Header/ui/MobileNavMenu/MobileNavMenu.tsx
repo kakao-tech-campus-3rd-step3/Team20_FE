@@ -1,6 +1,6 @@
-﻿import { MENU } from '../../model/utils';
-import type { NavKey, MobileNavMenuProps } from '../../model/types';
-import { useResolvedActiveKey, useNavActions } from '../../model/hooks';
+﻿import type { NavKey, MobileNavMenuProps } from '../../model/types';
+import { useResolvedActiveKey } from '../../model/hooks';
+import { useNavMenu } from '../../model/useNavMenu';
 
 export function MobileNavMenu({
   active: controlledActive,
@@ -9,7 +9,12 @@ export function MobileNavMenu({
   onClose,
 }: MobileNavMenuProps) {
   const activeKey = useResolvedActiveKey(controlledActive);
-  const { onItemClick } = useNavActions(onSelect, onClose);
+  const { menuItems, handleNavClick } = useNavMenu(onSelect);
+
+  const handleItemClick = (key: NavKey) => {
+    handleNavClick(key);
+    onClose();
+  };
 
   if (!isOpen) return null;
 
@@ -23,7 +28,7 @@ export function MobileNavMenu({
       <div className="absolute top-full left-0 right-0 bg-[var(--color-background)] border-t border-[var(--color-border)] shadow-[var(--shadow-dropdown)] z-[var(--z-dropdown)] md:hidden">
         <nav aria-label="주요 메뉴" className="p-[var(--spacing-4)]">
           <div className="space-y-[var(--spacing-2)]">
-            {MENU.map(({ key, label, Icon }) => {
+            {menuItems.map(({ key, label, Icon }) => {
               const isActive = key === activeKey;
               return (
                 <button
@@ -33,7 +38,7 @@ export function MobileNavMenu({
                       ? 'bg-[var(--color-primary)] text-[var(--color-primary-foreground)]'
                       : 'text-[var(--color-text-primary)] hover:bg-[var(--color-muted)]'
                   }`}
-                  onClick={() => onItemClick(key as NavKey)}
+                  onClick={() => handleItemClick(key as NavKey)}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <Icon className="h-[var(--spacing-5)] w-[var(--spacing-5)]" aria-hidden />
