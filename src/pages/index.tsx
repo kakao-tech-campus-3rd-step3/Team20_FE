@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { ErrorBoundary } from '@/shared/ui';
 import { ServiceMainHero } from '@/features/ServiceMainHero';
 import { CategorySection } from '@/features/CategorySection';
 import { PopularSection } from '@/features/PopularSection';
@@ -12,7 +13,9 @@ function HomePage() {
     <main className="mx-auto max-w-screen-2xl px-[var(--spacing-container-padding)] md:px-[var(--spacing-container-padding-tablet)] lg:px-[var(--spacing-container-padding-desktop)]">
       <ServiceMainHero />
       <CategorySection />
-      <PopularSection />
+      <ErrorBoundary>
+        <PopularSection />
+      </ErrorBoundary>
     </main>
   );
 }

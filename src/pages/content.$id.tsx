@@ -1,4 +1,5 @@
 import { createFileRoute, Navigate } from '@tanstack/react-router';
+import { ErrorBoundary } from '@/shared/ui';
 import { ContentOverviewHero } from '@/features/ContentOverviewHero';
 import { LocationImageCarousel } from '@/features/LocationImageCarousel';
 import { getContentDetail } from '@/entities/content/api/contentApi';
@@ -19,9 +20,11 @@ function ContentDetailPage() {
   const { id } = Route.useParams();
 
   return (
-    <div>
+    <ErrorBoundary>
       <ContentOverviewHero contentId={id} />
-      <LocationImageCarousel contentId={id} />
-    </div>
+      <ErrorBoundary>
+        <LocationImageCarousel contentId={id} />
+      </ErrorBoundary>
+    </ErrorBoundary>
   );
 }
