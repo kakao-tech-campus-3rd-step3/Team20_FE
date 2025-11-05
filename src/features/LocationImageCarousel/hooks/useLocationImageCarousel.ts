@@ -16,7 +16,7 @@ export function useLocationImageCarousel({
       id: location.locationId,
       title: location.name,
       description: contentLocation?.sceneDescription || location.description || '',
-      image: location.locationImage,
+      image: location.imageUrl?.[0] || '',
       address: location.address,
       episode: `${index + 1}번째 장소`,
       timestamp: '', // 장소에는 timestamp가 없으므로 빈 문자열

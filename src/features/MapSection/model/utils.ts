@@ -9,8 +9,15 @@ import type {
   KakaoPolyline,
   KakaoMapsNS,
 } from './types';
-import { OVERLAY_DEFAULTS, OVERLAY_STYLES, MARKER_CONFIG } from './constants';
+import {
+  OVERLAY_DEFAULTS,
+  OVERLAY_STYLES,
+  MARKER_CONFIG,
+  IMAGE_FALLBACK_HIDDEN,
+  IMAGE_FALLBACK_VISIBLE,
+} from './constants';
 import { OVERLAY_MESSAGES, ERROR_MESSAGES } from './messages';
+import { getFirstImage } from '@/shared/utils/imageUtils';
 
 export const getKakaoMaps = (): KakaoMapsNS => {
   const maps = window.kakao?.maps;
@@ -76,13 +83,14 @@ export function generateOverlayHTML(
     name = OVERLAY_DEFAULTS.name,
     address = OVERLAY_DEFAULTS.address,
     description = OVERLAY_DEFAULTS.description,
-    locationImage,
+    imageUrl,
     relatedContents = [],
   } = place;
 
-  const imageHtml = locationImage
-    ? `<img src="${locationImage}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;" />`
-    : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary);"><svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></div>`;
+  const firstImage = getFirstImage(imageUrl);
+  const imageHtml = firstImage
+    ? `<img src="${firstImage}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />${IMAGE_FALLBACK_HIDDEN}`
+    : IMAGE_FALLBACK_VISIBLE;
 
   const relatedContentsHtml =
     relatedContents.length > 0

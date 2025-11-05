@@ -10,7 +10,7 @@ import { PlaceAddress } from '../PlaceAddress/PlaceAddress';
 import { cn } from '@/shared/lib';
 
 export function PlaceCard({
-  locationImage,
+  imageUrl,
   name = PLACE_CARD_DEFAULT.NAME,
   address = PLACE_CARD_DEFAULT.ADDRESS,
   description = '',
@@ -31,7 +31,7 @@ export function PlaceCard({
       )}
     >
       <div className="flex gap-(--spacing-4)">
-        <PlaceThumbnail locationImage={locationImage} name={name} badgeNumber={badgeNumber} />
+        <PlaceThumbnail imageUrl={imageUrl} name={name} badgeNumber={badgeNumber} />
         <div className="flex-1 min-w-0">
           <h3 className="text-heading-5 text-(--color-text-primary) mb-(--spacing-1) truncate">
             {name}

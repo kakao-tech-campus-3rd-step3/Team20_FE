@@ -12,7 +12,7 @@ export interface LocationDetail {
   address: string;
   latitude: number;
   longitude: number;
-  description?: string;
-  locationImage?: string;
+  description: string;
+  imageUrl: string[];
   relatedContents?: RelatedContent[];
 }

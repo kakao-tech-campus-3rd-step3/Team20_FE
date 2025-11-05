@@ -1,9 +1,13 @@
-import { MapPin, Copy, Navigation } from 'lucide-react';
+import { MapPin, Copy, Navigation, Camera } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { Button } from '@/shared/ui';
+import { useImageError } from '@/shared/hooks/useImageError';
 import type { LocationHeroProps } from '../model/types';
 
 export function LocationHero({ location }: LocationHeroProps) {
+  const [imageError, handleImageError, imageUrl] = useImageError(location.imageUrl);
+  const showFallback = !imageUrl || imageError;
+
   const kakaoToLink = `https://map.kakao.com/link/to/${encodeURIComponent(
     location.name,
   )},${location.latitude},${location.longitude}`;
@@ -25,12 +29,20 @@ export function LocationHero({ location }: LocationHeroProps) {
   return (
     <header className="relative mx-auto max-w-6xl px-4">
       <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
-        <div className="aspect-[16/9] relative overflow-hidden">
-          <img
-            src={location.locationImage}
-            alt={location.name}
-            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-          />
+        <div className="aspect-[16/9] relative overflow-hidden bg-gray-800">
+          {showFallback ? (
+            <div className="w-full h-full flex flex-col items-center justify-center text-white">
+              <Camera size={48} className="opacity-50 mb-4" />
+              <span className="text-lg font-medium opacity-75">{location.name}</span>
+            </div>
+          ) : (
+            <img
+              src={imageUrl}
+              alt={location.name}
+              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              onError={handleImageError}
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         </div>
 

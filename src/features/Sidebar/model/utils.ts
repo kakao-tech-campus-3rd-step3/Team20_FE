@@ -7,6 +7,18 @@ import type { ContentDetail } from '@/entities/content/model/types';
 import type { ItineraryLocation } from '@/entities/itinerary/model/types';
 import type { RoutePlace } from '@/features/RoutePlanning/model/types';
 
+const createDefaultRoutePlace = (location: ItineraryLocation, order: number): RoutePlace => ({
+  locationId: location.locationId,
+  name: location.name,
+  address: location.address,
+  description: '',
+  imageUrl: [],
+  latitude: 0,
+  longitude: 0,
+  relatedContents: [],
+  order,
+});
+
 export const hasAddress = (
   location: ContentLocation | LocationDetail,
 ): location is LocationDetail => {
@@ -17,8 +29,8 @@ export const convertContentLocationToPlace = (location: ContentLocation): Place 
   locationId: location.locationId,
   name: '', // ContentLocation에 name 없음
   address: '주소 정보 없음',
-  description: location.sceneDescription,
-  locationImage: '', // ContentLocation에 locationImageUrl 없음
+  description: location.sceneDescription || '',
+  imageUrl: [], // ContentLocation에 imageUrl 없음
   latitude: 0,
   longitude: 0,
   relatedContents: [],
@@ -71,18 +83,7 @@ export const convertItineraryLocationsToRoutePlaces = async (
         } as RoutePlace;
       } catch (error) {
         console.warn(`장소 정보를 가져오는데 실패했습니다. ${location.locationId}:`, error);
-        // 실패 시 기본 정보만 사용
-        return {
-          locationId: location.locationId,
-          name: location.name,
-          address: location.address,
-          description: '',
-          locationImage: '',
-          latitude: 0,
-          longitude: 0,
-          relatedContents: [],
-          order: location.visitOrder,
-        } as RoutePlace;
+        return createDefaultRoutePlace(location, location.visitOrder);
       }
     }),
   );
