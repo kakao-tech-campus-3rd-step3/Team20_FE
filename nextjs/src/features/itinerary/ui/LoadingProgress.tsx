@@ -70,7 +70,7 @@ export function LoadingProgress({ isVisible }: LoadingProgressProps) {
     if (!isVisible) return;
 
     let cumulativeTime = 0;
-    const newCurrentIndex = steps.findIndex((step, index) => {
+    const newCurrentIndex = steps.findIndex((step) => {
       cumulativeTime += step.duration;
       return elapsedTime < cumulativeTime;
     });

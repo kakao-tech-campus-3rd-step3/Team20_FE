@@ -23,8 +23,7 @@ export function ItineraryForm({ onSubmit, isLoading }: ItineraryFormProps) {
       onSubmit(formData);
     }
   };
-
-  const allHubs = [...TRANSPORT_HUBS.airports, ...TRANSPORT_HUBS.stations];
+  //const allHubs = [...TRANSPORT_HUBS.airports, ...TRANSPORT_HUBS.stations];
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
