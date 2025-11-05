@@ -5,8 +5,7 @@ type AuthFixtures = {
 };
 
 export const test = base.extend<AuthFixtures>({
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  loginAsUser: async ({ page }, use) => {
+  loginAsUser: async ({ page }, provide) => {
     const loginFunction = async () => {
       await page.goto('/auth/login');
 
@@ -17,8 +16,7 @@ export const test = base.extend<AuthFixtures>({
       await page.waitForURL('/mypage', { timeout: 5000 }).catch(() => {});
     };
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    await use(loginFunction);
+    await provide(loginFunction);
   },
 });
 
