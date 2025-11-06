@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { messages } from '../model/messages';
 import type { ItineraryListProps } from '../model/types';
 import { ItineraryCard } from './ItineraryCard';
@@ -23,9 +24,20 @@ export const ItineraryList = ({ itineraries, onItineraryClick }: ItineraryListPr
         </div>
         <h3 className="text-2xl font-semibold text-gray-900 mb-3">{messages.emptyTitle}</h3>
         <p className="text-gray-500 text-lg mb-8 max-w-md mx-auto">{messages.emptyDescription}</p>
-        <button className="bg-gradient-to-r from-brand-primary to-brand-tertiary text-brand-secondary px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-brand-primary/25 transition-all duration-300 transform hover:scale-105">
-          {messages.createItinerary}
-        </button>
+        <div className="flex gap-4 justify-center">
+          <Link
+            href="/map"
+            className="bg-gradient-to-r from-brand-primary to-brand-tertiary text-brand-secondary px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-brand-primary/25 transition-all duration-300 transform hover:scale-105"
+          >
+            {messages.createItinerary}
+          </Link>
+          <Link
+            href="/itinerary"
+            className="bg-gradient-to-r from-brand-primary to-brand-tertiary text-brand-secondary px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-brand-primary/25 transition-all duration-300 transform hover:scale-105"
+          >
+            {messages.createAIItinerary}
+          </Link>
+        </div>
       </div>
     );
   }

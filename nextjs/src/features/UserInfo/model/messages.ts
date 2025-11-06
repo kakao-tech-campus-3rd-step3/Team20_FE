@@ -5,6 +5,7 @@ export const messages = {
   emptyTitle: '아직 저장한 동선이 없어요',
   emptyDescription: '여행 계획을 세우고 나만의 동선을 만들어보세요. 완벽한 여행이 시작됩니다.',
   createItinerary: '동선 만들기',
+  createAIItinerary: 'AI일정 생성',
   locationsCount: (count: number) => `${count}개 장소`,
   viewOnMap: '지도에서 보기',
   closeModal: '모달 닫기',
