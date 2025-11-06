@@ -180,7 +180,7 @@ export const LocationReviews = ({
         {reviews.map((review) => {
           const myUserId = user?.userId;
           const isOwner = myUserId != null && String(review.userId) === String(myUserId);
-          console.log(String(myUserId), String(review.userId), isOwner);
+
           return (
             <div key={review.reviewId} className="relative">
               {editingId === review.reviewId ? (
