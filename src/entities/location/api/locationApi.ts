@@ -15,6 +15,7 @@ export const getLocationDetail = async (locationId: string): Promise<LocationDet
         latitude: 0,
         longitude: 0,
         description: '장소 정보를 불러올 수 없습니다.',
+        imageUrl: [],
         relatedContents: [],
       };
     }
@@ -30,6 +31,7 @@ export const getLocationDetail = async (locationId: string): Promise<LocationDet
       latitude: 0,
       longitude: 0,
       description: '장소 정보를 불러올 수 없습니다.',
+      imageUrl: [],
       relatedContents: [],
     };
   }
