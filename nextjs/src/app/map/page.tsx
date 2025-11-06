@@ -36,6 +36,10 @@ function MapPageContent() {
   const [mobileBottomSection, setMobileBottomSection] = useState<MobileBottomSection>(null);
   const [hasUserToggledBottom, setHasUserToggledBottom] = useState(false);
   const { isLaptop } = useBreakpoints();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const mapHook = useKakaoMap();
   const { handlePlaceClick, closeOverlay } = usePlaceClick(mapHook.mapRef);
   const {
