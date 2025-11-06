@@ -56,7 +56,7 @@ export function PlaceCard({
               </p>
             </div>
           )}
-          {latitude !== undefined && longitude !== undefined && (
+          {latitude != null && longitude != null && (
             <div className="mt-2">
               <p className="text-caption text-(--color-text-tertiary)">
                 {CARD_LABELS.LOCATION}: {latitude.toFixed(4)}, {longitude.toFixed(4)}
