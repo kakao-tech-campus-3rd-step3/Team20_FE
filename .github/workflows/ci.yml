@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VITE_KAKAO_MAP_API_KEY: ${{ secrets.KAKAO_MAP_API_KEY }}
+      VITE_BACKEND_URL: ${{ secrets.BACKEND_URL }}
       E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}
       E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}
     steps:
@@ -41,6 +42,7 @@ jobs:
       - name: Run E2E tests
         run: npm run test:e2e
         env:
+          VITE_BACKEND_URL: ${{ secrets.BACKEND_URL }}
           E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}
           E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}
 
