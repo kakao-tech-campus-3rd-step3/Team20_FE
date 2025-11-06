@@ -29,10 +29,7 @@ export const verifyEmailApi = async (token: string): Promise<EmailVerificationRe
 export const resendVerificationEmailApi = async (
   data: EmailResendRequest,
 ): Promise<EmailResendResponse> => {
-  return await httpBackend.post<EmailResendRequest, EmailResendResponse>(
-    '/emails/request',
-    data,
-  );
+  return await httpBackend.post<EmailResendRequest, EmailResendResponse>('/emails/request', data);
 };
 
 export const checkAuthStatusApi = async (): Promise<AuthStatusResponse> => {

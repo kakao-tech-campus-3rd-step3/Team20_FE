@@ -13,7 +13,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 기본 인디케이터 (5개)
 export const Default: Story = {
   args: {
     total: 5,
@@ -22,7 +21,6 @@ export const Default: Story = {
   },
 };
 
-// 첫 번째 인디케이터 활성화
 export const FirstActive: Story = {
   args: {
     total: 5,
@@ -31,7 +29,6 @@ export const FirstActive: Story = {
   },
 };
 
-// 매우 많은 인디케이터
 export const VeryManyIndicators: Story = {
   args: {
     total: 20,
@@ -40,7 +37,6 @@ export const VeryManyIndicators: Story = {
   },
 };
 
-// 인터랙티브 인디케이터
 export const InteractiveIndicators: Story = {
   args: {
     total: 8,
@@ -57,7 +53,6 @@ export const InteractiveIndicators: Story = {
   ),
 };
 
-// 다크 배경에서의 모습
 export const OnDarkBackground: Story = {
   args: {
     total: 6,

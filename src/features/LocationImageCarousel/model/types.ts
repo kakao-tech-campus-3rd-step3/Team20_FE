@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
 import type { LocationDetail } from '@/entities/location/model/types';
 import type { ContentLocation } from '@/entities/content/model/types';
-// ===== 도메인 타입 =====
+
 export interface ContentScene {
   id: number;
   title: string;
@@ -11,7 +11,6 @@ export interface ContentScene {
   timestamp: string;
 }
 
-// ===== 공통 UI 타입 =====
 export type NavigationPosition = 'left' | 'right';
 
 export interface BaseNavigationProps {
@@ -20,7 +19,6 @@ export interface BaseNavigationProps {
   onGoToSlide: (index: number) => void;
 }
 
-// ===== 컴포넌트 Props 타입 =====
 export interface LocationImageGalleryProps extends BaseNavigationProps {
   currentIndex: number;
   scenes: ContentScene[];

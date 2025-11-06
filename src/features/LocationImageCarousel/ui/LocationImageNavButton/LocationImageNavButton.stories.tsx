@@ -14,7 +14,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 왼쪽 네비게이션 버튼
 export const LeftButton: Story = {
   args: {
     onClick: () => {},
@@ -34,7 +33,6 @@ export const LeftButton: Story = {
   ),
 };
 
-// 오른쪽 네비게이션 버튼
 export const RightButton: Story = {
   args: {
     onClick: () => {},
@@ -54,7 +52,6 @@ export const RightButton: Story = {
   ),
 };
 
-// 양쪽 네비게이션 버튼
 export const BothButtons: Story = {
   args: {
     onClick: () => {},
@@ -75,7 +72,6 @@ export const BothButtons: Story = {
   ),
 };
 
-// 인터랙티브 버튼
 export const InteractiveButtons: Story = {
   args: {
     onClick: () => {},

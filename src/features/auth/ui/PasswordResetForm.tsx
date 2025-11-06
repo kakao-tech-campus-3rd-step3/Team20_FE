@@ -31,23 +31,14 @@ export const PasswordResetForm = ({ token }: PasswordResetFormProps) => {
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 13l4 4L19 7"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
           {AUTH_MESSAGES.PASSWORD_RESET_SUCCESS_TITLE}
         </h2>
-        <p className="text-gray-600 mb-2">
-          {AUTH_MESSAGES.PASSWORD_RESET_SUCCESS_MESSAGE}
-        </p>
-        <p className="text-sm text-gray-500">
-          {AUTH_MESSAGES.PASSWORD_RESET_SUCCESS_REDIRECT}
-        </p>
+        <p className="text-gray-600 mb-2">{AUTH_MESSAGES.PASSWORD_RESET_SUCCESS_MESSAGE}</p>
+        <p className="text-sm text-gray-500">{AUTH_MESSAGES.PASSWORD_RESET_SUCCESS_REDIRECT}</p>
       </div>
     );
   }

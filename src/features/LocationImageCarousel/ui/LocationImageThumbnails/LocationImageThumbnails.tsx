@@ -19,10 +19,8 @@ export function LocationImageThumbnails({
           key={scene.id}
           onClick={(event) => {
             if (event.ctrlKey || event.metaKey) {
-              // Ctrl/Cmd + 클릭시 슬라이드 변경
               onGoToSlide(index);
             } else {
-              // 일반 클릭시 location 상세 페이지로 이동
               handleThumbnailClick(scene.id.toString(), event);
             }
           }}

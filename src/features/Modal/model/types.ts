@@ -8,7 +8,6 @@ export interface ModalProps {
 
 export interface ContentCardGridProps {
   contents: CategoryContent[];
-  isLoading?: boolean;
 }
 
 export interface ContentCardProps {
