@@ -10,7 +10,7 @@ export function FooterQuickMenuLinks() {
   const { isLoggedIn, isLoading } = useAuth();
   const router = useRouter();
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, label: string, href: string) => {
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, label: string) => {
     // 프로필 링크인 경우 동적 처리
     if (label === LABELS.NAV.PROFILE) {
       e.preventDefault();
@@ -32,7 +32,7 @@ export function FooterQuickMenuLinks() {
           <li key={label}>
             <a
               href={href}
-              onClick={(e) => handleLinkClick(e, label, href)}
+              onClick={(e) => handleLinkClick(e, label)}
               className="group flex items-center gap-[var(--spacing-2)] text-[var(--color-text-secondary)] transition-colors duration-200 hover:text-[var(--color-text-inverse)]"
               aria-label={label === LABELS.NAV.PROFILE && isLoading ? '로딩 중...' : label}
             >
