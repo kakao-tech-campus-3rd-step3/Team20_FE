@@ -40,9 +40,8 @@ export function useSaveRouteForm(options: UseSaveRouteFormOptions = {}) {
         onClose?.();
         resetForm();
         onSuccess?.();
-      } catch (err) {
+      } catch {
         setError(SAVE_ROUTE_MODAL.VALIDATION.SAVE_FAILED);
-        console.error('Failed to save route:', err);
       } finally {
         setIsLoading(false);
       }

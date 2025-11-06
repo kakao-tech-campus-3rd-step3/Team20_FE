@@ -3,7 +3,7 @@ import type { LocationDetail } from '@/entities/location/model/types';
 export type Place = LocationDetail;
 
 export type PlaceCardProps = {
-  locationImage?: string;
+  imageUrl?: string[];
   name?: string;
   address?: string;
   description?: string;
@@ -42,7 +42,7 @@ export type PopularContentsSuggestProps = {
   onSearchStateChange?: (isSearching: boolean, query: string) => void;
 };
 
-export type ThumbnailProps = Pick<PlaceCardProps, 'locationImage' | 'name' | 'badgeNumber'>;
+export type ThumbnailProps = Pick<PlaceCardProps, 'imageUrl' | 'name' | 'badgeNumber'>;
 
 export type UseContentSearchOptions = {
   debounceMs?: number;

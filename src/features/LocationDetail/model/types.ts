@@ -3,12 +3,6 @@ import type { LocationReview } from '@/entities/location-review';
 
 export interface LocationDescriptionProps {
   description: string;
-  quickFacts: QuickFact[];
-}
-
-export interface QuickFact {
-  label: string;
-  value: string;
 }
 
 export interface LocationHeroProps {

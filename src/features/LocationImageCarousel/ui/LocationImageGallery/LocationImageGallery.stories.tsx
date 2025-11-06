@@ -14,7 +14,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 기본 갤러리
 export const Default: Story = {
   args: {
     currentIndex: 0,
@@ -25,7 +24,6 @@ export const Default: Story = {
   },
 };
 
-// 두 번째 슬라이드
 export const SecondSlide: Story = {
   args: {
     currentIndex: 1,
@@ -36,7 +34,6 @@ export const SecondSlide: Story = {
   },
 };
 
-// 인터랙티브 갤러리
 export const InteractiveGallery: Story = {
   args: {
     currentIndex: 0,

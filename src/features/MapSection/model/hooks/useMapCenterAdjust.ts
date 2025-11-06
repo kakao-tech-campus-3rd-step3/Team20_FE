@@ -28,25 +28,19 @@ export function useMapCenterAdjust({ mapRef }: UseMapCenterAdjustProps) {
     };
 
     const checkBounds = () => {
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const center = (map as any).getCenter();
-        const lat = center.getLat();
-        const lng = center.getLng();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const center = (map as any).getCenter();
+      const lat = center.getLat();
+      const lng = center.getLng();
 
-        // 범위를 벗어나면 중심으로 되돌리기
-        if (
-          lat < KOREA_BOUNDS.south ||
-          lat > KOREA_BOUNDS.north ||
-          lng < KOREA_BOUNDS.west ||
-          lng > KOREA_BOUNDS.east
-        ) {
-          const centerLatLng = createLatLng(KOREA_CENTER.lat, KOREA_CENTER.lng);
-          map.setCenter(centerLatLng);
-          console.log('드래그 범위 초과, 중심으로 되돌림');
-        }
-      } catch (error) {
-        console.error('드래그 범위 체크 실패:', error);
+      if (
+        lat < KOREA_BOUNDS.south ||
+        lat > KOREA_BOUNDS.north ||
+        lng < KOREA_BOUNDS.west ||
+        lng > KOREA_BOUNDS.east
+      ) {
+        const centerLatLng = createLatLng(KOREA_CENTER.lat, KOREA_CENTER.lng);
+        map.setCenter(centerLatLng);
       }
     };
 
@@ -54,12 +48,10 @@ export function useMapCenterAdjust({ mapRef }: UseMapCenterAdjustProps) {
       setTimeout(setKoreaCenter, 100);
     };
 
-    // 기존 리스너 제거
     if (dragListenerRef.current) {
       dragListenerRef.current();
     }
 
-    // 새 리스너 등록
     if (window.kakao?.maps?.event) {
       window.kakao.maps.event.addListener(map, 'dragend', checkBounds);
       dragListenerRef.current = () => {
@@ -69,7 +61,6 @@ export function useMapCenterAdjust({ mapRef }: UseMapCenterAdjustProps) {
       };
     }
 
-    // isLaptop 상태 변화 시 중심점 재설정
     setTimeout(setKoreaCenter, 100);
 
     window.addEventListener('resize', handleResize);
@@ -80,5 +71,5 @@ export function useMapCenterAdjust({ mapRef }: UseMapCenterAdjustProps) {
       }
       window.removeEventListener('resize', handleResize);
     };
-  }, [mapRef, isLaptop]); // isLaptop 상태 변화에 대응
+  }, [mapRef, isLaptop]);
 }

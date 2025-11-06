@@ -13,7 +13,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 기본 액션 버튼
 export const Default: Story = {
   args: {
     onClick: () => console.log('Button clicked'),
@@ -21,7 +20,6 @@ export const Default: Story = {
   },
 };
 
-// 다크 배경에서의 모습
 export const OnDarkBackground: Story = {
   args: {
     onClick: () => console.log('Button clicked'),

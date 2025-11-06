@@ -13,7 +13,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 기본 콘텐츠 (에피소드 포함)
 export const Default: Story = {
   args: {
     scene: {
@@ -35,7 +34,6 @@ export const Default: Story = {
   ),
 };
 
-// 에피소드 없는 콘텐츠
 export const WithoutEpisode: Story = {
   args: {
     scene: {

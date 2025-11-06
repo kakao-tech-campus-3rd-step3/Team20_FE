@@ -35,10 +35,7 @@ export const PasswordResetRequestForm = () => {
           </div>
         )}
 
-        <form.Field
-          name="email"
-          validators={validation.createEmailValidator()}
-        >
+        <form.Field name="email" validators={validation.createEmailValidator()}>
           {(field) => (
             <FormFieldRenderer
               field={field}
@@ -54,10 +51,7 @@ export const PasswordResetRequestForm = () => {
         <form.Subscribe selector={(state) => [state.isValid, state.isSubmitting, state.values]}>
           {([isValid, isSubmitting, values]) => {
             const hasValues =
-              values &&
-              typeof values === 'object' &&
-              'email' in values &&
-              values.email;
+              values && typeof values === 'object' && 'email' in values && values.email;
 
             const isLoading = isSubmitting || resetRequestMutation.isPending;
             const canSubmit = hasValues && isValid && !isLoading;

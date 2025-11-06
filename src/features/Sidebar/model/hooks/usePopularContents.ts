@@ -19,8 +19,8 @@ export function usePopularContents(options: UsePopularContentsOptions = {}) {
       try {
         const contents = await getPopularContents();
         setPopularContents(contents.slice(0, 5));
-      } catch (error) {
-        console.warn('인기 콘텐츠를 불러오는데 실패했습니다:', error);
+      } catch {
+        setPopularContents([]);
       } finally {
         setIsLoading(false);
       }
@@ -33,7 +33,6 @@ export function usePopularContents(options: UsePopularContentsOptions = {}) {
     onSearchStateChange?.(true, contentTitle);
 
     try {
-      // 콘텐츠 검색
       const contents = await searchContents(contentTitle);
 
       if (contents && contents.length > 0) {
@@ -42,8 +41,7 @@ export function usePopularContents(options: UsePopularContentsOptions = {}) {
       } else {
         onPlacesChange?.([]);
       }
-    } catch (error) {
-      console.warn('검색에 실패했습니다:', error);
+    } catch {
       onPlacesChange?.([]);
     }
   };

@@ -5,7 +5,6 @@ export interface CategoryState {
   title: string;
 }
 
-// Footer 카테고리를 CategorySection과 동일한 key로 매핑하는 순수 함수
 export const getCategoryKey = (label: string) => {
   switch (label) {
     case 'K-Drama':

@@ -9,8 +9,15 @@ import type {
   KakaoPolyline,
   KakaoMapsNS,
 } from './types';
-import { OVERLAY_DEFAULTS, OVERLAY_STYLES, MARKER_CONFIG } from './constants';
+import {
+  OVERLAY_DEFAULTS,
+  OVERLAY_STYLES,
+  MARKER_CONFIG,
+  IMAGE_FALLBACK_HIDDEN,
+  IMAGE_FALLBACK_VISIBLE,
+} from './constants';
 import { OVERLAY_MESSAGES, ERROR_MESSAGES } from './messages';
+import { getFirstImage } from '@/shared/utils/imageUtils';
 
 export const getKakaoMaps = (): KakaoMapsNS => {
   const maps = window.kakao?.maps;
@@ -76,20 +83,20 @@ export function generateOverlayHTML(
     name = OVERLAY_DEFAULTS.name,
     address = OVERLAY_DEFAULTS.address,
     description = OVERLAY_DEFAULTS.description,
-    locationImage,
+    imageUrl,
     relatedContents = [],
   } = place;
 
-  const imageHtml = locationImage
-    ? `<img src="${locationImage}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;" />`
-    : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary);"><svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></div>`;
+  const firstImage = getFirstImage(imageUrl);
+  const imageHtml = firstImage
+    ? `<img src="${firstImage}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />${IMAGE_FALLBACK_HIDDEN}`
+    : IMAGE_FALLBACK_VISIBLE;
 
   const relatedContentsHtml =
     relatedContents.length > 0
       ? `<div style="${OVERLAY_STYLES.relatedContents}"><p style="${OVERLAY_STYLES.relatedContentsText}">${OVERLAY_MESSAGES.relatedContentsPrefix}${relatedContents.map((content) => content.title).join(', ')}</p></div>`
       : '';
 
-  // 모바일/태블릿에서만 동선 추가 버튼 표시
   const addToRouteButtonHtml = !isLaptop
     ? `<div style="margin-top: 12px;">
          <button 
@@ -173,7 +180,6 @@ export function createMapOverlay(
 
   (window as unknown as { closeMapOverlay?: () => void }).closeMapOverlay = onClose;
 
-  // 동선 추가 함수를 전역으로 등록 (모바일에서만)
   if (!isLaptop && onAddToRoute) {
     (window as unknown as { addToRoute?: () => void }).addToRoute = () => {
       onAddToRoute(place);
@@ -189,9 +195,6 @@ export function createMapOverlay(
   return overlay as KakaoCustomOverlay;
 }
 
-/**
- * 오버레이 위치를 결정하는 헬퍼 함수
- */
 export function getOverlayPosition(
   map: KakaoMap,
   place: Place | RoutePlace,
@@ -203,20 +206,15 @@ export function getOverlayPosition(
     : createLatLng(place.latitude, place.longitude);
 }
 
-// 전역 오버레이 관리
 declare global {
   var globalOverlayRef: KakaoCustomOverlay | null;
 }
 
-// 전역 변수 초기화
 if (typeof globalThis !== 'undefined') {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).globalOverlayRef = null;
 }
 
-/**
- * 전역 오버레이를 닫는 공통 함수
- */
 export function closeGlobalOverlay(): void {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((globalThis as any).globalOverlayRef) {
@@ -227,17 +225,11 @@ export function closeGlobalOverlay(): void {
   }
 }
 
-/**
- * 전역 오버레이를 설정하는 공통 함수
- */
 export function setGlobalOverlay(overlay: KakaoCustomOverlay): void {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).globalOverlayRef = overlay;
 }
 
-/**
- * 마커 클릭 시 오버레이를 생성하고 표시하는 공통 함수
- */
 export function createAndShowOverlay(
   map: KakaoMap,
   place: Place | RoutePlace,
@@ -259,8 +251,7 @@ export function createAndShowOverlay(
       isInRoute,
     );
     setGlobalOverlay(overlay);
-  } catch (e) {
-    console.error('Failed to show place overlay:', e);
+  } catch {
     toast.error('장소 정보 표시 실패');
   }
 }

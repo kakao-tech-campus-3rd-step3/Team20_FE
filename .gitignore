@@ -11,7 +11,6 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
-.env.yaml
 
 # IDE and editor files
 .cursor/
@@ -59,6 +58,3 @@ storybook-static
 
 # cert
 .cert/
-
-# NextJS folder - remove this line in 'next' branch
-# nextjs/  # ✅ 마이그레이션 완료 후 주석 처리

@@ -25,7 +25,6 @@ export interface MyPageData {
   list: Itinerary[];
 }
 
-// Component Props Types
 export interface UserProfileProps {
   email: string;
   nickname: string;

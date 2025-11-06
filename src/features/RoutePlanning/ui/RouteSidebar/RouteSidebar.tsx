@@ -66,10 +66,9 @@ export function RouteSidebar({
   }, [isLoggedIn, openModal]);
 
   const handleSuccessConfirm = useCallback(async () => {
-    // 캐시 무효화를 먼저 실행
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: itineraryKeys.lists() }),
-      queryClient.invalidateQueries({ queryKey: ['mypage'] }), // 마이페이지 캐시도 무효화
+      queryClient.invalidateQueries({ queryKey: ['mypage'] }),
     ]);
     setIsSuccessModalOpen(false);
     navigate({ to: '/mypage' });
