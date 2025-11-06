@@ -6,13 +6,12 @@ import {
 } from '@/features/LocationDetail';
 import { quickFacts } from '@/features/LocationDetail/model/constants';
 import { getLocationDetail } from '@/entities/location/api/locationApi';
-import { getLocationReviews } from '@/entities/location-review/api/locationReviewApi';
 import type { Metadata } from 'next';
 
 interface LocationDetailPageProps {
   params: Promise<{ id: string }>;
 }
-// 리뷰가 실시간으로 변경되므로 SSR 사용
+
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: LocationDetailPageProps): Promise<Metadata> {
@@ -37,14 +36,11 @@ export async function generateMetadata({ params }: LocationDetailPageProps): Pro
     };
   }
 }
-// SSR로 변경했으므로 generateStaticParams 제거
 
 export default async function LocationDetailPage({ params }: LocationDetailPageProps) {
   const { id } = await params;
-  const [data, reviewsData] = await Promise.all([
-    getLocationDetail(id),
-    getLocationReviews(id),
-  ]);
+
+  const data = await getLocationDetail(id);
 
   if (!data) {
     return (
@@ -74,11 +70,7 @@ export default async function LocationDetailPage({ params }: LocationDetailPageP
           <LocationRelatedContents relatedContents={data.relatedContents ?? []} />
         </section>
         <section className="relative z-10">
-          <LocationReviews
-            reviews={reviewsData?.locationReviews ?? []}
-            isLoading={false}
-            locationId={id}
-          />
+          <LocationReviews locationId={id} />
         </section>
       </main>
       <div className="h-10 sm:h-12 lg:h-16" />

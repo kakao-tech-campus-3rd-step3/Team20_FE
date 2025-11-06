@@ -2,12 +2,13 @@
 
 import type { LocationReview } from '@/entities/location-review/model/types';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   useCreateLocationReview,
   useDeleteLocationReview,
   useUpdateLocationReview,
+  useLocationReviews,
 } from '@/entities/location-review';
-import type { LocationReviewsProps } from '../model/types';
 import { useAuth } from '@/shared/lib/auth';
 import { Button } from '@/shared/ui';
 
@@ -46,14 +47,17 @@ const ReviewCard = ({ review }: { review: LocationReview }) => {
 };
 
 export const LocationReviews = ({
-  reviews,
-  isLoading,
   locationId,
-}: LocationReviewsProps & { locationId: string }) => {
+}: { locationId: string }) => {
   const { isLoggedIn, user } = useAuth();
   const [title, setTitle] = useState('');
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState('');
+  
+  // React Query로 리뷰 데이터 가져오기 (서버에서 hydrate된 데이터 사용)
+  const { data: reviewsData, isLoading } = useLocationReviews(locationId);
+  const reviews = reviewsData?.locationReviews ?? [];
+  
   const { mutate: createReview, isPending } = useCreateLocationReview(locationId);
   const { mutate: deleteReview, isPending: isDeleting } = useDeleteLocationReview(locationId);
   const { mutate: updateReview, isPending: isUpdating } = useUpdateLocationReview(locationId);
@@ -73,6 +77,10 @@ export const LocationReviews = ({
           setTitle('');
           setRating(5);
           setContent('');
+          toast.success('리뷰가 등록되었습니다.');
+        },
+        onError: () => {
+          toast.error('리뷰 등록에 실패했습니다. 다시 시도해주세요.');
         },
       },
     );
@@ -177,6 +185,7 @@ export const LocationReviews = ({
         {reviews.map((review) => {
           const myUserId = user?.userId;
           const isOwner = myUserId != null && String(review.userId) === String(myUserId);
+          
           return (
             <div key={review.reviewId} className="relative">
               {editingId === review.reviewId ? (
@@ -236,6 +245,10 @@ export const LocationReviews = ({
                           {
                             onSuccess: () => {
                               setEditingId(null);
+                              toast.success('리뷰가 수정되었습니다.');
+                            },
+                            onError: () => {
+                              toast.error('리뷰 수정에 실패했습니다. 다시 시도해주세요.');
                             },
                           },
                         );
@@ -271,7 +284,14 @@ export const LocationReviews = ({
                         className=" focus-visible:ring-1 focus-visible:ring-blue-100"
                         onClick={() => {
                           if (confirm('이 리뷰를 삭제하시겠습니까?')) {
-                            deleteReview(review.reviewId);
+                            deleteReview(review.reviewId, {
+                              onSuccess: () => {
+                                toast.success('리뷰가 삭제되었습니다.');
+                              },
+                              onError: () => {
+                                toast.error('리뷰 삭제에 실패했습니다. 다시 시도해주세요.');
+                              },
+                            });
                           }
                         }}
                         disabled={isDeleting}
