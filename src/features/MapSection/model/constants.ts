@@ -28,7 +28,7 @@ export const OVERLAY_STYLES = {
   sceneIcon: 'width: 12px; height: 12px; color: var(--color-brand-secondary);',
   sceneLabel: 'font-size: 0.75rem; font-weight: 600; color: var(--color-brand-secondary);',
   sceneDescription:
-    'font-size: 0.75rem; color: var(--color-brand-secondary); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;',
+    'font-size: 0.75rem; color: var(--color-brand-secondary); white-space: pre-wrap; word-break: break-word;',
   relatedContents: 'margin-bottom: var(--spacing-2);',
   relatedContentsText:
     'font-size: 0.75rem; color: var(--color-text-secondary); margin-bottom: var(--spacing-1);',

@@ -44,7 +44,7 @@ export function PlaceCard({
                 {PLACE_LABELS.SCENE}
               </span>
             </div>
-            <p className="text-caption text-(--color-brand-secondary) line-clamp-2">
+            <p className="text-caption text-(--color-brand-secondary) whitespace-pre-wrap break-words">
               {description}
             </p>
           </div>
