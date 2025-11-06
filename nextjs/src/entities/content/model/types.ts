@@ -32,7 +32,6 @@ export type ContentDetail = {
   releaseDate: string;
   posterImageUrl: string;
   posterImageUrlVertical: string;
-  description: string;
   artists: Artist[];
 };
 

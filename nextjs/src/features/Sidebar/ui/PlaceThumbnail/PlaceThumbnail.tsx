@@ -9,7 +9,7 @@ export function PlaceThumbnail({ locationImage, name, badgeNumber }: ThumbnailPr
         {locationImage ? (
           <Image
             alt={name || '장소 이미지'}
-            src={locationImage}
+            src={locationImage?.trim()}
             fill
             className="object-cover"
             sizes="64px"

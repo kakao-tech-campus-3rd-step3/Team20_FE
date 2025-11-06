@@ -1,11 +1,9 @@
-import { contentHero } from '@/__mocks__/contentHero';
 import type { ContentOverviewHeroProps } from '../../model/types';
 import { getContentDetail, getContentLocations } from '@/entities/content/api/contentApi';
 import { ContentOverviewHeroClient } from './ContentOverviewHeroClient';
 
 export async function ContentOverviewHero({
-  contentId,
-  description = contentHero.description,
+  contentId
 }: ContentOverviewHeroProps) {
   try {
     const [contentDetail, contentLocations] = await Promise.all([
@@ -19,7 +17,6 @@ export async function ContentOverviewHero({
       <ContentOverviewHeroClient
         contentDetail={contentDetail}
         contentLocationsCount={locationsCount}
-        description={description}
       />
     );
   } catch (error) {

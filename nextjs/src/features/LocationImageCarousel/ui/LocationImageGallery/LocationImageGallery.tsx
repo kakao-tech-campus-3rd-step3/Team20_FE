@@ -23,7 +23,7 @@ export function LocationImageGallery({
     <div className="relative mb-[var(--spacing-12)]">
       <div className="relative h-96 md:h-128 rounded-[var(--radius-3xl)] overflow-hidden shadow-[var(--shadow-2xl)]">
         <Image
-          src={currentScene.image || '/placeholder-image.jpg'}
+          src={currentScene.image?.trim() || '/placeholder-image.jpg'}
           alt={currentScene.title}
           fill
           className="object-cover"

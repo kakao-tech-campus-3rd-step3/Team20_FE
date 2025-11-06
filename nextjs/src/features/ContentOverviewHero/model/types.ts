@@ -14,7 +14,6 @@ export interface ContentOverviewIconGroupProps {
 export interface ContentOverviewInfoProps {
   title: string;
   category: string;
-  description: string;
   countOfLocations?: number;
 }
 

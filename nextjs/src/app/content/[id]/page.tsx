@@ -15,10 +15,8 @@ export async function generateMetadata({ params }: ContentDetailPageProps): Prom
 
     return {
       title: `${data.title} - K-SPOT`,
-      description: data.description || `${data.title}의 촬영지를 탐험해보세요.`,
       openGraph: {
         title: `${data.title} - K-SPOT`,
-        description: data.description || `${data.title}의 촬영지를 탐험해보세요.`,
         images: [data.posterImageUrl],
       },
     };

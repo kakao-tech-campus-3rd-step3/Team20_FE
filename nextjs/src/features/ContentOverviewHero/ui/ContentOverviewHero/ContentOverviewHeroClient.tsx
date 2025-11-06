@@ -14,7 +14,6 @@ interface ContentOverviewHeroClientProps {
 export function ContentOverviewHeroClient({
   contentDetail,
   contentLocationsCount,
-  description = '',
 }: ContentOverviewHeroClientProps) {
   const router = useRouter();
 
@@ -28,7 +27,7 @@ export function ContentOverviewHeroClient({
         <div className="relative h-[40rem] md:h-[56rem] lg:h-[64rem] rounded-2xl overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={contentDetail.posterImageUrl}
+            src={contentDetail.posterImageUrl?.trim()}
             alt={contentDetail.title}
             className="absolute inset-0 w-full h-full object-contain rounded-2xl"
           />
@@ -38,7 +37,6 @@ export function ContentOverviewHeroClient({
           <ContentOverviewInfo
             title={contentDetail.title}
             category={contentDetail.category}
-            description={description}
             countOfLocations={contentLocationsCount}
           />
         </div>

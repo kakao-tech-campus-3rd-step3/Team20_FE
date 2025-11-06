@@ -22,7 +22,7 @@ export function PosterCard({ contentId, title, posterImageUrl }: PosterCardProps
       <Link href={`/content/${contentId}`} className="block" prefetch={false}>
         <div className="aspect-[3/4] image-container-stable">
           <Image
-            src={posterImageUrl}
+            src={posterImageUrl?.trim()}
             alt={title}
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"

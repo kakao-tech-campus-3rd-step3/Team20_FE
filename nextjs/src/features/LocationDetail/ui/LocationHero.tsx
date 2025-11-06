@@ -30,7 +30,7 @@ export function LocationHero({ location }: LocationHeroProps) {
         <div className="aspect-[16/9] relative overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={location.imageUrl && location.imageUrl.length > 0 ? location.imageUrl[0] : location.locationImage}
+            src={(location.imageUrl && location.imageUrl.length > 0 ? location.imageUrl[0] : location.locationImage)?.trim()}
             alt={location.name}
             className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
           />

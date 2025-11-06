@@ -64,7 +64,7 @@ function RelatedContentCard({
           {image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={image}
+              src={image?.trim()}
               alt={title}
               className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
             />

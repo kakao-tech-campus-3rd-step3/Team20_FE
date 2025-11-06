@@ -37,7 +37,7 @@ export function LocationImageThumbnails({
           }`}
         >
           <Image 
-            src={scene.image || '/placeholder-image.jpg'} 
+            src={scene.image?.trim() || '/placeholder-image.jpg'} 
             alt={scene.title} 
             fill className="object-cover" 
             sizes="(max-width: 768px) 50vw, 25vw" 

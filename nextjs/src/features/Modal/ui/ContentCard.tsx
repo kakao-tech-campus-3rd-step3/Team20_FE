@@ -23,7 +23,7 @@ export function ContentCard({ content }: ContentCardProps) {
     >
       <div className="relative w-full aspect-[3/4] image-container-stable">
         <Image
-          src={content.posterImageUrl}
+          src={content.posterImageUrl?.trim()}
           alt={content.title}
           fill
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
