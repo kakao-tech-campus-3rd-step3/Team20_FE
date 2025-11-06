@@ -58,5 +58,5 @@ export interface UserAiItinerariesResponse {
 export interface DeleteAiItineraryResponse {
   status: number;
   message: string;
-  data: {};
+  data: Record<string, never>;
 }

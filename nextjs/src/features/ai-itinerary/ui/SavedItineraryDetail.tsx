@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAiItinerary, useDeleteAiItinerary } from '@/entities/ai-itinerary/api/backend-queryfn';
 import { ItineraryResult } from '@/features/itinerary/ui/ItineraryResult';
 import { toast } from 'react-toastify';
@@ -51,12 +52,12 @@ export function SavedItineraryDetail({ itineraryId }: SavedItineraryDetailProps)
           <p className="text-gray-600 mb-6">
             일정이 삭제되었거나 접근 권한이 없을 수 있습니다.
           </p>
-          <a
+          <Link
             href="/ai-itinerary"
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors inline-block"
           >
             목록으로 돌아가기
-          </a>
+          </Link>
         </div>
       </div>
     );

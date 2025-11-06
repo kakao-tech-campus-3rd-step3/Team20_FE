@@ -20,6 +20,7 @@ export function SaveSuccessModal({
       {/* 배경 오버레이 */}
       <div 
         className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+        onClick={onClose}
       >
         {/* 모달 컨텐츠 */}
         <div 

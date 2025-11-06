@@ -1,12 +1,8 @@
 import { httpBackend } from '@/shared/api/httpBackend';
 import type {
   SaveAiItineraryRequest,
-  SaveAiItineraryResponse,
   AiItineraryDetail,
-  AiItineraryDetailResponse,
   AiItinerarySummary,
-  UserAiItinerariesResponse,
-  DeleteAiItineraryResponse,
 } from '../model/backend-types';
 
 // AI 동선 저장
@@ -37,8 +33,8 @@ export const getUserAiItineraries = async (): Promise<AiItinerarySummary[]> => {
 // AI 동선 삭제
 export const deleteAiItinerary = async (
   itineraryId: number,
-): Promise<{}> => {
+): Promise<Record<string, never>> => {
   return (await httpBackend.delete(`/ai-itineraries/${itineraryId}`, {
     withCredentials: true,
-  })) as {};
+  })) as Record<string, never>;
 };
