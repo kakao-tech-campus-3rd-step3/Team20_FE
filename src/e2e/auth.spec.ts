@@ -12,8 +12,11 @@ test.describe('인증 기능', () => {
   test('로그인 성공 시 리다이렉트', async ({ page }) => {
     await page.goto('/auth/login');
 
-    await page.fill('input[type="email"]', 'leehuiseok020412@gmail.com');
-    await page.fill('input[type="password"]', 'password');
+    const TEST_EMAIL = process.env.E2E_TEST_EMAIL || 'test@example.com';
+    const TEST_PASSWORD = process.env.E2E_TEST_PASSWORD || 'testpassword123';
+
+    await page.fill('input[type="email"]', TEST_EMAIL);
+    await page.fill('input[type="password"]', TEST_PASSWORD);
 
     const responsePromise = page
       .waitForResponse((response) => response.url().includes('/users/login'), { timeout: 10000 })
@@ -33,8 +36,11 @@ test.describe('인증 기능', () => {
   test('로그인 실패 시 에러 메시지 표시', async ({ page }) => {
     await page.goto('/auth/login');
 
-    await page.fill('input[type="email"]', 'wrong@example.com');
-    await page.fill('input[type="password"]', 'wrongpassword');
+    const TEST_EMAIL = process.env.E2E_TEST_EMAIL || 'test@example.com';
+    const TEST_PASSWORD = process.env.E2E_TEST_PASSWORD || 'testpassword123';
+
+    await page.fill('input[type="email"]', TEST_EMAIL);
+    await page.fill('input[type="password"]', TEST_PASSWORD);
 
     await page.click('button[type="submit"]');
 

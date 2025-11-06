@@ -4,13 +4,16 @@ type AuthFixtures = {
   loginAsUser: () => Promise<void>;
 };
 
+const TEST_EMAIL = process.env.E2E_TEST_EMAIL || 'test@example.com';
+const TEST_PASSWORD = process.env.E2E_TEST_PASSWORD || 'testpassword123';
+
 export const test = base.extend<AuthFixtures>({
   loginAsUser: async ({ page }, provide) => {
     const loginFunction = async () => {
       await page.goto('/auth/login');
 
-      await page.fill('input[type="email"]', 'leehuiseok020412@gmail.com');
-      await page.fill('input[type="password"]', 'password');
+      await page.fill('input[type="email"]', TEST_EMAIL);
+      await page.fill('input[type="password"]', TEST_PASSWORD);
 
       await Promise.all([
         page
