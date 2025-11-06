@@ -16,6 +16,7 @@ export const COPYRIGHT_TEXT = `© ${new Date().getFullYear()} KTC. All rights re
 export const LABELS = {
   NAV: {
     HOME: '홈',
+    AI_ITINERARY: 'AI 동선',
     MAP: '촬영지 지도',
     SAVED: '저장된 장소',
     PROFILE: '프로필',
@@ -28,7 +29,6 @@ export const LABELS = {
   POLICY: {
     PRIVACY: '개인정보처리방침',
     TERMS: '이용약관',
-    CONTACT: '고객센터',
   },
   SOCIAL: {
     INSTAGRAM: 'Instagram',
