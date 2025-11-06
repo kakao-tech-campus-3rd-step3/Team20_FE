@@ -31,7 +31,7 @@ export const OVERLAY_STYLES = {
     'font-size: 0.75rem; color: var(--color-brand-secondary); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;',
   relatedContents: 'margin-bottom: var(--spacing-2);',
   relatedContentsText:
-    'font-size: 0.75rem; color: var(--color-text-secondary); margin-bottom: var(--spacing-1);',
+    'font-size: 0.75rem; color: var(--color-text-secondary); margin-bottom: var(--spacing-1); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;',
 } as const;
 
 export const MAP_DEFAULTS = {
