@@ -1,4 +1,4 @@
-name: CI
+name: CI E2E Test
 
 on:
   push:
@@ -32,9 +32,6 @@ jobs:
 
       - name: Run lint
         run: npm run lint
-
-      - name: Run build test
-        run: npm run build
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
