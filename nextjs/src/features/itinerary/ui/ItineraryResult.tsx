@@ -6,6 +6,8 @@ import { ItineraryResponse } from '@/entities/ai-itinerary';
 import { useSaveAiItinerary } from '@/entities/ai-itinerary/api/backend-queryfn';
 import { SaveAiItineraryRequest } from '@/entities/ai-itinerary/model/backend-types';
 import { SaveSuccessModal } from '@/features/ai-itinerary/ui/SaveSuccessModal';
+import { useAuth } from '@/shared/lib/auth';
+import { LoginRequiredModal } from '@/features/auth/ui/LoginRequiredModal';
 
 interface ItineraryResultProps {
   result: ItineraryResponse;
@@ -22,10 +24,18 @@ interface ItineraryResultProps {
 export function ItineraryResult({ result, onReset, formData, showSaveButton = true }: ItineraryResultProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const saveAiItineraryMutation = useSaveAiItinerary();
   const router = useRouter();
+  const { isLoggedIn } = useAuth();
 
   const handleSaveItinerary = async () => {
+    // 로그인 상태 확인
+    if (!isLoggedIn) {
+      setShowLoginModal(true);
+      return;
+    }
+
     if (!result.data || !formData) return;
 
     setIsSaving(true);
@@ -58,6 +68,15 @@ export function ItineraryResult({ result, onReset, formData, showSaveButton = tr
 
   const handleCloseModal = () => {
     setShowSuccessModal(false);
+  };
+
+  const handleLoginModalClose = () => {
+    setShowLoginModal(false);
+  };
+
+  const handleGoToLogin = () => {
+    setShowLoginModal(false);
+    router.push('/auth/login');
   };
   if (!result.success || !result.data) {
     const getErrorDisplay = (errorMessage: string) => {
@@ -314,6 +333,13 @@ export function ItineraryResult({ result, onReset, formData, showSaveButton = tr
         onClose={handleCloseModal}
         onViewSaved={handleViewSaved}
         onCreateNew={handleCreateNew}
+      />
+
+      {/* 로그인 필요 모달 */}
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={handleLoginModalClose}
+        onConfirm={handleGoToLogin}
       />
     </div>
   );
