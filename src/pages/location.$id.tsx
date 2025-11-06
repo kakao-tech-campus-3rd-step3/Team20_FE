@@ -1,9 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useLocationDetail } from '@/entities/location/api/queryfn';
+import { useLocationReviews } from '@/entities/location-review';
 import {
   LocationHero,
   LocationDescription,
   LocationRelatedContents,
+  LocationReviews,
 } from '@/features/LocationDetail';
 import { quickFacts } from '@/features/LocationDetail/model/constants';
 
@@ -14,6 +16,7 @@ export const Route = createFileRoute('/location/$id')({
 function LocationDetailPage() {
   const { id } = Route.useParams();
   const { data, isLoading } = useLocationDetail(id);
+  const { data: reviewsData, isLoading: reviewsLoading } = useLocationReviews(id);
 
   if (isLoading) {
     return (
@@ -57,6 +60,13 @@ function LocationDetailPage() {
         </section>
         <section className="relative z-10">
           <LocationRelatedContents relatedContents={data.relatedContents ?? []} />
+        </section>
+        <section className="relative z-10">
+          <LocationReviews
+            reviews={reviewsData?.locationReviews ?? []}
+            isLoading={reviewsLoading}
+            locationId={id}
+          />
         </section>
       </main>
       <div className="h-10 sm:h-12 lg:h-16" />

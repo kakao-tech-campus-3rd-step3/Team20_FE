@@ -45,4 +45,5 @@ export interface ItineraryDetailModalProps {
   itinerary: Itinerary | null;
   isOpen: boolean;
   onClose: () => void;
+  onDelete: (itineraryId: number) => void;
 }

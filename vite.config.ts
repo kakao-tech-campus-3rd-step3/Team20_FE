@@ -26,10 +26,11 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       proxy: {
-        '^/(api|contents|locations|itineraries)': {
-          target: env.VITE_BACKEND_URL || 'https://k-spot.kro.kr',
+        '^/api': {
+          target: env.VITE_BACKEND_URL || 'https://k-spot.kro.kr/api',
           changeOrigin: true,
           secure: false,
+          rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
     },

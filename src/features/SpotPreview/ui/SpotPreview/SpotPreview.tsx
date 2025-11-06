@@ -32,6 +32,7 @@ export function SpotPreview() {
       <div className="mt-[var(--spacing-4)] text-right">
         <Link
           to="/map"
+          search={{ itineraryId: undefined }}
           className="text-link text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
         >
           {messages.openFullMap}
