@@ -129,6 +129,7 @@ export default function ContentMapPage({ params }: ContentMapPageProps) {
               onAddToRoute={handleAddToRoute}
               routePlaces={routePlaces}
               selectedPlace={selectedPlace}
+              searchPlaces={searchPlaces}
             />
             <MapContainer
               key="desktop"
