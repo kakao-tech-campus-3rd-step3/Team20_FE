@@ -9,27 +9,59 @@
 
 ### 1. 🎯 Frontend 아키텍처
 
+#### 1-1. Next.js 버전 (Kubernetes 배포)
+
+![K8s Architecture](./public/k8s.png)
+
+**GCP Kubernetes Engine 기반 컨테이너 배포**
+
+- **GitHub Actions → Artifact Registry → GKE** 완전 자동화 파이프라인
+- **Docker 컨테이너화**로 일관된 배포 환경 보장
+- **Kubernetes 오케스트레이션**
+  - HPA (Horizontal Pod Autoscaler): CPU/메모리 기반 자동 스케일링 (2-6 replicas)
+  - VPA (Vertical Pod Autoscaler): 리소스 사용량 모니터링 및 권장사항 제공(적용X)
+  - Ingress + SSL 인증서: HTTPS 도메인 연결 (kspot.site)
+  - k6 짧은 부하 모니터링 : 1vCPU 노드풀로 150TPS, 1000명의 현실적인 요청 처리가능 
+- **고가용성 및 무중단 배포** 지원
+
+#### 1-2. Vite 버전 (main, dev 운영 중)
+
+![FE Architecture](./public/1-CI-CD.png)
+
+**S3 + CloudFront 정적 호스팅 구조**
+
+- **S3 정적 호스팅**으로 Frontend 배포
+- **CloudFront CDN**을 통한 글로벌 배포 및 캐싱
+- **GitHub Actions** 기반 자동 배포 파이프라인
+- 빠른 로딩 속도와 높은 가용성 보장
+
+
+### 2. 🌐 서버리스 API 아키텍처 (Vite 버전 전용)
+
 ![FE Architecture](./public/FE-api2.png)
 
-**서버리스 API 기반 Frontend 아키텍처**
+**CloudFront + API Gateway + Lambda 완전 서버리스 구조**
 
-- **CloudFront + API Gateway + Lambda** 완전 서버리스 구조
-- **S3 정적 호스팅**으로 Frontend 배포
-- **Backend 통합 전 독립적인 서버리스 API** 운영 중
-- **CDN 배포를 통한 글로벌 API 서비스** 제공으로 빠른 응답 속도 보장
+- **API Gateway + Lambda** 서버리스 백엔드 API
+- **CloudFront CDN**을 통한 글로벌 API 서비스 제공
+- **Backend 통합 전 독립적인 서버리스 API** 운영
+- 빠른 응답 속도와 자동 스케일링 지원
 
-### 2. 🚀 CI/CD 자동화 파이프라인
+### 2-1. 🎯 서비스 플로우
 
-![CI/CD Architecture](./public/1-CI-CD.png)
+![Service Flow](./public/service.png)
 
-- **GitHub Actions** 기반 완전 자동화된 배포 파이프라인
-- **Amazon CloudFront** 정적 사이트 배포로 글로벌 CDN 활용
-- **PR 단위 품질 관리**
-  - ESLint/Prettier 사전 검증
-  - **Gemini AI 자동 코드 리뷰** 시스템 도입
-  - 테스트 자동 실행으로 배포 전 품질 보장
+**K-Contents 데이터 수집 및 가공 프로세스**
 
-### 3. 📐 Feature-Sliced Design (FSD) 아키텍처
+- **외부 API 연동**: 1,000개 가량의 K-Contents 데이터 수집
+- **연관 K-명소 매핑**: 콘텐츠와 연관된 촬영지 및 관광명소 데이터 저장
+- **AI 기반 필터링**: AI를 활용한 데이터 품질 향상 및 중복 제거
+- **콘텐츠 상세 제공**: 드라마/영화 정보, 촬영지 상세 정보 서비스
+- **지도 기반 동선 서비스**: 사용자 맞춤형 여행 코스 생성 및 수정 기능
+
+---
+
+### 4. 📐 Feature-Sliced Design (FSD) 아키텍처
 
 ![FSD Architecture](./public/2-FSD.png)
 
@@ -48,9 +80,9 @@ shared/  → 공통 유틸리티 및 UI 컴포넌트
 - ✅ **완벽한 캡슐화**: `features`에서 최상위 컴포넌트만 export
 - ✅ **관심사 분리**: UI/로직/상수/타입 완전 분리
 - ✅ **단방향 의존성**: 상위 → 하위 레이어만 참조 가능
-- ⚠️ `widgets` 레이어 의도적 제외 (의견 충돌 방지, 추후 마이그레이션 고려)
+- ⚠️ `widgets` 레이어 의도적 제외 (협업에서의 이점이 크다고 판단)
 
-### 4. 🎨 Tailwind CSS v4 - CSS-First 철학
+### 5. 🎨 Tailwind CSS v4 - CSS-First 철학
 
 ![Tailwind CSS](https://img.shields.io/badge/tailwind_css-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
@@ -84,13 +116,14 @@ src/
         └── _safearea.css       → 모바일 세이프 에어리어
 ```
 
-### 5. 📖 Storybook 기반 컴포넌트 문서화
+### 6. 📖 Storybook 기반 컴포넌트 문서화, Playwright E2E TEST
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/storybook/storybook-original.svg" width="24" height="24" alt="Storybook">
 
-- **Presentational 컴포넌트 100% 스토리 작성** 원칙
+- **Presentational 컴포넌트 스토리 작성** 원칙
 - 격리된 환경에서의 UI 테스트 및 문서화
 - 디자이너-개발자 간 효율적인 협업 도구
+- **E2E 테스트** 환경 구축으로 사용자 시나리오 검증
 
 **Storybook UI 테스팅 환경 구축**
 
@@ -99,19 +132,26 @@ src/
 - **LocationImageCarousel** 등 주요 컴포넌트 스토리 작성 완료
 - **컴포넌트 문서화** 자동화로 개발팀 협업 효율성 향상
 - **반응형 디자인** 검증을 위한 뷰포트 테스트 추가
+- **E2E 테스트** 시나리오 작성으로 사용자 경험 품질 보장
 
-**공통 UI 컴포넌트 구조**
+---
 
-```
-src/shared/ui/
-├── index.ts                     → Public API 정의
-├── Button/
-│   ├── Button.tsx              → 기본 버튼 컴포넌트
-│   └── Button.stories.tsx      → 버튼 스토리북
-└── IconButton/
-    ├── IconButton.tsx          → 아이콘 버튼 컴포넌트
-    └── IconButton.stories.tsx  → 아이콘 버튼 스토리북
-```
+### 7. 🤖 AI 동선 추천 시스템
+
+![AI 동선](./public/ai동선.png)
+
+**서버리스 AI 추천 시스템 아키텍처**
+
+- **Cloud Run 서버리스 함수 고정 IP 할당**: NAT Gateway를 통한 고정 IP 설정으로 보안 그룹 화이트리스트 관리
+- **MySQL 데이터베이스 연동**: MySQL과 안전한 연결을 위한 VPC 보안 그룹 구성
+- **LLM API 통합**: Gemini API와 연동하여 사용자 선호도 기반 맞춤형 동선 생성
+- **실시간 추천 엔진**: 교통 허브, 관심사, 여행 기간을 고려한 개인화된 여행 코스 제안
+
+**핵심 기능**
+
+- 사용자 선호도 분석 및 맞춤형 코스 생성
+- 실시간 위치 기반 주변 촬영지 추천
+- 교통편 및 소요시간을 고려한 최적 경로 계산
 
 ---
 
@@ -129,21 +169,3 @@ src/shared/ui/
 - `develop`: 개발 통합 브랜치
 - `release`: 안정화 브랜치
 - `feature/*`: 기능 개발 브랜치
-
----
-
-## 🚀 최근 구현 사항 (이번 주)
-
-### 🔗 API 통합 및 데이터 레이어 구축
-
-- 이번주의 가장 큰 목표는 "백엔드와의 API 연동과 반응형 디자인 입히기" 입니다.
-
-- **홈페이지, 장소 상세,**: 백엔드의 api를 사용하도록 변경했습니다.
-- **인증/인가 구현하기**: 로그인,회원가입,비밀번호 재설정 등 이메일 인증과정을 포함한 전과정 구현
-- **마이페이지 구현**: 사용자가 저장한 동선정보를 볼 수 있는 마이페이지를 구현했습니다.
-- **반응형 디자인 구현**: 모든 페이지에 반응형 디자인을 입혔습니다.
-
----
-
-이주의 TMI :
-_"좋은 아키텍처는 결정을 늦출 수 있게 해준다" - Robert C. Martin_
