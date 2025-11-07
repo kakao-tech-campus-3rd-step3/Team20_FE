@@ -1,10 +1,10 @@
 import { type ReactNode } from 'react';
 import type { User, LoginRequest, SignupRequest } from '@/entities/auth';
-import { 
-  useAuthStatusQuery, 
-  useLoginMutation, 
-  useSignupMutation, 
-  useLogoutMutation 
+import {
+  useAuthStatusQuery,
+  useLoginMutation,
+  useSignupMutation,
+  useLogoutMutation,
 } from '@/entities/auth';
 import { AuthContext, type AuthContextType } from '@/shared/lib/auth';
 
@@ -13,20 +13,20 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const { 
-    data: authStatus, 
-    isLoading 
-  } = useAuthStatusQuery();
+  const { data: authStatus, isLoading } = useAuthStatusQuery();
   const loginMutation = useLoginMutation();
   const signupMutation = useSignupMutation();
   const logoutMutation = useLogoutMutation();
 
   const isLoggedIn = authStatus?.isLoggedIn ?? false;
-  const user: User | null = isLoggedIn && authStatus ? {
-    userId: authStatus.userId!,
-    email: authStatus.email!,
-    nickname: authStatus.nickname!,
-  } : null;
+  const user: User | null =
+    isLoggedIn && authStatus
+      ? {
+          userId: authStatus.userId!,
+          email: authStatus.email!,
+          nickname: authStatus.nickname!,
+        }
+      : null;
 
   const login = async (credentials: LoginRequest) => {
     try {
@@ -57,7 +57,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const value: AuthContextType = {
     user,
     isLoggedIn,
-    isLoading: isLoading || loginMutation.isPending || signupMutation.isPending || logoutMutation.isPending,
+    isLoading:
+      isLoading || loginMutation.isPending || signupMutation.isPending || logoutMutation.isPending,
     login,
     signup,
     logout,

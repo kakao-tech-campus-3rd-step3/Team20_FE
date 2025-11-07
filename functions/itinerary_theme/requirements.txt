@@ -1,0 +1,5 @@
+functions-framework==3.*
+PyMySQL==1.1.*
+cryptography
+google-generativeai==0.3.*
+requests==2.*

@@ -13,7 +13,6 @@ const meta = {
         component: '도시를 선택할 수 있는 버튼 그룹 컴포넌트입니다.',
       },
     },
-    // MSW 설정 (필요한 경우)
     api: API_SCENARIOS.DEFAULT,
     controls: { disable: true },
   },

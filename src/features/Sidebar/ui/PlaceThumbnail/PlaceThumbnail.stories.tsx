@@ -15,9 +15,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const WithImage: Story = {
-  args: { name: MOCK_PLACES[0].name, locationImage: MOCK_PLACES[0].locationImage, badgeNumber: 1 },
+  args: { name: MOCK_PLACES[0].name, imageUrl: MOCK_PLACES[0].imageUrl, badgeNumber: 1 },
 };
 
 export const Fallback: Story = {
-  args: { name: '촬영지', locationImage: '', badgeNumber: 2 },
+  args: { name: '촬영지', imageUrl: [], badgeNumber: 2 },
 };

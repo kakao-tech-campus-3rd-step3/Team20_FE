@@ -11,7 +11,6 @@ export const FOOTER_TITLES = {
 
 export const COPYRIGHT_TEXT = `© ${new Date().getFullYear()} KTC. All rights reserved.`;
 
-// 화면에 노출되는 모든 라벨 모음
 export const LABELS = {
   NAV: {
     HOME: '홈',

@@ -19,9 +19,9 @@ function ContentDetailPage() {
   const { id } = Route.useParams();
 
   return (
-    <div>
+    <>
       <ContentOverviewHero contentId={id} />
       <LocationImageCarousel contentId={id} />
-    </div>
+    </>
   );
 }

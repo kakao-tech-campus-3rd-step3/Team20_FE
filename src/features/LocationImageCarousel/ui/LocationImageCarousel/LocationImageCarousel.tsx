@@ -10,7 +10,6 @@ import type { LocationImageCarouselProps } from '../../model/types';
 export function LocationImageCarousel({ contentId }: LocationImageCarouselProps) {
   const { locations, contentLocations } = useLocationData(contentId);
   const [showAllThumbnails, setShowAllThumbnails] = useState(false);
-
   const { scenes, currentIndex, nextSlide, prevSlide, goToSlide } = useLocationImageCarousel({
     locations,
     contentLocations,

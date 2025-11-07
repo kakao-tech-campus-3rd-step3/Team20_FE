@@ -25,8 +25,8 @@ export const LoginForm = () => {
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
             <p className="font-medium">{AUTH_MESSAGES.LOGIN_ERROR_TITLE}</p>
             <p className="mt-1">
-              {loginMutation.error instanceof Error 
-                ? loginMutation.error.message 
+              {loginMutation.error instanceof Error
+                ? loginMutation.error.message
                 : AUTH_MESSAGES.LOGIN_ERROR_DEFAULT}
             </p>
           </div>

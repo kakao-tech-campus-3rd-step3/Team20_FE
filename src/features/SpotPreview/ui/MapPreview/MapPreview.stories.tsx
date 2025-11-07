@@ -13,7 +13,6 @@ const meta = {
           '지도 미리보기를 보여주는 컴포넌트입니다. 현재는 플레이스홀더로 구현되어 있습니다.',
       },
     },
-    // MSW 설정 (필요한 경우)
     api: API_SCENARIOS.DEFAULT,
     controls: { disable: true },
   },

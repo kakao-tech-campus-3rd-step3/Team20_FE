@@ -7,6 +7,18 @@ import type { ContentDetail } from '@/entities/content/model/types';
 import type { ItineraryLocation } from '@/entities/itinerary/model/types';
 import type { RoutePlace } from '@/features/RoutePlanning/model/types';
 
+const createDefaultRoutePlace = (location: ItineraryLocation, order: number): RoutePlace => ({
+  locationId: location.locationId,
+  name: location.name,
+  address: location.address,
+  description: '',
+  imageUrl: [],
+  latitude: 0,
+  longitude: 0,
+  relatedContents: [],
+  order,
+});
+
 export const hasAddress = (
   location: ContentLocation | LocationDetail,
 ): location is LocationDetail => {
@@ -17,8 +29,8 @@ export const convertContentLocationToPlace = (location: ContentLocation): Place 
   locationId: location.locationId,
   name: '', // ContentLocation에 name 없음
   address: '주소 정보 없음',
-  description: location.sceneDescription,
-  locationImage: '', // ContentLocation에 locationImageUrl 없음
+  description: location.sceneDescription || '',
+  imageUrl: [], // ContentLocation에 imageUrl 없음
   latitude: 0,
   longitude: 0,
   relatedContents: [],
@@ -43,19 +55,14 @@ export const convertLocationsToPlaces = async (locations: ContentLocation[]): Pr
 export const getPlacesFromContents = async (
   contents: ContentDetail[] | Array<{ contentId: number }>,
 ): Promise<Place[]> => {
-  const allPlaces: Place[] = [];
-
-  for (const content of contents) {
-    try {
+  const results = await Promise.allSettled(
+    contents.map(async (content) => {
       const locations = await getContentLocations(content.contentId.toString());
-      const places = await convertLocationsToPlaces(locations);
-      allPlaces.push(...places);
-    } catch (error) {
-      console.warn(`장소를 찾는 것에 실패했습니다. ${content.contentId}:`, error);
-    }
-  }
+      return await convertLocationsToPlaces(locations);
+    }),
+  );
 
-  return allPlaces;
+  return results.flatMap((result) => (result.status === 'fulfilled' ? result.value : []));
 };
 
 export const convertItineraryLocationsToRoutePlaces = async (
@@ -69,20 +76,8 @@ export const convertItineraryLocationsToRoutePlaces = async (
           ...locationDetail,
           order: location.visitOrder,
         } as RoutePlace;
-      } catch (error) {
-        console.warn(`장소 정보를 가져오는데 실패했습니다. ${location.locationId}:`, error);
-        // 실패 시 기본 정보만 사용
-        return {
-          locationId: location.locationId,
-          name: location.name,
-          address: location.address,
-          description: '',
-          locationImage: '',
-          latitude: 0,
-          longitude: 0,
-          relatedContents: [],
-          order: location.visitOrder,
-        } as RoutePlace;
+      } catch {
+        return createDefaultRoutePlace(location, location.visitOrder);
       }
     }),
   );

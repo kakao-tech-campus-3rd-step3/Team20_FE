@@ -1,6 +1,6 @@
 import type { NavKey, MobileNavMenuProps } from '../../model/types';
 import { useResolvedActiveKey } from '../../model/hooks';
-import { useMobileNavMenu } from '../../model/useMobileNavMenu';
+import { useNavMenu } from '../../model/useNavMenu';
 
 export function MobileNavMenu({
   active: controlledActive,
@@ -9,7 +9,7 @@ export function MobileNavMenu({
   onClose,
 }: MobileNavMenuProps) {
   const activeKey = useResolvedActiveKey(controlledActive);
-  const { menuItems, handleItemClick } = useMobileNavMenu(onSelect, onClose);
+  const { menuItems, handleNavClick } = useNavMenu(onSelect, onClose);
 
   if (!isOpen) return null;
 
@@ -33,7 +33,7 @@ export function MobileNavMenu({
                       ? 'bg-(--color-primary) text-(--color-primary-foreground)'
                       : 'text-(--color-text-primary) hover:bg-(--color-muted)'
                   }`}
-                  onClick={() => handleItemClick(key as NavKey)}
+                  onClick={() => handleNavClick(key as NavKey)}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <Icon className="h-(--spacing-5) w-(--spacing-5)" aria-hidden />

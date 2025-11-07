@@ -1,0 +1,24 @@
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: kspot-nextjs-vpa
+  namespace: default
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kspot-nextjs
+  updatePolicy:
+    updateMode: "Off" 
+  resourcePolicy:
+    containerPolicies:
+    - containerName: kspot-nextjs
+      minAllowed:
+        cpu: 100m
+        memory: 128Mi
+      maxAllowed:
+        cpu: 2000m
+        memory: 2Gi
+      controlledResources:
+      - cpu
+      - memory

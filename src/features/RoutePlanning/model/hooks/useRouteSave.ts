@@ -23,7 +23,6 @@ export function useRouteSave(
         })),
       };
 
-      // itineraryId가 있으면 수정, 없으면 생성
       if (itineraryId) {
         await updateItineraryMutation.mutateAsync({ itineraryId, data: apiRequest });
       } else {

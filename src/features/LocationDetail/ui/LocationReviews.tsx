@@ -1,5 +1,6 @@
 import type { LocationReview } from '@/entities/location-review/model/types';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   useCreateLocationReview,
   useDeleteLocationReview,
@@ -71,6 +72,10 @@ export const LocationReviews = ({
           setTitle('');
           setRating(5);
           setContent('');
+          toast.success('리뷰가 등록되었습니다.');
+        },
+        onError: () => {
+          toast.error('리뷰 등록에 실패했습니다. 다시 시도해주세요.');
         },
       },
     );
@@ -175,7 +180,7 @@ export const LocationReviews = ({
         {reviews.map((review) => {
           const myUserId = user?.userId;
           const isOwner = myUserId != null && String(review.userId) === String(myUserId);
-          console.log(String(myUserId), String(review.userId), isOwner);
+
           return (
             <div key={review.reviewId} className="relative">
               {editingId === review.reviewId ? (
@@ -235,6 +240,10 @@ export const LocationReviews = ({
                           {
                             onSuccess: () => {
                               setEditingId(null);
+                              toast.success('리뷰가 수정되었습니다.');
+                            },
+                            onError: () => {
+                              toast.error('리뷰 수정에 실패했습니다. 다시 시도해주세요.');
                             },
                           },
                         );
@@ -270,7 +279,14 @@ export const LocationReviews = ({
                         className=" focus-visible:ring-1 focus-visible:ring-blue-100"
                         onClick={() => {
                           if (confirm('이 리뷰를 삭제하시겠습니까?')) {
-                            deleteReview(review.reviewId);
+                            deleteReview(review.reviewId, {
+                              onSuccess: () => {
+                                toast.success('리뷰가 삭제되었습니다.');
+                              },
+                              onError: () => {
+                                toast.error('리뷰 삭제에 실패했습니다. 다시 시도해주세요.');
+                              },
+                            });
                           }
                         }}
                         disabled={isDeleting}
