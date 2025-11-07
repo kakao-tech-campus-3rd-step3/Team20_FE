@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: kspot-ssl-cert
+spec:
+  domains:
+    - kspot.site
+    - www.kspot.site

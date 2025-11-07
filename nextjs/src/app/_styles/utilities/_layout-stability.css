@@ -1,0 +1,85 @@
+/**
+ * 레이아웃 안정성을 위한 유틸리티 클래스들
+ * 서버 환경과 클라이언트 환경 간의 레이아웃 차이를 최소화합니다.
+ */
+
+@layer utilities {
+  /* 이미지 컨테이너 안정성 */
+  .image-container-stable {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  }
+
+  /* 그리드 레이아웃 안정성 */
+  .grid-stable {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 640px) {
+    .grid-stable {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .grid-stable {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-stable {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .grid-stable {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .grid-stable {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  /* 컨테이너 패딩 안정성 */
+  .container-padding-stable {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-padding-stable {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-padding-stable {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* 애니메이션 안정성 */
+  .animation-stable {
+    will-change: auto;
+    transform: translateZ(0);
+  }
+
+  /* 서버 환경에서 애니메이션 비활성화 */
+  @media (prefers-reduced-motion: reduce) {
+    .animation-stable {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}

@@ -1,0 +1,101 @@
+/**
+ * TailwindCSS v4 타이포그래피 유틸리티
+ *
+ * 프로젝트의 일관된 텍스트 스타일을 제공합니다.
+ * 제목, 본문, 캡션 등 다양한 텍스트 레벨을 정의합니다.
+ */
+
+/* 제목 스타일 */
+@utility text-heading-1 {
+  font-size: 2.25rem; /* 36px */
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+@utility text-heading-2 {
+  font-size: 1.875rem; /* 30px */
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+@utility text-heading-3 {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+@utility text-heading-4 {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  line-height: 1.375;
+}
+
+@utility text-heading-5 {
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  line-height: 1.375;
+}
+
+@utility text-heading-6 {
+  font-size: 1rem; /* 16px */
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* 본문 스타일 */
+@utility text-body-large {
+  font-size: 1.125rem; /* 18px */
+  font-weight: 400;
+  line-height: 1.625;
+}
+
+@utility text-body {
+  font-size: 1rem; /* 16px */
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@utility text-body-small {
+  font-size: 0.875rem; /* 14px */
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* 캡션 스타일 */
+@utility text-caption {
+  font-size: 0.75rem; /* 12px */
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@utility text-caption-bold {
+  font-size: 0.75rem; /* 12px */
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* 버튼 텍스트 스타일 */
+@utility text-button {
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.025em;
+}
+
+@utility text-button-large {
+  font-size: 1rem; /* 16px */
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.025em;
+}
+
+/* 링크 스타일 */
+@utility text-link {
+  font-size: 1rem; /* 16px */
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

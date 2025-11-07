@@ -1,0 +1,243 @@
+name: Deploy NextJS to GCP Kubernetes
+
+on:
+  push:
+    branches: [next]
+    paths:
+      - 'nextjs/**'
+      - '.github/workflows/deploy-nextjs.yml'
+  pull_request:
+    branches: [next]
+    paths:
+      - 'nextjs/**'
+      - '.github/workflows/deploy-nextjs.yml'
+
+env:
+  GCP_PROJECT_ID: kspot-2025
+  GCP_REGION: asia-northeast3
+  GKE_CLUSTER: kspot-cluster
+  GKE_ZONE: asia-northeast3-a
+  REPOSITORY: kspot-repo
+  IMAGE_NAME: kspot-nextjs
+  NODE_VERSION: 22
+
+jobs:
+  test-nextjs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./nextjs
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: nextjs/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Clean build artifacts
+        run: |
+          rm -rf .next
+          rm -rf out
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run type check
+        run: npm run type-check
+
+      - name: Run build test
+        run: npm run build
+        env:
+          NEXT_PUBLIC_KAKAO_MAP_API_KEY: ${{ secrets.KAKAO_MAP_API_KEY }}
+          NEXT_PUBLIC_API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          NEXT_PUBLIC_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          NEXT_PUBLIC_AI_API_ENDPOINT: ${{ secrets.AI_API_ENDPOINT }}
+
+  build-and-deploy:
+    needs: test-nextjs
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/next' && github.event_name == 'push'
+    
+    environment:
+      name: nextjs-production
+    
+    env:
+      USE_GKE_GCLOUD_AUTH_PLUGIN: True
+    
+    defaults:
+      run:
+        working-directory: ./nextjs
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+
+      - name: Install GKE auth plugin
+        run: |
+          # Install GKE auth plugin
+          gcloud components install gke-gcloud-auth-plugin --quiet
+
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker ${{ env.GCP_REGION }}-docker.pkg.dev
+
+      - name: Create Artifact Registry repository if not exists
+        run: |
+          if ! gcloud artifacts repositories describe ${{ env.REPOSITORY }} \
+            --location=${{ env.GCP_REGION }} \
+            --project=${{ env.GCP_PROJECT_ID }} 2>/dev/null; then
+            echo "Creating Artifact Registry repository..."
+            gcloud artifacts repositories create ${{ env.REPOSITORY }} \
+              --repository-format=docker \
+              --location=${{ env.GCP_REGION }} \
+              --description="KSpot Next.js application repository" \
+              --project=${{ env.GCP_PROJECT_ID }}
+          else
+            echo "Repository already exists"
+          fi
+
+      - name: Build and push Docker image
+        run: |
+          # Use Git SHA as image tag for unique versioning
+          IMAGE_TAG="${{ github.sha }}"
+          IMAGE_LATEST="${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest"
+          IMAGE_FULL_PATH="${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG}"
+          
+          echo "Building image with tag: ${IMAGE_TAG}"
+          
+          docker build \
+            --build-arg NEXT_PUBLIC_KAKAO_MAP_API_KEY="${{ secrets.KAKAO_MAP_API_KEY }}" \
+            --build-arg NEXT_PUBLIC_API_BASE_URL="${{ secrets.API_BASE_URL }}" \
+            --build-arg NEXT_PUBLIC_BACKEND_URL="${{ secrets.BACKEND_URL }}" \
+            --build-arg NEXT_PUBLIC_AI_API_ENDPOINT="${{ secrets.AI_API_ENDPOINT }}" \
+            --build-arg NODE_ENV="production" \
+            -t ${IMAGE_FULL_PATH} \
+            -t ${IMAGE_LATEST} .
+          
+          echo "Pushing images to Artifact Registry..."
+          docker push ${IMAGE_FULL_PATH}
+          docker push ${IMAGE_LATEST}
+          
+          echo "IMAGE_FULL_PATH=${IMAGE_FULL_PATH}" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
+
+      - name: Get GKE credentials
+        run: |
+          gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} \
+            --zone ${{ env.GKE_ZONE }} \
+            --project ${{ env.GCP_PROJECT_ID }}
+
+      - name: Apply Kubernetes configurations
+        run: |
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/hpa.yaml
+          kubectl apply -f k8s/vpa.yaml
+          kubectl apply -f k8s/certificate.yaml
+          kubectl apply -f k8s/ingress.yaml
+
+      - name: Create or update Kubernetes secrets
+        run: |
+          # Create secret if not exists, or update if exists
+          kubectl create secret generic kspot-nextjs-secrets \
+            --from-literal=kakao-map-api-key="${{ secrets.KAKAO_MAP_API_KEY }}" \
+            --from-literal=api-base-url="${{ secrets.API_BASE_URL }}" \
+            --from-literal=backend-url="${{ secrets.BACKEND_URL }}" \
+            --from-literal=ai-api-endpoint="${{ secrets.AI_API_ENDPOINT }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Update Kubernetes deployment
+        run: |
+          DEPLOYMENT_NAME="kspot-nextjs"
+          
+          echo "Updating deployment with new image: ${{ env.IMAGE_FULL_PATH }}"
+          
+          # Update deployment image with Git SHA tag
+          kubectl set image deployment/${DEPLOYMENT_NAME} \
+            kspot-nextjs=${{ env.IMAGE_FULL_PATH }}
+          
+          # Wait for rollout to complete
+          kubectl rollout status deployment/${DEPLOYMENT_NAME} --timeout=300s
+          
+          # Verify deployment
+          echo "=== Current Pods ==="
+          kubectl get pods -l app=${DEPLOYMENT_NAME}
+          
+          echo "=== Image versions ==="
+          kubectl get pods -l app=${DEPLOYMENT_NAME} -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.containers[0].image}{"\n"}{end}'
+
+      - name: Get service information
+        run: |
+          DEPLOYMENT_NAME="kspot-nextjs"
+          SERVICE_NAME="kspot-nextjs-service"
+          INGRESS_NAME="kspot-nextjs-ingress"
+          HPA_NAME="kspot-nextjs-hpa"
+          VPA_NAME="kspot-nextjs-vpa"
+          
+          echo "=== Deployment Status ==="
+          kubectl get deployment ${DEPLOYMENT_NAME}
+          
+          echo "=== Service Information ==="
+          kubectl get service ${SERVICE_NAME}
+
+          echo "=== Ingress Information ==="
+          kubectl get ingress ${INGRESS_NAME}
+          
+          echo "=== Pod Status ==="
+          kubectl get pods -l app=${DEPLOYMENT_NAME}
+
+          echo "=== HPA Status ==="
+          kubectl get hpa ${HPA_NAME}
+          
+          echo "=== VPA Status ==="
+          kubectl get vpa ${VPA_NAME}
+
+          echo "=== SSL Certificate Status ==="
+          kubectl get managedcertificate kspot-ssl-cert
+
+          echo "Checking Ingress IP..."
+          
+          # Ingress에서 IP를 가져오기 (Service는 NodePort이므로 외부 IP 없음)
+          EXTERNAL_IP=$(kubectl get ingress ${INGRESS_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "Pending")
+          echo "External IP: ${EXTERNAL_IP}"
+          
+          if [ "$EXTERNAL_IP" != "Pending" ] && [ "$EXTERNAL_IP" != "" ]; then
+            echo "Application URLs:"
+            echo "  - https://kspot.site"
+            echo "  - https://www.kspot.site"
+            echo "Note: SSL certificate may take 10-20 minutes to be issued"
+          else
+            echo "Ingress IP is still being assigned. Check later with: kubectl get ingress ${INGRESS_NAME}"
+          fi
+          
+          echo ""
+          echo "=== Autoscaling Configuration ==="
+          echo "HPA: Enabled (min: 2, max: 4 replicas)"
+          echo "VPA: Monitoring mode (recommendations only)"
+          echo ""
+          echo "To view VPA recommendations:"
+          echo "  kubectl describe vpa ${VPA_NAME}"
